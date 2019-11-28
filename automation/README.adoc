@@ -1,0 +1,5 @@
+= Continuous integration
+
+This directory contains scripts and config files for continuous integration
+provided by http://jenkins.ovirt.org/[oVirt Jenkins] system based on
+http://www.ovirt.org/develop/dev-process/build-and-test-standards/[oVirt standards].

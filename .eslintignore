@@ -1,0 +1,24 @@
+# Dependencies managed by npm
+node_modules/
+
+# Distributable files
+dist/
+
+# Additional build artifacts
+extra/
+
+# IDE files
+.idea/
+.vscode/
+
+# Zanata temporary files
+.zanata-cache/
+
+# mock_runner
+.bash_history
+.node-gyp/
+exported-artifacts/
+rpmbuild/
+
+# override default excludes so we can lint config js files in project root
+!/.*.js

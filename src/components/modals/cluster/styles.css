@@ -1,0 +1,85 @@
+/* TODO: Use sass for better nesting */
+
+.host-status-icon {
+  font-size: 140%;
+  padding-top: 2px;
+}
+
+.host-status-icon-red {
+  color: red;
+}
+
+.host-status-icon-green {
+  color: green;
+}
+
+
+.clusterUpgradeWizard-SelectHosts-NoHosts {
+  text-align: center;
+}
+
+.clusterUpgradeWizard-SelectHosts .tableContainer {
+  margin-top: 2em;
+}
+
+.clusterUpgradeWizard-SelectHosts .statusColumn {
+  text-align: center;
+}
+
+
+.clusterUpgradeWizard-UpgradeOptions .timeoutInput {
+  width: 300px;
+}
+
+
+.clusterUpgradeWizard-UpgradeReview-Row {
+  background-color: #f5f5f5;
+}
+
+.clusterUpgradeWizard-UpgradeReview {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.clusterUpgradeWizard-UpgradeReview .card-pf {
+  margin: 0 15px 20px;
+  flex: 1 1;
+  max-width: 250px;
+}
+
+.clusterUpgradeWizard-UpgradeReview .card-pf:first-of-type {
+  margin-left: 0;
+}
+
+.clusterUpgradeWizard-UpgradeReview .card-pf:last-of-type {
+  margin-right: 0;
+}
+
+.clusterUpgradeWizard-UpgradeReview .card-pf-title {
+  text-align: center;
+}
+
+.clusterUpgradeWizard-UpgradeReview .card-pf-title .circle-icon {
+  border: 2px solid #39a5dc;
+  border-radius: 50%;
+
+  color: #39a5dc;
+  font-size: 50px;
+  width: 95px;
+  height: 95px;
+  line-height: 88px;
+
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+}
+
+.clusterUpgradeWizard-UpgradeReview .card-pf-title .info-label {
+  margin-top: 10px;
+}
+
+.clusterUpgradeWizard-UpgradeReview .card-pf-body {
+  text-align: center;
+}
+

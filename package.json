@@ -1,0 +1,137 @@
+{
+  "name": "ovirt-engine-ui-extensions",
+  "version": "1.0.10",
+  "description": "UI plugin that provides various extensions to oVirt administration UI, such as dashboard, migrate vm, and cluster upgrade",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://gerrit.ovirt.org/ovirt-engine-ui-extensions"
+  },
+  "zanataLocales": "de,es,fr,it,ja,ko,pt-BR,zh-CN,cs",
+  "scripts": {
+    "prebuild": "yarn test",
+    "build": "NODE_ENV=production webpack --config webpack.prod.js",
+    "build:analyze": "NODE_ENV=production Q=1 webpack --progress --config webpack.prod.js --profile --json > stats.json && webpack-bundle-analyzer ./stats.json",
+    "dev": "NODE_ENV=development webpack --progress --config webpack.dev.js",
+    "dev:analyze": "NODE_ENV=development Q=1 webpack --progress --config webpack.dev.js --profile --json > stats.json && webpack-bundle-analyzer ./stats.json",
+    "dev:watch": "yarn dev --watch",
+    "intl:extract": "node zanata/extract-translations.js && rip json2pot 'extra/messages/**/*.json' -o 'extra/messages/messages.pot'",
+    "intl:push-all": "cd zanata && zanata-cli push --push-type source --locales $npm_package_zanataLocales",
+    "intl:pull-all": "cd zanata && zanata-cli pull --pull-type trans --locales $npm_package_zanataLocales",
+    "intl:apply": "rip po2json 'extra/messages/po/messages.*.po' -m 'extra/messages/**/*.json' -o 'src/intl/translations.json'",
+    "intl:normalize": "node zanata/normalize-translations.js",
+    "intl:report": "node zanata/report.js",
+    "lint": "eslint . --ext js,jsx",
+    "pretest": "yarn lint",
+    "test": "NODE_ENV=test jest --no-watch",
+    "test:watch": "NODE_ENV=test jest --watch"
+  },
+  "dependencies": {
+    "@patternfly/patternfly": "^2.40.6",
+    "@patternfly/react-charts": "^5.1.5",
+    "@patternfly/react-core": "^3.120.5",
+    "@patternfly/react-icons": "^3.14.18",
+    "bootstrap": "3.4.1",
+    "c3": "0.4.22",
+    "classnames": "^2.2.3",
+    "css-element-queries": "^0.4.0",
+    "d3": "^3.5.16",
+    "intl": "^1.2.4",
+    "intl-messageformat": "^7.2.1",
+    "jquery": "3.4.1",
+    "lodash": "^4.17.15",
+    "moment": "^2.20.1",
+    "patternfly": "3.59.4",
+    "patternfly-react": "2.38.1",
+    "primeicons": "^2.0.0",
+    "primereact": "^3.3.2",
+    "prop-types": "^15.6.0",
+    "react": "~16.8.0",
+    "react-dom": "~16.8.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "ajv": "^6.10.2",
+    "autoprefixer": "^9.6.1",
+    "babel-jest": "^24.8.0",
+    "babel-loader": "^8.0.6",
+    "chai": "^4.2.0",
+    "chalk": "^2.4.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.0.4",
+    "core-js": "^3.1.4",
+    "css-loader": "^3.1.0",
+    "eslint": "^4.17.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-config-standard-jsx": "^4.0.2",
+    "eslint-config-standard-react": "^5.0.0",
+    "eslint-plugin-chai-friendly": "^0.4.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-react": "^7.6.1",
+    "eslint-plugin-standard": "^3.0.1",
+    "file-loader": "^4.1.0",
+    "fs-extra": "^5.0.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "identity-obj-proxy": "^3.0.0",
+    "imports-loader": "^0.8.0",
+    "inline-manifest-webpack-plugin": "^4.0.2",
+    "intl-messageformat-parser": "^1.2.0",
+    "isomorphic-git": "^0.67.2",
+    "jest": "^24.8.0",
+    "json-stable-stringify": "^1.0.1",
+    "mini-css-extract-plugin": "^0.8.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "react-intl-po": "^1.2.0",
+    "style-loader": "^0.23.1",
+    "table": "^5.4.6",
+    "terser-webpack-plugin": "^1.4.1",
+    "url-loader": "^2.1.0",
+    "webpack": "^4.39.3",
+    "webpack-bundle-analyzer": "^3.5.0",
+    "webpack-cli": "^3.3.6",
+    "webpack-merge": "^4.2.2"
+  },
+  "jest": {
+    "verbose": true,
+    "bail": true,
+    "globals": {
+      "__DEV__": false
+    },
+    "moduleFileExtensions": [
+      "jsx",
+      "js"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "moduleNameMapper": {
+      "^react(.*)$": "<rootDir>/node_modules/react",
+      "^_/(.*)$": "<rootDir>/src/$1",
+      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/jest/fileMock.js",
+      "^.+\\.(css|less)$": "identity-obj-proxy"
+    },
+    "setupFiles": [
+      "<rootDir>/jest/polyfills.js",
+      "<rootDir>/jest/chalk.logger.js"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/test-index.js"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/dist",
+      "<rootDir>/exported-artifacts",
+      "<rootDir>/node_modules",
+      "<rootDir>/packaging",
+      "<rootDir>/rpmbuild",
+      "<rootDir>/zanata"
+    ],
+    "testRegex": "(/__tests__/.*|[.-]test)\\.jsx?$"
+  }
+}

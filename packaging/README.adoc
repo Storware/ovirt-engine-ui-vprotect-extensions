@@ -1,0 +1,28 @@
+= Packaging
+
+== Introduction
+
+This directory contains files required to package the application
+for packaging systems like RPM.
+
+== RPM
+
+To build the RPM place the `.tar.gz` file containing distribution
+of the application in this directory and then run the `build.sh`
+script, specifying the version with the `tar_version` environment
+variable.
+
+For example, if the name of the file is
+`ovirt-engine-ui-extensions-0.0.1.tar.gz` then use the following command:
+
+  $ tar_version=0.0.1 build.sh
+
+If the name of the `.tar.gz` file isn't the expected one,
+you can also specify the `tar_file` environment variable:
+
+  tar_version=0.0.1 tar_file="mytar.tar.gz" build.sh
+
+Resulting `.rpm` file will be created in the `noarch` subdirectory.
+
+When installed, the RPM will put the files into
+`/usr/share/ovirt-engine-ui-extensions` directory.

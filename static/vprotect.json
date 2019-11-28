@@ -1,0 +1,12 @@
+{
+  "name": "vprotect",
+  "url": "plugin/vprotect/plugin.html",
+  "resourcePath": "vprotect-resources",
+  "lazyLoad": false,
+
+  "config": {
+    "vProtectURL": "http://10.40.0.55:8080/api",
+    "username": "admin",
+    "password": "vPr0tect"
+  }
+}

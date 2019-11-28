@@ -1,0 +1,12 @@
+label, input {
+    display: block;
+}
+
+.modal-footer button {
+    padding: 0 5px;
+    margin: 0 5px;
+}
+
+.vprotectContainer {
+    padding-top: 20px;
+}

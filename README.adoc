@@ -1,0 +1,204 @@
+= oVirt UI Extensions
+
+== Introduction
+
+This project contains
+http://www.ovirt.org/develop/release-management/features/ux/uiplugins43.html[UI plugins]
+that provides various extensions to http://www.ovirt.org/[oVirt] administration UI.
+
+This extension is installed during oVirt Engine installation and upgraded via `engine-setup`.
+This means no manual steps are required in order to install this extension in an production
+environment.
+
+== Setting up development environment
+
+=== Prerequisites
+
+Install https://nodejs.org/[Node.js] (LTS). https://github.com/creationix/nvm[nvm] can be
+used to manage multiple Node.js versions. Run `node -v` to check the current Node.js version.
+
+Install https://yarnpkg.com/[Yarn] package manager.
+
+Build and configure oVirt Engine according to its
+https://gerrit.ovirt.org/gitweb?p=ovirt-engine.git;a=blob_plain;f=README.adoc;hb=master[developer instructions].
+
+Checkout the source from https://gerrit.ovirt.org/#/admin/projects/ovirt-engine-ui-extensions[gerrit].
+
+=== Setting up the extension
+
+* `yarn install` to install dependencies
+* `yarn lint` to lint the source code
+* `yarn test` to run tests (single run)
+* `yarn test:watch` for continuous testing (watch & rerun tests on change)
+* `yarn dev` for development build
+* `yarn dev:watch` for continuous development (watch & rebuild on change)
+* `yarn build` for production build
+
+=== Setting up Engine
+
+Build the extension with `yarn dev` or `yarn build` to generate `${PLUGIN_REPO}/dist`.
+
+Symlink the extension's plugin resources to `ui-plugins` directory of your developer
+engine as follows:
+
+ % cd ${PREFIX}/share/ovirt-engine/ui-plugins/
+ % ln -s ${PLUGIN_REPO}/dist/ui-extensions.json ui-extensions.json
+ % ln -s ${PLUGIN_REPO}/dist/ui-extensions-resources ui-extensions-resources
+
+Symlink the extensions's ansible resources to `playbooks` directory of your developer
+engine as follows:
+
+ % cd ${PREFIX}/share/ovirt-engine/playbooks/
+ % ln -s ${PLUGIN_REPO}/ansible-playbooks/*
+
+NOTE: If you add additional playbook yml files after the initial symlink, the
+      process will need to be repeated.
+
+=== Accessing plugin
+
+Open WebAdmin in your browser, you should land on *Dashboard* place automatically:
+
+  https://engine.example:8443/ovirt-engine/webadmin/
+
+== Internationalization and Localization
+
+=== Introduction
+
+This project has the ability to render in different languages. Internally, all of the localizable
+keys are stored in `src/intl/messages.js`. The `msg` object in `intl-messages.js` wraps all of the
+localizable keys to expose them as functions. The `msg` object also wraps all of the localized
+translations loaded from `src/intl/translations.json` and uses a localized version of each key
+as required.
+
+The current locale used by the `intl.js` formatting functions is provided to the application via
+the `app-init.js` service and the oVirt UI plugin API.
+
+We use the https://translate.zanata.org/[Zanata] tool to manage translations.
+
+=== Translation workflow
+
+Generally, the project is made localizable and is translated in the following workflow:
+
+* Developers add messages as needed to `src/intl/messages.js`
+* Developers then import from `intl-messages.js` and use the `msg` object to both access and format the messages
+* When the strings are stable, the messages are converted to a GNU gettext .pot file
+* The .pot file is pushed to Zanata
+* Translators do their work for each supported language within the corresponding
+  https://translate.zanata.org/project/view/ovirt-engine-ui-extensions[Zanata project]
+* When translations are complete, the localized strings are pulled from Zanata as a set of GNU gettext .po files
+* The .po files are converted to a JSON file, specifically `src/intl/translations.json`
+* The JSON file is referenced in `intl.js`, providing localized messages to the `msg` object in `intl-messages.js`
+* Rebuilding the project will make the updated translations available for use
+
+=== Zanata setup
+
+Setup your Zanata configurations in the usual way. See
+http://docs.zanata.org/en/release/client/[Zanata client setup documentation] for details.
+
+=== Commands
+
+==== Push current English source strings to Zanata
+
+Pushing the current English sources will update the project on Zanata. Any strings that have been
+added, changed or deleted will be shown as such in the Zanata UI. Here is the set of commands to
+push the changes:
+
+ % yarn intl:extract
+ % yarn intl:push-all
+
+Alternatively, use the explicit `zanata-cli` command to control which locale you want to push:
+
+ % yarn intl:extract
+ % cd intl
+ % zanata-cli push --push-type source --locales de,es,fr,it,ja,ko,pt-BR,zh-CN
+
+==== Pull updated translations from Zanata
+
+To properly pull and update from Zanata, the source JSON and POT files must exist. This is done by
+running the `intl:extract` script. Standard zanata CLI pulls the data down as PO files. The PO
+files get converted into a single JSON file containing translations for all locales. This JSON
+file needs to be normalized for git diff sanity.
+
+ % yarn intl:extract
+ % yarn intl:pull-all
+ % yarn intl:apply
+ % yarn intl:normalize
+
+Alternatively, use the explicit `zanata-cli` command to control which locales you want to pull:
+
+ % yarn intl:extract
+ % cd intl
+ % zanata-cli pull --pull-type trans --locales de,es,fr,it,ja,ko,pt-BR,zh-CN
+ % cd ..
+ % yarn intl:apply
+ % yarn intl:normalize
+
+== Instructions for maintainers
+
+=== Managing dependencies
+
+Dependencies not related to production build (not needed for `yarn build`)
+should go into `devDependencies`. Try to keep as few `dependencies` as possible.
+
+Whenever `dependencies` are changed:
+
+* submit patch for https://gerrit.ovirt.org/#/q/project:ovirt-engine-nodejs-modules[ovirt-engine-nodejs-modules]:
+** bump the `Release` number
+** merge the patch, this triggers `ovirt-engine-nodejs-modules` RPM build
+* update `automation/build.packages` according to the new RPM version
+
+=== Package versioning
+
+* alpha and beta builds (pre-releases): `x.y.z-0.N` where version stays the same
+* RC and GA builds (releases): `x.y.z-N` where version grows between releases
+
+`version` in `package.json` is reflected into the RPM `x.y.z` version.
+
+=== Release process
+
+Only covers release builds (RC and GA).
+
+==== Stable branches
+
+To create new stable branch:
+
+. create new branch via https://gerrit.ovirt.org/#/admin/projects/ovirt-engine-ui-extensions,branches[Gerrit]
+. rebase on top of the newly created branch
+. ensure that `automation/build.repos` contains proper repos (avoid `master` repos)
+
+Then, update the master branch:
+
+* submit patch with following changes:
+** `package.json` - bump `version`
+** `packaging/spec.in` - reset `Release` number to `0.1` and update `%changelog`
+
+Finally, update CI job config:
+
+* submit patch for https://gerrit.ovirt.org/#/q/project:jenkins[jenkins]:
+** in `jobs/confs/projects/ovirt-engine-ui-extensions/ovirt-engine-ui-extensions_standard.yaml`,
+   ensure that `version` contains proper Engine version to corresponding stable branch mapping
+
+==== Releases
+
+To perform new release:
+
+. switch to appropriate stable branch
+. submit patch that prepares the branch for release:
+.. `package.json` - ensure proper `version` (e.g. bump `.z` component)
+.. `packaging/spec.in` - ensure proper `Release` number and update `%changelog`
+. pull changes from remote
+. tag release-prep patch and push the tag to remote:
+.. `git tag -a <tag-name>`
+.. `git push origin <tag-name>`
+. trigger CI build on release-prep patch
+. update oVirt release config in `releng-tools` repo
+
+Tag name example: `ovirt-engine-ui-extensions-1.0.0-1`
+
+=== Building RPM
+
+To build RPM from an open patch, just post `ci please build` comment on Gerrit. See
+https://www.ovirt.org/blog/2016/12/ci-please-build/[this blog post] for details on this CI feature.
+
+Alternatively, RPM can be built locally using
+https://ovirt-infra-docs.readthedocs.io/en/latest/CI/Using_mock_runner/index.html[mock_runner].
