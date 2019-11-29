@@ -1,11 +1,9 @@
 {
-  "name": "ovirt-engine-ui-extensions",
-  "version": "1.0.10",
-  "description": "UI plugin that provides various extensions to oVirt administration UI, such as dashboard, migrate vm, and cluster upgrade",
+  "name": "ovirt-engine-vprotect-extension",
+  "version": "1.0.0",
   "license": "Apache-2.0",
   "repository": {
-    "type": "git",
-    "url": "git://gerrit.ovirt.org/ovirt-engine-ui-extensions"
+    "type": "git"
   },
   "zanataLocales": "de,es,fr,it,ja,ko,pt-BR,zh-CN,cs",
   "scripts": {

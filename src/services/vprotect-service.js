@@ -1,85 +1,39 @@
-import getPluginApi from '../plugin-api'
-import {webadminToastTypes} from '../constants'
-
-const vprotectURL = getPluginApi().configObject().vProtectURL
+import {VprotectApiService} from './vprotect-api-service'
 
 export class VprotectService {
   _hvWithIncremental = ['KVM', 'CITRIX', 'ESXI', 'HYPERV'];
   _hvmWithIncremental = ['RHV', 'NUTANIX', 'VCENTER'];
 
+  restoreToOptions = [
+    {label: 'Restore to filesystem', value: 'FS'},
+    {label: 'Restore to hypervisor manager', value: 'HVM'},
+    {label: 'Restore to hypervisor', value: 'HV'},
+  ]
+
+  vprotectApiService = new VprotectApiService();
+
   login (username, password) {
-    return fetch(vprotectURL + '/session/login', {
-      method: 'POST',
-      mode: 'cors',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({login: username, password: password})
-    })
-      .then(response => {
-        if(!response.ok){
-          getPluginApi().showToast(webadminToastTypes.danger, response.statusText)
-          return Promise.reject(response)
-        }
-        return response.json()
-      })
+    return this.vprotectApiService.post('/session/login', {login: username, password: password});
   }
 
   getVirtualMachines () {
-    return fetch(vprotectURL + '/virtual-machines', {
-      method: 'GET',
-      credentials: 'include',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => {
-        if(!response.ok){
-          getPluginApi().showToast(webadminToastTypes.danger, response.statusText)
-          return Promise.reject(response)
-        }
-        return response.json()
-      })
+    return this.vprotectApiService.get('/virtual-machines');
   }
 
   getBackupDestinationsForVMs (vms) {
-    return fetch(vprotectURL + '/backup-destinations/usable-for-vms', {
-      method: 'POST',
-      credentials: 'include',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(vms)
-    })
-      .then(response => {
-        if(!response.ok){
-          getPluginApi().showToast(webadminToastTypes.danger, response.statusText)
-          return Promise.reject(response)
-        }
-        return response.json()
-      })
+    return this.vprotectApiService.post('/backup-destinations/usable-for-vms', vms);
   }
 
   submitExportTask (task) {
-    return fetch(vprotectURL + '/tasks/export', {
-      method: 'POST',
-      credentials: 'include',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(task)
-    })
-      .then(response => {
-        if(!response.ok){
-          getPluginApi().showToast(webadminToastTypes.danger, response.statusText)
-          return Promise.reject(response)
-        }
-        return response.json()
-      })
+    return this.vprotectApiService.post('/tasks/export', task);
+  }
+
+  getRestorableBackups (virtualMachineGuid) {
+    return this.vprotectApiService.get('/backups?protected-entity=' + virtualMachineGuid + '&status=SUCCESS');
+  }
+
+  getAvailableNodesForBackup(id) {
+    return this.vprotectApiService.get('/nodes?backup-to-be-restored=' + id);
   }
 
   getBackupTypes (vm) {
@@ -94,4 +48,5 @@ export class VprotectService {
     return (vm.hvType != null && this._hvWithIncremental.includes(vm.hvType.name))
       || (vm.hvmType != null && this._hvmWithIncremental.includes(vm.hvmType.name));
   }
+
 }

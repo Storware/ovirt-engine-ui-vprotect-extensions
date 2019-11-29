@@ -2,13 +2,21 @@ import React from 'react'
 import {Modal, Icon, Slider} from 'patternfly-react'
 import PropTypes from 'prop-types'
 import {Calendar} from 'primereact/calendar'
-
+import {Dropdown} from 'primereact/dropdown'
+import {VprotectService} from '../../services/vprotect-service'
+import getPluginApi from '../../plugin-api'
+import {webadminToastTypes} from '../../constants'
+import {msg} from '../../intl-messages'
 
 export class BackupModal extends React.Component {
+  vprotectService = new VprotectService()
+
   constructor (props) {
     super(props)
+
+    this.getBackupDestinationsAndBackupTypes()
+
     this.state = {
-      show: false,
       backupTypes: [],
       backupDestinations: [],
       task: {
@@ -21,16 +29,26 @@ export class BackupModal extends React.Component {
     }
   }
 
+  getBackupDestinationsAndBackupTypes () {
+    this.vprotectService.getBackupDestinationsForVMs([this.props.virtualEnvironment]).then(result => {
+      const backupTypes = this.vprotectService.getBackupTypes(this.props.virtualEnvironment)
+      this.setState({
+        backupDestinations: result,
+        backupTypes: backupTypes,
+        task: {
+          ...this.state.task,
+          backupType: backupTypes[0],
+          backupDestination: result[0],
+        }
+      })
+    })
+  }
+
   static getDerivedStateFromProps (props, state) {
     return {
-      show: props.show,
-      backupTypes: props.backupTypes,
-      backupDestinations: props.backupDestinations,
       task: {
         ...state.task,
-        backupType: state.task.backupType || props.backupTypes[0],
-        backupDestination: state.task.backupDestination || props.backupDestinations[0],
-        protectedEntities: props.virtualEnvironments
+        protectedEntities: [props.virtualEnvironment]
       }
     }
   }
@@ -39,34 +57,56 @@ export class BackupModal extends React.Component {
     this.setState({task: {...this.state.task, priority: JSON.parse(value)}})
   }
 
+  submitTask = (task) => {
+    this.vprotectService.submitExportTask(task).then(() => {
+      getPluginApi().showToast(webadminToastTypes.info, msg.vprotectBackupTaskSuccess())
+    })
+  }
+
+  onSaveClick = (task) => {
+    this.submitTask(task)
+    this.props.closeModal()
+  }
+
   render () {
     return (
-      <Modal show={this.state.show} onHide={this.close}>
+      <Modal show={true} onHide={this.close}>
         <Modal.Header>
           <button
             className='close'
             aria-hidden='true'
             aria-label='Close'
-            onClick={this.props.onCloseClick}
+            onClick={this.props.closeModal}
           >
-            <Icon type='pf' name='close' />
+            <Icon type='pf' name='close'/>
           </button>
           <Modal.Title>Backup</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div>
             <label>Backup type</label>
-            <select onChange={(event) => this.setState({task: {...this.state.task, backupType: JSON.parse(event.target.value)}})}>
-              {this.props.backupTypes.map(el => {
-                return <option key={JSON.stringify(el.name)} value={JSON.stringify(el)} >{el.description}</option>
-              })}
-            </select>
+            <Dropdown optionLabel="name"
+                      value={this.state.task.backupType}
+                      options={this.state.backupTypes}
+                      onChange={(event) => this.setState({
+                        task: {
+                          ...this.state.task,
+                          backupType: event.value
+                        }
+                      })}
+            />
+
             <label>Backup destination</label>
-            <select onChange={(event) => this.setState({task: {...this.state.task, backupDestination: JSON.parse(event.target.value)}})}>
-              {this.props.backupDestinations.map(el => {
-                return <option key={JSON.stringify(el.guid)} value={JSON.stringify(el)}>{el.name}</option>
-              })}
-            </select>
+            <Dropdown optionLabel="name"
+                      value={this.state.task.backupDestination}
+                      options={this.state.backupDestinations}
+                      onChange={(event) => this.setState({
+                        task: {
+                          ...this.state.task,
+                          backupDestination: event.value
+                        }
+                      })}
+            />
           </div>
           <div>
             <label>Priority</label>
@@ -81,16 +121,17 @@ export class BackupModal extends React.Component {
           </div>
           <div>
             <label>Window start</label>
-            <Calendar showTime={true} hourFormat="24" value={this.state.task.windowStart} onChange={(e) => this.setState({task: {...this.state.task, windowStart: e.value}})} />
+            <Calendar showTime={true} hourFormat="24" value={this.state.task.windowStart}
+                      onChange={(e) => this.setState({task: {...this.state.task, windowStart: e.value}})}/>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <button onClick={this.props.onCloseClick}>
+          <button onClick={this.props.closeModal}>
             Cancel
           </button>
           <button onClick={() => {
             let taskWithConvertedDate = {...this.state.task, windowStart: Date.parse(this.state.task.windowStart)}
-            this.props.onSaveClick(taskWithConvertedDate)
+            this.onSaveClick(taskWithConvertedDate)
           }}>
             Backup
           </button>
@@ -101,10 +142,6 @@ export class BackupModal extends React.Component {
 }
 
 BackupModal.propTypes = {
-  virtualEnvironments: PropTypes.array.isRequired,
-  show: PropTypes.bool.isRequired,
-  backupTypes: PropTypes.array.isRequired,
-  backupDestinations: PropTypes.array.isRequired,
-  onSaveClick: PropTypes.func.isRequired,
-  onCloseClick: PropTypes.func.isRequired
+  virtualEnvironment: PropTypes.any.isRequired,
+  closeModal: PropTypes.func.isRequired
 }

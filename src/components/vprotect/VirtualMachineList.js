@@ -15,14 +15,8 @@ import {Grid} from 'patternfly-react'
 import {PaginationRow, paginate, PAGINATION_VIEW} from 'patternfly-react'
 import {compose} from 'recompose'
 import {BackupModal} from './BackupModal'
+import {RestoreModal} from './RestoreModal'
 import {VprotectService} from '../../services/vprotect-service'
-import getPluginApi from '../../plugin-api'
-import {webadminToastTypes} from '../../constants'
-import {msg} from '../../intl-messages'
-
-const username = getPluginApi().configObject().username
-const password = getPluginApi().configObject().password
-
 /**
  * Reactabular client side paging based on the following api docs:
  * https://reactabular.js.org/#/data/pagination
@@ -34,13 +28,12 @@ export class VirtualMachineList extends React.Component {
   constructor (props) {
     super(props)
 
-    this.vprotectService.login(username, password).then(() => this.vprotectService.getVirtualMachines().then(result => {
+    this.vprotectService.getVirtualMachines().then(result => {
       this.setState({
-        rows: result.map(el => {
-          return {name: el.name, guid: el.guid, actions: {}}
-        })
+        rows: result
+
       })
-    }))
+    })
 
     const getSortingColumns = () => this.state.sortingColumns || {}
 
@@ -120,7 +113,6 @@ export class VirtualMachineList extends React.Component {
           }
         },
         {
-          property: 'actions',
           header: {
             label: 'Actions',
             props: {
@@ -132,7 +124,9 @@ export class VirtualMachineList extends React.Component {
           },
           cell: {
             props: {
-              index: 2
+              index: 2,
+              rowSpan: 1,
+              colSpan: 2
             },
             formatters: [
               (value, {rowData}) => {
@@ -140,17 +134,25 @@ export class VirtualMachineList extends React.Component {
                   <Table.Actions key="0">
                     <Table.Button
                       onClick={() => {
-                        this.vprotectService.getBackupDestinationsForVMs([rowData]).then(result => {
-                          this.setState({
-                            backupDestinations: result,
-                            backupTypes: this.vprotectService.getBackupTypes(rowData),
-                            virtualEnvironmentsForBackup: [rowData],
+                        this.setState(
+                          {
+                            selectedVirtualEnvironment: rowData,
                             showBackupModal: true
-                          })
-                        })
+                          }
+                        );
                       }}
                     >
                       Backup
+                    </Table.Button>
+                    <Table.Button
+                      onClick={() => {
+                        this.setState({
+                          selectedVirtualEnvironment: rowData,
+                          showRestoreModal: true
+                        })
+                      }}
+                    >
+                      Restore
                     </Table.Button>
                   </Table.Actions>
                 ]
@@ -170,24 +172,16 @@ export class VirtualMachineList extends React.Component {
 
       pageChangeValue: 1,
 
-      virtualEnvironmentsForBackup: [],
-      backupTypes: [],
-      backupDestinations: [],
-      showBackupModal: false
+      selectedVirtualEnvironment: null,
+      showBackupModal: false,
+      showRestoreModal: false
     }
 
     this.closeModal = this.closeModal.bind(this)
   }
 
   closeModal = () => {
-    this.setState({showBackupModal: false})
-  }
-
-  submitTask = (task) => {
-    this.vprotectService.submitExportTask(task).then(() => {
-      this.setState({showBackupModal: false})
-      getPluginApi().showToast(webadminToastTypes.info, msg.vprotectBackupTaskSuccess())
-    })
+    this.setState({showBackupModal: false, showRestoreModal: false})
   }
 
   totalPages = () => {
@@ -303,12 +297,17 @@ export class VirtualMachineList extends React.Component {
             onSubmit={this.onSubmit}
           />
         </Grid>
-        <BackupModal onCloseClick={this.closeModal}
-                     onSaveClick={this.submitTask}
-                     virtualEnvironments={this.state.virtualEnvironmentsForBackup}
-                     show={this.state.showBackupModal}
-                     backupTypes={this.state.backupTypes}
-                     backupDestinations={this.state.backupDestinations}/>
+
+        {this.state.showBackupModal &&
+          <BackupModal  closeModal={this.closeModal}
+                        virtualEnvironment={this.state.selectedVirtualEnvironment}/>
+        }
+
+        {this.state.showRestoreModal &&
+          <RestoreModal  closeModal={this.closeModal}
+                         virtualEnvironment={this.state.selectedVirtualEnvironment}/>
+        }
+
       </div>
     )
   }
