@@ -10,3 +10,7 @@ label, input {
 .vprotectContainer {
     padding-top: 20px;
 }
+
+.p-dropdown, .p-inputtext {
+    width: 100%;
+}

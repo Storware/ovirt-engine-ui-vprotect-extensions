@@ -10,30 +10,58 @@ export class VprotectService {
     {label: 'Restore to hypervisor', value: 'HV'},
   ]
 
+  hypervisorsWithImportSupport = [
+    'KVM',
+    'XEN',
+    'CITRIX',
+    'PROXMOX',
+    'NUTANIX',
+    'KUBERNETES',
+    'OPENSHIFT',
+    'ESXI',
+    'AWS',
+    'KUBERNETES',
+    'OPENSHIFT',
+    'OPENSTACK',
+    'ORACLE',
+    'NUTANIX',
+    'RHV',
+    'VCENTER',
+    'HYPERV'
+  ];
+
   vprotectApiService = new VprotectApiService();
 
   login (username, password) {
-    return this.vprotectApiService.post('/session/login', {login: username, password: password});
+    return this.vprotectApiService.post(`/session/login`, {login: username, password: password});
   }
 
   getVirtualMachines () {
-    return this.vprotectApiService.get('/virtual-machines');
+    return this.vprotectApiService.get(`/virtual-machines`);
   }
 
   getBackupDestinationsForVMs (vms) {
-    return this.vprotectApiService.post('/backup-destinations/usable-for-vms', vms);
+    return this.vprotectApiService.post(`/backup-destinations/usable-for-vms`, vms);
   }
 
   submitExportTask (task) {
-    return this.vprotectApiService.post('/tasks/export', task);
+    return this.vprotectApiService.post(`/tasks/export`, task);
   }
 
   getRestorableBackups (virtualMachineGuid) {
-    return this.vprotectApiService.get('/backups?protected-entity=' + virtualMachineGuid + '&status=SUCCESS');
+    return this.vprotectApiService.get(`/backups?protected-entity=${virtualMachineGuid}&status=SUCCESS`);
   }
 
   getAvailableNodesForBackup(id) {
-    return this.vprotectApiService.get('/nodes?backup-to-be-restored=' + id);
+    return this.vprotectApiService.get(`/nodes?backup-to-be-restored=${id}`);
+  }
+
+  getHypervisorsAvailableForBackup(id) {
+    return this.vprotectApiService.get(`/hypervisors/?backup-to-be-restored=${id}`);
+  }
+
+  getHypervisorStoragesForHv(id) {
+    return this.vprotectApiService.get(`/hypervisor-storages?hypervisor=${id}`);
   }
 
   getBackupTypes (vm) {
@@ -49,4 +77,12 @@ export class VprotectService {
       || (vm.hvmType != null && this._hvmWithIncremental.includes(vm.hvmType.name));
   }
 
+  requiresHvStorage(backup, hypervisor) {
+    let excludedHvTypes = ['KVM'];
+    let excludedBackupFileFormats = ['QCOW2'];
+    return !excludedHvTypes.includes(hypervisor.type.name)
+      || excludedBackupFileFormats.some(function (type) {
+        return backup.fileFormats.map(format => format.name).indexOf(type) < 0;
+      });
+  }
 }

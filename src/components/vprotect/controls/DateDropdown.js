@@ -4,54 +4,42 @@ import {Dropdown} from 'primereact/dropdown'
 
 export class DateDropdown extends React.Component {
 
-
   constructor (props) {
     super(props)
-    this.state = {
 
+    this.state = {
+      options: [],
+      value: null
     }
   }
 
   static getDerivedStateFromProps (props, state) {
     return {
-      task: {
-        ...state.task,
-        protectedEntities: props.virtualEnvironments
-      }
+      options: props.options.map(el => {
+        return {guid: el.guid, time: new Date(el.snapshotTime).toLocaleString()}
+      }),
+      value: state.options.filter(el => el.guid === props.value.guid)[0]
     }
   }
 
   componentDidUpdate (prevProps, prevState) {
   }
 
-  onSaveClick = (task) => {
-    // this.submitTask(task);
-    this.props.closeModal()
-  }
-
-
-  static dateTemplateDropdown (option) {
-    return (
-      <span>{new Date(option.snapshotTime).toLocaleString()}</span>
-    )
-  }
-
   render () {
     return (
-      <Dropdown optionLabel='snapshotTime'
-                value={this.state.backup}
-                options={this.state.backups}
-                onChange={(event) => this.setState({
-                  backup: event.value
-                })}
-                itemTemplate={DateDropdown.dateTemplateDropdown}
+      <Dropdown optionLabel='time'
+        value={this.state.value}
+        options={this.state.options}
+        onChange={(event) => {
+          this.props.onChange(this.props.options.filter(el => el.guid === event.value.guid)[0])
+        }}
       />
     )
   }
 }
 
 DateDropdown.propTypes = {
-  value: PropTypes.any.isRequired,
+  value: PropTypes.any,
   onChange: PropTypes.func.isRequired,
-  options: PropTypes.func.isRequired
+  options: PropTypes.array.isRequired
 }
