@@ -60,8 +60,16 @@ export class VprotectService {
     return this.vprotectApiService.get(`/hypervisors/?backup-to-be-restored=${id}`);
   }
 
+  getHypervisorManagersAvailableForBackup(id) {
+    return this.vprotectApiService.get(`/hypervisor-managers/?backup-to-be-restored=${id}`);
+  }
+
   getHypervisorStoragesForHv(id) {
     return this.vprotectApiService.get(`/hypervisor-storages?hypervisor=${id}`);
+  }
+
+  submitTaskRestore(task) {
+    return this.vprotectApiService.post(`/tasks/restore`, task);
   }
 
   getBackupTypes (vm) {

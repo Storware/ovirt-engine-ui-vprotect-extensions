@@ -19,54 +19,64 @@ export class RestoreModal extends React.Component {
     this.getBackups()
 
     this.state = {
-      backup: null,
       backups: [],
       restoreTo: this.vprotectService.restoreToOptions[0],
       restoreToOptions: this.vprotectService.restoreToOptions,
-      node: null,
       nodes: [],
-      restorePath: '/vprotect_data',
-      hypervisor: null,
       importSupported: false,
       hypervisors: [],
-      storage: null,
+      hypervisorManagers: [],
       storages: [],
-      task: {}
-    }
-  }
-
-  static getDerivedStateFromProps (props, state) {
-    return {
       task: {
-        ...state.task,
-        protectedEntities: props.virtualEnvironments
+        backup: null,
+        node: null,
+        restorePath: '/vprotect_data',
+        hypervisor: null,
+        hypervisorManager: null,
+        storage: null
       }
     }
   }
 
   componentDidUpdate (prevProps, prevState) {
     if ((!prevState.restoreTo && this.state.restoreTo) || (prevState.restoreTo && prevState.restoreTo.value !== this.state.restoreTo.value)) {
-      this.restoreToChange(this.state.restoreTo)
+
     }
 
-    if ((!prevState.backup && this.state.backup) || (prevState.backup && prevState.backup.guid !== this.state.backup.guid)) {
+    if ((!prevState.task.backup && this.state.task.backup) || (prevState.task.backup && prevState.task.backup.guid !== this.state.task.backup.guid)) {
       this.backupChange()
     }
 
-    if ((!prevState.hypervisor && this.state.hypervisor) || (prevState.hypervisor && prevState.hypervisor.guid !== this.state.hypervisor.guid)) {
-      this.getHypervisorStoragesForHypervisor(this.state.hypervisor.guid)
-      this.isImportSupported(this.state.hypervisor.type)
+    if ((!prevState.task.hypervisor && this.state.task.hypervisor) || (prevState.task.hypervisor && prevState.task.hypervisor.guid !== this.state.task.hypervisor.guid)) {
+      this.getHypervisorStoragesForHypervisor(this.state.task.hypervisor.guid)
+      this.isImportSupported(this.state.task.hypervisor.type)
     }
 
     // if (prevState.storages.length > 0 && prevState.storages[0].guid !== this.state.storages[0].guid) {
     //
     // }
-
   }
 
-  onSaveClick = (task) => {
+  onSaveClick = () => {
+    switch (this.state.restoreTo.value) {
+      case 'FS':
+        this.restoreToFilesystem()
+        break
+      case 'HV':
+        break
+      case 'HVM':
+        break
+    }
     // this.submitTask(task);
     this.props.closeModal()
+  }
+
+  restoreToFilesystem() {
+    this.vprotectService.submitTaskRestore(this.state.task).then(
+      () => {
+        this.alertService.info('alerts.restoreTaskHasBeenSubmitted');
+      }
+    );
   }
 
   getBackups () {
@@ -77,22 +87,21 @@ export class RestoreModal extends React.Component {
           this.props.closeModal()
           return
         }
-        this.setState({backup: result[0], backups: result})
-        this.selectDefaultRestoreToOption()
+        this.setState({task: {...this.state.task,backup: result[0]}, backups: result})
       }
     )
   }
 
   getNodes () {
-    this.vprotectService.getAvailableNodesForBackup(this.state.backup.guid).then(
+    this.vprotectService.getAvailableNodesForBackup(this.state.task.backup.guid).then(
       result => {
-        this.setState({node: result[0], nodes: result})
+        this.setState({task: {...this.state.task, node: result[0]}, nodes: result})
       }
     )
   }
 
   getHypervisorsAvailableForBackup () {
-    this.vprotectService.getHypervisorsAvailableForBackup(this.state.backup.guid).then(
+    this.vprotectService.getHypervisorsAvailableForBackup(this.state.task.backup.guid).then(
       (hypervisors) => {
         const hypervisorsWithType = hypervisors.map((el) => {
             return {name: el.host, guid: el.guid, type: this.props.virtualEnvironment.hvType}
@@ -105,21 +114,35 @@ export class RestoreModal extends React.Component {
         if (hypervisorsWithType.length > 0) {
 
           if (this.props.virtualEnvironment.hypervisor && this.isHypervisorInArray(this.props.virtualEnvironment.hypervisor, hypervisorsWithType)) {
-            this.setState({hypervisor: this.findHypervisorInArray(this.props.virtualEnvironment.hypervisor, hypervisorsWithType)})
+            this.setState({task: {...this.state.task ,hypervisor: this.findHypervisorInArray(this.props.virtualEnvironment.hypervisor, hypervisorsWithType)}})
           } else {
-            this.setState({hypervisor: hypervisorsWithType[0]})
+            this.setState({task: {...this.state.task ,hypervisor: hypervisorsWithType[0]}})
           }
 
-          // this.hypervisorRestoreAvailable = true;
-          // this.radioRestore = 'HV';
-          // this.onRadioChange('HV');
+          //TODO hypervisorRestoreAvailable logic
         }
-        // else {
-        //   this.hypervisorRestoreAvailable = false;
-        // }
       }
     )
+  }
 
+  getHypervisorManagersAvailableForBackup() {
+    this.vprotectService.getHypervisorManagersAvailableForBackup(this.state.task.backup.guid).then(
+      (hypervisorManagers) => {
+
+        // this.hvManagers = data.map(el => {
+        //   return {...el, name: el.url};
+        // });
+
+        if (hypervisorManagers.length > 0) {
+          if (this.props.virtualEnvironment.hvManager && this.isHypervisorInArray(this.props.virtualEnvironment.hvManager, hypervisorManagers)) {
+            this.setState({task: {...this.state.task , hypervisorManager: this.findHypervisorInArray(this.props.virtualEnvironment.hvManager, hypervisorManagers)}})
+          } else {
+            this.setState({task: {...this.state.task , hypervisorManager: hypervisorManagers[0]}})
+          }
+          //TODO hvmRestoreAvailable
+        }
+      }
+    );
   }
 
   isHypervisorInArray (hypervisor, hypervisors) {
@@ -138,36 +161,20 @@ export class RestoreModal extends React.Component {
     this.vprotectService.getHypervisorStoragesForHv(id).then(
       (storages) => {
         storages = [...storages, {name: 'Other', guid: '', uuid: ''}]
-        if (this.vprotectService.requiresHvStorage(this.state.backup, this.state.hypervisor)) {
+        if (this.vprotectService.requiresHvStorage(this.state.task.backup, this.state.task.hypervisor)) {
           this.setState({
             storages: storages,
-            storage: storages[0]
+            task: {...this.state.task, storage: storages[0]}
           })
         }
       }
     )
   }
 
-  restoreToChange (restoreTo) {
-    switch (restoreTo.value) {
-      case 'FS':
-        // this.getNodes()
-        break
-      case 'HV':
-        break
-      case 'HVM':
-        break
-    }
-
-  }
-
   backupChange () {
     this.getNodes()
     this.getHypervisorsAvailableForBackup()
-  }
-
-  selectDefaultRestoreToOption () {
-    this.restoreToChange(this.state.restoreTo)
+    this.getHypervisorManagersAvailableForBackup()
   }
 
   storageDropdownTemplate (option) {
@@ -199,9 +206,9 @@ export class RestoreModal extends React.Component {
         <Modal.Body>
           <div>
             <label>Backup</label>
-            <DateDropdown value={this.state.backup}
+            <DateDropdown value={this.state.task.backup}
                           onChange={(value) => {
-                            this.setState({backup: value})
+                            this.setState({task: {...this.state.task, backup: value}})
                           }}
                           options={this.state.backups}
             />
@@ -221,17 +228,19 @@ export class RestoreModal extends React.Component {
             <div>
               <label>Node</label>
               <Dropdown optionLabel='name'
-                        value={this.state.node}
+                        value={this.state.task.node}
                         options={this.state.nodes}
                         onChange={(event) => this.setState({
-                          node: event.value
+                          task: {...this.state.task, node: event.value}
                         })}
               />
             </div>
             <div>
               <label>Restore path</label>
-              <InputText value={this.state.restorePath} onChange={(e) => {
-                this.setState({restorePath: e.value})
+              <InputText value={this.state.task.restorePath} onChange={(e) => {
+                this.setState({
+                  task: {...this.state.task, restorePath: e.value}
+                })
               }}/>
             </div>
           </div>}
@@ -241,33 +250,38 @@ export class RestoreModal extends React.Component {
             <div>
               <label>Hypervisor</label>
               <Dropdown optionLabel='name'
-                        value={this.state.hypervisor}
+                        value={this.state.task.hypervisor}
                         options={this.state.hypervisors}
                         onChange={(event) => this.setState({
-                          hypervisor: event.value
+                          task: {...this.state.task , hypervisor: event.value}
                         })}
               />
             </div>
             <div>
               <label>Import to storage</label>
               <Dropdown optionLabel='name'
-                        value={this.state.storage}
+                        value={this.state.task.storage}
                         options={this.state.storages}
                         onChange={(event) => this.setState({
-                          storage: event.value
+                          task: {...this.state.task, storage: event.value}
                         })}
                         itemTemplate={this.storageDropdownTemplate}
               />
             </div>
 
-            {this.state.storage && this.state.storage.name === 'Other' &&
+            {this.state.task.storage && this.state.task.storage.name === 'Other' &&
             <div>
-              <label>{this.state.hypervisor.type.name === 'KVM' ? 'action.enterStorageIdRestPath' : 'action.enterStorageId'}</label>
+              <label>{this.state.task.hypervisor.type.name === 'KVM' ? 'action.enterStorageIdRestPath' : 'action.enterStorageId'}</label>
               <InputText value={this.state.storage.uuid}
+                         //TODO pattern for KVM
                          onChange={(e) => {
                           this.setState({
-                            storage: {
-                              uuid: e.value
+                            task: {
+                              ...this.state.task,
+                              storage: {
+                                ...this.state.storage,
+                                uuid: e.value
+                              }
                             }
                           })}
                          }
@@ -275,13 +289,30 @@ export class RestoreModal extends React.Component {
             </div>}
 
           </div>}
+
+          {this.state.restoreTo.value === 'HVM' &&
+          <div>
+            <div>
+              <label>Hypervisor Manager</label>
+              <Dropdown optionLabel='url'
+                        value={this.state.task.hypervisorManager}
+                        options={this.state.hypervisorManagers}
+                        onChange={(event) => this.setState({
+                          task: {...this.state.task, hypervisorManager: event.value}
+                        })}
+              />
+            </div>
+
+          </div>}
+
+
         </Modal.Body>
         <Modal.Footer>
           <button onClick={this.props.closeModal}>
             Cancel
           </button>
           <button onClick={() => {
-            this.onSaveClick(this.state.task)
+            this.onSaveClick()
           }}>
             Restore
           </button>
