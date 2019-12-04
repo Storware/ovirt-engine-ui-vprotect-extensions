@@ -10,26 +10,6 @@ export class VprotectService {
     {label: 'Restore to hypervisor', value: 'HV'},
   ]
 
-  hypervisorsWithImportSupport = [
-    'KVM',
-    'XEN',
-    'CITRIX',
-    'PROXMOX',
-    'NUTANIX',
-    'KUBERNETES',
-    'OPENSHIFT',
-    'ESXI',
-    'AWS',
-    'KUBERNETES',
-    'OPENSHIFT',
-    'OPENSTACK',
-    'ORACLE',
-    'NUTANIX',
-    'RHV',
-    'VCENTER',
-    'HYPERV'
-  ];
-
   vprotectApiService = new VprotectApiService();
 
   login (username, password) {
@@ -52,24 +32,16 @@ export class VprotectService {
     return this.vprotectApiService.get(`/backups?protected-entity=${virtualMachineGuid}&status=SUCCESS`);
   }
 
-  getAvailableNodesForBackup(id) {
-    return this.vprotectApiService.get(`/nodes?backup-to-be-restored=${id}`);
-  }
-
-  getHypervisorsAvailableForBackup(id) {
-    return this.vprotectApiService.get(`/hypervisors/?backup-to-be-restored=${id}`);
-  }
-
   getHypervisorManagersAvailableForBackup(id) {
     return this.vprotectApiService.get(`/hypervisor-managers/?backup-to-be-restored=${id}`);
   }
 
-  getHypervisorStoragesForHv(id) {
-    return this.vprotectApiService.get(`/hypervisor-storages?hypervisor=${id}`);
+  getHypervisorStoragesForHvm(id) {
+    return this.vprotectApiService.get(`/hypervisor-storages?hypervisor-manager=${id}`);
   }
 
-  submitTaskRestore(task) {
-    return this.vprotectApiService.post(`/tasks/restore`, task);
+  getHypervisorClustersForHvm(id) {
+    return this.vprotectApiService.get(`/hypervisor-clusters?hypervisor-manager=${id}`);
   }
 
   getBackupTypes (vm) {
