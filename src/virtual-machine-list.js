@@ -1,7 +1,7 @@
 import '_/logger'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {vprotectPlaceToken} from './constants'
+import {vprotectVirtualMachineListPlaceToken} from './constants'
 import getPluginApi from './plugin-api'
 import appInit from './services/app-init'
 import 'patternfly/dist/css/patternfly.min.css'
@@ -23,20 +23,20 @@ import 'bootstrap'
 // Bootstrap 3.3.7 Tooltip.getPosition() function has a bug, this override fixes
 // the problem.
 import './bootstrap-overrides/tooltip-fix'
-import {VprotectContainer} from './components/vprotect/VprotectContainer'
+import {VirtualMachineListContainer} from './components/vprotect/virtual-machine-list/VirtualMachineListContainer'
 import 'primereact/resources/themes/nova-light/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
 
-const appRoot = document.getElementById('vprotect')
+const appRoot = document.getElementById('virtual-machine-list')
 
 appInit.run().then(() => {
   ReactDOM.render(
-    <VprotectContainer />,
+    <VirtualMachineListContainer />,
     appRoot
   )
 })
 
-getPluginApi().setPlaceUnloadHandler(vprotectPlaceToken, function () {
+getPluginApi().setPlaceUnloadHandler(vprotectVirtualMachineListPlaceToken, function () {
   ReactDOM.unmountComponentAtNode(appRoot)
 })

@@ -14,3 +14,7 @@ label, input {
 .p-dropdown, .p-inputtext {
     width: 100%;
 }
+
+.invisible {
+    visibility: hidden;
+}

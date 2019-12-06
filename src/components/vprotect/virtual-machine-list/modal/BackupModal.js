@@ -3,10 +3,10 @@ import {Modal, Icon, Slider} from 'patternfly-react'
 import PropTypes from 'prop-types'
 import {Calendar} from 'primereact/calendar'
 import {Dropdown} from 'primereact/dropdown'
-import {VprotectService} from '../../services/vprotect-service'
-import getPluginApi from '../../plugin-api'
-import {webadminToastTypes} from '../../constants'
-import {msg} from '../../intl-messages'
+import {VprotectService} from '../../../../services/vprotect-service'
+import getPluginApi from '../../../../plugin-api'
+import {webadminToastTypes} from '../../../../constants'
+import {msg} from '../../../../intl-messages'
 
 export class BackupModal extends React.Component {
   vprotectService = new VprotectService()

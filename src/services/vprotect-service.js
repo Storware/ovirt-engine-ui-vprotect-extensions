@@ -4,11 +4,10 @@ export class VprotectService {
   _hvWithIncremental = ['KVM', 'CITRIX', 'ESXI', 'HYPERV'];
   _hvmWithIncremental = ['RHV', 'NUTANIX', 'VCENTER'];
 
-  restoreToOptions = [
-    {label: 'Restore to filesystem', value: 'FS'},
-    {label: 'Restore to hypervisor manager', value: 'HVM'},
-    {label: 'Restore to hypervisor', value: 'HV'},
-  ]
+  diskAllocationFormats = [
+    {name: 'PREALLOCATED', description: 'Preallocated'},
+    {name: 'SPARSE', description: 'Sparse'}
+  ];
 
   vprotectApiService = new VprotectApiService();
 
@@ -44,6 +43,14 @@ export class VprotectService {
     return this.vprotectApiService.get(`/hypervisor-clusters?hypervisor-manager=${id}`);
   }
 
+  submitTaskRestoreAndImport(task) {
+    return this.vprotectApiService.post(`/tasks/restore-and-import`, task);
+  }
+
+  getAllTasks() {
+    return this.vprotectApiService.get('/tasks');
+  }
+
   getBackupTypes (vm) {
     let backupTypes = [{name: 'FULL', description: 'Full'}];
     if(this.isIncrementalAvailable(vm)){
@@ -55,14 +62,5 @@ export class VprotectService {
   isIncrementalAvailable(vm) {
     return (vm.hvType != null && this._hvWithIncremental.includes(vm.hvType.name))
       || (vm.hvmType != null && this._hvmWithIncremental.includes(vm.hvmType.name));
-  }
-
-  requiresHvStorage(backup, hypervisor) {
-    let excludedHvTypes = ['KVM'];
-    let excludedBackupFileFormats = ['QCOW2'];
-    return !excludedHvTypes.includes(hypervisor.type.name)
-      || excludedBackupFileFormats.some(function (type) {
-        return backup.fileFormats.map(format => format.name).indexOf(type) < 0;
-      });
   }
 }

@@ -1,17 +1,19 @@
-import { pluginBasePath, vprotectPlaceToken } from '../constants'
+import { pluginBasePath, vprotectVirtualMachineListPlaceToken, vprotectTaskConsolePlaceToken, primaryMenuId } from '../constants'
 import getPluginApi from '../plugin-api'
 import { msg } from '../intl-messages'
 
 function addVprotectPlace () {
-  getPluginApi().addPrimaryMenuPlace(msg.vprotectTitle(), vprotectPlaceToken, `${pluginBasePath}/vprotect.html`, {
-    // place the menu item before existing ones
+  getPluginApi().addPrimaryMenuContainer(msg.vprotectTitle(), primaryMenuId, {
     priority: 10,
-    // customize the prefix displayed in search bar
-    searchPrefix: 'vProtect',
-    // make users land on this place by default
-    defaultPlace: false,
-    // make sure the menu item has the right icon
     icon: 'fa-font'
+  })
+
+  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectVirtualMachinesTitle(), vprotectVirtualMachineListPlaceToken, `${pluginBasePath}/virtual-machine-list.html`, {
+    priority: 10
+  })
+
+  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectTaskConsoleTitle(), vprotectTaskConsolePlaceToken, `${pluginBasePath}/task-console.html`, {
+    priority: 11
   })
 }
 

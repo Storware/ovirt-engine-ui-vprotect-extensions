@@ -75,7 +75,8 @@ async function common () {
 
     entry: {
       'plugin': [...commonModules, './src/plugin.js'],
-      'vprotect': [...commonModules, './src/vprotect.js']
+      'virtual-machine-list': [...commonModules, './src/virtual-machine-list.js'],
+      'task-console': [...commonModules, './src/task-console.js']
     },
 
     resolve: {
@@ -137,10 +138,16 @@ async function common () {
         chunks: ['webpack-manifest', 'vendor', 'plugin']
       }),
       new HtmlWebpackPlugin({
-        filename: 'vprotect.html',
-        template: 'static/html/vprotect.template.ejs',
+        filename: 'virtual-machine-list.html',
+        template: 'static/html/virtual-machine-list.template.ejs',
         inject: true,
-        chunks: ['webpack-manifest', 'vendor', 'vprotect']
+        chunks: ['webpack-manifest', 'vendor', 'virtual-machine-list']
+      }),
+      new HtmlWebpackPlugin({
+        filename: 'task-console.html',
+        template: 'static/html/task-console.template.ejs',
+        inject: true,
+        chunks: ['webpack-manifest', 'vendor', 'task-console']
       }),
       new InlineManifestWebpackPlugin('webpack-manifest'),
 

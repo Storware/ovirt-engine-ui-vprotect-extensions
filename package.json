@@ -39,6 +39,7 @@
     "jquery": "3.4.1",
     "lodash": "^4.17.15",
     "moment": "^2.20.1",
+    "moment-timezone": "^0.5.27",
     "patternfly": "3.59.4",
     "patternfly-react": "2.38.1",
     "primeicons": "^2.0.0",
