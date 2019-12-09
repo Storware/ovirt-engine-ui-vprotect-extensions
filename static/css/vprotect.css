@@ -18,3 +18,19 @@ label, input {
 .invisible {
     visibility: hidden;
 }
+
+.center {
+    text-align: center;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.flex-row {
+    flex-direction: row;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}

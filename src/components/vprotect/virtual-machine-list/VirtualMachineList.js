@@ -15,7 +15,7 @@ import {RestoreModal} from './modal/RestoreModal'
 import {VprotectService} from '../../../services/vprotect-service'
 import {DateShow} from '../convert/Date'
 import {Filesize} from '../convert/Filezize'
-import {MockFilterExample} from '../controls/MockFilterExample'
+import {TableFilter} from '../controls/TableFilter'
 import {TableWithPagination} from '../controls/TableWithPagination'
 
 export class VirtualMachineList extends React.Component {
@@ -26,7 +26,8 @@ export class VirtualMachineList extends React.Component {
 
     this.vprotectService.getVirtualMachines().then(result => {
       this.setState({
-        rows: result.filter(el => el.hvmType && el.hvmType.name === 'RHV')
+        rows: result,
+        filteredRows: result
       })
     })
 
@@ -78,13 +79,15 @@ export class VirtualMachineList extends React.Component {
             props: {
               index: 0
             },
-            formatters: [tableCellFormatter]
+            formatters: [(value) => {
+              return <td><a href={`/ovirt-engine/webadmin/#vms-general;name=${value}`} target={'_blank'}>{value}</a></td>
+            }]
           }
         },
         {
-          property: 'guid',
+          property: 'uuid',
           header: {
-            label: 'Guid',
+            label: 'Uuid',
             props: {
               index: 1,
               rowSpan: 1,
@@ -255,12 +258,12 @@ export class VirtualMachineList extends React.Component {
                   <Table.Actions key="0">
                     <Table.DropdownKebab id="myKebab" pullRight>
                       <MenuItem onClick={() => {
-                          this.setState(
-                            {
-                              selectedVirtualEnvironment: rowData,
-                              showBackupModal: true
-                            }
-                          );
+                        this.setState(
+                          {
+                            selectedVirtualEnvironment: rowData,
+                            showBackupModal: true
+                          }
+                        )
                       }}>Backup</MenuItem>
                       {rowData.lastSuccessfulBackupSize > 0 &&
                       <MenuItem onClick={() => {
@@ -280,6 +283,7 @@ export class VirtualMachineList extends React.Component {
       ],
 
       rows: [],
+      filteredRows: [],
 
       pagination: {
         page: 1,
@@ -301,22 +305,47 @@ export class VirtualMachineList extends React.Component {
     this.setState({showBackupModal: false, showRestoreModal: false})
   }
 
+  filterFields = [
+    {
+      property: 'name',
+      title: 'Name',
+      placeholder: 'Filter by Name',
+      filterType: 'text'
+    },{
+      property: 'uuid',
+      title: 'Uuid',
+      placeholder: 'Filter by Uuid',
+      filterType: 'text'
+    },{
+      property: 'hypervisor.name',
+      title: 'Hypervisor',
+      placeholder: 'Filter by Hypervisor',
+      filterType: 'text'
+    },{
+      property: 'vmBackupPolicy.name',
+      title: 'Policy',
+      placeholder: 'Filter by Policy',
+      filterType: 'text'
+    }
+  ]
+
   render () {
     return (
       <div>
         <Grid fluid>
-          <MockFilterExample />
-          <TableWithPagination columns={this.state.columns} sortingColumns={this.state.sortingColumns} rows={this.state.rows} />
+          <TableFilter fields={this.filterFields} rows={this.state.rows} change={(value) => {this.setState({filteredRows: value})}}/>
+          <TableWithPagination columns={this.state.columns} sortingColumns={this.state.sortingColumns}
+                               rows={this.state.filteredRows}/>
         </Grid>
 
         {this.state.showBackupModal &&
-          <BackupModal  closeModal={this.closeModal}
-                        virtualEnvironment={this.state.selectedVirtualEnvironment}/>
+        <BackupModal closeModal={this.closeModal}
+                     virtualEnvironment={this.state.selectedVirtualEnvironment}/>
         }
 
         {this.state.showRestoreModal &&
-          <RestoreModal  closeModal={this.closeModal}
-                         virtualEnvironment={this.state.selectedVirtualEnvironment}/>
+        <RestoreModal closeModal={this.closeModal}
+                      virtualEnvironment={this.state.selectedVirtualEnvironment}/>
         }
       </div>
     )

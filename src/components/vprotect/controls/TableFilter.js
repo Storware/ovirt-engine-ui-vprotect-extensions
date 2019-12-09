@@ -1,83 +1,109 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import { Filter, FormControl, Toolbar } from 'patternfly-react';
 import { findIndex, find, remove } from 'lodash';
 
-export const mockFilterExampleFields = [
-  {
-    id: 'name',
-    title: 'Name',
-    placeholder: 'Filter by Name',
-    filterType: 'text'
-  },
-  {
-    id: 'address',
-    title: 'Address',
-    placeholder: 'Filter by Address',
-    filterType: 'text'
-  },
-  {
-    id: 'birthMonth',
-    title: 'Birth Month',
-    placeholder: 'Filter by Birth Month',
-    filterType: 'select',
-    filterValues: [
-      { title: 'January', id: 'jan' },
-      { title: 'February', id: 'feb' },
-      { title: 'March', id: 'mar' },
-      { title: 'April', id: 'apr' },
-      { title: 'May', id: 'may' },
-      { title: 'June', id: 'jun' },
-      { title: 'July', id: 'jul' },
-      { title: 'August', id: 'aug' },
-      { title: 'September', id: 'sep' },
-      { title: 'October', id: 'oct' },
-      { title: 'November', id: 'nov' },
-      { title: 'December', id: 'dec' }
-    ]
-  },
-  {
-    id: 'car',
-    title: 'Car',
-    placeholder: 'Filter by Car Make',
-    filterType: 'complex-select',
-    filterValues: [{ title: 'Subaru', id: 'subie' }, 'Toyota'],
-    filterCategoriesPlaceholder: 'Filter by Car Model',
-    filterCategories: [
-      {
-        id: 'subie',
-        title: 'Subaru',
-        filterValues: [
-          {
-            title: 'Outback',
-            id: 'out'
-          },
-          'Crosstrek',
-          'Impreza'
-        ]
-      },
-      {
-        id: 'toyota',
-        title: 'Toyota',
-        filterValues: [
-          {
-            title: 'Prius',
-            id: 'pri'
-          },
-          'Corolla',
-          'Echo'
-        ]
-      }
-    ]
+// export const mockFilterExampleFields = [
+//   {
+//     id: 'name',
+//     title: 'Name',
+//     placeholder: 'Filter by Name',
+//     filterType: 'text'
+//   },
+//   {
+//     id: 'address',
+//     title: 'Address',
+//     placeholder: 'Filter by Address',
+//     filterType: 'text'
+//   },
+//   {
+//     id: 'birthMonth',
+//     title: 'Birth Month',
+//     placeholder: 'Filter by Birth Month',
+//     filterType: 'select',
+//     filterValues: [
+//       { title: 'January', id: 'jan' },
+//       { title: 'February', id: 'feb' },
+//       { title: 'March', id: 'mar' },
+//       { title: 'April', id: 'apr' },
+//       { title: 'May', id: 'may' },
+//       { title: 'June', id: 'jun' },
+//       { title: 'July', id: 'jul' },
+//       { title: 'August', id: 'aug' },
+//       { title: 'September', id: 'sep' },
+//       { title: 'October', id: 'oct' },
+//       { title: 'November', id: 'nov' },
+//       { title: 'December', id: 'dec' }
+//     ]
+//   },
+//   {
+//     id: 'car',
+//     title: 'Car',
+//     placeholder: 'Filter by Car Make',
+//     filterType: 'complex-select',
+//     filterValues: [{ title: 'Subaru', id: 'subie' }, 'Toyota'],
+//     filterCategoriesPlaceholder: 'Filter by Car Model',
+//     filterCategories: [
+//       {
+//         id: 'subie',
+//         title: 'Subaru',
+//         filterValues: [
+//           {
+//             title: 'Outback',
+//             id: 'out'
+//           },
+//           'Crosstrek',
+//           'Impreza'
+//         ]
+//       },
+//       {
+//         id: 'toyota',
+//         title: 'Toyota',
+//         filterValues: [
+//           {
+//             title: 'Prius',
+//             id: 'pri'
+//           },
+//           'Corolla',
+//           'Echo'
+//         ]
+//       }
+//     ]
+//   }
+// ];
+
+export class TableFilter extends React.Component {
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      currentFilterType: this.props.fields[0],
+      activeFilters: [],
+      currentValue: ''
+    };
   }
-];
 
-export class MockFilterExample extends React.Component {
+  filteredRows = () => {
+    return this.props.rows.filter(el => {
+      let numberOfFilteredValuesFound = 0;
+      for (let i = 0; i < this.state.activeFilters.length; i++) {
+        let propertyParts = this.state.activeFilters[i].property.split('.');
+        let element;
+        if(propertyParts.length === 1){
+          element = el[propertyParts[0]]
+        } else if (propertyParts.length === 2){
+          element = el[propertyParts[0]] && el[propertyParts[0]][propertyParts[1]]
+        }
+        numberOfFilteredValuesFound += element && element.toLowerCase().indexOf(this.state.activeFilters[i].value.toLowerCase()) > -1
+      }
+      return numberOfFilteredValuesFound === this.state.activeFilters.length;
+    })
+  }
 
-  state = {
-    currentFilterType: mockFilterExampleFields[0],
-    activeFilters: [],
-    currentValue: ''
-  };
+  componentDidUpdate (prevProps, prevState) {
+    if(prevState.activeFilters.length !== this.state.activeFilters.length)
+      this.props.change(this.filteredRows());
+  }
 
   filterAdded = (field, value) => {
     let filterText = '';
@@ -103,7 +129,7 @@ export class MockFilterExample extends React.Component {
       this.enforceSingleSelect(field.title);
     }
 
-    let activeFilters = [...this.state.activeFilters, { label: filterText }];
+    let activeFilters = [...this.state.activeFilters, { label: filterText, property: field.property, value: value }];
     this.setState({ activeFilters: activeFilters });
   };
 
@@ -277,7 +303,7 @@ export class MockFilterExample extends React.Component {
         <div style={{ width: 300 }}>
           <Filter>
             <Filter.TypeSelector
-              filterTypes={mockFilterExampleFields}
+              filterTypes={this.props.fields}
               currentFilterType={currentFilterType}
               onFilterTypeSelected={this.selectFilterType}
             />
@@ -315,4 +341,9 @@ export class MockFilterExample extends React.Component {
       </div>
     );
   }
+}
+
+Filter.propTypes = {
+  fields: PropTypes.any,
+  change: PropTypes.func
 }
