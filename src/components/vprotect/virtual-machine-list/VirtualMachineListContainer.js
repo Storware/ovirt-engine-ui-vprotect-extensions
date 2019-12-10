@@ -1,10 +1,7 @@
 import React from 'react'
 import {VirtualMachineList} from './VirtualMachineList'
-import {VprotectService} from '../../../services/vprotect-service'
 
 export class VirtualMachineListContainer extends React.Component {
-  vprotectService = new VprotectService()
-
   constructor (props) {
     super(props)
 
@@ -15,7 +12,7 @@ export class VirtualMachineListContainer extends React.Component {
 
   render () {
     return (
-      <div className={'vprotectContainer'}>
+      <div className={'padding-top-20px'}>
         <VirtualMachineList user={this.state.user}/>
       </div>
     )

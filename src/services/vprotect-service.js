@@ -51,6 +51,26 @@ export class VprotectService {
     return this.vprotectApiService.get('/tasks');
   }
 
+  cancelTask(id, state) {
+    return this.vprotectApiService.put(`/tasks/${id}/state`, state);
+  }
+
+  deleteOrCancelTask(id) {
+    return this.vprotectApiService.delete(`/tasks/${id}`);
+  }
+
+  deleteQueuedOrFinishedTasks() {
+    return this.vprotectApiService.delete(`/tasks/all-finished-and-queued`);
+  }
+
+  deleteFinishedTasks() {
+    return this.vprotectApiService.delete(`/tasks/all-finished`);
+  }
+
+  cancelRunningTasks() {
+    return this.vprotectApiService.delete(`/tasks/all-running`);
+  }
+
   getBackupTypes (vm) {
     let backupTypes = [{name: 'FULL', description: 'Full'}];
     if(this.isIncrementalAvailable(vm)){

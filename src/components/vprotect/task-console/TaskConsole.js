@@ -4,18 +4,49 @@ import * as sort from 'sortabular'
 import {
   defaultSortingOrder,
   sortableHeaderCellFormatter,
-  TABLE_SORT_DIRECTION
+  TABLE_SORT_DIRECTION,
+  actionHeaderCellFormatter,
 } from 'patternfly-react'
-import {Grid, ProgressBar, Button} from 'patternfly-react'
+import {Grid, ProgressBar, Button, Toolbar, Table, MenuItem} from 'patternfly-react'
 
 import {VprotectService} from '../../../services/vprotect-service'
 import {DateShow} from '../convert/Date'
 import {TableWithPagination} from '../controls/TableWithPagination'
 import {TableFilter} from '../controls/TableFilter'
+
 // import {TableFilter} from '../controls/TableFilter'
 
 export class TaskConsole extends React.Component {
   vprotectService = new VprotectService()
+
+  filterFields = [
+    {
+      property: 'state.name',
+      title: 'Status',
+      placeholder: 'Filter by Status',
+      filterType: 'text'
+    }, {
+      property: 'hypervisorManager.name',
+      title: 'Hypervisor',
+      placeholder: 'Filter by Hypervisor',
+      filterType: 'text'
+    }, {
+      property: 'protectedEntity.name',
+      title: 'VE/APP',
+      placeholder: 'Filter by VE/APP',
+      filterType: 'text'
+    }, {
+      property: 'node.name',
+      title: 'Node',
+      placeholder: 'Filter by Node',
+      filterType: 'text'
+    }, {
+      property: 'backupDestination.name',
+      title: 'Backup destination',
+      placeholder: 'Filter by Backup destination',
+      filterType: 'text'
+    }
+  ]
 
   constructor (props) {
     super(props)
@@ -48,7 +79,6 @@ export class TaskConsole extends React.Component {
       getSortingColumns,
       strategy: sort.strategies.byProperty
     })
-
 
     this.state = {
       sortingColumns: {
@@ -99,7 +129,8 @@ export class TaskConsole extends React.Component {
               index: 1
             },
             formatters: [(value) => {
-              return <td><ProgressBar now={value} label={<span className={'center'}>{value > 4 ? value : ''}</span>}/></td>
+              return <td><ProgressBar now={value} label={<span className={'center'}>{value > 4 ? value : ''}</span>}/>
+              </td>
             }]
           }
         },
@@ -240,7 +271,7 @@ export class TaskConsole extends React.Component {
           header: {
             label: 'Window end',
             props: {
-              index: 7,
+              index: 8,
               rowSpan: 1,
               colSpan: 1
             },
@@ -250,7 +281,7 @@ export class TaskConsole extends React.Component {
           },
           cell: {
             props: {
-              index: 7
+              index: 8
             },
             formatters: [(value) => {
               return <td><DateShow date={value} timezone={this.props.user.uiTimeZone}/></td>
@@ -261,14 +292,15 @@ export class TaskConsole extends React.Component {
           header: {
             label: 'Actions',
             props: {
-              index: 8,
+              index: 9,
               rowSpan: 1,
               colSpan: 1
-            }
+            },
+            formatters: [actionHeaderCellFormatter]
           },
           cell: {
             props: {
-              index: 8,
+              index: 9,
               rowSpan: 1,
               colSpan: 1
             },
@@ -276,24 +308,31 @@ export class TaskConsole extends React.Component {
               (value, {rowData}) => {
                 return [
                   <Table.Actions key="0">
-                    <Table.DropdownKebab id="myKebab" pullRight>
-                      <MenuItem onClick={() => {
-                          this.setState(
-                            {
-                              selectedVirtualEnvironment: rowData,
-                              showBackupModal: true
-                            }
-                          );
-                      }}>Backup</MenuItem>
-                      {rowData.lastSuccessfulBackupSize > 0 &&
-                      <MenuItem onClick={() => {
-                        this.setState({
-                          selectedVirtualEnvironment: rowData,
-                          showRestoreModal: true
-                        })
-                      }}>Restore</MenuItem>}
+                    <Button onClick={() => {
 
-                    </Table.DropdownKebab>
+                      if (rowData.state.name === 'RUNNING') {
+                        const cancelledStatus = {
+                          state: {name: 'CANCELLED'},
+                          statusInfo: 'Canceled by user'};
+
+                        this.vprotectService.cancelTask(rowData.guid, cancelledStatus).then(
+                          () => {
+                            this.getAllTasks()
+                            this.alertService.info('alerts.taskHasBeenCancelled');
+                          }
+                        );
+                      } else {
+                        this.vprotectService.deleteOrCancelTask(rowData.guid).then(
+                          () => {
+                            this.getAllTasks()
+                            this.alertService.info('alerts.taskHasBeenDeleted');
+                          }
+                        );
+                      }
+                    }}>
+                      Remove
+                    </Button>
+
                   </Table.Actions>
                 ]
               }
@@ -325,52 +364,48 @@ export class TaskConsole extends React.Component {
     this.setState({showBackupModal: false, showRestoreModal: false})
   }
 
-  filterFields = [
-    {
-      property: 'state.name',
-      title: 'Status',
-      placeholder: 'Filter by Status',
-      filterType: 'text'
-    },   {
-      property: 'hypervisorManager.name',
-      title: 'Hypervisor',
-      placeholder: 'Filter by Hypervisor',
-      filterType: 'text'
-    },{
-      property: 'protectedEntity.name',
-      title: 'VE/APP',
-      placeholder: 'Filter by VE/APP',
-      filterType: 'text'
-    },{
-      property: 'node.name',
-      title: 'Node',
-      placeholder: 'Filter by Node',
-      filterType: 'text'
-    },{
-      property: 'backupDestination.name',
-      title: 'Backup destination',
-      placeholder: 'Filter by Backup destination',
-      filterType: 'text'
-    }
-  ]
+  getAllTasks () {
+    this.vprotectService.getAllTasks().then(result => this.setState({rows: result}))
+  }
 
   render () {
     return (
       <div>
-        <Grid fluid>
+        <Toolbar>
           <div className={'d-flex flex-row justify-content-between'}>
             <div>
-              <TableFilter fields={this.filterFields} rows={this.state.rows} change={(value) => {this.setState({filteredRows: value})}}/>
+              <TableFilter fields={this.filterFields} rows={this.state.rows} change={(value) => {
+                this.setState({filteredRows: value})
+              }}/>
             </div>
-            <div>
-              <Button>Refresh</Button>
-              <Button>Delete all finished and queued tasks</Button>
-              <Button>Remove all finished tasks</Button>
-              <Button>Cancel all running tasks</Button>
+            <div className={'form-group'}>
+              <Button className={'btn btn-default'} onClick={() => {
+                this.getAllTasks()
+              }}>Refresh</Button>
+              <Button className={'btn btn-default'} onClick={() => {
+                this.vprotectService.deleteQueuedOrFinishedTasks().then(() => {
+                  this.getAllTasks()
+                })
+              }}>Delete all finished and queued tasks</Button>
+              <Button className={'btn btn-default'} onClick={() => {
+                this.vprotectService.deleteFinishedTasks().then(() => {
+                  this.getAllTasks()
+                })
+              }}>Remove all finished tasks</Button>
+              <Button className={'btn btn-default'} onClick={() => {
+                this.vprotectService.cancelRunningTasks().then(() => {
+                  this.getAllTasks()
+                })
+              }}>Cancel all running tasks</Button>
             </div>
           </div>
-          <TableWithPagination columns={this.state.columns} sortingColumns={this.state.sortingColumns} rows={this.state.filteredRows}/>
-        </Grid>
+        </Toolbar>
+        <div className={'padding-top-20px'}>
+          <Grid fluid>
+            <TableWithPagination columns={this.state.columns} sortingColumns={this.state.sortingColumns}
+                                 rows={this.state.filteredRows}/>
+          </Grid>
+        </div>
       </div>
     )
   }

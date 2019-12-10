@@ -101,7 +101,7 @@ export class TableFilter extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if(prevState.activeFilters.length !== this.state.activeFilters.length)
+    if((prevState.activeFilters.length !== this.state.activeFilters.length) || prevProps.rows.length !== this.props.rows.length)
       this.props.change(this.filteredRows());
   }
 
@@ -345,5 +345,6 @@ export class TableFilter extends React.Component {
 
 Filter.propTypes = {
   fields: PropTypes.any,
-  change: PropTypes.func
+  change: PropTypes.func,
+  rows: PropTypes.array
 }

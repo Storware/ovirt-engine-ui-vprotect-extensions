@@ -76,7 +76,7 @@ export class VprotectApiService {
           this.alertService.error(response.statusText)
           return Promise.reject(response)
         }
-        return response.json()
+        return Promise.resolve()
       })
   }
 }
