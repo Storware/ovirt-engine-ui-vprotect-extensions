@@ -76,7 +76,8 @@ async function common () {
     entry: {
       'plugin': [...commonModules, './src/plugin.js'],
       'virtual-machine-list': [...commonModules, './src/virtual-machine-list.js'],
-      'task-console': [...commonModules, './src/task-console.js']
+      'task-console': [...commonModules, './src/task-console.js'],
+      'dashboard': [...commonModules, './src/dashboard.js']
     },
 
     resolve: {
@@ -148,6 +149,12 @@ async function common () {
         template: 'static/html/task-console.template.ejs',
         inject: true,
         chunks: ['webpack-manifest', 'vendor', 'task-console']
+      }),
+      new HtmlWebpackPlugin({
+        filename: 'dashboard.html',
+        template: 'static/html/dashboard.template.ejs',
+        inject: true,
+        chunks: ['webpack-manifest', 'vendor', 'dashboard']
       }),
       new InlineManifestWebpackPlugin('webpack-manifest'),
 

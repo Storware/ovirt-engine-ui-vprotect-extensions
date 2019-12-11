@@ -19,17 +19,20 @@ import '../static/css/vprotect.css'
 // components and remove Bootstrap & jQuery dependencies. (Note: jQuery is loaded
 // automatically through webpack ProvidePlugin, no explicit import needed here.)
 import 'bootstrap'
-
+import 'bootstrap/dist/css/bootstrap.min.css'
 // Bootstrap 3.3.7 Tooltip.getPosition() function has a bug, this override fixes
 // the problem.
 import './bootstrap-overrides/tooltip-fix'
-import {TaskConsoleContainer} from './components/vprotect/task-console/TaskConsoleContainer'
+import 'primereact/resources/themes/nova-light/theme.css'
+import 'primereact/resources/primereact.min.css'
+import 'primeicons/primeicons.css'
+import {DashboardContainer} from './components/vprotect/dashboard/DashboardContainer'
 
-const appRoot = document.getElementById('task-console')
+const appRoot = document.getElementById('dashboard')
 
 appInit.run().then(() => {
   ReactDOM.render(
-    <TaskConsoleContainer />,
+    <DashboardContainer />,
     appRoot
   )
 })

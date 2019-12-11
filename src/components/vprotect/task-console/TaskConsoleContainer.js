@@ -12,7 +12,7 @@ export class TaskConsoleContainer extends React.Component {
   render () {
     return (
       <div className={'padding-top-20px'}>
-        <TaskConsole user={this.state.user}/>
+        <TaskConsole user={this.state.user} />
       </div>
     )
   }

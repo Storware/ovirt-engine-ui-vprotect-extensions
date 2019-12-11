@@ -15,6 +15,33 @@ export class VprotectService {
     return this.vprotectApiService.post(`/session/login`, {login: username, password: password});
   }
 
+  getDashboardProtectionInfo() {
+    return this.vprotectApiService.get(`/dashboard/protection`);
+  }
+
+  getDashboardBackupStats(params = {}) {
+    const httpOptions = {
+      params: params
+    };
+    return this.vprotectApiService.get('/dashboard/backup-stats', httpOptions);
+  }
+
+  getDashboardStagingSpaceInfo() {
+    return this.vprotectApiService.get(`/dashboard/staging-space`);
+  }
+
+  getDashboardBackupDestinationStats() {
+    return this.vprotectApiService.get(`/dashboard/backup-destination-stats`);
+  }
+
+  getAllHypervisorManagers() {
+    return this.vprotectApiService.get(`/hypervisor-managers`);
+  }
+
+  submitTaskSync(task) {
+    return this.vprotectApiService.post(`/tasks/inventory-sync`, task);
+  }
+
   getVirtualMachines () {
     return this.vprotectApiService.get(`/virtual-machines?hypervisor-manager-type=RHV`);
   }

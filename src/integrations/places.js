@@ -1,4 +1,9 @@
-import { pluginBasePath, vprotectVirtualMachineListPlaceToken, vprotectTaskConsolePlaceToken, primaryMenuId } from '../constants'
+import { pluginBasePath,
+  vprotectVirtualMachineListPlaceToken,
+  vprotectTaskConsolePlaceToken,
+  primaryMenuId,
+  vprotectDashboardPlaceToken
+} from '../constants'
 import getPluginApi from '../plugin-api'
 import { msg } from '../intl-messages'
 
@@ -6,6 +11,10 @@ function addVprotectPlace () {
   getPluginApi().addPrimaryMenuContainer(msg.vprotectTitle(), primaryMenuId, {
     priority: 10,
     icon: 'fa-font'
+  })
+
+  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectDashboardTitle(), vprotectDashboardPlaceToken, `${pluginBasePath}/dashboard.html`, {
+    priority: 9
   })
 
   getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectVirtualMachinesTitle(), vprotectVirtualMachineListPlaceToken, `${pluginBasePath}/virtual-machine-list.html`, {

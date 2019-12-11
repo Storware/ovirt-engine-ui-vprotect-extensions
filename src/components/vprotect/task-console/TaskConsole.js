@@ -7,17 +7,17 @@ import {
   TABLE_SORT_DIRECTION,
   actionHeaderCellFormatter,
 } from 'patternfly-react'
-import {Grid, ProgressBar, Button, Toolbar, Table, MenuItem} from 'patternfly-react'
+import {Grid, ProgressBar, Button, Toolbar, Table} from 'patternfly-react'
 
 import {VprotectService} from '../../../services/vprotect-service'
 import {DateShow} from '../convert/Date'
 import {TableWithPagination} from '../controls/TableWithPagination'
 import {TableFilter} from '../controls/TableFilter'
-
-// import {TableFilter} from '../controls/TableFilter'
+import {AlertService} from '../../../services/alert-service'
 
 export class TaskConsole extends React.Component {
   vprotectService = new VprotectService()
+  alertService = new AlertService()
 
   filterFields = [
     {
@@ -129,7 +129,7 @@ export class TaskConsole extends React.Component {
               index: 1
             },
             formatters: [(value) => {
-              return <td><ProgressBar now={value} label={<span className={'center'}>{value > 4 ? value : ''}</span>}/>
+              return <td><ProgressBar now={value} label={<span className={'text-center'}>{value > 20 ? `${value} %` : ''}</span>}/>
               </td>
             }]
           }

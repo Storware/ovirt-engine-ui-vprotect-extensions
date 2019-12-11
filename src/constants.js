@@ -27,6 +27,7 @@ export const supportedTimeZones = [
 ]
 
 export const primaryMenuId = 'vprotect'
+export const vprotectDashboardPlaceToken = 'vprotect-dashboard'
 export const vprotectVirtualMachineListPlaceToken = 'vprotect-virtual-machine-list'
 export const vprotectTaskConsolePlaceToken = 'vprotect-task-console-list'
 

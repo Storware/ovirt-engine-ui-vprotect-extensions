@@ -6,14 +6,15 @@ const vprotectURL = getPluginApi().configObject().vProtectURL
 export class VprotectApiService {
   alertService = new AlertService();
 
-  get (url) {
+  get (url, options = {}) {
     return fetch(vprotectURL + url, {
       method: 'GET',
       credentials: 'include',
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      ...options
     })
       .then(response => {
         if (!response.ok) {
