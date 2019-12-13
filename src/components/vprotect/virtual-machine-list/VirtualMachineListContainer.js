@@ -13,7 +13,7 @@ export class VirtualMachineListContainer extends React.Component {
   render () {
     return (
       <div className={'padding-top-20px'}>
-        <VirtualMachineList user={this.state.user}/>
+        <VirtualMachineList user={this.state.user} />
       </div>
     )
   }

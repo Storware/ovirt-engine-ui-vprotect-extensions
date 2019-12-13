@@ -9,5 +9,4 @@ export class AlertService {
   info (text) {
     getPluginApi().showToast(webadminToastTypes.info, text)
   }
-
 }

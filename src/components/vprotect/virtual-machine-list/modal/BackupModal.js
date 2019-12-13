@@ -38,7 +38,7 @@ export class BackupModal extends React.Component {
         task: {
           ...this.state.task,
           backupType: backupTypes[0],
-          backupDestination: result[0],
+          backupDestination: result[0]
         }
       })
     })
@@ -70,7 +70,7 @@ export class BackupModal extends React.Component {
 
   render () {
     return (
-      <Modal show={true} onHide={this.close}>
+      <Modal show onHide={this.close}>
         <Modal.Header>
           <button
             className='close'
@@ -78,17 +78,17 @@ export class BackupModal extends React.Component {
             aria-label='Close'
             onClick={this.props.closeModal}
           >
-            <Icon type='pf' name='close'/>
+            <Icon type='pf' name='close' />
           </button>
           <Modal.Title>Backup</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div>
             <label>Backup type</label>
-            <Dropdown optionLabel="name"
-                      value={this.state.task.backupType}
-                      options={this.state.backupTypes}
-                      onChange={(event) => this.setState({
+            <Dropdown optionLabel='name'
+              value={this.state.task.backupType}
+              options={this.state.backupTypes}
+              onChange={(event) => this.setState({
                         task: {
                           ...this.state.task,
                           backupType: event.value
@@ -97,10 +97,10 @@ export class BackupModal extends React.Component {
             />
 
             <label>Backup destination</label>
-            <Dropdown optionLabel="name"
-                      value={this.state.task.backupDestination}
-                      options={this.state.backupDestinations}
-                      onChange={(event) => this.setState({
+            <Dropdown optionLabel='name'
+              value={this.state.task.backupDestination}
+              options={this.state.backupDestinations}
+              onChange={(event) => this.setState({
                         task: {
                           ...this.state.task,
                           backupDestination: event.value
@@ -121,8 +121,8 @@ export class BackupModal extends React.Component {
           </div>
           <div>
             <label>Window start</label>
-            <Calendar showTime={true} hourFormat="24" value={this.state.task.windowStart}
-                      onChange={(e) => this.setState({task: {...this.state.task, windowStart: e.value}})}/>
+            <Calendar showTime hourFormat='24' value={this.state.task.windowStart}
+              onChange={(e) => this.setState({task: {...this.state.task, windowStart: e.value}})} />
           </div>
         </Modal.Body>
         <Modal.Footer>

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Modal, Icon, Slider} from 'patternfly-react'
+import {Modal, Icon} from 'patternfly-react'
 import PropTypes from 'prop-types'
 import {VprotectService} from '../../../../services/vprotect-service'
 import {Dropdown} from 'primereact/dropdown'
@@ -50,25 +50,33 @@ export class RestoreModal extends React.Component {
     }
 
     if ((!prevState.storage && this.state.storage) || (prevState.storage && prevState.storage.uuid !== this.state.storage.uuid)) {
-      this.setState({task: {...this.state.task, restoreStorageId: this.state.storage.uuid}})
+      this.passStorageToTask()
     }
 
     if ((!prevState.cluster && this.state.cluster) || (prevState.cluster && prevState.cluster.uuid !== this.state.cluster.uuid)) {
-      this.setState({task: {...this.state.task, restoreClusterId: this.state.cluster.uuid}})
+      this.passClusterToTask()
     }
   }
 
+  passStorageToTask () {
+    this.setState({task: {...this.state.task, restoreStorageId: this.state.storage.uuid}})
+  }
+
+  passClusterToTask () {
+    this.setState({task: {...this.state.task, restoreClusterId: this.state.cluster.uuid}})
+  }
+
   onSaveClick = () => {
-    this.submitTask(this.state.task);
+    this.submitTask(this.state.task)
     this.props.closeModal()
   }
 
-  submitTask(task) {
+  submitTask (task) {
     this.vprotectService.submitTaskRestoreAndImport(task).then(
       () => {
         this.alertService.info('alerts.restoreTaskHasBeenSubmitted')
       }
-    );
+    )
   }
 
   getBackups () {
@@ -79,25 +87,25 @@ export class RestoreModal extends React.Component {
           this.props.closeModal()
           return
         }
-        this.setState({task: {...this.state.task,backup: result[0]}, backups: result})
+        this.setState({task: {...this.state.task, backup: result[0]}, backups: result})
       }
     )
   }
 
-  getHypervisorManagersAvailableForBackup() {
+  getHypervisorManagersAvailableForBackup () {
     this.vprotectService.getHypervisorManagersAvailableForBackup(this.state.task.backup.guid).then(
       (hypervisorManagers) => {
         if (hypervisorManagers.length > 0) {
           this.setState({hypervisorManagers: hypervisorManagers})
           if (this.props.virtualEnvironment.hvManager && this.isHypervisorInArray(this.props.virtualEnvironment.hvManager, hypervisorManagers)) {
-            this.setState({task: {...this.state.task , hypervisorManager: this.findHypervisorInArray(this.props.virtualEnvironment.hvManager, hypervisorManagers)}})
+            this.setState({task: {...this.state.task, hypervisorManager: this.findHypervisorInArray(this.props.virtualEnvironment.hvManager, hypervisorManagers)}})
           } else {
-            this.setState({task: {...this.state.task , hypervisorManager: hypervisorManagers[0]}})
+            this.setState({task: {...this.state.task, hypervisorManager: hypervisorManagers[0]}})
           }
-          //TODO hvmRestoreAvailable
+          // TODO hvmRestoreAvailable
         }
       }
-    );
+    )
   }
 
   isHypervisorInArray (hypervisor, hypervisors) {
@@ -114,13 +122,13 @@ export class RestoreModal extends React.Component {
         storages = [...storages, {name: 'Other', guid: '', uuid: ''}]
         this.setState({
           storages: storages,
-          storage: storages[0],
+          storage: storages[0]
         })
       }
     )
   }
 
-  getHypervisorClustersForHypervisorManager(id) {
+  getHypervisorClustersForHypervisorManager (id) {
     this.vprotectService.getHypervisorClustersForHvm(id).then(
       (clusters) => {
         clusters = [...clusters, {name: 'Other', guid: '', uuid: ''}]
@@ -129,7 +137,7 @@ export class RestoreModal extends React.Component {
           cluster: clusters[0]
         })
       }
-    );
+    )
   }
 
   backupChange () {
@@ -150,7 +158,7 @@ export class RestoreModal extends React.Component {
 
   render () {
     return (
-      <Modal show={true} onHide={this.close}>
+      <Modal show onHide={this.close}>
         <Modal.Header>
           <button
             className='close'
@@ -158,7 +166,7 @@ export class RestoreModal extends React.Component {
             aria-label='Close'
             onClick={this.props.closeModal}
           >
-            <Icon type='pf' name='close'/>
+            <Icon type='pf' name='close' />
           </button>
           <Modal.Title>Restore</Modal.Title>
         </Modal.Header>
@@ -166,19 +174,19 @@ export class RestoreModal extends React.Component {
           <div>
             <label>Backup</label>
             <DateDropdown value={this.state.task.backup}
-                          onChange={(value) => {
+              onChange={(value) => {
                             this.setState({task: {...this.state.task, backup: value}})
                           }}
-                          options={this.state.backups}
+              options={this.state.backups}
             />
           </div>
           <div>
             <div>
               <label>Hypervisor Manager</label>
               <Dropdown optionLabel='url'
-                        value={this.state.task.hypervisorManager}
-                        options={this.state.hypervisorManagers}
-                        onChange={(e) => this.setState({
+                value={this.state.task.hypervisorManager}
+                options={this.state.hypervisorManagers}
+                onChange={(e) => this.setState({
                           task: {...this.state.task, hypervisorManager: e.value}
                         })}
               />
@@ -187,9 +195,9 @@ export class RestoreModal extends React.Component {
           <div>
             <label>Import to cluster</label>
             <Dropdown optionLabel='name'
-                      value={this.state.cluster}
-                      options={this.state.clusters}
-                      onChange={(e) => this.setState({
+              value={this.state.cluster}
+              options={this.state.clusters}
+              onChange={(e) => this.setState({
                          cluster: e.value
                       })}
             />
@@ -198,61 +206,65 @@ export class RestoreModal extends React.Component {
           <div>
             <label>Enter Cluster ID</label>
             <InputText value={this.state.task.restoreClusterId}
-                       onChange={(e) => {
+              onChange={(e) => {
                          this.setState({
                            task: {
                              ...this.state.task,
                              restoreClusterId: e.target.value
                            }
-                         })}
+                         })
+}
                        }
             />
           </div>}
           <div>
             <label>Import to storage</label>
             <Dropdown optionLabel='name'
-                      value={this.state.storage}
-                      options={this.state.storages}
-                      onChange={(e) => this.setState({
+              value={this.state.storage}
+              options={this.state.storages}
+              onChange={(e) => this.setState({
                         storage: e.value
                       })}
-                      itemTemplate={this.storageDropdownTemplate}
+              itemTemplate={this.storageDropdownTemplate}
             />
           </div>
           {this.state.storage && this.state.storage.name === 'Other' &&
           <div>
             <label>Enter Storage ID</label>
             <InputText value={this.state.task.restoreStorageId}
-                       onChange={(e) => {
+              onChange={(e) => {
                          this.setState({
                            task: {
                              ...this.state.task,
                              restoreStorageId: e.target.value
                            }
-                         })}
+                         })
+}
                        }
             />
           </div>}
           <div>
             <label>Delete if virtual environment already exists</label>
             <ToggleButton checked={this.state.task.overwrite}
-                          onChange={(e) => {
+              onChange={(e) => {
                             this.setState({
                               task: {
                                 ...this.state.task,
                                 overwrite: e.value
                               }
-                            })}
+                            })
+}
                           }
             />
           </div>
           <div>
             <label>Specify name of the restored Virtual Environment</label>
             <ToggleButton checked={this.state.specifyRestoredVirtualEnvironmentName}
-                          onChange={(e) => {
+              onChange={(e) => {
                             this.setState({
                               specifyRestoredVirtualEnvironmentName: e.value
-                            })}
+                            })
+}
                           }
             />
           </div>
@@ -260,22 +272,23 @@ export class RestoreModal extends React.Component {
           <div>
             <label>Restored Virtual Environment name</label>
             <InputText value={this.state.task.restoredPeName}
-                       onChange={(e) => {
+              onChange={(e) => {
                          this.setState({
                            task: {
                              ...this.state.task,
                              restoredPeName: e.value
                            }
-                         })}
+                         })
+}
                        }
             />
           </div>}
           <div>
             <label>Disk allocation format</label>
             <Dropdown optionLabel='name'
-                      value={this.state.task.restoredDiskAllocationFormat}
-                      options={this.state.diskAllocationFormats}
-                      onChange={(e) => this.setState({
+              value={this.state.task.restoredDiskAllocationFormat}
+              options={this.state.diskAllocationFormats}
+              onChange={(e) => this.setState({
                         task: {
                           ...this.state.task,
                           restoredDiskAllocationFormat: e.value

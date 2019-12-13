@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {VprotectService} from '../../../services/vprotect-service'
 import {Button, DonutChart, ListView, ListViewItem, PieChart, ProgressBar, Toolbar} from 'patternfly-react'
 import {Filesize} from '../convert/Filezize'
@@ -50,7 +49,6 @@ export class Dashboard extends React.Component {
                     })
                   })
                 })
-
               }}>Synchronize inventory</Button>
             </div>
           </div>
@@ -69,18 +67,18 @@ export class Dashboard extends React.Component {
                   <h3 className={'text-center card-pf-title'}>VIRTUAL ENVIRONMENTS</h3>
                   <div>
                     <PieChart
-                      id="virtual-environments"
+                      id='virtual-environments'
                       size={{width: 251, height: 161}}
                       data={{
                         colors: {
                           'Protected': '#34bfa3',
                           'Not Protected': '#f22d4e',
-                          'Not Scheduled': '#666666',
+                          'Not Scheduled': '#666666'
                         },
                         columns: [
                           ['Protected', this.state.protection.vm.protectedNo],
                           ['Not Protected', this.state.protection.vm.notProtected],
-                          ['Not Scheduled', this.state.protection.vm.noSchedule],
+                          ['Not Scheduled', this.state.protection.vm.noSchedule]
                         ],
                         type: 'pie'
                       }}
@@ -96,18 +94,18 @@ export class Dashboard extends React.Component {
                   <h3 className={'text-center card-pf-title'}>APPLICATIONS</h3>
                   <div>
                     <PieChart
-                      id="applications"
+                      id='applications'
                       size={{width: 251, height: 161}}
                       data={{
                         colors: {
                           'Protected': '#34bfa3',
                           'Not Protected': '#f22d4e',
-                          'Not Scheduled': '#666666',
+                          'Not Scheduled': '#666666'
                         },
                         columns: [
                           ['Protected', this.state.protection.app.protectedNo],
                           ['Not Protected', this.state.protection.app.notProtected],
-                          ['Not Scheduled', this.state.protection.app.noSchedule],
+                          ['Not Scheduled', this.state.protection.app.noSchedule]
                         ],
                         type: 'pie'
                       }}
@@ -138,23 +136,23 @@ export class Dashboard extends React.Component {
                 <div className={'d-flex flex-row justify-content-around'}>
                   <div>
                     <DonutChart
-                      id="donunt-chart-1"
+                      id='donunt-chart-1'
                       size={{width: 210, height: 210}}
                       data={{
                         colors: {
                           'Success': '#34bfa3',
                           'Failed': '#f22d4e',
-                          'In progress': '#666666',
+                          'In progress': '#666666'
                         },
                         columns: [
                           ['Success', this.state.backupStats.successfulBackups],
                           ['In progress', this.state.backupStats.backupsInProgress],
-                          ['Failed', this.state.backupStats.failedBackups],
+                          ['Failed', this.state.backupStats.failedBackups]
                         ],
                         groups: [
                           ['Success', 'In progress', 'Failed']
                         ],
-                        order: null,
+                        order: null
 
                       }}
                       tooltip={{show: true}}
@@ -162,7 +160,7 @@ export class Dashboard extends React.Component {
                     />
                   </div>
                   <div className={'align-self-center'}>
-                    Total data protected: <Filesize bytes={this.state.backupStats.totalDataProtected}/>
+                    Total data protected: <Filesize bytes={this.state.backupStats.totalDataProtected} />
                   </div>
                 </div>
               </div>}
@@ -186,17 +184,17 @@ export class Dashboard extends React.Component {
                     let percentage = usedSpace / el.totalSpace * 100
                     return (
                       <ListViewItem key={el.node.name}
-                                    additionalInfo={[
-                                      <div key={el.node.name + 'progressBar'} className={'w-100'}>
-                                        <div className={'d-flex flex-row justify-content-between'}>
-                                          <span className={'color-black'}>{percentage.toFixed(2)}%</span>
-                                          <span className={'color-black'}><Filesize bytes={usedSpace}/> / <Filesize
-                                            bytes={el.totalSpace}/></span>
-                                        </div>
-                                        <ProgressBar now={percentage}/>
-                                      </div>
+                        additionalInfo={[
+                          <div key={el.node.name + 'progressBar'} className={'w-100'}>
+                            <div className={'d-flex flex-row justify-content-between'}>
+                              <span className={'color-black'}>{percentage.toFixed(2)}%</span>
+                              <span className={'color-black'}><Filesize bytes={usedSpace} /> / <Filesize
+                                bytes={el.totalSpace} /></span>
+                            </div>
+                            <ProgressBar now={percentage} />
+                          </div>
                                     ]}
-                                    heading={el.node.name}
+                        heading={el.node.name}
                       />
                     )
                   })}
@@ -220,7 +218,7 @@ export class Dashboard extends React.Component {
                         Total used space
                       </div>
                       <div>
-                        <Filesize bytes={this.state.backupDestinationStats.totalUsedSpace}/>
+                        <Filesize bytes={this.state.backupDestinationStats.totalUsedSpace} />
                       </div>
                     </div>
 
@@ -229,12 +227,11 @@ export class Dashboard extends React.Component {
                         Total available space
                       </div>
                       <div>
-                        <Filesize bytes={this.state.backupDestinationStats.totalAvailableSpace}/>
+                        <Filesize bytes={this.state.backupDestinationStats.totalAvailableSpace} />
                       </div>
                     </div>
                   </div>
                   }
-
 
                   <ListView>
                     {this.state.backupDestinationStats.backupDestinations.length > 0 && this.state.backupDestinationStats.backupDestinations.map((el) => {
@@ -244,63 +241,62 @@ export class Dashboard extends React.Component {
 
                       return (
                         <ListViewItem key={el.guid}
-                                      heading={el.name}
-                                      hideCloseIcon={true}>
+                          heading={el.name}
+                          hideCloseIcon>
                           {!(el.totalUsedSpace || el.totalAvailableSpace) &&
                           <ListViewItem
-                                        heading={`No data`}
+                            heading={`No data`}
                           />}
 
                           {!el.totalAvailableSpace && el.totalUsedSpace &&
                           <ListViewItem additionalInfo={[
-                                          <div key={el.guid + `totalUsedSpace`} className={'w-100'}>
-                                            {el.totalUsedSpace}
-                                          </div>
+                            <div key={el.guid + `totalUsedSpace`} className={'w-100'}>
+                              {el.totalUsedSpace}
+                            </div>
                                         ]}
-                                        heading={'Used space'}
+                            heading={'Used space'}
                           />}
-
 
                           {el.totalAvailableSpace &&
                           <div>
                             <ListViewItem additionalInfo={[
-                                            <div key={el.guid + `progressBar`} className={'w-100'}>
-                                              <div className={'d-flex flex-row justify-content-between'}>
-                                                <span className={'color-black'}>{usedSpace.toFixed(2)}%</span>
-                                                <span className={'color-black'}><Filesize
-                                                  bytes={el.totalUsedSpace}/> / <Filesize bytes={el.totalAvailableSpace}/></span>
-                                              </div>
-                                              <ProgressBar now={usedSpace}/>
-                                            </div>
+                              <div key={el.guid + `progressBar`} className={'w-100'}>
+                                <div className={'d-flex flex-row justify-content-between'}>
+                                  <span className={'color-black'}>{usedSpace.toFixed(2)}%</span>
+                                  <span className={'color-black'}><Filesize
+                                    bytes={el.totalUsedSpace} /> / <Filesize bytes={el.totalAvailableSpace} /></span>
+                                </div>
+                                <ProgressBar now={usedSpace} />
+                              </div>
                                           ]}
-                                          heading={'Used space'}
+                              heading={'Used space'}
                             />
                             {el.totalDedupUsedSpace &&
                             <div>
                               <ListViewItem additionalInfo={[
-                                              <div key={el.guid + `progressBar`} className={'w-100'}>
-                                                <div className={'d-flex flex-row justify-content-between'}>
-                                                  <span className={'color-black'}>{usedDedupSpace.toFixed(2)}%</span>
-                                                  <span className={'color-black'}><Filesize
-                                                    bytes={el.totalDedupUsedSpace}/> / <Filesize bytes={el.totalDedupAvailableSpace}/></span>
-                                                </div>
-                                                <ProgressBar now={usedDedupSpace}/>
-                                              </div>
+                                <div key={el.guid + `progressBar`} className={'w-100'}>
+                                  <div className={'d-flex flex-row justify-content-between'}>
+                                    <span className={'color-black'}>{usedDedupSpace.toFixed(2)}%</span>
+                                    <span className={'color-black'}><Filesize
+                                      bytes={el.totalDedupUsedSpace} /> / <Filesize bytes={el.totalDedupAvailableSpace} /></span>
+                                  </div>
+                                  <ProgressBar now={usedDedupSpace} />
+                                </div>
                                             ]}
-                                            heading={'Used Space (Deduplicated)'}
+                                heading={'Used Space (Deduplicated)'}
                               />
                             </div>}
                             {el.totalDedupUsedSpace && (1 - (el.totalDedupUsedSpace / el.totalUsedSpace) > 0) &&
                             <div>
                               <ListViewItem additionalInfo={[
-                                              <div key={el.guid + `progressBar`} className={'w-100'}>
-                                                <div className={'d-flex flex-row justify-content-between'}>
-                                                  <span className={'color-black'}>{reductionRatio.toFixed(2)}%</span>
-                                                </div>
-                                                <ProgressBar now={reductionRatio}/>
-                                              </div>
+                                <div key={el.guid + `progressBar`} className={'w-100'}>
+                                  <div className={'d-flex flex-row justify-content-between'}>
+                                    <span className={'color-black'}>{reductionRatio.toFixed(2)}%</span>
+                                  </div>
+                                  <ProgressBar now={reductionRatio} />
+                                </div>
                                             ]}
-                                            heading={'Reduction Ratio'}
+                                heading={'Reduction Ratio'}
                               />
                             </div>}
                           </div>}
@@ -316,8 +312,4 @@ export class Dashboard extends React.Component {
       </div>
     )
   }
-}
-
-Dashboard.propTypes = {
-  user: PropTypes.any.isRequired
 }

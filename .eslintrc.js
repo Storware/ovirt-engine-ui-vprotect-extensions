@@ -19,6 +19,9 @@ module.exports = {
     }],
     // disable original no-unused-expressions rule and use chai-friendly replacement
     'no-unused-expressions': 'off',
-    'chai-friendly/no-unused-expressions': 'error'
-  }
+    'chai-friendly/no-unused-expressions': 'error',
+    'template-curly-spacing': 'off',
+    indent: 'off'
+  },
+  'parser': 'babel-eslint'
 }

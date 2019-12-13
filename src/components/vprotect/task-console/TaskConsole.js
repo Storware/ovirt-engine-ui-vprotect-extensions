@@ -6,9 +6,12 @@ import {
   sortableHeaderCellFormatter,
   TABLE_SORT_DIRECTION,
   actionHeaderCellFormatter,
+  Grid,
+  ProgressBar,
+  Button,
+  Toolbar,
+  Table
 } from 'patternfly-react'
-import {Grid, ProgressBar, Button, Toolbar, Table} from 'patternfly-react'
-
 import {VprotectService} from '../../../services/vprotect-service'
 import {DateShow} from '../convert/Date'
 import {TableWithPagination} from '../controls/TableWithPagination'
@@ -107,7 +110,7 @@ export class TaskConsole extends React.Component {
               index: 0
             },
             formatters: [(value) => {
-              return <td>{value && value.description}</td>
+              return <td>{value && <span className={value.name === 'SUCCESS' ? 'text-success' : value.name === 'FAILED' ? 'text-danger' : ''}>{value.description}</span>}</td>
             }]
           }
         },
@@ -129,7 +132,7 @@ export class TaskConsole extends React.Component {
               index: 1
             },
             formatters: [(value) => {
-              return <td><ProgressBar now={value} label={<span className={'text-center'}>{value > 20 ? `${value} %` : ''}</span>}/>
+              return <td><ProgressBar now={value} label={<span className={'text-center'}>{value > 20 ? `${value} %` : ''}</span>} />
               </td>
             }]
           }
@@ -262,7 +265,7 @@ export class TaskConsole extends React.Component {
               index: 7
             },
             formatters: [(value) => {
-              return <td><DateShow date={value} timezone={this.props.user.uiTimeZone}/></td>
+              return <td><DateShow date={value} timezone={this.props.user.uiTimeZone} /></td>
             }]
           }
         },
@@ -284,7 +287,7 @@ export class TaskConsole extends React.Component {
               index: 8
             },
             formatters: [(value) => {
-              return <td><DateShow date={value} timezone={this.props.user.uiTimeZone}/></td>
+              return <td><DateShow date={value} timezone={this.props.user.uiTimeZone} /></td>
             }]
           }
         },
@@ -307,27 +310,26 @@ export class TaskConsole extends React.Component {
             formatters: [
               (value, {rowData}) => {
                 return [
-                  <Table.Actions key="0">
+                  <Table.Actions key='0'>
                     <Button onClick={() => {
-
                       if (rowData.state.name === 'RUNNING') {
                         const cancelledStatus = {
                           state: {name: 'CANCELLED'},
-                          statusInfo: 'Canceled by user'};
+                          statusInfo: 'Canceled by user'}
 
                         this.vprotectService.cancelTask(rowData.guid, cancelledStatus).then(
                           () => {
                             this.getAllTasks()
-                            this.alertService.info('alerts.taskHasBeenCancelled');
+                            this.alertService.info('alerts.taskHasBeenCancelled')
                           }
-                        );
+                        )
                       } else {
                         this.vprotectService.deleteOrCancelTask(rowData.guid).then(
                           () => {
                             this.getAllTasks()
-                            this.alertService.info('alerts.taskHasBeenDeleted');
+                            this.alertService.info('alerts.taskHasBeenDeleted')
                           }
-                        );
+                        )
                       }
                     }}>
                       Remove
@@ -376,7 +378,7 @@ export class TaskConsole extends React.Component {
             <div>
               <TableFilter fields={this.filterFields} rows={this.state.rows} change={(value) => {
                 this.setState({filteredRows: value})
-              }}/>
+              }} />
             </div>
             <div className={'form-group'}>
               <Button className={'btn btn-default'} onClick={() => {
@@ -403,7 +405,7 @@ export class TaskConsole extends React.Component {
         <div className={'padding-top-20px'}>
           <Grid fluid>
             <TableWithPagination columns={this.state.columns} sortingColumns={this.state.sortingColumns}
-                                 rows={this.state.filteredRows}/>
+              rows={this.state.filteredRows} />
           </Grid>
         </div>
       </div>

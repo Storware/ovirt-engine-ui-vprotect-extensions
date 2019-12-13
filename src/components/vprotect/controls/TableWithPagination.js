@@ -6,14 +6,11 @@ import * as resolve from 'table-resolver'
 import {
   customHeaderFormattersDefinition,
   Table
-} from 'patternfly-react'
-import {PaginationRow, paginate, PAGINATION_VIEW} from 'patternfly-react'
+, PaginationRow, paginate, PAGINATION_VIEW} from 'patternfly-react'
+
 import {compose} from 'recompose'
-import {VprotectService} from '../../../services/vprotect-service'
 
 export class TableWithPagination extends React.Component {
-  vprotectService = new VprotectService()
-
   constructor (props) {
     super(props)
 
@@ -27,28 +24,31 @@ export class TableWithPagination extends React.Component {
         perPage: 10,
         perPageOptions: [10, 25, 50, 100]
       },
-
+      sortedPaginatedRows: [],
       pageChangeValue: 1
     }
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps (props, state) {
     return {
       ...state,
       sortingColumns: props.sortingColumns
-    };
+    }
   }
 
   totalPages = () => {
     const {perPage} = this.state.pagination
     return Math.ceil(this.props.rows.length / perPage)
   }
+
   onPageInput = e => {
     this.setState({pageChangeValue: e.target.value})
   }
+
   onSubmit = () => {
     this.setPage(this.state.pageChangeValue)
   }
+
   setPage = value => {
     const page = Number(value)
     if (
@@ -62,26 +62,31 @@ export class TableWithPagination extends React.Component {
       this.setState({pagination: newPaginationState, pageChangeValue: page})
     }
   }
+
   onPerPageSelect = (eventKey, e) => {
     let newPaginationState = Object.assign({}, this.state.pagination)
     newPaginationState.perPage = eventKey
     newPaginationState.page = 1
     this.setState({pagination: newPaginationState})
   }
+
   onFirstPage = () => {
     this.setPage(1)
   }
+
   onPreviousPage = () => {
     if (this.state.pagination.page > 1) {
       this.setPage(this.state.pagination.page - 1)
     }
   }
+
   onNextPage = () => {
     const {page} = this.state.pagination
     if (page < this.totalPages()) {
       this.setPage(this.state.pagination.page + 1)
     }
   }
+
   onLastPage = () => {
     const {page} = this.state.pagination
     const totalPages = this.totalPages()
@@ -124,16 +129,16 @@ export class TableWithPagination extends React.Component {
                   cellProps,
                   columns,
                   sortingColumns,
-                  rows: sortedPaginatedRows.rows,
+                  rows: sortedPaginatedRows.rows
                 })
               }
             }
           }}
         >
-          <Table.Header headerRows={resolve.headerRows({columns})}/>
+          <Table.Header headerRows={resolve.headerRows({columns})} />
           <Table.Body
             rows={sortedPaginatedRows.rows}
-            rowKey="guid"
+            rowKey='guid'
           />
         </Table.PfProvider>
         <PaginationRow

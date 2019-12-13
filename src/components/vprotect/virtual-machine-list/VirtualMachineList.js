@@ -8,8 +8,8 @@ import {
   tableCellFormatter,
   Table,
   TABLE_SORT_DIRECTION, MenuItem
-} from 'patternfly-react'
-import {Grid} from 'patternfly-react'
+, Grid} from 'patternfly-react'
+
 import {BackupModal} from './modal/BackupModal'
 import {RestoreModal} from './modal/RestoreModal'
 import {VprotectService} from '../../../services/vprotect-service'
@@ -122,7 +122,7 @@ export class VirtualMachineList extends React.Component {
               index: 2
             },
             formatters: [(value) => {
-              return <td>{value ? 'Yes' : 'No'}</td>
+              return <td>{value ? <span className='fa fa-check text-success' /> : <span className='fa fa-times text-danger' />}</td>
             }]
           }
         },
@@ -210,7 +210,7 @@ export class VirtualMachineList extends React.Component {
               index: 6
             },
             formatters: [(value) => {
-              return <td><DateShow date={value} timezone={this.props.user.uiTimeZone}/></td>
+              return <td><DateShow date={value} timezone={this.props.user.uiTimeZone} /></td>
             }]
           }
         },
@@ -232,7 +232,7 @@ export class VirtualMachineList extends React.Component {
               index: 7
             },
             formatters: [(value) => {
-              return <td><Filesize bytes={value}/></td>
+              return <td><Filesize bytes={value} /></td>
             }]
           }
         },
@@ -255,8 +255,8 @@ export class VirtualMachineList extends React.Component {
             formatters: [
               (value, {rowData}) => {
                 return [
-                  <Table.Actions key="0">
-                    <Table.DropdownKebab id="myKebab" pullRight>
+                  <Table.Actions key='0'>
+                    <Table.DropdownKebab id='myKebab' pullRight>
                       <MenuItem onClick={() => {
                         this.setState(
                           {
@@ -297,8 +297,6 @@ export class VirtualMachineList extends React.Component {
       showBackupModal: false,
       showRestoreModal: false
     }
-
-    this.closeModal = this.closeModal.bind(this)
   }
 
   closeModal = () => {
@@ -311,17 +309,17 @@ export class VirtualMachineList extends React.Component {
       title: 'Name',
       placeholder: 'Filter by Name',
       filterType: 'text'
-    },{
+    }, {
       property: 'uuid',
       title: 'Uuid',
       placeholder: 'Filter by Uuid',
       filterType: 'text'
-    },{
+    }, {
       property: 'hypervisor.name',
       title: 'Hypervisor',
       placeholder: 'Filter by Hypervisor',
       filterType: 'text'
-    },{
+    }, {
       property: 'vmBackupPolicy.name',
       title: 'Policy',
       placeholder: 'Filter by Policy',
@@ -333,19 +331,21 @@ export class VirtualMachineList extends React.Component {
     return (
       <div>
         <Grid fluid>
-          <TableFilter fields={this.filterFields} rows={this.state.rows} change={(value) => {this.setState({filteredRows: value})}}/>
+          <TableFilter fields={this.filterFields} rows={this.state.rows} change={(value) => {
+            this.setState({filteredRows: value})
+          }} />
           <TableWithPagination columns={this.state.columns} sortingColumns={this.state.sortingColumns}
-                               rows={this.state.filteredRows}/>
+            rows={this.state.filteredRows} />
         </Grid>
 
         {this.state.showBackupModal &&
         <BackupModal closeModal={this.closeModal}
-                     virtualEnvironment={this.state.selectedVirtualEnvironment}/>
+          virtualEnvironment={this.state.selectedVirtualEnvironment} />
         }
 
         {this.state.showRestoreModal &&
         <RestoreModal closeModal={this.closeModal}
-                      virtualEnvironment={this.state.selectedVirtualEnvironment}/>
+          virtualEnvironment={this.state.selectedVirtualEnvironment} />
         }
       </div>
     )

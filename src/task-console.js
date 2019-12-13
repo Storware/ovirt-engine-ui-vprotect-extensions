@@ -18,11 +18,11 @@ import '../static/css/vprotect.css'
 // components via jQuery plugins. Eventually, we should use only patternfly-react
 // components and remove Bootstrap & jQuery dependencies. (Note: jQuery is loaded
 // automatically through webpack ProvidePlugin, no explicit import needed here.)
-import 'bootstrap'
+// import 'bootstrap'
 
 // Bootstrap 3.3.7 Tooltip.getPosition() function has a bug, this override fixes
 // the problem.
-import './bootstrap-overrides/tooltip-fix'
+// import './bootstrap-overrides/tooltip-fix'
 import {TaskConsoleContainer} from './components/vprotect/task-console/TaskConsoleContainer'
 
 const appRoot = document.getElementById('task-console')

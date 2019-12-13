@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import {Dropdown} from 'primereact/dropdown'
 
 export class DateDropdown extends React.Component {
-
   constructor (props) {
     super(props)
 
@@ -20,9 +19,6 @@ export class DateDropdown extends React.Component {
       }),
       value: state.options.filter(el => el.guid === props.value.guid)[0]
     }
-  }
-
-  componentDidUpdate (prevProps, prevState) {
   }
 
   render () {
