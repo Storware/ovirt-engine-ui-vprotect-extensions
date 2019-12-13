@@ -80,6 +80,24 @@ const messageDescriptors = {
     description: 'title `vProtect` used in various components'
   },
 
+  vprotectVirtualMachinesTitle: {
+    id: 'common.vprotectVirtualMachinesTitle',
+    defaultMessage: 'Virtual Environments',
+    description: 'title `Virtual Environments` used in various components'
+  },
+
+  vprotectDashboardTitle: {
+    id: 'common.vprotectDashboardTitle',
+    defaultMessage: 'Dashboard',
+    description: 'title `Dashboard` used in various components'
+  },
+
+  vprotectTaskConsoleTitle: {
+    id: 'common.vprotectTaskConsoleTitle',
+    defaultMessage: 'Task Console',
+    description: 'title `Task Console` used in various components'
+  },
+
   used: {
     id: 'common.used',
     defaultMessage: 'Used',

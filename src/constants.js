@@ -26,7 +26,10 @@ export const supportedTimeZones = [
   'UTC'
 ]
 
-export const vprotectPlaceToken = 'vprotect-main'
+export const primaryMenuId = 'vprotect'
+export const vprotectDashboardPlaceToken = 'vprotect-dashboard'
+export const vprotectVirtualMachineListPlaceToken = 'vprotect-virtual-machine-list'
+export const vprotectTaskConsolePlaceToken = 'vprotect-task-console-list'
 
 export const searchPrefixes = {
   dc: 'DataCenter',

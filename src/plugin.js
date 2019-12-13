@@ -23,16 +23,21 @@ import 'patternfly-react/dist/css/patternfly-react.css'
     option and let the components double up the styles.  This is probably the safest thing to
     do right now (4-Nov-2019).
  */
-import '@patternfly/patternfly/patternfly-no-reset.css'
+// import '@patternfly/patternfly/patternfly-no-reset.css'
+import {VprotectService} from './services/vprotect-service'
 
-// register event handlers
+const username = getPluginApi().configObject().username
+const password = getPluginApi().configObject().password
+let vprotectService = new VprotectService()
+
 getPluginApi().register({
-
   UiInit: () => {
-    addPlaces()
-    addButtons()
+    vprotectService.login(username, password).then((user) => {
+      localStorage.setItem('user', JSON.stringify(user))
+      addPlaces()
+      addButtons()
+    })
   }
-
 })
 
 appInit.run().then(() => {
