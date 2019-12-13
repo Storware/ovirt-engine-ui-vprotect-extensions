@@ -29,8 +29,9 @@ Set the vProtect connection parameters in the config property.
 
 #### Deployment
 Put following files and directories 
-* vprotect.json
-* vprotect-resources
+
+1. vprotect.json
+2. vprotect-resources
 
 to the /usr/share/ovirt-engine/ui-plugins/ directory in the Engine.
 
