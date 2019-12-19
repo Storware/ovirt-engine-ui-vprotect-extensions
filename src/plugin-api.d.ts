@@ -13,7 +13,7 @@ enum WebadminPlacesEnum { // TODO: Best as an enum or something else?
   volumes = 'volumes'
 }
 
-enum EntityType {
+export enum EntityType {
   // TODO: Add the entities.
 }
 

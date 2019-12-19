@@ -17,6 +17,7 @@ import {DateShow} from '../convert/Date'
 import {Filesize} from '../convert/Filezize'
 import {TableFilter} from '../controls/TableFilter'
 import {TableWithPagination} from '../controls/TableWithPagination'
+import {BackupHistoryListContainer} from './modal/backup-history-list/BackupHistoryListContainer'
 
 export class VirtualMachineList extends React.Component {
   vprotectService = new VprotectService()
@@ -79,8 +80,8 @@ export class VirtualMachineList extends React.Component {
             props: {
               index: 0
             },
-            formatters: [(value) => {
-              return <td><a href={`/ovirt-engine/webadmin/#vms-general;name=${value}`} target={'_blank'}>{value}</a></td>
+            formatters: [(value, {rowData}) => {
+              return <td>{rowData.present ? <a href={`/ovirt-engine/webadmin/#vms-general;name=${value}`} target={'_blank'}>{value}</a> : <span>{value}</span>}</td>
             }]
           }
         },
@@ -122,7 +123,7 @@ export class VirtualMachineList extends React.Component {
               index: 2
             },
             formatters: [(value) => {
-              return <td>{value ? <span className='fa fa-check text-success' /> : <span className='fa fa-times text-danger' />}</td>
+              return <td className={'text-center'}>{value ? <span className='fa fa-check text-success' /> : <span className='fa fa-times text-danger' />}</td>
             }]
           }
         },
@@ -188,7 +189,7 @@ export class VirtualMachineList extends React.Component {
               index: 5
             },
             formatters: [(value) => {
-              return <td>{value}</td>
+              return <td>{value ? <span className='text-success'>Backup up to date</span> : typeof value === 'undefined' ? <span>No schedule defined</span> : <span className='text-danger'>Backup outdated</span>}</td>
             }]
           }
         },
@@ -232,7 +233,7 @@ export class VirtualMachineList extends React.Component {
               index: 7
             },
             formatters: [(value) => {
-              return <td><Filesize bytes={value} /></td>
+              return <td className={'text-right'}><Filesize bytes={value} /></td>
             }]
           }
         },
@@ -272,7 +273,14 @@ export class VirtualMachineList extends React.Component {
                           showRestoreModal: true
                         })
                       }}>Restore</MenuItem>}
-
+                      <MenuItem onClick={() => {
+                        this.setState(
+                          {
+                            selectedVirtualEnvironment: rowData,
+                            showBackupHistoryListModal: true
+                          }
+                        )
+                      }}>Show Backup History</MenuItem>
                     </Table.DropdownKebab>
                   </Table.Actions>
                 ]
@@ -295,12 +303,13 @@ export class VirtualMachineList extends React.Component {
 
       selectedVirtualEnvironment: null,
       showBackupModal: false,
+      showBackupHistoryListModal: false,
       showRestoreModal: false
     }
   }
 
   closeModal = () => {
-    this.setState({showBackupModal: false, showRestoreModal: false})
+    this.setState({showBackupModal: false, showBackupHistoryListModal: false, showRestoreModal: false})
   }
 
   filterFields = [
@@ -345,6 +354,11 @@ export class VirtualMachineList extends React.Component {
 
         {this.state.showRestoreModal &&
         <RestoreModal closeModal={this.closeModal}
+          virtualEnvironment={this.state.selectedVirtualEnvironment} />
+        }
+
+        {this.state.showBackupHistoryListModal &&
+        <BackupHistoryListContainer closeModal={this.closeModal}
           virtualEnvironment={this.state.selectedVirtualEnvironment} />
         }
       </div>

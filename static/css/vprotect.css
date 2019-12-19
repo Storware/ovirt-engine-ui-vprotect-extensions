@@ -67,3 +67,11 @@ label, input {
     margin-top: 14px;
     margin-bottom: 14px;
 }
+
+.background-gray {
+    background: #f5f5f5;
+}
+
+.width-850px .modal-dialog {
+    width: 850px;
+}

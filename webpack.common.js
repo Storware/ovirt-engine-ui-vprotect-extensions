@@ -77,7 +77,8 @@ async function common () {
       'plugin': [...commonModules, './src/plugin.js'],
       'virtual-machine-list': [...commonModules, './src/virtual-machine-list.js'],
       'task-console': [...commonModules, './src/task-console.js'],
-      'dashboard': [...commonModules, './src/dashboard.js']
+      'dashboard': [...commonModules, './src/dashboard.js'],
+      'backup-history-list': [...commonModules, './src/backup-history-list.js']
     },
 
     resolve: {
@@ -155,6 +156,12 @@ async function common () {
         template: 'static/html/dashboard.template.ejs',
         inject: true,
         chunks: ['webpack-manifest', 'vendor', 'dashboard']
+      }),
+      new HtmlWebpackPlugin({
+        filename: 'backup-history-list.html',
+        template: 'static/html/backup-history-list.template.ejs',
+        inject: true,
+        chunks: ['webpack-manifest', 'vendor', 'backup-history-list']
       }),
       new InlineManifestWebpackPlugin('webpack-manifest'),
 

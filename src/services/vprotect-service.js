@@ -98,6 +98,10 @@ export class VprotectService {
     return this.vprotectApiService.delete(`/tasks/all-running`)
   }
 
+  getProtectedEntityBackups (id) {
+    return this.vprotectApiService.get(`/backups?protected-entity=${id}`)
+  }
+
   getBackupTypes (vm) {
     let backupTypes = [{name: 'FULL', description: 'Full'}]
     if (this.isIncrementalAvailable(vm)) {

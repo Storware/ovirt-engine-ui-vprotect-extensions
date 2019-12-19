@@ -8,6 +8,7 @@ import {DateDropdown} from '../../controls/DateDropdown'
 import {InputText} from 'primereact/inputtext'
 import {Filesize} from '../../convert/Filezize'
 import {ToggleButton} from 'primereact/togglebutton'
+import {msg} from '../../../../intl-messages'
 
 export class RestoreModal extends React.Component {
   vprotectService = new VprotectService()
@@ -74,7 +75,7 @@ export class RestoreModal extends React.Component {
   submitTask (task) {
     this.vprotectService.submitTaskRestoreAndImport(task).then(
       () => {
-        this.alertService.info('alerts.restoreTaskHasBeenSubmitted')
+        this.alertService.info(msg.vprotectRestoreTaskSuccess())
       }
     )
   }
@@ -82,11 +83,6 @@ export class RestoreModal extends React.Component {
   getBackups () {
     this.vprotectService.getRestorableBackups(this.props.virtualEnvironment.guid).then(
       (result) => {
-        if (result.length === 0) {
-          this.alertService.error('sentences.thereAreNoRestorableBackupsForThisVe')
-          this.props.closeModal()
-          return
-        }
         this.setState({task: {...this.state.task, backup: result[0]}, backups: result})
       }
     )
@@ -213,8 +209,7 @@ export class RestoreModal extends React.Component {
                              restoreClusterId: e.target.value
                            }
                          })
-}
-                       }
+                        }}
             />
           </div>}
           <div>
@@ -239,8 +234,7 @@ export class RestoreModal extends React.Component {
                              restoreStorageId: e.target.value
                            }
                          })
-}
-                       }
+                      }}
             />
           </div>}
           <div>
@@ -253,8 +247,7 @@ export class RestoreModal extends React.Component {
                                 overwrite: e.value
                               }
                             })
-}
-                          }
+                        }}
             />
           </div>
           <div>
@@ -264,8 +257,7 @@ export class RestoreModal extends React.Component {
                             this.setState({
                               specifyRestoredVirtualEnvironmentName: e.value
                             })
-}
-                          }
+                        }}
             />
           </div>
           {this.state.specifyRestoredVirtualEnvironmentName &&
@@ -279,8 +271,7 @@ export class RestoreModal extends React.Component {
                              restoredPeName: e.value
                            }
                          })
-}
-                       }
+                      }}
             />
           </div>}
           <div>
