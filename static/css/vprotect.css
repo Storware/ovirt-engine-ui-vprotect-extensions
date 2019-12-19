@@ -75,3 +75,7 @@ label, input {
 .width-850px .modal-dialog {
     width: 850px;
 }
+
+.container-fluid .breadcrumb {
+    margin-bottom: 0;
+}

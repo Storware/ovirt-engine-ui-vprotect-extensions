@@ -8,7 +8,8 @@ import {
   tableCellFormatter,
   Table,
   TABLE_SORT_DIRECTION, MenuItem
-, Grid} from 'patternfly-react'
+  , Grid, Toolbar
+} from 'patternfly-react'
 
 import {BackupModal} from './modal/BackupModal'
 import {RestoreModal} from './modal/RestoreModal'
@@ -339,14 +340,17 @@ export class VirtualMachineList extends React.Component {
   render () {
     return (
       <div>
-        <Grid fluid>
+        <Toolbar>
           <TableFilter fields={this.filterFields} rows={this.state.rows} change={(value) => {
             this.setState({filteredRows: value})
           }} />
-          <TableWithPagination columns={this.state.columns} sortingColumns={this.state.sortingColumns}
-            rows={this.state.filteredRows} />
-        </Grid>
-
+        </Toolbar>
+        <div className={'padding-top-20px'}>
+          <Grid fluid>
+            <TableWithPagination columns={this.state.columns} sortingColumns={this.state.sortingColumns}
+                                 rows={this.state.filteredRows} />
+          </Grid>
+        </div>
         {this.state.showBackupModal &&
         <BackupModal closeModal={this.closeModal}
           virtualEnvironment={this.state.selectedVirtualEnvironment} />
