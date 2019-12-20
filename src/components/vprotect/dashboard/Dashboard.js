@@ -66,9 +66,8 @@ export class Dashboard extends React.Component {
                 <div className='col-md-6'>
                   <h3 className={'text-center card-pf-title'}>VIRTUAL MACHINES</h3>
                   <div>
-                    <PieChart
+                    <DonutChart
                       id='virtual-environments'
-                      size={{width: 251, height: 161}}
                       data={{
                         colors: {
                           'Protected': '#34bfa3',
@@ -80,12 +79,13 @@ export class Dashboard extends React.Component {
                           ['Not Protected', this.state.protection.vm.notProtected],
                           ['Not Scheduled', this.state.protection.vm.noSchedule]
                         ],
-                        type: 'pie'
+                        groups: [
+                          ['Protected', 'Not Protected', 'Not Scheduled']
+                        ]
+                        // type: 'pie'
                       }}
-                      legend={{
-                        show: true,
-                        position: 'right'
-                      }}
+                      tooltip={{show: true}}
+                      title={{secondary: 'VMs'}}
                     />
                   </div>
                 </div>
@@ -93,9 +93,8 @@ export class Dashboard extends React.Component {
                 <div className='col-md-6'>
                   <h3 className={'text-center card-pf-title'}>APPLICATIONS</h3>
                   <div>
-                    <PieChart
+                    <DonutChart
                       id='applications'
-                      size={{width: 251, height: 161}}
                       data={{
                         colors: {
                           'Protected': '#34bfa3',
@@ -107,12 +106,13 @@ export class Dashboard extends React.Component {
                           ['Not Protected', this.state.protection.app.notProtected],
                           ['Not Scheduled', this.state.protection.app.noSchedule]
                         ],
-                        type: 'pie'
+                        groups: [
+                          ['Protected', 'Not Protected', 'Not Scheduled']
+                        ]
+                        // type: 'pie'
                       }}
-                      legend={{
-                        show: true,
-                        position: 'right'
-                      }}
+                      tooltip={{show: true}}
+                      title={{secondary: 'APPs'}}
                     />
                   </div>
                 </div>
