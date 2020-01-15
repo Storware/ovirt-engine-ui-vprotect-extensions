@@ -64,28 +64,28 @@ export class Dashboard extends React.Component {
               {this.state.protection &&
               <div className='card-pf-body pie-chart-with-title-container'>
                 <div className='col-md-6'>
-                  <h3 className={'text-center card-pf-title'}>VIRTUAL ENVIRONMENTS</h3>
+                  <h3 className={'text-center card-pf-title'}>VIRTUAL MACHINES</h3>
                   <div>
-                    <PieChart
+                    <DonutChart
                       id='virtual-environments'
-                      size={{width: 251, height: 161}}
                       data={{
                         colors: {
                           'Protected': '#34bfa3',
                           'Not Protected': '#f22d4e',
-                          'Not Scheduled': '#666666'
+                          'Not Scheduled': '#b2b2b2'
                         },
                         columns: [
                           ['Protected', this.state.protection.vm.protectedNo],
                           ['Not Protected', this.state.protection.vm.notProtected],
                           ['Not Scheduled', this.state.protection.vm.noSchedule]
                         ],
-                        type: 'pie'
+                        groups: [
+                          ['Protected', 'Not Protected', 'Not Scheduled']
+                        ]
+                        // type: 'pie'
                       }}
-                      legend={{
-                        show: true,
-                        position: 'right'
-                      }}
+                      tooltip={{show: true}}
+                      title={{secondary: 'VMs'}}
                     />
                   </div>
                 </div>
@@ -93,26 +93,26 @@ export class Dashboard extends React.Component {
                 <div className='col-md-6'>
                   <h3 className={'text-center card-pf-title'}>APPLICATIONS</h3>
                   <div>
-                    <PieChart
+                    <DonutChart
                       id='applications'
-                      size={{width: 251, height: 161}}
                       data={{
                         colors: {
                           'Protected': '#34bfa3',
                           'Not Protected': '#f22d4e',
-                          'Not Scheduled': '#666666'
+                          'Not Scheduled': '#b2b2b2'
                         },
                         columns: [
                           ['Protected', this.state.protection.app.protectedNo],
                           ['Not Protected', this.state.protection.app.notProtected],
                           ['Not Scheduled', this.state.protection.app.noSchedule]
                         ],
-                        type: 'pie'
+                        groups: [
+                          ['Protected', 'Not Protected', 'Not Scheduled']
+                        ]
+                        // type: 'pie'
                       }}
-                      legend={{
-                        show: true,
-                        position: 'right'
-                      }}
+                      tooltip={{show: true}}
+                      title={{secondary: 'APPs'}}
                     />
                   </div>
                 </div>
@@ -142,7 +142,7 @@ export class Dashboard extends React.Component {
                         colors: {
                           'Success': '#34bfa3',
                           'Failed': '#f22d4e',
-                          'In progress': '#666666'
+                          'In progress': '#b2b2b2'
                         },
                         columns: [
                           ['Success', this.state.backupStats.successfulBackups],

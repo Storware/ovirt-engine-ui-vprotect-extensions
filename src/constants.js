@@ -30,6 +30,7 @@ export const primaryMenuId = 'vprotect'
 export const vprotectDashboardPlaceToken = 'vprotect-dashboard'
 export const vprotectVirtualMachineListPlaceToken = 'vprotect-virtual-machine-list'
 export const vprotectTaskConsolePlaceToken = 'vprotect-task-console-list'
+export const vprotectBackupHistoryListPlaceToken = 'virtual-machine-backup-history-list'
 
 export const searchPrefixes = {
   dc: 'DataCenter',

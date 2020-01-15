@@ -24,6 +24,12 @@ function addVprotectPlace () {
   getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectTaskConsoleTitle(), vprotectTaskConsolePlaceToken, `${pluginBasePath}/task-console.html`, {
     priority: 11
   })
+
+  //TODO backup history page
+
+  // getPluginApi().addSecondaryMenuPlace('', msg.vprotectBackupHistoryListTitle(), vprotectBackupHistoryListPlaceToken, `${pluginBasePath}/backup-history-list.html`, {
+  //   priority: 12
+  // })
 }
 
 export function addPlaces () {

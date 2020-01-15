@@ -2,6 +2,12 @@
 
 ## Installation
 
+#### Install node modules
+Use the [yarn](https://yarnpkg.com/) package manager to install node modules.
+```bash
+yarn install
+```
+
 #### Build
 Use the [yarn](https://yarnpkg.com/) package manager to build the extension.
 ```bash

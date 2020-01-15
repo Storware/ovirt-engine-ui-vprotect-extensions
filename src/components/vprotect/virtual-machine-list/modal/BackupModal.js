@@ -4,12 +4,12 @@ import PropTypes from 'prop-types'
 import {Calendar} from 'primereact/calendar'
 import {Dropdown} from 'primereact/dropdown'
 import {VprotectService} from '../../../../services/vprotect-service'
-import getPluginApi from '../../../../plugin-api'
-import {webadminToastTypes} from '../../../../constants'
 import {msg} from '../../../../intl-messages'
+import {AlertService} from '../../../../services/alert-service'
 
 export class BackupModal extends React.Component {
   vprotectService = new VprotectService()
+  alertService = new AlertService()
 
   constructor (props) {
     super(props)
@@ -59,7 +59,7 @@ export class BackupModal extends React.Component {
 
   submitTask = (task) => {
     this.vprotectService.submitExportTask(task).then(() => {
-      getPluginApi().showToast(webadminToastTypes.info, msg.vprotectBackupTaskSuccess())
+      this.alertService.info(msg.vprotectBackupTaskSuccess())
     })
   }
 

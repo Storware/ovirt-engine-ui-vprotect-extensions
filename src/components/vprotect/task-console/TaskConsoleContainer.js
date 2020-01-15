@@ -11,8 +11,20 @@ export class TaskConsoleContainer extends React.Component {
 
   render () {
     return (
-      <div className={'padding-top-20px'}>
-        <TaskConsole user={this.state.user} />
+      <div>
+        <div className={'container-fluid'}>
+          <ol className='breadcrumb'>
+            <li>
+              VM Backup
+            </li>
+            <li>
+              <a href='/ovirt-engine/webadmin/?locale=en_US#vprotect-task-console'>Task console</a>
+            </li>
+          </ol>
+        </div>
+        <div>
+          <TaskConsole user={this.state.user} />
+        </div>
       </div>
     )
   }

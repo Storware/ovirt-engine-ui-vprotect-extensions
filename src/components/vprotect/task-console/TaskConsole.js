@@ -35,8 +35,8 @@ export class TaskConsole extends React.Component {
       filterType: 'text'
     }, {
       property: 'protectedEntity.name',
-      title: 'VE/APP',
-      placeholder: 'Filter by VE/APP',
+      title: 'Virtual Machine',
+      placeholder: 'Filter by Virtual Machine',
       filterType: 'text'
     }, {
       property: 'node.name',
@@ -162,7 +162,7 @@ export class TaskConsole extends React.Component {
         {
           property: 'protectedEntity',
           header: {
-            label: 'VE/APP',
+            label: 'Virtual Machine',
             props: {
               index: 3,
               rowSpan: 1,

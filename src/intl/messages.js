@@ -76,14 +76,14 @@ const messageDescriptors = {
 
   vprotectTitle: {
     id: 'common.vprotectTitle',
-    defaultMessage: 'vProtect',
-    description: 'title `vProtect` used in various components'
+    defaultMessage: 'VM Backup',
+    description: 'title `VM Backup` used in various components'
   },
 
   vprotectVirtualMachinesTitle: {
     id: 'common.vprotectVirtualMachinesTitle',
-    defaultMessage: 'Virtual Environments',
-    description: 'title `Virtual Environments` used in various components'
+    defaultMessage: 'Virtual Machines',
+    description: 'title `Virtual Machines` used in various components'
   },
 
   vprotectDashboardTitle: {
@@ -96,6 +96,12 @@ const messageDescriptors = {
     id: 'common.vprotectTaskConsoleTitle',
     defaultMessage: 'Task Console',
     description: 'title `Task Console` used in various components'
+  },
+
+  vprotectBackupHistoryListTitle: {
+    id: 'common.vprotectBackupHistoryListTitle',
+    defaultMessage: 'Backup history list',
+    description: 'title `Backup history list` used in various components'
   },
 
   used: {
@@ -716,6 +722,12 @@ const messageDescriptors = {
     id: 'vprotect.vprotectBackupTaskSuccess',
     defaultMessage: 'Backup task has been submitted',
     description: 'notification shown when Backup task has been submitted'
+  },
+
+  vprotectRestoreTaskSuccess: {
+    id: 'vprotect.vprotectRestoreTaskSuccess',
+    defaultMessage: 'Restore task has been submitted',
+    description: 'notification shown when Restore task has been submitted'
   }
 
 }
