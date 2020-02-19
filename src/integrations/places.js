@@ -25,7 +25,7 @@ function addVprotectPlace () {
     priority: 11
   })
 
-  //TODO backup history page
+  // TODO backup history page
 
   // getPluginApi().addSecondaryMenuPlace('', msg.vprotectBackupHistoryListTitle(), vprotectBackupHistoryListPlaceToken, `${pluginBasePath}/backup-history-list.html`, {
   //   priority: 12

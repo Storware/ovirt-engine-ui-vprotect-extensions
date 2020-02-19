@@ -348,7 +348,7 @@ export class VirtualMachineList extends React.Component {
         <div className={'padding-top-20px'}>
           <Grid fluid>
             <TableWithPagination columns={this.state.columns} sortingColumns={this.state.sortingColumns}
-                                 rows={this.state.filteredRows} />
+              rows={this.state.filteredRows} />
           </Grid>
         </div>
         {this.state.showBackupModal &&

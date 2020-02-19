@@ -1,6 +1,6 @@
 import React from 'react'
 import {VprotectService} from '../../../services/vprotect-service'
-import {Button, DonutChart, ListView, ListViewItem, PieChart, ProgressBar, Toolbar} from 'patternfly-react'
+import {Button, DonutChart, ListView, ListViewItem, ProgressBar, Toolbar} from 'patternfly-react'
 import {Filesize} from '../convert/Filezize'
 
 export class Dashboard extends React.Component {

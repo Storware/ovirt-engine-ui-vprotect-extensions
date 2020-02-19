@@ -1,7 +1,5 @@
 import React from 'react'
 import {VirtualMachineList} from './VirtualMachineList'
-import {Breadcrumb} from 'patternfly-react'
-import {BreadcrumbItem} from '@patternfly/react-core'
 
 export class VirtualMachineListContainer extends React.Component {
   constructor (props) {
