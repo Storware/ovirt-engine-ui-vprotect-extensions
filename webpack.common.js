@@ -75,10 +75,7 @@ async function common () {
 
     entry: {
       'plugin': [...commonModules, './src/plugin.js'],
-      'virtual-machine-list': [...commonModules, './src/virtual-machine-list.js'],
-      'task-console': [...commonModules, './src/task-console.js'],
-      'dashboard': [...commonModules, './src/dashboard.js'],
-      'backup-history-list': [...commonModules, './src/backup-history-list.js']
+      'template': [...commonModules, './src/template.js']
     },
 
     resolve: {
@@ -141,27 +138,21 @@ async function common () {
       }),
       new HtmlWebpackPlugin({
         filename: 'virtual-machine-list.html',
-        template: 'static/html/virtual-machine-list.template.ejs',
+        template: 'static/html/template.template.ejs',
         inject: true,
-        chunks: ['webpack-manifest', 'vendor', 'virtual-machine-list']
+        chunks: ['webpack-manifest', 'vendor', 'template']
       }),
       new HtmlWebpackPlugin({
         filename: 'task-console.html',
-        template: 'static/html/task-console.template.ejs',
+        template: 'static/html/template.template.ejs',
         inject: true,
-        chunks: ['webpack-manifest', 'vendor', 'task-console']
+        chunks: ['webpack-manifest', 'vendor', 'template']
       }),
       new HtmlWebpackPlugin({
         filename: 'dashboard.html',
-        template: 'static/html/dashboard.template.ejs',
+        template: 'static/html/template.template.ejs',
         inject: true,
-        chunks: ['webpack-manifest', 'vendor', 'dashboard']
-      }),
-      new HtmlWebpackPlugin({
-        filename: 'backup-history-list.html',
-        template: 'static/html/backup-history-list.template.ejs',
-        inject: true,
-        chunks: ['webpack-manifest', 'vendor', 'backup-history-list']
+        chunks: ['webpack-manifest', 'vendor', 'template']
       }),
       new InlineManifestWebpackPlugin('webpack-manifest'),
 
