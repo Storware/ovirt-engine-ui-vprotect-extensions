@@ -24,6 +24,10 @@ function addVprotectPlace () {
   getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectTaskConsoleTitle(), vprotectTaskConsolePlaceToken, `${pluginBasePath}/task-console.html`, {
     priority: 11
   })
+
+  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectTaskConsoleTitle(), 'policies', `${pluginBasePath}/policies.html`, {
+    priority: 12
+  })
 }
 
 export function addPlaces () {

@@ -154,6 +154,12 @@ async function common () {
         inject: true,
         chunks: ['webpack-manifest', 'vendor', 'template']
       }),
+      new HtmlWebpackPlugin({
+        filename: 'policies.html',
+        template: 'static/html/template.template.ejs',
+        inject: true,
+        chunks: ['webpack-manifest', 'vendor', 'template']
+      }),
       new InlineManifestWebpackPlugin('webpack-manifest'),
 
       // This pulls all of the depends on modules out of the entry chunks and puts them

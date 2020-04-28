@@ -46,6 +46,10 @@ export class VprotectService {
     return this.vprotectApiService.get(`/virtual-machines?hypervisor-manager-type=RHV`)
   }
 
+  getPolicies (type) {
+    return this.vprotectApiService.get(`/policies/${type}?extended=true`)
+  }
+
   getBackupDestinationsForVMs (vms) {
     return this.vprotectApiService.post(`/backup-destinations/usable-for-vms`, vms)
   }

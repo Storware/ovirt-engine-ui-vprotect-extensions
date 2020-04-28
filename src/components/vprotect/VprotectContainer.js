@@ -9,6 +9,7 @@ import {
   Redirect
 } from 'react-router-dom'
 import {TaskConsole} from './task-console/TaskConsole'
+import {PoliciesList} from './policies/policies-list/PoliciesList'
 
 export class VprotectContainer extends React.Component {
   constructor (props) {
@@ -36,7 +37,6 @@ export class VprotectContainer extends React.Component {
           }}
         />
         <div className={'padding-top-20px dashboardContainer'}>
-
           <Switch>
             <Route path='/dashboard'>
               <Dashboard user={this.state.user} />
@@ -44,8 +44,11 @@ export class VprotectContainer extends React.Component {
             <Route exact path='/virtual-machine-list'>
               <VirtualMachineList user={this.state.user} />
             </Route>
-            <Route exact path='/virtual-machine-list'>
+            <Route exact path='/task-console'>
               <TaskConsole user={this.state.user} />
+            </Route>
+            <Route exact path='/policies'>
+              <PoliciesList />
             </Route>
           </Switch>
         </div>
