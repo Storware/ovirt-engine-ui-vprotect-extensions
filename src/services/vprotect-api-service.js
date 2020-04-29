@@ -1,11 +1,9 @@
 import getPluginApi from '../plugin-api'
-import {AlertService} from './alert-service'
+import {alertService} from './alert-service'
 
 const vprotectURL = getPluginApi().configObject().vProtectURL
 
-export class VprotectApiService {
-  alertService = new AlertService();
-
+class VprotectApiService {
   get (url, options = {}) {
     return fetch(vprotectURL + url, {
       method: 'GET',
@@ -18,7 +16,7 @@ export class VprotectApiService {
     })
       .then(response => {
         if (!response.ok) {
-          this.alertService.error(response.statusText)
+          alertService.error(response.statusText)
           return Promise.reject(response)
         }
         return response.json()
@@ -37,7 +35,7 @@ export class VprotectApiService {
     })
       .then(response => {
         if (!response.ok) {
-          this.alertService.error(response.statusText)
+          alertService.error(response.statusText)
           return Promise.reject(response)
         }
         return response.json()
@@ -56,7 +54,7 @@ export class VprotectApiService {
     })
       .then(response => {
         if (!response.ok) {
-          this.alertService.error(response.statusText)
+          alertService.error(response.statusText)
           return Promise.reject(response)
         }
         return response.json()
@@ -74,10 +72,12 @@ export class VprotectApiService {
     })
       .then(response => {
         if (!response.ok) {
-          this.alertService.error(response.statusText)
+          alertService.error(response.statusText)
           return Promise.reject(response)
         }
         return Promise.resolve()
       })
   }
 }
+
+export const vprotectApiService = new VprotectApiService()

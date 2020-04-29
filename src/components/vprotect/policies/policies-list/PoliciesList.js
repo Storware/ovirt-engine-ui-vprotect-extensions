@@ -1,31 +1,28 @@
 import React from 'react'
 import * as sort from 'sortabular'
 import {
-  actionHeaderCellFormatter,
   defaultSortingOrder,
   sortableHeaderCellFormatter,
   tableCellFormatter,
-  Table,
-  TABLE_SORT_DIRECTION, MenuItem
+  TABLE_SORT_DIRECTION
   , Grid, Toolbar
 } from 'patternfly-react'
 
-import {VprotectService} from '../../../../services/vprotect-service'
+import {vprotectService} from '../../../../services/vprotect-service'
 import {Filesize} from '../../convert/Filezize'
 import {TableFilter} from '../../controls/TableFilter'
 import {TableWithPagination} from '../../controls/TableWithPagination'
 import {
   Link,
-  useRouteMatch
+  withRouter
 } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 export class PoliciesList extends React.Component {
-  vprotectService = new VprotectService()
-
   constructor (props) {
     super(props)
 
-    this.vprotectService.getPolicies().then(result => {
+    vprotectService.getPolicies('vm-backup').then(result => {
       this.setState({
         rows: result,
         filteredRows: result
@@ -82,7 +79,7 @@ export class PoliciesList extends React.Component {
             },
             formatters: [(value, {rowData}) => {
               return <td>
-                <Link to={`${useRouteMatch().url}/${rowData.guid}`} target={'_blank'}>
+                <Link to={`${this.props.match.path}/${rowData.guid}`}>
                   {value}
                 </Link>
               </td>
@@ -200,57 +197,6 @@ export class PoliciesList extends React.Component {
               </td>
             }]
           }
-        },
-        {
-          header: {
-            label: 'Actions',
-            props: {
-              index: 8,
-              rowSpan: 1,
-              colSpan: 1
-            },
-            formatters: [actionHeaderCellFormatter]
-          },
-          cell: {
-            props: {
-              index: 8,
-              rowSpan: 1,
-              colSpan: 1
-            },
-            formatters: [
-              (value, {rowData}) => {
-                return [
-                  <Table.Actions key='0'>
-                    <Table.DropdownKebab id='myKebab' pullRight>
-                      <MenuItem onClick={() => {
-                        this.setState(
-                          {
-                            selectedVirtualEnvironment: rowData,
-                            showBackupModal: true
-                          }
-                        )
-                      }}>Backup</MenuItem>
-                      {rowData.lastSuccessfulBackupSize > 0 &&
-                      <MenuItem onClick={() => {
-                        this.setState({
-                          selectedVirtualEnvironment: rowData,
-                          showRestoreModal: true
-                        })
-                      }}>Restore</MenuItem>}
-                      <MenuItem onClick={() => {
-                        this.setState(
-                          {
-                            selectedVirtualEnvironment: rowData,
-                            showBackupHistoryListModal: true
-                          }
-                        )
-                      }}>Show Backup History</MenuItem>
-                    </Table.DropdownKebab>
-                  </Table.Actions>
-                ]
-              }
-            ]
-          }
         }
       ],
 
@@ -272,10 +218,6 @@ export class PoliciesList extends React.Component {
     }
   }
 
-  closeModal = () => {
-    this.setState({showBackupModal: false, showBackupHistoryListModal: false, showRestoreModal: false})
-  }
-
   filterFields = [
     {
       property: 'name',
@@ -283,19 +225,14 @@ export class PoliciesList extends React.Component {
       placeholder: 'Filter by Name',
       filterType: 'text'
     }, {
-      property: 'uuid',
-      title: 'Uuid',
-      placeholder: 'Filter by Uuid',
+      property: 'guid',
+      title: 'Guid',
+      placeholder: 'Filter by Guid',
       filterType: 'text'
     }, {
-      property: 'hypervisor.name',
-      title: 'Hypervisor',
-      placeholder: 'Filter by Hypervisor',
-      filterType: 'text'
-    }, {
-      property: 'vmBackupPolicy.name',
-      title: 'Policy',
-      placeholder: 'Filter by Policy',
+      property: 'backupDestination.name',
+      title: 'Backup Destination',
+      placeholder: 'Filter by Backup Destination',
       filterType: 'text'
     }
   ]
@@ -311,8 +248,8 @@ export class PoliciesList extends React.Component {
         <div className={'padding-top-20px'}>
           <Grid fluid>
             <TableWithPagination columns={this.state.columns}
-                                 sortingColumns={this.state.sortingColumns}
-                                 rows={this.state.filteredRows} />
+              sortingColumns={this.state.sortingColumns}
+              rows={this.state.filteredRows} />
           </Grid>
         </div>
       </div>
@@ -321,4 +258,7 @@ export class PoliciesList extends React.Component {
 }
 
 PoliciesList.propTypes = {
+  match: PropTypes.object.isRequired
 }
+
+export default withRouter(PoliciesList)

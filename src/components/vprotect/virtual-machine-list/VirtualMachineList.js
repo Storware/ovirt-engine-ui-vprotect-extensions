@@ -13,7 +13,7 @@ import {
 
 import {BackupModal} from './modal/BackupModal'
 import {RestoreModal} from './modal/RestoreModal'
-import {VprotectService} from '../../../services/vprotect-service'
+import {vprotectService} from '../../../services/vprotect-service'
 import {DateShow} from '../convert/Date'
 import {Filesize} from '../convert/Filezize'
 import {TableFilter} from '../controls/TableFilter'
@@ -21,12 +21,10 @@ import {TableWithPagination} from '../controls/TableWithPagination'
 import {BackupHistoryListContainer} from './modal/backup-history-list/BackupHistoryListContainer'
 
 export class VirtualMachineList extends React.Component {
-  vprotectService = new VprotectService()
-
   constructor (props) {
     super(props)
 
-    this.vprotectService.getVirtualMachines().then(result => {
+    vprotectService.getVirtualMachines().then(result => {
       this.setState({
         rows: result,
         filteredRows: result

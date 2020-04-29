@@ -1,6 +1,6 @@
-import {VprotectApiService} from './vprotect-api-service'
+import {vprotectApiService} from './vprotect-api-service'
 
-export class VprotectService {
+class VprotectService {
   _hvWithIncremental = ['KVM', 'CITRIX', 'ESXI', 'HYPERV'];
   _hvmWithIncremental = ['RHV', 'NUTANIX', 'VCENTER'];
 
@@ -9,101 +9,103 @@ export class VprotectService {
     {name: 'SPARSE', description: 'Sparse'}
   ];
 
-  vprotectApiService = new VprotectApiService();
-
   login (username, password) {
-    return this.vprotectApiService.post(`/session/login`, {login: username, password: password})
+    return vprotectApiService.post(`/session/login`, {login: username, password: password})
   }
 
   getDashboardProtectionInfo () {
-    return this.vprotectApiService.get(`/dashboard/protection`)
+    return vprotectApiService.get(`/dashboard/protection`)
   }
 
   getDashboardBackupStats (params = {}) {
     const httpOptions = {
       params: params
     }
-    return this.vprotectApiService.get('/dashboard/backup-stats', httpOptions)
+    return vprotectApiService.get('/dashboard/backup-stats', httpOptions)
   }
 
   getDashboardStagingSpaceInfo () {
-    return this.vprotectApiService.get(`/dashboard/staging-space`)
+    return vprotectApiService.get(`/dashboard/staging-space`)
   }
 
   getDashboardBackupDestinationStats () {
-    return this.vprotectApiService.get(`/dashboard/backup-destination-stats`)
+    return vprotectApiService.get(`/dashboard/backup-destination-stats`)
   }
 
   getAllHypervisorManagers () {
-    return this.vprotectApiService.get(`/hypervisor-managers`)
+    return vprotectApiService.get(`/hypervisor-managers`)
   }
 
   submitTaskSync (task) {
-    return this.vprotectApiService.post(`/tasks/inventory-sync`, task)
+    return vprotectApiService.post(`/tasks/inventory-sync`, task)
   }
 
   getVirtualMachines () {
-    return this.vprotectApiService.get(`/virtual-machines?hypervisor-manager-type=RHV`)
+    return vprotectApiService.get(`/virtual-machines?hypervisor-manager-type=RHV`)
   }
 
   getPolicies (type) {
-    return this.vprotectApiService.get(`/policies/${type}?extended=true`)
+    return vprotectApiService.get(`/policies/${type}?extended=true`)
+  }
+
+  getPolicy (type, guid) {
+    return vprotectApiService.get(`/policies/${type}/${guid}`)
   }
 
   getBackupDestinationsForVMs (vms) {
-    return this.vprotectApiService.post(`/backup-destinations/usable-for-vms`, vms)
+    return vprotectApiService.post(`/backup-destinations/usable-for-vms`, vms)
   }
 
   submitExportTask (task) {
-    return this.vprotectApiService.post(`/tasks/export`, task)
+    return vprotectApiService.post(`/tasks/export`, task)
   }
 
   getRestorableBackups (virtualMachineGuid) {
-    return this.vprotectApiService.get(`/backups?protected-entity=${virtualMachineGuid}&status=SUCCESS`)
+    return vprotectApiService.get(`/backups?protected-entity=${virtualMachineGuid}&status=SUCCESS`)
   }
 
   getHypervisorManagersAvailableForBackup (id) {
-    return this.vprotectApiService.get(`/hypervisor-managers/?backup-to-be-restored=${id}`)
+    return vprotectApiService.get(`/hypervisor-managers/?backup-to-be-restored=${id}`)
   }
 
   getHypervisorStoragesForHvm (id) {
-    return this.vprotectApiService.get(`/hypervisor-storages?hypervisor-manager=${id}`)
+    return vprotectApiService.get(`/hypervisor-storages?hypervisor-manager=${id}`)
   }
 
   getHypervisorClustersForHvm (id) {
-    return this.vprotectApiService.get(`/hypervisor-clusters?hypervisor-manager=${id}`)
+    return vprotectApiService.get(`/hypervisor-clusters?hypervisor-manager=${id}`)
   }
 
   submitTaskRestoreAndImport (task) {
-    return this.vprotectApiService.post(`/tasks/restore-and-import`, task)
+    return vprotectApiService.post(`/tasks/restore-and-import`, task)
   }
 
   getAllTasks () {
-    return this.vprotectApiService.get('/tasks')
+    return vprotectApiService.get('/tasks')
   }
 
   cancelTask (id, state) {
-    return this.vprotectApiService.put(`/tasks/${id}/state`, state)
+    return vprotectApiService.put(`/tasks/${id}/state`, state)
   }
 
   deleteOrCancelTask (id) {
-    return this.vprotectApiService.delete(`/tasks/${id}`)
+    return vprotectApiService.delete(`/tasks/${id}`)
   }
 
   deleteQueuedOrFinishedTasks () {
-    return this.vprotectApiService.delete(`/tasks/all-finished-and-queued`)
+    return vprotectApiService.delete(`/tasks/all-finished-and-queued`)
   }
 
   deleteFinishedTasks () {
-    return this.vprotectApiService.delete(`/tasks/all-finished`)
+    return vprotectApiService.delete(`/tasks/all-finished`)
   }
 
   cancelRunningTasks () {
-    return this.vprotectApiService.delete(`/tasks/all-running`)
+    return vprotectApiService.delete(`/tasks/all-running`)
   }
 
   getProtectedEntityBackups (id) {
-    return this.vprotectApiService.get(`/backups?protected-entity=${id}`)
+    return vprotectApiService.get(`/backups?protected-entity=${id}`)
   }
 
   getBackupTypes (vm) {
@@ -119,3 +121,5 @@ export class VprotectService {
       (vm.hvmType != null && this._hvmWithIncremental.includes(vm.hvmType.name))
   }
 }
+
+export const vprotectService = new VprotectService()

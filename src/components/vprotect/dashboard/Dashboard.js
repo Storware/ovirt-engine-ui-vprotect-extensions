@@ -1,11 +1,9 @@
 import React from 'react'
-import {VprotectService} from '../../../services/vprotect-service'
+import {vprotectService} from '../../../services/vprotect-service'
 import {Button, DonutChart, ListView, ListViewItem, ProgressBar, Toolbar} from 'patternfly-react'
 import {Filesize} from '../convert/Filezize'
 
 export class Dashboard extends React.Component {
-  vprotectService = new VprotectService()
-
   constructor (props) {
     super(props)
 
@@ -18,16 +16,16 @@ export class Dashboard extends React.Component {
   }
 
   componentDidMount () {
-    this.vprotectService.getDashboardProtectionInfo().then(result => {
+    vprotectService.getDashboardProtectionInfo().then(result => {
       this.setState({protection: result})
     })
-    this.vprotectService.getDashboardBackupStats().then(result => {
+    vprotectService.getDashboardBackupStats().then(result => {
       this.setState({backupStats: result})
     })
-    this.vprotectService.getDashboardStagingSpaceInfo().then(result => {
+    vprotectService.getDashboardStagingSpaceInfo().then(result => {
       this.setState({stagingSpace: result})
     })
-    this.vprotectService.getDashboardBackupDestinationStats().then(result => {
+    vprotectService.getDashboardBackupDestinationStats().then(result => {
       this.setState({backupDestinationStats: result})
     })
   }

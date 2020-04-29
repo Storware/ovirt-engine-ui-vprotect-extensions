@@ -1,9 +1,9 @@
 import React from 'react'
 import {Modal, Icon} from 'patternfly-react'
 import PropTypes from 'prop-types'
-import {VprotectService} from '../../../../services/vprotect-service'
+import {vprotectService} from '../../../../services/vprotect-service'
 import {Dropdown} from 'primereact/dropdown'
-import {AlertService} from '../../../../services/alert-service'
+import {alertService} from '../../../../services/alert-service'
 import {DateDropdown} from '../../controls/DateDropdown'
 import {InputText} from 'primereact/inputtext'
 import {Filesize} from '../../convert/Filezize'
@@ -11,9 +11,6 @@ import {ToggleButton} from 'primereact/togglebutton'
 import {msg} from '../../../../intl-messages'
 
 export class RestoreModal extends React.Component {
-  vprotectService = new VprotectService()
-  alertService = new AlertService()
-
   constructor (props) {
     super(props)
 
@@ -27,7 +24,7 @@ export class RestoreModal extends React.Component {
       storage: null,
       cluster: {name: 'Other', guid: '', uuid: ''},
       specifyRestoredVirtualEnvironmentName: false,
-      diskAllocationFormats: this.vprotectService.diskAllocationFormats,
+      diskAllocationFormats: vprotectService.diskAllocationFormats,
       task: {
         backup: null,
         hypervisorManager: null,
@@ -35,7 +32,7 @@ export class RestoreModal extends React.Component {
         restoreClusterId: '',
         overwrite: false,
         restoredPeName: '',
-        restoredDiskAllocationFormat: this.vprotectService.diskAllocationFormats[0]
+        restoredDiskAllocationFormat: vprotectService.diskAllocationFormats[0]
       }
     }
   }
@@ -73,15 +70,15 @@ export class RestoreModal extends React.Component {
   }
 
   submitTask (task) {
-    this.vprotectService.submitTaskRestoreAndImport(task).then(
+    vprotectService.submitTaskRestoreAndImport(task).then(
       () => {
-        this.alertService.info(msg.vprotectRestoreTaskSuccess())
+        alertService.info(msg.vprotectRestoreTaskSuccess())
       }
     )
   }
 
   getBackups () {
-    this.vprotectService.getRestorableBackups(this.props.virtualEnvironment.guid).then(
+    vprotectService.getRestorableBackups(this.props.virtualEnvironment.guid).then(
       (result) => {
         this.setState({task: {...this.state.task, backup: result[0]}, backups: result})
       }
@@ -89,7 +86,7 @@ export class RestoreModal extends React.Component {
   }
 
   getHypervisorManagersAvailableForBackup () {
-    this.vprotectService.getHypervisorManagersAvailableForBackup(this.state.task.backup.guid).then(
+    vprotectService.getHypervisorManagersAvailableForBackup(this.state.task.backup.guid).then(
       (hypervisorManagers) => {
         if (hypervisorManagers.length > 0) {
           this.setState({hypervisorManagers: hypervisorManagers})
@@ -113,7 +110,7 @@ export class RestoreModal extends React.Component {
   }
 
   getHypervisorStoragesForHypervisorManager (id) {
-    this.vprotectService.getHypervisorStoragesForHvm(id).then(
+    vprotectService.getHypervisorStoragesForHvm(id).then(
       (storages) => {
         storages = [...storages, {name: 'Other', guid: '', uuid: ''}]
         this.setState({
@@ -125,7 +122,7 @@ export class RestoreModal extends React.Component {
   }
 
   getHypervisorClustersForHypervisorManager (id) {
-    this.vprotectService.getHypervisorClustersForHvm(id).then(
+    vprotectService.getHypervisorClustersForHvm(id).then(
       (clusters) => {
         clusters = [...clusters, {name: 'Other', guid: '', uuid: ''}]
         this.setState({

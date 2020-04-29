@@ -24,13 +24,13 @@ import './bootstrap-overrides/tooltip-fix'
 import 'primereact/resources/themes/nova-light/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
-import {VprotectContainer} from './components/vprotect/VprotectContainer'
+import {Vprotect} from './components/vprotect/Vprotect'
 
 const appRoot = document.getElementById('app')
 
 appInit.run().then(() => {
   ReactDOM.render(
-    <VprotectContainer />,
+    <Vprotect />,
     appRoot
   )
 })

@@ -2,7 +2,8 @@ import { pluginBasePath,
   vprotectVirtualMachineListPlaceToken,
   vprotectTaskConsolePlaceToken,
   primaryMenuId,
-  vprotectDashboardPlaceToken
+  vprotectDashboardPlaceToken,
+  vprotectPoliciesToken
 } from '../constants'
 import getPluginApi from '../plugin-api'
 import { msg } from '../intl-messages'
@@ -25,7 +26,7 @@ function addVprotectPlace () {
     priority: 11
   })
 
-  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectTaskConsoleTitle(), 'policies', `${pluginBasePath}/policies.html`, {
+  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectPolicies(), vprotectPoliciesToken, `${pluginBasePath}/policies.html`, {
     priority: 12
   })
 }

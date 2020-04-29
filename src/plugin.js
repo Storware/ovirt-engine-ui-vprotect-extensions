@@ -24,11 +24,10 @@ import 'patternfly-react/dist/css/patternfly-react.css'
     do right now (4-Nov-2019).
  */
 // import '@patternfly/patternfly/patternfly-no-reset.css'
-import {VprotectService} from './services/vprotect-service'
+import {vprotectService} from './services/vprotect-service'
 
 const username = getPluginApi().configObject().username
 const password = getPluginApi().configObject().password
-let vprotectService = new VprotectService()
 
 getPluginApi().register({
   UiInit: () => {

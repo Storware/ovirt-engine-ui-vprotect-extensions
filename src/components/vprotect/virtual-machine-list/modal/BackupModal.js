@@ -3,14 +3,11 @@ import {Modal, Icon, Slider} from 'patternfly-react'
 import PropTypes from 'prop-types'
 import {Calendar} from 'primereact/calendar'
 import {Dropdown} from 'primereact/dropdown'
-import {VprotectService} from '../../../../services/vprotect-service'
+import {vprotectService} from '../../../../services/vprotect-service'
 import {msg} from '../../../../intl-messages'
-import {AlertService} from '../../../../services/alert-service'
+import {alertService} from '../../../../services/alert-service'
 
 export class BackupModal extends React.Component {
-  vprotectService = new VprotectService()
-  alertService = new AlertService()
-
   constructor (props) {
     super(props)
 
@@ -30,8 +27,8 @@ export class BackupModal extends React.Component {
   }
 
   getBackupDestinationsAndBackupTypes () {
-    this.vprotectService.getBackupDestinationsForVMs([this.props.virtualEnvironment]).then(result => {
-      const backupTypes = this.vprotectService.getBackupTypes(this.props.virtualEnvironment)
+    vprotectService.getBackupDestinationsForVMs([this.props.virtualEnvironment]).then(result => {
+      const backupTypes = vprotectService.getBackupTypes(this.props.virtualEnvironment)
       this.setState({
         backupDestinations: result,
         backupTypes: backupTypes,
@@ -58,8 +55,8 @@ export class BackupModal extends React.Component {
   }
 
   submitTask = (task) => {
-    this.vprotectService.submitExportTask(task).then(() => {
-      this.alertService.info(msg.vprotectBackupTaskSuccess())
+    vprotectService.submitExportTask(task).then(() => {
+      alertService.info(msg.vprotectBackupTaskSuccess())
     })
   }
 

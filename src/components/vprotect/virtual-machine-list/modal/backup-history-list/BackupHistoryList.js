@@ -6,19 +6,17 @@ import {
   sortableHeaderCellFormatter,
   TABLE_SORT_DIRECTION
 , Grid} from 'patternfly-react'
-import {VprotectService} from '../../../../../services/vprotect-service'
+import {vprotectService} from '../../../../../services/vprotect-service'
 import {DateShow} from '../../../convert/Date'
 import {Filesize} from '../../../convert/Filezize'
 import {TableFilter} from '../../../controls/TableFilter'
 import {TableWithPagination} from '../../../controls/TableWithPagination'
 
 export class BackupHistoryList extends React.Component {
-  vprotectService = new VprotectService()
-
   constructor (props) {
     super(props)
 
-    this.vprotectService.getProtectedEntityBackups(this.props.virtualEnvironmentGuid).then(result => {
+    vprotectService.getProtectedEntityBackups(this.props.virtualEnvironmentGuid).then(result => {
       this.setState({
         rows: result,
         filteredRows: result

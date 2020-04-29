@@ -12,16 +12,13 @@ import {
   Toolbar,
   Table
 } from 'patternfly-react'
-import {VprotectService} from '../../../services/vprotect-service'
+import {vprotectService} from '../../../services/vprotect-service'
 import {DateShow} from '../convert/Date'
 import {TableWithPagination} from '../controls/TableWithPagination'
 import {TableFilter} from '../controls/TableFilter'
-import {AlertService} from '../../../services/alert-service'
+import {alertService} from '../../../services/alert-service'
 
 export class TaskConsole extends React.Component {
-  vprotectService = new VprotectService()
-  alertService = new AlertService()
-
   filterFields = [
     {
       property: 'state.name',
@@ -54,7 +51,7 @@ export class TaskConsole extends React.Component {
   constructor (props) {
     super(props)
 
-    this.vprotectService.getAllTasks().then(result => {
+    vprotectService.getAllTasks().then(result => {
       this.setState({
         rows: result,
         filteredRows: result
@@ -320,14 +317,14 @@ export class TaskConsole extends React.Component {
                         this.vprotectService.cancelTask(rowData.guid, cancelledStatus).then(
                           () => {
                             this.getAllTasks()
-                            this.alertService.info('alerts.taskHasBeenCancelled')
+                            alertService.info('alerts.taskHasBeenCancelled')
                           }
                         )
                       } else {
                         this.vprotectService.deleteOrCancelTask(rowData.guid).then(
                           () => {
                             this.getAllTasks()
-                            this.alertService.info('alerts.taskHasBeenDeleted')
+                            alertService.info('alerts.taskHasBeenDeleted')
                           }
                         )
                       }

@@ -5,18 +5,16 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   Redirect
 } from 'react-router-dom'
 import {TaskConsole} from './task-console/TaskConsole'
-import {PoliciesList} from './policies/policies-list/PoliciesList'
+import Policies from './policies/Policies'
 
-export class VprotectContainer extends React.Component {
+export class Vprotect extends React.Component {
   constructor (props) {
     super(props)
 
     const href = window.location.href
-    console.log(href)
     const start = href.indexOf('vprotect/')
     const end = href.indexOf('.html')
     const path = href.substring(start + 9, end)
@@ -41,14 +39,14 @@ export class VprotectContainer extends React.Component {
             <Route path='/dashboard'>
               <Dashboard user={this.state.user} />
             </Route>
-            <Route exact path='/virtual-machine-list'>
+            <Route path='/virtual-machine-list'>
               <VirtualMachineList user={this.state.user} />
             </Route>
-            <Route exact path='/task-console'>
+            <Route path='/task-console'>
               <TaskConsole user={this.state.user} />
             </Route>
-            <Route exact path='/policies'>
-              <PoliciesList />
+            <Route path='/policies'>
+              <Policies />
             </Route>
           </Switch>
         </div>

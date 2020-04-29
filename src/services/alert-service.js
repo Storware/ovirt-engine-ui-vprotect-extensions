@@ -1,7 +1,7 @@
 import getPluginApi from '../plugin-api'
 import {webadminToastTypes} from '../constants'
 
-export class AlertService {
+class AlertService {
   error (text) {
     getPluginApi().showToast(webadminToastTypes.danger, text)
   }
@@ -10,3 +10,5 @@ export class AlertService {
     getPluginApi().showToast(webadminToastTypes.info, text)
   }
 }
+
+export const alertService = new AlertService()
