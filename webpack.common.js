@@ -137,25 +137,7 @@ async function common () {
         chunks: ['webpack-manifest', 'vendor', 'plugin']
       }),
       new HtmlWebpackPlugin({
-        filename: 'virtual-machine-list.html',
-        template: 'static/html/template.template.ejs',
-        inject: true,
-        chunks: ['webpack-manifest', 'vendor', 'template']
-      }),
-      new HtmlWebpackPlugin({
-        filename: 'task-console.html',
-        template: 'static/html/template.template.ejs',
-        inject: true,
-        chunks: ['webpack-manifest', 'vendor', 'template']
-      }),
-      new HtmlWebpackPlugin({
-        filename: 'dashboard.html',
-        template: 'static/html/template.template.ejs',
-        inject: true,
-        chunks: ['webpack-manifest', 'vendor', 'template']
-      }),
-      new HtmlWebpackPlugin({
-        filename: 'policies.html',
+        filename: 'template.html',
         template: 'static/html/template.template.ejs',
         inject: true,
         chunks: ['webpack-manifest', 'vendor', 'template']

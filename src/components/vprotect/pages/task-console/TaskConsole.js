@@ -12,11 +12,11 @@ import {
   Toolbar,
   Table
 } from 'patternfly-react'
-import {vprotectService} from '../../../services/vprotect-service'
-import {DateShow} from '../convert/Date'
-import {TableWithPagination} from '../controls/TableWithPagination'
-import {TableFilter} from '../controls/TableFilter'
-import {alertService} from '../../../services/alert-service'
+import {vprotectService} from '../../services/vprotect-service'
+import {DateShow} from '../../compoenents/convert/Date'
+import {TableWithPagination} from '../../compoenents/controls/TableWithPagination'
+import {TableFilter} from '../../compoenents/controls/TableFilter'
+import {alertService} from '../../services/alert-service'
 
 export class TaskConsole extends React.Component {
   filterFields = [
@@ -399,7 +399,7 @@ export class TaskConsole extends React.Component {
             </div>
           </div>
         </Toolbar>
-        <div className={'padding-top-20px'}>
+        <div className={'pt-4'}>
           <Grid fluid>
             <TableWithPagination columns={this.state.columns} sortingColumns={this.state.sortingColumns}
               rows={this.state.filteredRows} />

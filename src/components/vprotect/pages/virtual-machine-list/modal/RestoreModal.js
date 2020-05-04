@@ -1,14 +1,14 @@
 import React from 'react'
 import {Modal, Icon} from 'patternfly-react'
 import PropTypes from 'prop-types'
-import {vprotectService} from '../../../../services/vprotect-service'
+import {vprotectService} from '../../../services/vprotect-service'
 import {Dropdown} from 'primereact/dropdown'
-import {alertService} from '../../../../services/alert-service'
-import {DateDropdown} from '../../controls/DateDropdown'
+import {alertService} from '../../../services/alert-service'
+import {DateDropdown} from '../../../compoenents/input/DateDropdown'
 import {InputText} from 'primereact/inputtext'
-import {Filesize} from '../../convert/Filezize'
+import {Filesize} from '../../../compoenents/convert/Filezize'
 import {ToggleButton} from 'primereact/togglebutton'
-import {msg} from '../../../../intl-messages'
+import {msg} from '../../../../../intl-messages'
 
 export class RestoreModal extends React.Component {
   constructor (props) {

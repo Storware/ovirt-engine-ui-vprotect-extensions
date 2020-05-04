@@ -19,38 +19,17 @@ label, input {
     width: 100%;
 }
 
-.d-flex {
-    display: flex;
-}
-
-.flex-row {
-    flex-direction: row;
-}
-
-.justify-content-between {
-    justify-content: space-between;
-}
-
-.justify-content-around {
-    justify-content: space-around;
-}
-
-.align-self-center {
-    align-self: center;
-}
-
 .pie-chart-with-title-container {
     min-height: 237px;
 }
 
-.color-black {
-    color: #333 ;
-}
-
 .w-100 {
-    width: 100%;
+    width: 100% !important;
 }
 
+.color-black {
+    color: #333;
+}
 .dashboardContainer .list-group-item {
     margin-right: -2px;
 }

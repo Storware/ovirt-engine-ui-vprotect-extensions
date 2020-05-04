@@ -29,7 +29,7 @@
     "@patternfly/react-charts": "^5.1.5",
     "@patternfly/react-core": "^3.120.5",
     "@patternfly/react-icons": "^3.14.18",
-    "bootstrap": "3.4.1",
+    "bootstrap": "^4.4.1",
     "c3": "0.4.22",
     "classnames": "^2.2.3",
     "css-element-queries": "^0.4.0",

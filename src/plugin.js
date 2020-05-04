@@ -1,6 +1,6 @@
 import '_/logger'
 import getPluginApi from './plugin-api'
-import appInit from './services/app-init'
+import appInit from './components/vprotect/services/app-init'
 import { addPlaces } from './integrations/places'
 import { addButtons } from './integrations/buttons'
 
@@ -24,7 +24,7 @@ import 'patternfly-react/dist/css/patternfly-react.css'
     do right now (4-Nov-2019).
  */
 // import '@patternfly/patternfly/patternfly-no-reset.css'
-import {vprotectService} from './services/vprotect-service'
+import {vprotectService} from './components/vprotect/services/vprotect-service'
 
 const username = getPluginApi().configObject().username
 const password = getPluginApi().configObject().password

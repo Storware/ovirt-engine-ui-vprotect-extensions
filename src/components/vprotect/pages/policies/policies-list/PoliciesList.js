@@ -1,22 +1,28 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import * as sort from 'sortabular'
 import {
   defaultSortingOrder,
   sortableHeaderCellFormatter,
+  tableCellFormatter,
   TABLE_SORT_DIRECTION
-, Grid} from 'patternfly-react'
-import {vprotectService} from '../../../../../services/vprotect-service'
-import {DateShow} from '../../../convert/Date'
-import {Filesize} from '../../../convert/Filezize'
-import {TableFilter} from '../../../controls/TableFilter'
-import {TableWithPagination} from '../../../controls/TableWithPagination'
+  , Grid, Toolbar, Button
+} from 'patternfly-react'
 
-export class BackupHistoryList extends React.Component {
+import {policiesService} from '../../../services/policies-service'
+import {Filesize} from '../../../compoenents/convert/Filezize'
+import {TableFilter} from '../../../compoenents/controls/TableFilter'
+import {TableWithPagination} from '../../../compoenents/controls/TableWithPagination'
+import {
+  Link,
+  withRouter
+} from 'react-router-dom'
+import PropTypes from 'prop-types'
+
+export class PoliciesList extends React.Component {
   constructor (props) {
     super(props)
 
-    vprotectService.getProtectedEntityBackups(this.props.virtualEnvironmentGuid).then(result => {
+    policiesService.getPolicies('vm-backup').then(result => {
       this.setState({
         rows: result,
         filteredRows: result
@@ -55,9 +61,9 @@ export class BackupHistoryList extends React.Component {
 
       columns: [
         {
-          property: 'snapshotTime',
+          property: 'name',
           header: {
-            label: 'Snapshot Time',
+            label: 'Name',
             props: {
               index: 0,
               rowSpan: 1,
@@ -71,15 +77,19 @@ export class BackupHistoryList extends React.Component {
             props: {
               index: 0
             },
-            formatters: [(value) => {
-              return <td><DateShow date={value} timezone={this.props.user.uiTimeZone} /></td>
+            formatters: [(value, {rowData}) => {
+              return <td>
+                <Link to={`${this.props.match.path}/${rowData.guid}`}>
+                  {value}
+                </Link>
+              </td>
             }]
           }
         },
         {
-          property: 'status',
+          property: 'backupDestination',
           header: {
-            label: 'Status',
+            label: 'Backup Destination',
             props: {
               index: 1,
               rowSpan: 1,
@@ -93,15 +103,17 @@ export class BackupHistoryList extends React.Component {
             props: {
               index: 1
             },
-            formatters: [(value) => {
-              return <td>{value && <span className={value.name === 'SUCCESS' ? 'text-success' : value.name === 'FAILED' ? 'text-danger' : ''}>{value.description}</span>}</td>
+            formatters: [value => {
+              return <td>
+                {value ? value.name : ''}
+              </td>
             }]
           }
         },
         {
-          property: 'statusInfo',
+          property: 'priority',
           header: {
-            label: 'Status Info',
+            label: 'Priority',
             props: {
               index: 2,
               rowSpan: 1,
@@ -115,15 +127,13 @@ export class BackupHistoryList extends React.Component {
             props: {
               index: 2
             },
-            formatters: [(value) => {
-              return <td>{value}</td>
-            }]
+            formatters: [tableCellFormatter]
           }
         },
         {
-          property: 'type',
+          property: 'vmCount',
           header: {
-            label: 'Type',
+            label: 'VM Count',
             props: {
               index: 3,
               rowSpan: 1,
@@ -137,15 +147,13 @@ export class BackupHistoryList extends React.Component {
             props: {
               index: 3
             },
-            formatters: [(value) => {
-              return <td>{value && value.description}</td>
-            }]
+            formatters: [tableCellFormatter]
           }
         },
         {
-          property: 'size',
+          property: 'vmBackupPolicy',
           header: {
-            label: 'Size',
+            label: 'Policy',
             props: {
               index: 4,
               rowSpan: 1,
@@ -159,8 +167,34 @@ export class BackupHistoryList extends React.Component {
             props: {
               index: 4
             },
+            formatters: [value => {
+              return <td>
+                {value ? value.name : ''}
+              </td>
+            }]
+          }
+        },
+        {
+          property: 'averageBackupSize',
+          header: {
+            label: 'Average Backup Size',
+            props: {
+              index: 5,
+              rowSpan: 1,
+              colSpan: 1
+            },
+            transforms: [sortableTransform],
+            formatters: [sortingFormatter],
+            customFormatters: [sortableHeaderCellFormatter]
+          },
+          cell: {
+            props: {
+              index: 5
+            },
             formatters: [(value) => {
-              return <td><Filesize bytes={value} /></td>
+              return <td>
+                <Filesize bytes={value} />
+              </td>
             }]
           }
         }
@@ -179,20 +213,26 @@ export class BackupHistoryList extends React.Component {
 
       selectedVirtualEnvironment: null,
       showBackupModal: false,
+      showBackupHistoryListModal: false,
       showRestoreModal: false
     }
   }
 
   filterFields = [
     {
-      property: 'statusInfo',
-      title: 'Status info',
-      placeholder: 'Filter by Status info',
+      property: 'name',
+      title: 'Name',
+      placeholder: 'Filter by Name',
       filterType: 'text'
     }, {
-      property: 'status.name',
-      title: 'Status',
-      placeholder: 'Filter by Status',
+      property: 'guid',
+      title: 'Guid',
+      placeholder: 'Filter by Guid',
+      filterType: 'text'
+    }, {
+      property: 'backupDestination.name',
+      title: 'Backup Destination',
+      placeholder: 'Filter by Backup Destination',
       filterType: 'text'
     }
   ]
@@ -200,19 +240,34 @@ export class BackupHistoryList extends React.Component {
   render () {
     return (
       <div>
-        <Grid fluid>
-          <TableFilter fields={this.filterFields} rows={this.state.rows} change={(value) => {
-            this.setState({filteredRows: value})
-          }} />
-          <TableWithPagination columns={this.state.columns} sortingColumns={this.state.sortingColumns}
-            rows={this.state.filteredRows} />
-        </Grid>
+        <Toolbar>
+          <div className={'d-flex flex-row justify-content-between'}>
+            <div>
+              <TableFilter fields={this.filterFields} rows={this.state.rows} change={(value) => {
+                this.setState({filteredRows: value})
+              }} />
+            </div>
+            <div className={'form-group'}>
+              <Link to={`${this.props.match.path}/create`}>
+                <Button className={'btn btn-default'}>Create</Button>
+              </Link>
+            </div>
+          </div>
+        </Toolbar>
+        <div className={'pt-4'}>
+          <Grid fluid>
+            <TableWithPagination columns={this.state.columns}
+              sortingColumns={this.state.sortingColumns}
+              rows={this.state.filteredRows} />
+          </Grid>
+        </div>
       </div>
     )
   }
 }
 
-BackupHistoryList.propTypes = {
-  user: PropTypes.any.isRequired,
-  virtualEnvironmentGuid: PropTypes.string.isRequired
+PoliciesList.propTypes = {
+  match: PropTypes.object.isRequired
 }
+
+export default withRouter(PoliciesList)

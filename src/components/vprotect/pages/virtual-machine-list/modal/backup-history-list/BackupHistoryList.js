@@ -1,28 +1,22 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import * as sort from 'sortabular'
 import {
   defaultSortingOrder,
   sortableHeaderCellFormatter,
-  tableCellFormatter,
   TABLE_SORT_DIRECTION
-  , Grid, Toolbar
-} from 'patternfly-react'
-
+, Grid} from 'patternfly-react'
 import {vprotectService} from '../../../../services/vprotect-service'
-import {Filesize} from '../../convert/Filezize'
-import {TableFilter} from '../../controls/TableFilter'
-import {TableWithPagination} from '../../controls/TableWithPagination'
-import {
-  Link,
-  withRouter
-} from 'react-router-dom'
-import PropTypes from 'prop-types'
+import {DateShow} from '../../../../compoenents/convert/Date'
+import {Filesize} from '../../../../compoenents/convert/Filezize'
+import {TableFilter} from '../../../../compoenents/controls/TableFilter'
+import {TableWithPagination} from '../../../../compoenents/controls/TableWithPagination'
 
-export class PoliciesList extends React.Component {
+export class BackupHistoryList extends React.Component {
   constructor (props) {
     super(props)
 
-    vprotectService.getPolicies('vm-backup').then(result => {
+    vprotectService.getProtectedEntityBackups(this.props.virtualEnvironmentGuid).then(result => {
       this.setState({
         rows: result,
         filteredRows: result
@@ -61,9 +55,9 @@ export class PoliciesList extends React.Component {
 
       columns: [
         {
-          property: 'name',
+          property: 'snapshotTime',
           header: {
-            label: 'Name',
+            label: 'Snapshot Time',
             props: {
               index: 0,
               rowSpan: 1,
@@ -77,19 +71,15 @@ export class PoliciesList extends React.Component {
             props: {
               index: 0
             },
-            formatters: [(value, {rowData}) => {
-              return <td>
-                <Link to={`${this.props.match.path}/${rowData.guid}`}>
-                  {value}
-                </Link>
-              </td>
+            formatters: [(value) => {
+              return <td><DateShow date={value} timezone={this.props.user.uiTimeZone} /></td>
             }]
           }
         },
         {
-          property: 'backupDestination',
+          property: 'status',
           header: {
-            label: 'Backup Destination',
+            label: 'Status',
             props: {
               index: 1,
               rowSpan: 1,
@@ -103,17 +93,15 @@ export class PoliciesList extends React.Component {
             props: {
               index: 1
             },
-            formatters: [value => {
-              return <td>
-                {value ? value.name : ''}
-              </td>
+            formatters: [(value) => {
+              return <td>{value && <span className={value.name === 'SUCCESS' ? 'text-success' : value.name === 'FAILED' ? 'text-danger' : ''}>{value.description}</span>}</td>
             }]
           }
         },
         {
-          property: 'priority',
+          property: 'statusInfo',
           header: {
-            label: 'Priority',
+            label: 'Status Info',
             props: {
               index: 2,
               rowSpan: 1,
@@ -127,13 +115,15 @@ export class PoliciesList extends React.Component {
             props: {
               index: 2
             },
-            formatters: [tableCellFormatter]
+            formatters: [(value) => {
+              return <td>{value}</td>
+            }]
           }
         },
         {
-          property: 'vmCount',
+          property: 'type',
           header: {
-            label: 'VM Count',
+            label: 'Type',
             props: {
               index: 3,
               rowSpan: 1,
@@ -147,13 +137,15 @@ export class PoliciesList extends React.Component {
             props: {
               index: 3
             },
-            formatters: [tableCellFormatter]
+            formatters: [(value) => {
+              return <td>{value && value.description}</td>
+            }]
           }
         },
         {
-          property: 'vmBackupPolicy',
+          property: 'size',
           header: {
-            label: 'Policy',
+            label: 'Size',
             props: {
               index: 4,
               rowSpan: 1,
@@ -167,34 +159,8 @@ export class PoliciesList extends React.Component {
             props: {
               index: 4
             },
-            formatters: [value => {
-              return <td>
-                {value ? value.name : ''}
-              </td>
-            }]
-          }
-        },
-        {
-          property: 'averageBackupSize',
-          header: {
-            label: 'Average Backup Size',
-            props: {
-              index: 5,
-              rowSpan: 1,
-              colSpan: 1
-            },
-            transforms: [sortableTransform],
-            formatters: [sortingFormatter],
-            customFormatters: [sortableHeaderCellFormatter]
-          },
-          cell: {
-            props: {
-              index: 5
-            },
             formatters: [(value) => {
-              return <td>
-                <Filesize bytes={value} />
-              </td>
+              return <td><Filesize bytes={value} /></td>
             }]
           }
         }
@@ -213,26 +179,20 @@ export class PoliciesList extends React.Component {
 
       selectedVirtualEnvironment: null,
       showBackupModal: false,
-      showBackupHistoryListModal: false,
       showRestoreModal: false
     }
   }
 
   filterFields = [
     {
-      property: 'name',
-      title: 'Name',
-      placeholder: 'Filter by Name',
+      property: 'statusInfo',
+      title: 'Status info',
+      placeholder: 'Filter by Status info',
       filterType: 'text'
     }, {
-      property: 'guid',
-      title: 'Guid',
-      placeholder: 'Filter by Guid',
-      filterType: 'text'
-    }, {
-      property: 'backupDestination.name',
-      title: 'Backup Destination',
-      placeholder: 'Filter by Backup Destination',
+      property: 'status.name',
+      title: 'Status',
+      placeholder: 'Filter by Status',
       filterType: 'text'
     }
   ]
@@ -240,25 +200,19 @@ export class PoliciesList extends React.Component {
   render () {
     return (
       <div>
-        <Toolbar>
+        <Grid fluid>
           <TableFilter fields={this.filterFields} rows={this.state.rows} change={(value) => {
             this.setState({filteredRows: value})
           }} />
-        </Toolbar>
-        <div className={'padding-top-20px'}>
-          <Grid fluid>
-            <TableWithPagination columns={this.state.columns}
-              sortingColumns={this.state.sortingColumns}
-              rows={this.state.filteredRows} />
-          </Grid>
-        </div>
+          <TableWithPagination columns={this.state.columns} sortingColumns={this.state.sortingColumns}
+            rows={this.state.filteredRows} />
+        </Grid>
       </div>
     )
   }
 }
 
-PoliciesList.propTypes = {
-  match: PropTypes.object.isRequired
+BackupHistoryList.propTypes = {
+  user: PropTypes.any.isRequired,
+  virtualEnvironmentGuid: PropTypes.string.isRequired
 }
-
-export default withRouter(PoliciesList)

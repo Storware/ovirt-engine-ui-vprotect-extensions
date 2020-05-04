@@ -1,7 +1,7 @@
 import '_/logger'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import appInit from './services/app-init'
+import appInit from './components/vprotect/services/app-init'
 import 'patternfly/dist/css/patternfly.min.css'
 import 'patternfly/dist/css/patternfly-additions.min.css'
 import 'patternfly-react/dist/css/patternfly-react.css'
@@ -17,6 +17,7 @@ import '../static/css/vprotect.css'
 // components and remove Bootstrap & jQuery dependencies. (Note: jQuery is loaded
 // automatically through webpack ProvidePlugin, no explicit import needed here.)
 import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap-grid.css'
 
 // Bootstrap 3.3.7 Tooltip.getPosition() function has a bug, this override fixes
 // the problem.

@@ -1,5 +1,5 @@
-import getPluginApi from '../plugin-api'
-import {webadminToastTypes} from '../constants'
+import getPluginApi from '../../../plugin-api'
+import {webadminToastTypes} from '../../../constants'
 
 class AlertService {
   error (text) {

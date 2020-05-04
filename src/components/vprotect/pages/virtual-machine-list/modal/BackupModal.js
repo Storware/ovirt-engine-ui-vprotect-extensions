@@ -3,9 +3,10 @@ import {Modal, Icon, Slider} from 'patternfly-react'
 import PropTypes from 'prop-types'
 import {Calendar} from 'primereact/calendar'
 import {Dropdown} from 'primereact/dropdown'
-import {vprotectService} from '../../../../services/vprotect-service'
-import {msg} from '../../../../intl-messages'
-import {alertService} from '../../../../services/alert-service'
+import {vprotectService} from '../../../services/vprotect-service'
+import {backupDestinationsService} from '../../../services/backup-destinations-service'
+import {msg} from '../../../../../intl-messages'
+import {alertService} from '../../../services/alert-service'
 
 export class BackupModal extends React.Component {
   constructor (props) {
@@ -27,7 +28,7 @@ export class BackupModal extends React.Component {
   }
 
   getBackupDestinationsAndBackupTypes () {
-    vprotectService.getBackupDestinationsForVMs([this.props.virtualEnvironment]).then(result => {
+    backupDestinationsService.getBackupDestinationsForVMs([this.props.virtualEnvironment]).then(result => {
       const backupTypes = vprotectService.getBackupTypes(this.props.virtualEnvironment)
       this.setState({
         backupDestinations: result,

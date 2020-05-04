@@ -1,7 +1,8 @@
 import React from 'react'
-import {vprotectService} from '../../../services/vprotect-service'
+import {vprotectService} from '../../services/vprotect-service'
+import {hypervisorsService} from '../../services/hypervisors-service'
 import {Button, DonutChart, ListView, ListViewItem, ProgressBar, Toolbar} from 'patternfly-react'
-import {Filesize} from '../convert/Filezize'
+import {Filesize} from '../../compoenents/convert/Filezize'
 
 export class Dashboard extends React.Component {
   constructor (props) {
@@ -40,8 +41,8 @@ export class Dashboard extends React.Component {
             </div>
             <div className={'form-group'}>
               <Button className={'btn btn-default'} onClick={() => {
-                this.vprotectService.getAllHypervisorManagers().then(hypervisorManagers => {
-                  this.vprotectService.submitTaskSync({
+                hypervisorsService.getAllHypervisorManagers().then(hypervisorManagers => {
+                  vprotectService.submitTaskSync({
                     hypervisorManagers: hypervisorManagers.filter(el => el.type.name === 'RHV').map(el => {
                       return {guid: el.guid}
                     })
@@ -51,7 +52,7 @@ export class Dashboard extends React.Component {
             </div>
           </div>
         </Toolbar>
-        <div className={'container-fluid padding-top-20px'}>
+        <div className={'container-fluid pt-4'}>
           <div className='col-md-6'>
             <div className='card-pf'>
               <div className={'card-pf-heading'}>

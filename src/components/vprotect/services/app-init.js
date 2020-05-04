@@ -1,7 +1,7 @@
-import { supportedLocales, supportedTimeZones, defaultTimeZone } from '../constants'
-import getPluginApi from '../plugin-api'
-import { updateConfig } from '../plugin-config'
-import { initLocale, initTimeZone } from '../utils/intl'
+import { supportedLocales, supportedTimeZones, defaultTimeZone } from '../../../constants'
+import getPluginApi from '../../../plugin-api'
+import { updateConfig } from '../../../plugin-config'
+import { initLocale, initTimeZone } from '../../../utils/intl'
 
 // polyfill Intl API (ECMA-402) if not natively supported
 const polyfillIntlFn = (resolve, reject) => {

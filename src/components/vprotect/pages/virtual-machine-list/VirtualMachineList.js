@@ -13,18 +13,18 @@ import {
 
 import {BackupModal} from './modal/BackupModal'
 import {RestoreModal} from './modal/RestoreModal'
-import {vprotectService} from '../../../services/vprotect-service'
-import {DateShow} from '../convert/Date'
-import {Filesize} from '../convert/Filezize'
-import {TableFilter} from '../controls/TableFilter'
-import {TableWithPagination} from '../controls/TableWithPagination'
+import {virtualMachinesService} from '../../services/virtual-machines.service'
+import {DateShow} from '../../compoenents/convert/Date'
+import {Filesize} from '../../compoenents/convert/Filezize'
+import {TableFilter} from '../../compoenents/controls/TableFilter'
+import {TableWithPagination} from '../../compoenents/controls/TableWithPagination'
 import {BackupHistoryListContainer} from './modal/backup-history-list/BackupHistoryListContainer'
 
 export class VirtualMachineList extends React.Component {
   constructor (props) {
     super(props)
 
-    vprotectService.getVirtualMachines().then(result => {
+    virtualMachinesService.getVirtualMachines().then(result => {
       this.setState({
         rows: result,
         filteredRows: result
@@ -343,7 +343,7 @@ export class VirtualMachineList extends React.Component {
             this.setState({filteredRows: value})
           }} />
         </Toolbar>
-        <div className={'padding-top-20px'}>
+        <div className={'pt-4'}>
           <Grid fluid>
             <TableWithPagination columns={this.state.columns} sortingColumns={this.state.sortingColumns}
               rows={this.state.filteredRows} />

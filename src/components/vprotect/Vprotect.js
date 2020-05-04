@@ -1,23 +1,22 @@
 import React from 'react'
-import {VirtualMachineList} from './virtual-machine-list/VirtualMachineList'
-import {Dashboard} from './dashboard/Dashboard'
+import {VirtualMachineList} from './pages/virtual-machine-list/VirtualMachineList'
+import {Dashboard} from './pages/dashboard/Dashboard'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect
 } from 'react-router-dom'
-import {TaskConsole} from './task-console/TaskConsole'
-import Policies from './policies/Policies'
+import {TaskConsole} from './pages/task-console/TaskConsole'
+import Policies from './pages/policies/Policies'
 
 export class Vprotect extends React.Component {
   constructor (props) {
     super(props)
 
     const href = window.location.href
-    const start = href.indexOf('vprotect/')
-    const end = href.indexOf('.html')
-    const path = href.substring(start + 9, end)
+    const start = href.indexOf(';')
+    const path = href.substring(start + 1)
 
     this.state = {
       user: JSON.parse(localStorage.getItem('user')),
@@ -34,7 +33,7 @@ export class Vprotect extends React.Component {
             state: {from: '/'}
           }}
         />
-        <div className={'padding-top-20px dashboardContainer'}>
+        <div className={'pt-4 container-fluid'}>
           <Switch>
             <Route path='/dashboard'>
               <Dashboard user={this.state.user} />

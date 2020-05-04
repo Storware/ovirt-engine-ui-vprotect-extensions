@@ -1,4 +1,4 @@
-import getPluginApi from '../plugin-api'
+import getPluginApi from '../../../plugin-api'
 import {alertService} from './alert-service'
 
 const vprotectURL = getPluginApi().configObject().vProtectURL

@@ -1,4 +1,4 @@
-import appInit from './services/app-init'
+import appInit from './components/vprotect/services/app-init'
 import { defaultLocale, defaultTimeZone } from './constants'
 import { resetApi } from './plugin-api'
 import { clearMessageCache } from './utils/intl'

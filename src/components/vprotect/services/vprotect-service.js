@@ -32,28 +32,8 @@ class VprotectService {
     return vprotectApiService.get(`/dashboard/backup-destination-stats`)
   }
 
-  getAllHypervisorManagers () {
-    return vprotectApiService.get(`/hypervisor-managers`)
-  }
-
   submitTaskSync (task) {
     return vprotectApiService.post(`/tasks/inventory-sync`, task)
-  }
-
-  getVirtualMachines () {
-    return vprotectApiService.get(`/virtual-machines?hypervisor-manager-type=RHV`)
-  }
-
-  getPolicies (type) {
-    return vprotectApiService.get(`/policies/${type}?extended=true`)
-  }
-
-  getPolicy (type, guid) {
-    return vprotectApiService.get(`/policies/${type}/${guid}`)
-  }
-
-  getBackupDestinationsForVMs (vms) {
-    return vprotectApiService.post(`/backup-destinations/usable-for-vms`, vms)
   }
 
   submitExportTask (task) {
