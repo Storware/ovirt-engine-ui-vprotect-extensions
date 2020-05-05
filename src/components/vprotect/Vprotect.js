@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom'
 import {TaskConsole} from './pages/task-console/TaskConsole'
 import Policies from './pages/policies/Policies'
+import Schedules from './pages/schedules/Schedules'
 
 export class Vprotect extends React.Component {
   constructor (props) {
@@ -46,6 +47,9 @@ export class Vprotect extends React.Component {
             </Route>
             <Route path='/policies'>
               <Policies />
+            </Route>
+            <Route path='/schedules'>
+              <Schedules />
             </Route>
           </Switch>
         </div>

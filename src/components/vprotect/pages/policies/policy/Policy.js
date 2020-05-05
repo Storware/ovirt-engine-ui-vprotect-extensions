@@ -78,12 +78,10 @@ class Policy extends React.Component {
       })
     })
 
-    schedulesService.getAllSchedules().then(result => {
+    schedulesService.getAllTypeSchedules('VM_BACKUP').then(result => {
       this.setState({
         ...this.state,
-        schedules: result.filter((v) => {
-          return v.type.name === 'VM_BACKUP'
-        })
+        schedules: result
       })
     })
   }
@@ -141,6 +139,7 @@ class Policy extends React.Component {
           <AccordionTab header='Auto-assigment'>
             <h3>Auto-assign Mode</h3>
             <Dropdown value={this.state.model.autoAssignSettings.mode} optionLabel='description'
+              dataKey='name'
               options={policiesService.assignModes} onChange={(e) => {
               this.setState({
                 ...this.state,
@@ -229,6 +228,7 @@ class Policy extends React.Component {
               <h3>Auto-assign Virtual Environments only if they belong to the following clusters (optional)</h3>
               <ListBox multiple
                 optionLabel='name'
+                dataKey='guid'
                 value={this.state.model.autoAssignSettings.hvClusters}
                 options={this.state.hypervisorClusters}
                 className={'w-100'}
@@ -251,6 +251,7 @@ class Policy extends React.Component {
               <h3>Choose Virtual Environments</h3>
               <ListBox multiple
                 filter
+                dataKey='guid'
                 optionLabel='name'
                 value={this.state.model.vms}
                 className={'w-100'}
@@ -270,6 +271,7 @@ class Policy extends React.Component {
             <div>
               <h3>Select Backup Destination</h3>
               <Dropdown value={this.state.model.rules[0].backupDestinations[0]} optionLabel='name'
+                dataKey='guid'
                 options={this.state.backupDestinations} onChange={(e) => {
                 this.setState({
                   ...this.state,
@@ -287,6 +289,7 @@ class Policy extends React.Component {
               <h3>Choose schedules</h3>
               <ListBox multiple
                 optionLabel='name'
+                dataKey='guid'
                 value={this.state.model.rules[0].schedules}
                 className={'w-100'}
                 options={this.state.schedules}

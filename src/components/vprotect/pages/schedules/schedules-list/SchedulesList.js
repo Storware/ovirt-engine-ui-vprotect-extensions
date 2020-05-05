@@ -3,13 +3,11 @@ import * as sort from 'sortabular'
 import {
   defaultSortingOrder,
   sortableHeaderCellFormatter,
-  tableCellFormatter,
   TABLE_SORT_DIRECTION
   , Grid, Toolbar, Button, actionHeaderCellFormatter, Table, MenuItem
 } from 'patternfly-react'
 
-import {policiesService} from '../../../services/policies-service'
-import {Filesize} from '../../../compoenents/convert/Filezize'
+import {schedulesService} from '../../../services/schedules-service'
 import {TableFilter} from '../../../compoenents/controls/TableFilter'
 import {TableWithPagination} from '../../../compoenents/controls/TableWithPagination'
 import {
@@ -17,14 +15,16 @@ import {
   withRouter
 } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {BackupModal} from '../../../compoenents/modal/BackupModal'
 import {alertService} from '../../../services/alert-service'
 
-export class PoliciesList extends React.Component {
+export class SchedulesList extends React.Component {
   constructor (props) {
     super(props)
 
-    policiesService.getPolicies('vm-backup').then(result => {
+    schedulesService.getAllTypeSchedules('VM_BACKUP').then(result => {
+      result = result.map(el => {
+        return {...el, daysOfWeek: schedulesService.getTranslatedDays(el)}
+      })
       this.setState({
         rows: result,
         filteredRows: result
@@ -89,9 +89,9 @@ export class PoliciesList extends React.Component {
           }
         },
         {
-          property: 'backupDestination',
+          property: 'active',
           header: {
-            label: 'Backup Destination',
+            label: 'Active',
             props: {
               index: 1,
               rowSpan: 1,
@@ -105,17 +105,15 @@ export class PoliciesList extends React.Component {
             props: {
               index: 1
             },
-            formatters: [value => {
-              return <td>
-                {value ? value.name : ''}
-              </td>
+            formatters: [(value) => {
+              return <td className={'text-center'}>{value ? <span className='fa fa-check text-success' /> : <span className='fa fa-times text-danger' />}</td>
             }]
           }
         },
         {
-          property: 'priority',
+          property: 'hour',
           header: {
-            label: 'Priority',
+            label: 'Schedule',
             props: {
               index: 2,
               rowSpan: 1,
@@ -129,13 +127,17 @@ export class PoliciesList extends React.Component {
             props: {
               index: 2
             },
-            formatters: [tableCellFormatter]
+            formatters: [(value, {rowData}) => {
+              return <td>
+                {schedulesService.getScheduleTimeOrIntervalLabel(rowData)}
+              </td>
+            }]
           }
         },
         {
-          property: 'vmCount',
+          property: 'daysOfWeek',
           header: {
-            label: 'VM Count',
+            label: 'Days',
             props: {
               index: 3,
               rowSpan: 1,
@@ -149,13 +151,19 @@ export class PoliciesList extends React.Component {
             props: {
               index: 3
             },
-            formatters: [tableCellFormatter]
+            formatters: [(value) => {
+              return <td>
+                {value.map(el => {
+                  return <span>{el.name} </span>
+                })}
+              </td>
+            }]
           }
         },
         {
-          property: 'vmBackupPolicy',
+          property: 'backupType',
           header: {
-            label: 'Policy',
+            label: 'Backup Type',
             props: {
               index: 4,
               rowSpan: 1,
@@ -171,15 +179,15 @@ export class PoliciesList extends React.Component {
             },
             formatters: [value => {
               return <td>
-                {value ? value.name : ''}
+                {value ? value.description : ''}
               </td>
             }]
           }
         },
         {
-          property: 'averageBackupSize',
+          property: 'rules',
           header: {
-            label: 'Average Backup Size',
+            label: 'Policies',
             props: {
               index: 5,
               rowSpan: 1,
@@ -193,9 +201,33 @@ export class PoliciesList extends React.Component {
             props: {
               index: 5
             },
-            formatters: [(value) => {
+            formatters: [value => {
               return <td>
-                <Filesize bytes={value} />
+                {value.length}
+              </td>
+            }]
+          }
+        },
+        {
+          property: 'startWindowLength',
+          header: {
+            label: 'Start window [min]',
+            props: {
+              index: 6,
+              rowSpan: 1,
+              colSpan: 1
+            },
+            transforms: [sortableTransform],
+            formatters: [sortingFormatter],
+            customFormatters: [sortableHeaderCellFormatter]
+          },
+          cell: {
+            props: {
+              index: 6
+            },
+            formatters: [value => {
+              return <td>
+                {value / 1000 / 60 }
               </td>
             }]
           }
@@ -204,7 +236,7 @@ export class PoliciesList extends React.Component {
           header: {
             label: 'Actions',
             props: {
-              index: 6,
+              index: 7,
               rowSpan: 1,
               colSpan: 1
             },
@@ -212,7 +244,7 @@ export class PoliciesList extends React.Component {
           },
           cell: {
             props: {
-              index: 6,
+              index: 7,
               rowSpan: 1,
               colSpan: 1
             },
@@ -222,22 +254,13 @@ export class PoliciesList extends React.Component {
                   <Table.Actions key='0'>
                     <Table.DropdownKebab id='myKebab' pullRight>
                       <MenuItem onClick={async () => {
-                        const policy = await policiesService.getPolicy('vm-backup', rowData.guid)
-                        this.setState(
-                          {
-                            virtualEnvironments: policy.vms,
-                            showBackupModal: true
-                          }
-                        )
-                      }}>Backup</MenuItem>
-                      <MenuItem onClick={async () => {
-                        await policiesService.deletePolicy('vm-backup', rowData.guid)
-                        const result = await policiesService.getPolicies('vm-backup')
+                        await schedulesService.deleteSchedule(rowData.guid)
+                        const result = await schedulesService.getAllTypeSchedules('VM_BACKUP')
                         this.setState({
                           rows: result,
                           filteredRows: result
                         })
-                        alertService.info('Policy removed')
+                        alertService.info('Schedule removed')
                       }}>Remove</MenuItem>
                     </Table.DropdownKebab>
                   </Table.Actions>
@@ -309,21 +332,13 @@ export class PoliciesList extends React.Component {
               rows={this.state.filteredRows} />
           </Grid>
         </div>
-        {this.state.showBackupModal &&
-        <BackupModal closeModal={() => {
-          this.setState({
-            ...this.state,
-            showBackupModal: false
-          })
-        }}
-          virtualEnvironments={this.state.virtualEnvironments} />}
       </div>
     )
   }
 }
 
-PoliciesList.propTypes = {
+SchedulesList.propTypes = {
   match: PropTypes.object.isRequired
 }
 
-export default withRouter(PoliciesList)
+export default withRouter(SchedulesList)

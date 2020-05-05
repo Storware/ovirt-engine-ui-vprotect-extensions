@@ -30,6 +30,10 @@ class PoliciesService {
   updateRule (type, guid, rule) {
     return vprotectApiService.put(`/rules/${type}/${guid}`, rule)
   }
+
+  deletePolicy (type, id) {
+    return vprotectApiService.delete(`/policies/${type}/${id}`)
+  }
 }
 
 export const policiesService = new PoliciesService()

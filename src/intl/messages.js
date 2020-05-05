@@ -104,6 +104,12 @@ const messageDescriptors = {
     description: 'title `Policies` used in various components'
   },
 
+  vprotectSchedules: {
+    id: 'common.vprotectSchedules',
+    defaultMessage: 'Schedules',
+    description: 'title `Schedules` used in various components'
+  },
+
   used: {
     id: 'common.used',
     defaultMessage: 'Used',

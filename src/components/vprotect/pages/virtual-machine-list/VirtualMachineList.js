@@ -11,7 +11,7 @@ import {
   , Grid, Toolbar
 } from 'patternfly-react'
 
-import {BackupModal} from './modal/BackupModal'
+import {BackupModal} from '../../compoenents/modal/BackupModal'
 import {RestoreModal} from './modal/RestoreModal'
 import {virtualMachinesService} from '../../services/virtual-machines.service'
 import {DateShow} from '../../compoenents/convert/Date'
@@ -351,7 +351,7 @@ export class VirtualMachineList extends React.Component {
         </div>
         {this.state.showBackupModal &&
         <BackupModal closeModal={this.closeModal}
-          virtualEnvironment={this.state.selectedVirtualEnvironment} />
+          virtualEnvironments={[this.state.selectedVirtualEnvironment]} />
         }
 
         {this.state.showRestoreModal &&
