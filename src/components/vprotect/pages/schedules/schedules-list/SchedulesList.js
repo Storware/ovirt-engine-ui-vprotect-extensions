@@ -16,6 +16,7 @@ import {
 } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {alertService} from '../../../services/alert-service'
+import {sourceToViewShiftedDays} from '../../../services/time'
 
 export class SchedulesList extends React.Component {
   constructor (props) {
@@ -23,7 +24,7 @@ export class SchedulesList extends React.Component {
 
     schedulesService.getAllTypeSchedules('VM_BACKUP').then(result => {
       result = result.map(el => {
-        return {...el, daysOfWeek: schedulesService.getTranslatedDays(el)}
+        return {...el, daysOfWeek: sourceToViewShiftedDays(el.daysOfWeek, el.hour)}
       })
       this.setState({
         rows: result,

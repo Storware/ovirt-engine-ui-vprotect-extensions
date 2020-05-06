@@ -18,33 +18,14 @@ import {virtualMachinesService} from '../../../services/virtual-machines.service
 import {backupDestinationsService} from '../../../services/backup-destinations-service'
 import {schedulesService} from '../../../services/schedules-service'
 import {alertService} from '../../../services/alert-service'
+import {VirtualMachineBackupPolicy} from '../../../model/VirtualMachineBackupPolicy'
 
 class Policy extends React.Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      model: {
-        name: '',
-        autoRemoveNonPresent: false,
-        priority: 50,
-        autoAssignSettings: {
-          mode: policiesService.assignModes[0],
-          includeTags: [],
-          includeRegExps: [],
-          excludeTags: [],
-          excludeRegExps: [],
-          hvClusters: []
-        },
-        vms: [],
-        rules: [
-          {
-            name: 'Default',
-            schedules: [],
-            backupDestinations: []
-          }
-        ]
-      },
+      model: new VirtualMachineBackupPolicy(),
       activeIndex: [0]
     }
 
