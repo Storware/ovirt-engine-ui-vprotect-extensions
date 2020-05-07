@@ -21,6 +21,7 @@ export class InputTime extends React.Component {
   render () {
     return (
       <Calendar value={this.state.value}
+        className='w-100'
         timeOnly
         hourFormat='24'
         onChange={(e) => {

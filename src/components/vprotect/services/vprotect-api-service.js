@@ -3,6 +3,16 @@ import {alertService} from './alert-service'
 
 const vprotectURL = getPluginApi().configObject().vProtectURL
 
+const errorMessage = (error) => {
+  if (error && error.error && error.error.message) {
+    return error.error.message
+  } else if (error && error.message) {
+    return error.message
+  } else {
+    return 'Something went wrong'
+  }
+}
+
 class VprotectApiService {
   get (url, options = {}) {
     return fetch(vprotectURL + url, {
@@ -16,7 +26,7 @@ class VprotectApiService {
     })
       .then(response => {
         if (!response.ok) {
-          alertService.error(response.statusText)
+          alertService.error(errorMessage(response))
           return Promise.reject(response)
         }
         return response.json()
@@ -35,7 +45,7 @@ class VprotectApiService {
     })
       .then(response => {
         if (!response.ok) {
-          alertService.error(response.statusText)
+          alertService.error(errorMessage(response))
           return Promise.reject(response)
         }
         return response.json()
@@ -54,7 +64,7 @@ class VprotectApiService {
     })
       .then(response => {
         if (!response.ok) {
-          alertService.error(response.statusText)
+          alertService.error(errorMessage(response))
           return Promise.reject(response)
         }
         return response.json()
@@ -72,7 +82,7 @@ class VprotectApiService {
     })
       .then(response => {
         if (!response.ok) {
-          alertService.error(response.statusText)
+          alertService.error(errorMessage(response))
           return Promise.reject(response)
         }
         return Promise.resolve()

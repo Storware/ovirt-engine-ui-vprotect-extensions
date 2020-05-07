@@ -9,8 +9,8 @@ class SchedulesService {
   ];
 
   executionTypes = [
-    {name: 'TIME', description: 'time'},
-    {name: 'INTERVAL', description: 'interval'}
+    {name: 'TIME', description: 'Time'},
+    {name: 'INTERVAL', description: 'Interval'}
   ];
 
   getAllTypeSchedules (type) {
@@ -23,6 +23,14 @@ class SchedulesService {
 
   getSchedule (id) {
     return vprotectApiService.get('/schedules/' + id)
+  }
+
+  createSchedule (schedule) {
+    return vprotectApiService.post('/schedules', schedule)
+  }
+
+  updateSchedule (id, schedule) {
+    return vprotectApiService.put('/schedules/' + id, schedule)
   }
 
   getScheduleTimeOrIntervalLabel (schedule) {

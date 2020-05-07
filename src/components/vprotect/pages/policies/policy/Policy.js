@@ -319,7 +319,7 @@ class Policy extends React.Component {
                   }
                 })
               }} />
-              {!!this.state.model.failRemainingBackupTasksExportThreshold && <div>
+              {!!this.state.model.failRemainingBackupTasksStoreThreshold && <div>
                 <h3>Percent of already failed STORE tasks</h3>
                 <InputText value={this.state.model.failRemainingBackupTasksStoreThreshold} type='number'
                   onChange={this.handle('failRemainingBackupTasksStoreThreshold')} />
@@ -329,7 +329,7 @@ class Policy extends React.Component {
             </div>
           </AccordionTab>
         </Accordion>
-        <div className={'d-flex justify-content-between'}>
+        <div className='d-flex justify-content-between mt-3'>
           <div>
             <Link to={`/policies`}>
               <Button label='Back' />

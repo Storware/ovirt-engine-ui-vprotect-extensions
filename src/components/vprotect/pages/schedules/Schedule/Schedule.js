@@ -5,17 +5,10 @@ import {
 } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {policiesService} from '../../../services/policies-service'
-// import {hypervisorsService} from '../../../services/hypervisors-service'
 import {InputText} from 'primereact/inputtext'
 import {ToggleButton} from 'primereact/togglebutton'
-// import {Slider} from 'primereact/slider'
 import {Dropdown} from 'primereact/dropdown'
-// import {Chips} from 'primereact/chips'
 import {Button} from 'primereact/button'
-// import {ListBox} from 'primereact/listbox'
-// import {Accordion, AccordionTab} from 'primereact/accordion'
-// import {virtualMachinesService} from '../../../services/virtual-machines.service'
-// import {backupDestinationsService} from '../../../services/backup-destinations-service'
 import {schedulesService} from '../../../services/schedules-service'
 import {alertService} from '../../../services/alert-service'
 import {InputConvert} from '../../../compoenents/input/InputConvert'
@@ -25,7 +18,8 @@ import {VirtualMachineSchedule} from '../../../model/VirtualMachineSchedule'
 import {Interval} from '../../../model/Interval'
 import {InputDays} from '../../../compoenents/input/InputDays'
 import {ListBox} from 'primereact/listbox'
-import {dayOfWeekOccurrences} from '../../../model/Occurrences'
+import {dayOfWeekOccurrences, months} from '../../../model/Occurrences'
+import {InputSchedulePolicies} from '../../../compoenents/input/InputSchedulePolicies'
 
 class Schedule extends React.Component {
   constructor (props) {
@@ -55,18 +49,11 @@ class Schedule extends React.Component {
 
   save = async () => {
     if (this.state.model.guid) {
-      await policiesService.updatePolicy('vm-backup', this.state.model.guid, this.state.model)
-      await policiesService.updateRule('vm-backup', this.state.model.rules[0].guid, this.state.model.rules[0])
-      alertService.info('Policy updated')
+      await schedulesService.updateSchedule(this.state.model.guid, this.state.model)
+      alertService.info('Schedule updated')
     } else {
-      const policy = await policiesService.createPolicy('vm-backup', this.state.model)
-      await policiesService.createRule('vm-backup', {
-        ...this.state.model.rules[0],
-        policy: {
-          guid: policy.guid
-        }
-      })
-      alertService.info('Policy created')
+      await schedulesService.createSchedule(this.state.model)
+      alertService.info('Schedule created')
     }
   }
 
@@ -102,7 +89,7 @@ class Schedule extends React.Component {
             this.setState({
               ...this.state,
               model: {
-                ...this.model,
+                ...this.state.model,
                 name: e.target.value
               }
             })
@@ -110,12 +97,12 @@ class Schedule extends React.Component {
         </div>
         <div>
           <h3>Active</h3>
-          <ToggleButton value={this.state.model.active} onChange={(e) => {
+          <ToggleButton checked={this.state.model.active} onChange={(e) => {
             this.setState({
               ...this.state,
               model: {
-                ...this.model,
-                active: e.target
+                ...this.state.model,
+                active: e.value
               }
             })
           }} />
@@ -134,6 +121,9 @@ class Schedule extends React.Component {
               }
             })
           }} />
+          {this.state.model.backupType.name === 'INCREMENTAL' && <div>
+            Incremental backup is available only for selected platforms
+          </div>}
         </div>
         <div>
           <h3>Schedule execution type</h3>
@@ -233,40 +223,73 @@ class Schedule extends React.Component {
             />
           </div>
         </div>}
+        <div className='row'>
+          <div className='col'>
+            <h3>Choose days (required)</h3>
+            <InputDays
+              value={this.state.model.daysOfWeek}
+              hour={this.state.model.hour}
+              onChange={(e) => {
+                this.setState({
+                  ...this.state,
+                  model: {
+                    ...this.state.model,
+                    daysOfWeek: e
+                  }
+                })
+              }} />
+          </div>
+          <div className='col'>
+            <h3>Selected day of week occurrence (optional)</h3>
+            <ListBox multiple
+              optionLabel='name'
+              dataKey='name'
+              value={this.state.model.dayOfWeekOccurrences}
+              options={dayOfWeekOccurrences}
+              onChange={(e) => {
+               this.setState({
+                 ...this.state,
+                 model: {
+                   ...this.state.model,
+                   dayOfWeekOccurrences: e.value
+                 }
+               })
+              }} />
+          </div>
+          <div className='col'>
+            <h3>Selected months (optional)</h3>
+            <ListBox multiple
+              optionLabel='name'
+              dataKey='name'
+              value={this.state.model.months}
+              options={months}
+              onChange={(e) => {
+               this.setState({
+                 ...this.state,
+                 model: {
+                   ...this.state.model,
+                   months: e.value
+                 }
+               })
+              }} />
+          </div>
+        </div>
         <div>
-          <h3>Choose days (required)</h3>
-          <InputDays
-            value={this.state.model.daysOfWeek}
-            hour={this.state.model.hour}
+          <h3>Choose Virtual Environment policies</h3>
+          <InputSchedulePolicies multiple
+            value={this.state.model.rules}
+            options={this.state.policies}
             onChange={(e) => {
              this.setState({
                ...this.state,
                model: {
                  ...this.state.model,
-                 daysOfWeek: e
+                 rules: e
                }
              })
             }} />
         </div>
-        <div>
-          <h3>Selected day of week occurrence (optional)</h3>
-          <ListBox multiple
-            optionLabel='name'
-            dataKey='name'
-            value={this.state.model.dayOfWeekOccurrences}
-            options={dayOfWeekOccurrences}
-            className={'col'}
-            onChange={(e) => {
-             this.setState({
-               ...this.state,
-               model: {
-                 ...this.state.model,
-                 dayOfWeekOccurrences: e.value
-               }
-             })
-            }} />
-        </div>
-        <div className={'d-flex justify-content-between'}>
+        <div className='d-flex justify-content-between mt-3'>
           <div>
             <Link to={`/schedules`}>
               <Button label='Back' />
