@@ -21,9 +21,11 @@ const selectedPolicies = (value, policies) => {
 const selectedRules = (value) => {
   let data = []
   value.forEach(policy => {
-    policy.rules.forEach(rule => {
-      data.push(rule)
-    })
+    if (policy) {
+      policy.rules.forEach(rule => {
+        data.push(rule)
+      })
+    }
   })
   return data
 }
@@ -33,8 +35,7 @@ export class InputSchedulePolicies extends React.Component {
     super(props)
 
     this.state = {
-      value: null,
-      shiftValue: null
+      value: null
     }
   }
 
@@ -44,28 +45,21 @@ export class InputSchedulePolicies extends React.Component {
     }
   }
 
-  ruleTemplate (option) {
-    return (
-      <div className='p-clearfix'>
-        <span>{option.name}</span> (<Filesize bytes={option.averageBackupSize} />, {option.vmCount} Virtual Environments)
-      </div>
-    )
-  }
-
   render () {
     return (
       <ListBox
         value={this.state.value}
-        options={this.props.options}
+        options={this.props.options.map(el => {
+          return {
+            ...el,
+            label: <span>{el.name} (<Filesize bytes={el.averageBackupSize} />, {el.vmCount} Virtual Environments)</span>
+          }
+        })}
+        optionLabel='label'
         multiple
-        itemTemplate={this.ruleTemplate}
-        dataKey='name'
+        dataKey='guid'
         className='col w-100'
         onChange={(event) => {
-          this.setState({
-            ...this.state,
-            value: event.value
-          })
           this.props.onChange(selectedRules(event.value))
         }}
       />

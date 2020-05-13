@@ -27,7 +27,8 @@ class Schedule extends React.Component {
 
     this.state = {
       model: new VirtualMachineSchedule(),
-      activeIndex: [0]
+      activeIndex: [0],
+      policies: []
     }
 
     if (this.props.match.params.guid !== 'create') {
@@ -287,7 +288,8 @@ class Schedule extends React.Component {
                  rules: e
                }
              })
-            }} />
+            }}
+          />
         </div>
         <div className='d-flex justify-content-between mt-3'>
           <div>

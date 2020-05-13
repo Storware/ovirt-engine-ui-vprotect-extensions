@@ -135,9 +135,9 @@ export class TaskConsole extends React.Component {
           }
         },
         {
-          property: 'hypervisorManager',
+          property: 'type',
           header: {
-            label: 'Hypervisor',
+            label: 'Type',
             props: {
               index: 2,
               rowSpan: 1,
@@ -152,14 +152,14 @@ export class TaskConsole extends React.Component {
               index: 2
             },
             formatters: [(value) => {
-              return <td>{value && value.name}</td>
+              return <td>{value && value.description}</td>
             }]
           }
         },
         {
-          property: 'protectedEntity',
+          property: 'hypervisorManager',
           header: {
-            label: 'Virtual Machine',
+            label: 'Hypervisor',
             props: {
               index: 3,
               rowSpan: 1,
@@ -179,9 +179,9 @@ export class TaskConsole extends React.Component {
           }
         },
         {
-          property: 'node',
+          property: 'protectedEntity',
           header: {
-            label: 'Node',
+            label: 'Virtual Machine',
             props: {
               index: 4,
               rowSpan: 1,
@@ -201,9 +201,9 @@ export class TaskConsole extends React.Component {
           }
         },
         {
-          property: 'backupDestination',
+          property: 'node',
           header: {
-            label: 'Backup destination',
+            label: 'Node',
             props: {
               index: 5,
               rowSpan: 1,
@@ -223,9 +223,9 @@ export class TaskConsole extends React.Component {
           }
         },
         {
-          property: 'priority',
+          property: 'backupDestination',
           header: {
-            label: 'Priority',
+            label: 'Backup destination',
             props: {
               index: 6,
               rowSpan: 1,
@@ -240,14 +240,14 @@ export class TaskConsole extends React.Component {
               index: 6
             },
             formatters: [(value) => {
-              return <td>{value}</td>
+              return <td>{value && value.name}</td>
             }]
           }
         },
         {
-          property: 'windowStart',
+          property: 'priority',
           header: {
-            label: 'Window start',
+            label: 'Priority',
             props: {
               index: 7,
               rowSpan: 1,
@@ -262,14 +262,14 @@ export class TaskConsole extends React.Component {
               index: 7
             },
             formatters: [(value) => {
-              return <td><DateShow date={value} timezone={this.props.user.uiTimeZone} /></td>
+              return <td>{value}</td>
             }]
           }
         },
         {
-          property: 'windowEnd',
+          property: 'windowStart',
           header: {
-            label: 'Window end',
+            label: 'Window start',
             props: {
               index: 8,
               rowSpan: 1,
@@ -289,10 +289,32 @@ export class TaskConsole extends React.Component {
           }
         },
         {
+          property: 'windowEnd',
+          header: {
+            label: 'Window end',
+            props: {
+              index: 9,
+              rowSpan: 1,
+              colSpan: 1
+            },
+            transforms: [sortableTransform],
+            formatters: [sortingFormatter],
+            customFormatters: [sortableHeaderCellFormatter]
+          },
+          cell: {
+            props: {
+              index: 9
+            },
+            formatters: [(value) => {
+              return <td><DateShow date={value} timezone={this.props.user.uiTimeZone} /></td>
+            }]
+          }
+        },
+        {
           header: {
             label: 'Actions',
             props: {
-              index: 9,
+              index: 10,
               rowSpan: 1,
               colSpan: 1
             },
@@ -300,7 +322,7 @@ export class TaskConsole extends React.Component {
           },
           cell: {
             props: {
-              index: 9,
+              index: 10,
               rowSpan: 1,
               colSpan: 1
             },
