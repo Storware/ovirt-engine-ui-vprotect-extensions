@@ -15,23 +15,23 @@ function addVprotectPlace () {
     icon: 'fa-font'
   })
 
-  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectDashboardTitle(), vprotectDashboardPlaceToken, `${pluginBasePath}/template.html;dashboard`, {
+  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectDashboardTitle(), vprotectDashboardPlaceToken, `${pluginBasePath}/index.html;dashboard`, {
     priority: 9
   })
 
-  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectVirtualMachinesTitle(), vprotectVirtualMachineListPlaceToken, `${pluginBasePath}/template.html;virtual-machine-list`, {
+  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectVirtualMachinesTitle(), vprotectVirtualMachineListPlaceToken, `${pluginBasePath}/index.html;virtual-machine-list`, {
     priority: 10
   })
 
-  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectTaskConsoleTitle(), vprotectTaskConsolePlaceToken, `${pluginBasePath}/template.html;task-console`, {
+  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectTaskConsoleTitle(), vprotectTaskConsolePlaceToken, `${pluginBasePath}/index.html;task-console`, {
     priority: 11
   })
 
-  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectPolicies(), vprotectPoliciesToken, `${pluginBasePath}/template.html;policies`, {
+  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectPolicies(), vprotectPoliciesToken, `${pluginBasePath}/index.html;policies`, {
     priority: 12
   })
 
-  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectSchedules(), vprotectSchedulesToken, `${pluginBasePath}/template.html;schedules`, {
+  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectSchedules(), vprotectSchedulesToken, `${pluginBasePath}/index.html;schedules`, {
     priority: 13
   })
 }

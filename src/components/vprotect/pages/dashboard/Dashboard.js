@@ -14,9 +14,7 @@ export class Dashboard extends React.Component {
       stagingSpace: [],
       backupDestinationStats: null
     }
-  }
 
-  componentDidMount () {
     vprotectService.getDashboardProtectionInfo().then(result => {
       this.setState({protection: result})
     })

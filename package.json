@@ -22,7 +22,8 @@
     "lint": "eslint . --ext js,jsx",
     "pretest": "yarn lint",
     "test": "NODE_ENV=test jest --no-watch",
-    "test:watch": "NODE_ENV=test jest --watch"
+    "test:watch": "NODE_ENV=test jest --watch",
+    "start": "webpack-dev-server --config webpack.local.dev.js --open"
   },
   "dependencies": {
     "@patternfly/patternfly": "^2.40.6",
@@ -47,7 +48,8 @@
     "prop-types": "^15.6.0",
     "react": "~16.8.0",
     "react-dom": "~16.8.0",
-    "react-router-dom": "^5.1.2"
+    "react-router-dom": "^5.1.2",
+    "webpack-dev-server": "^3.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
