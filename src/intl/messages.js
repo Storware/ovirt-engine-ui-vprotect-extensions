@@ -98,10 +98,16 @@ const messageDescriptors = {
     description: 'title `Task Console` used in various components'
   },
 
-  vprotectBackupHistoryListTitle: {
-    id: 'common.vprotectBackupHistoryListTitle',
-    defaultMessage: 'Backup history list',
-    description: 'title `Backup history list` used in various components'
+  vprotectPolicies: {
+    id: 'common.vprotectPolicies',
+    defaultMessage: 'Policies',
+    description: 'title `Policies` used in various components'
+  },
+
+  vprotectSchedules: {
+    id: 'common.vprotectSchedules',
+    defaultMessage: 'Schedules',
+    description: 'title `Schedules` used in various components'
   },
 
   used: {

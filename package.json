@@ -22,14 +22,15 @@
     "lint": "eslint . --ext js,jsx",
     "pretest": "yarn lint",
     "test": "NODE_ENV=test jest --no-watch",
-    "test:watch": "NODE_ENV=test jest --watch"
+    "test:watch": "NODE_ENV=test jest --watch",
+    "start": "webpack-dev-server --config webpack.local.dev.js"
   },
   "dependencies": {
     "@patternfly/patternfly": "^2.40.6",
     "@patternfly/react-charts": "^5.1.5",
     "@patternfly/react-core": "^3.120.5",
     "@patternfly/react-icons": "^3.14.18",
-    "bootstrap": "3.4.1",
+    "bootstrap": "^4.4.1",
     "c3": "0.4.22",
     "classnames": "^2.2.3",
     "css-element-queries": "^0.4.0",
@@ -46,7 +47,9 @@
     "primereact": "^3.3.2",
     "prop-types": "^15.6.0",
     "react": "~16.8.0",
-    "react-dom": "~16.8.0"
+    "react-dom": "~16.8.0",
+    "react-router-dom": "^5.1.2",
+    "webpack-dev-server": "^3.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
