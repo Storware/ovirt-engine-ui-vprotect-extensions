@@ -10,13 +10,16 @@ export class InputDays extends React.Component {
 
     this.state = {
       value: null,
-      shiftValue: null
+      sourceValue: null
     }
   }
 
-  static getDerivedStateFromProps (props) {
+  static getDerivedStateFromProps (props, state) {
+    console.log(state)
+    console.log(props)
     return {
-      value: sourceToViewShiftedDays(props.value, props.hour)
+      value: state.sourceValue !== props.value ? sourceToViewShiftedDays(props.value, props.hour) : state.value,
+      sourceValue: props.value
     }
   }
 

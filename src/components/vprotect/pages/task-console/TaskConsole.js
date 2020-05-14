@@ -51,12 +51,7 @@ export class TaskConsole extends React.Component {
   constructor (props) {
     super(props)
 
-    vprotectService.getAllTasks().then(result => {
-      this.setState({
-        rows: result,
-        filteredRows: result
-      })
-    })
+    this.getAllTasks()
 
     const getSortingColumns = () => this.state.sortingColumns || {}
 
@@ -336,14 +331,14 @@ export class TaskConsole extends React.Component {
                           state: {name: 'CANCELLED'},
                           statusInfo: 'Canceled by user'}
 
-                        this.vprotectService.cancelTask(rowData.guid, cancelledStatus).then(
+                        vprotectService.cancelTask(rowData.guid, cancelledStatus).then(
                           () => {
                             this.getAllTasks()
                             alertService.info('alerts.taskHasBeenCancelled')
                           }
                         )
                       } else {
-                        this.vprotectService.deleteOrCancelTask(rowData.guid).then(
+                        vprotectService.deleteOrCancelTask(rowData.guid).then(
                           () => {
                             this.getAllTasks()
                             alertService.info('alerts.taskHasBeenDeleted')
@@ -386,7 +381,10 @@ export class TaskConsole extends React.Component {
   }
 
   getAllTasks () {
-    this.vprotectService.getAllTasks().then(result => this.setState({rows: result}))
+    vprotectService.getAllTasks().then(result => this.setState({
+      rows: result,
+      filteredRows: result
+    }))
   }
 
   render () {
@@ -404,17 +402,17 @@ export class TaskConsole extends React.Component {
                 this.getAllTasks()
               }}>Refresh</Button>
               <Button className={'btn btn-default'} onClick={() => {
-                this.vprotectService.deleteQueuedOrFinishedTasks().then(() => {
+                vprotectService.deleteQueuedOrFinishedTasks().then(() => {
                   this.getAllTasks()
                 })
               }}>Delete all finished and queued tasks</Button>
               <Button className={'btn btn-default'} onClick={() => {
-                this.vprotectService.deleteFinishedTasks().then(() => {
+                vprotectService.deleteFinishedTasks().then(() => {
                   this.getAllTasks()
                 })
               }}>Remove all finished tasks</Button>
               <Button className={'btn btn-default'} onClick={() => {
-                this.vprotectService.cancelRunningTasks().then(() => {
+                vprotectService.cancelRunningTasks().then(() => {
                   this.getAllTasks()
                 })
               }}>Cancel all running tasks</Button>

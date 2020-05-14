@@ -58,22 +58,18 @@ class Schedule extends React.Component {
     }
   }
 
-  componentDidUpdate (prevProps, prevState) {
-    if (prevState.model.executionType.name !== this.state.model.executionType.name) {
-      this.onExecutionTypeChange()
-    }
-  }
-
-  onExecutionTypeChange () {
+  onExecutionTypeChange (value) {
     this.setState({
       ...this.state,
-      model: this.state.model.executionType.name === 'TIME' ? {
+      model: value.name === 'TIME' ? {
         ...this.state.model,
+        executionType: value,
         hour: 36000000,
         startWindowLength: 21600000,
         interval: null
       } : {
         ...this.state.model,
+        executionType: value,
         hour: null,
         startWindowLength: null,
         interval: new Interval()
@@ -131,15 +127,10 @@ class Schedule extends React.Component {
           <Dropdown value={this.state.model.executionType}
             optionLabel='description'
             dataKey='name'
-            options={schedulesService.executionTypes} onChange={(e) => {
-            this.setState({
-              ...this.state,
-              model: {
-                ...this.state.model,
-                executionType: e.value
-              }
-            })
-          }} />
+            options={schedulesService.executionTypes}
+            onChange={(e) => {
+              this.onExecutionTypeChange(e.value)
+            }} />
         </div>
         {!this.state.model.interval && <div>
           <div>

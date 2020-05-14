@@ -25,7 +25,7 @@ export class InputTime extends React.Component {
         timeOnly
         hourFormat='24'
         onChange={(e) => {
-          this.props.onChange(e.value.getTime() + offset)
+          this.props.onChange((e.value.getTime() + offset) % 86400000)
         }}
       />
     )

@@ -23,7 +23,7 @@
     "pretest": "yarn lint",
     "test": "NODE_ENV=test jest --no-watch",
     "test:watch": "NODE_ENV=test jest --watch",
-    "start": "webpack-dev-server --config webpack.local.dev.js --open"
+    "start": "webpack-dev-server --config webpack.local.dev.js"
   },
   "dependencies": {
     "@patternfly/patternfly": "^2.40.6",
