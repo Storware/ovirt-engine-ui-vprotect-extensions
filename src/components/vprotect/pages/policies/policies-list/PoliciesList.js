@@ -221,7 +221,7 @@ export class PoliciesList extends React.Component {
                 return [
                   <Table.Actions key='0'>
                     <Table.DropdownKebab id='myKebab' pullRight>
-                      <MenuItem onClick={async () => {
+                      {rowData.vmCount > 0 && <MenuItem onClick={async () => {
                         const policy = await policiesService.getPolicy('vm-backup', rowData.guid)
                         this.setState(
                           {
@@ -229,7 +229,9 @@ export class PoliciesList extends React.Component {
                             showBackupModal: true
                           }
                         )
-                      }}>Backup</MenuItem>
+                      }}>
+                        Backup
+                      </MenuItem>}
                       <MenuItem onClick={async () => {
                         await policiesService.deletePolicy('vm-backup', rowData.guid)
                         const result = await policiesService.getPolicies('vm-backup')
@@ -238,7 +240,9 @@ export class PoliciesList extends React.Component {
                           filteredRows: result
                         })
                         alertService.info('Policy removed')
-                      }}>Remove</MenuItem>
+                      }}>
+                        Remove
+                      </MenuItem>
                     </Table.DropdownKebab>
                   </Table.Actions>
                 ]

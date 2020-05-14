@@ -1,7 +1,8 @@
 import React from 'react'
 import {Modal, Icon, Slider} from 'patternfly-react'
 import PropTypes from 'prop-types'
-import {Calendar} from 'primereact/calendar'
+import {InputDate} from '../../compoenents/input/InputDate'
+
 import {Dropdown} from 'primereact/dropdown'
 import {vprotectService} from '../../services/vprotect-service'
 import {backupDestinationsService} from '../../services/backup-destinations-service'
@@ -22,7 +23,7 @@ export class BackupModal extends React.Component {
         backupDestination: null,
         protectedEntities: null,
         priority: 50,
-        windowStart: new Date()
+        windowStart: new Date().getTime()
       }
     }
   }
@@ -119,8 +120,8 @@ export class BackupModal extends React.Component {
           </div>
           <div>
             <label>Window start</label>
-            <Calendar showTime hourFormat='24' value={this.state.task.windowStart}
-              onChange={(e) => this.setState({task: {...this.state.task, windowStart: e.value}})} />
+            <InputDate value={this.state.task.windowStart}
+              onChange={(e) => this.setState({task: {...this.state.task, windowStart: e}})} />
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -128,8 +129,7 @@ export class BackupModal extends React.Component {
             Cancel
           </button>
           <button onClick={() => {
-            let taskWithConvertedDate = {...this.state.task, windowStart: Date.parse(this.state.task.windowStart)}
-            this.onSaveClick(taskWithConvertedDate)
+            this.onSaveClick(this.state.task)
           }}>
             Backup
           </button>

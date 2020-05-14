@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {Calendar} from 'primereact/calendar'
 import {offset} from '../../services/time'
 
-export class InputTime extends React.Component {
+export class InputDate extends React.Component {
   constructor (props) {
     super(props)
 
@@ -14,25 +14,23 @@ export class InputTime extends React.Component {
 
   static getDerivedStateFromProps (props) {
     return {
-      value: new Date(props.value - offset)
+      value: (props.value && new Date(props.value - offset)) || new Date()
     }
   }
 
   render () {
     return (
-      <Calendar value={this.state.value}
-        className='w-100'
-        timeOnly
+      <Calendar showTime
         hourFormat='24'
+        value={this.state.value}
         onChange={(e) => {
           this.props.onChange(e.value.getTime() + offset)
-        }}
-      />
+        }} />
     )
   }
 }
 
-InputTime.propTypes = {
+InputDate.propTypes = {
   value: PropTypes.any.isRequired,
   onChange: PropTypes.func.isRequired
 }
