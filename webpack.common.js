@@ -75,7 +75,7 @@ async function common () {
 
     entry: {
       'plugin': [...commonModules, './src/plugin.js'],
-      'template': [...commonModules, './src/template.js']
+      'index': [...commonModules, './src/index.js']
     },
 
     resolve: {
@@ -137,10 +137,10 @@ async function common () {
         chunks: ['webpack-manifest', 'vendor', 'plugin']
       }),
       new HtmlWebpackPlugin({
-        filename: 'template.html',
-        template: 'static/html/template.template.ejs',
+        filename: 'index.html',
+        template: 'static/html/index.template.ejs',
         inject: true,
-        chunks: ['webpack-manifest', 'vendor', 'template']
+        chunks: ['webpack-manifest', 'vendor', 'index']
       }),
       new InlineManifestWebpackPlugin('webpack-manifest'),
 

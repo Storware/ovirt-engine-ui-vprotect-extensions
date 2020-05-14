@@ -1,8 +1,8 @@
 import getPluginApi from '../../../plugin-api'
 import {alertService} from './alert-service'
 
-// const vprotectURL = getPluginApi().configObject().vProtectURL
-const vprotectURL = 'https://10.40.0.55:8181/api'
+const vprotectURL = getPluginApi().configObject().vProtectURL
+// const vprotectURL = 'https://10.40.0.55:8181/api'
 
 const errorMessage = (error) => {
   if (error && error.error && error.error.message) {
