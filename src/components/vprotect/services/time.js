@@ -1,7 +1,9 @@
 import * as moment from 'moment-timezone'
 import {daysOfWeek} from '../model/Occurrences'
 
-export const offset = (moment.tz.zone(JSON.parse(localStorage.getItem('user')).uiTimeZone).parse(Date.UTC(moment().year(), moment().month(), moment().date(), 0, 0)) + 60) * 60 * 1000
+export const timezone = JSON.parse(localStorage.getItem('user')).uiTimeZone
+
+export const offset = (moment.tz.zone(timezone).parse(Date.UTC(moment().year(), moment().month(), moment().date(), 0, 0)) + 60) * 60 * 1000
 
 export const shiftedDays = (value, shiftValue) => {
   return value.map(option => {

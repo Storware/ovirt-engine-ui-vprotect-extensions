@@ -98,7 +98,7 @@ class Policy extends React.Component {
 
   render () {
     return (
-      <div>
+      <div className={'form'}>
         <Accordion multiple activeIndex={this.state.activeIndex}
           onTabChange={(e) => this.setState({activeIndex: e.index})}>
           <AccordionTab header='General'>

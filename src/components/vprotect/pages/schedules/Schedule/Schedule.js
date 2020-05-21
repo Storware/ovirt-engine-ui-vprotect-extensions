@@ -12,7 +12,7 @@ import {Button} from 'primereact/button'
 import {schedulesService} from '../../../services/schedules-service'
 import {alertService} from '../../../services/alert-service'
 import {InputConvert} from '../../../compoenents/input/InputConvert'
-import {Card} from 'primereact/card'
+import {Panel} from 'primereact/panel'
 import {InputTime} from '../../../compoenents/input/InputTime'
 import {VirtualMachineSchedule} from '../../../model/VirtualMachineSchedule'
 import {Interval} from '../../../model/Interval'
@@ -79,7 +79,7 @@ class Schedule extends React.Component {
 
   render () {
     return (
-      <Card>
+      <Panel className={'form'} header='Schedule'>
         <div>
           <h3>Name</h3>
           <InputText value={this.state.model.name} onChange={(e) => {
@@ -292,7 +292,7 @@ class Schedule extends React.Component {
             <Button label='Save' className='p-button-success' onClick={this.save} />
           </div>
         </div>
-      </Card>
+      </Panel>
     )
   }
 }

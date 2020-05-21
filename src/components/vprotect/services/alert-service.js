@@ -3,11 +3,11 @@ import {webadminToastTypes} from '../../../constants'
 
 class AlertService {
   error (text) {
-    getPluginApi().showToast(webadminToastTypes.danger, text)
+    // getPluginApi().showToast(webadminToastTypes.danger, text)
   }
 
   info (text) {
-    getPluginApi().showToast(webadminToastTypes.info, text)
+    // getPluginApi().showToast(webadminToastTypes.info, text)
   }
 }
 

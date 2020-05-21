@@ -11,16 +11,20 @@ import {
   , Grid, Toolbar
 } from 'patternfly-react'
 
-import {BackupModal} from '../../compoenents/modal/BackupModal'
-import {RestoreModal} from './modal/RestoreModal'
-import {virtualMachinesService} from '../../services/virtual-machines.service'
-import {DateShow} from '../../compoenents/convert/Date'
-import {Filesize} from '../../compoenents/convert/Filezize'
-import {TableFilter} from '../../compoenents/controls/TableFilter'
-import {TableWithPagination} from '../../compoenents/controls/TableWithPagination'
-import {BackupHistoryListContainer} from './modal/backup-history-list/BackupHistoryListContainer'
+import {BackupModal} from '../../../compoenents/modal/BackupModal'
+import {RestoreModal} from '../modal/RestoreModal'
+import {virtualMachinesService} from '../../../services/virtual-machines.service'
+import {DateShow} from '../../../compoenents/convert/Date'
+import {Filesize} from '../../../compoenents/convert/Filezize'
+import {TableFilter} from '../../../compoenents/table/TableFilter'
+import {TableWithPagination} from '../../../compoenents/table/TableWithPagination'
+import {BackupHistoryListContainer} from '../modal/backup-history-list/BackupHistoryListContainer'
+import {
+  Link,
+  withRouter
+} from 'react-router-dom'
 
-export class VirtualMachineList extends React.Component {
+export class VirtualMachinesList extends React.Component {
   constructor (props) {
     super(props)
 
@@ -80,7 +84,11 @@ export class VirtualMachineList extends React.Component {
               index: 0
             },
             formatters: [(value, {rowData}) => {
-              return <td>{rowData.present ? <a href={`/ovirt-engine/webadmin/#vms-general;name=${value}`} target={'_blank'}>{value}</a> : <span>{value}</span>}</td>
+              return <td>
+                <Link to={`${this.props.match.path}/${rowData.guid}`}>
+                  {value}
+                </Link>
+              </td>
             }]
           }
         },
@@ -210,7 +218,7 @@ export class VirtualMachineList extends React.Component {
               index: 6
             },
             formatters: [(value) => {
-              return <td><DateShow date={value} timezone={this.props.user.uiTimeZone} /></td>
+              return <td><DateShow date={value} /></td>
             }]
           }
         },
@@ -368,6 +376,8 @@ export class VirtualMachineList extends React.Component {
   }
 }
 
-VirtualMachineList.propTypes = {
-  user: PropTypes.any.isRequired
+VirtualMachinesList.propTypes = {
+  match: PropTypes.object.isRequired
 }
+
+export default withRouter(VirtualMachinesList)

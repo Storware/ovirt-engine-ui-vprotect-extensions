@@ -15,8 +15,6 @@ export class InputDays extends React.Component {
   }
 
   static getDerivedStateFromProps (props, state) {
-    console.log(state)
-    console.log(props)
     return {
       value: state.sourceValue !== props.value ? sourceToViewShiftedDays(props.value, props.hour) : state.value,
       sourceValue: props.value

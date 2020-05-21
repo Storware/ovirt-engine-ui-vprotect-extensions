@@ -1,3 +1,5 @@
+@import "form";
+
 label, input {
     display: block;
 }
@@ -13,10 +15,6 @@ label, input {
 
 .padding-top-bottom-10px {
     padding: 10px 0;
-}
-
-.p-dropdown, .p-inputtext {
-    width: 100%;
 }
 
 .pie-chart-with-title-container {
@@ -57,4 +55,8 @@ label, input {
 
 .container-fluid .breadcrumb {
     margin-bottom: 0;
+}
+
+.p-chart {
+    height: 300px
 }

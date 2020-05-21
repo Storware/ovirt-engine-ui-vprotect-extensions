@@ -10,8 +10,8 @@ import {
 
 import {policiesService} from '../../../services/policies-service'
 import {Filesize} from '../../../compoenents/convert/Filezize'
-import {TableFilter} from '../../../compoenents/controls/TableFilter'
-import {TableWithPagination} from '../../../compoenents/controls/TableWithPagination'
+import {TableFilter} from '../../../compoenents/table/TableFilter'
+import {TableWithPagination} from '../../../compoenents/table/TableWithPagination'
 import {
   Link,
   withRouter

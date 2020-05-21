@@ -8,6 +8,10 @@ class HypervisorsService {
   getAllHypervisorClusters () {
     return vprotectApiService.get('/hypervisor-clusters')
   }
+
+  getHypervisor (id) {
+    return vprotectApiService.get('/hypervisors/' + id)
+  }
 }
 
 export const hypervisorsService = new HypervisorsService()

@@ -8,8 +8,8 @@ import {
 } from 'patternfly-react'
 
 import {schedulesService} from '../../../services/schedules-service'
-import {TableFilter} from '../../../compoenents/controls/TableFilter'
-import {TableWithPagination} from '../../../compoenents/controls/TableWithPagination'
+import {TableFilter} from '../../../compoenents/table/TableFilter'
+import {TableWithPagination} from '../../../compoenents/table/TableWithPagination'
 import {
   Link,
   withRouter

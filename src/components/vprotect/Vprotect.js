@@ -1,11 +1,10 @@
 import React from 'react'
-import {VirtualMachineList} from './pages/virtual-machine-list/VirtualMachineList'
+import VirtualMachines from './pages/virtual-machines/VirtualMachines'
 import {Dashboard} from './pages/dashboard/Dashboard'
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Redirect
+  Route
 } from 'react-router-dom'
 import {TaskConsole} from './pages/task-console/TaskConsole'
 import Policies from './pages/policies/Policies'
@@ -26,44 +25,21 @@ export class Vprotect extends React.Component {
   }
 
   render () {
-    return (
-      <Router>
-        <Redirect
-          to={{
-            pathname: '/' + this.state.path,
-            state: {from: '/'}
-          }}
-        />
-        <div className={'pt-4 container-fluid'}>
-          <Switch>
-            <Route path='/dashboard'>
-              <Dashboard user={this.state.user} />
-            </Route>
-            <Route path='/virtual-machine-list'>
-              <VirtualMachineList user={this.state.user} />
-            </Route>
-            <Route path='/task-console'>
-              <TaskConsole user={this.state.user} />
-            </Route>
-            <Route path='/policies'>
-              <Policies />
-            </Route>
-            <Route path='/schedules'>
-              <Schedules />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-    )
     // return (
     //   <Router>
+    //     <Redirect
+    //       to={{
+    //         pathname: '/' + this.state.path,
+    //         state: {from: '/'}
+    //       }}
+    //     />
     //     <div className={'pt-4 container-fluid'}>
     //       <Switch>
     //         <Route path='/dashboard'>
     //           <Dashboard user={this.state.user} />
     //         </Route>
     //         <Route path='/virtual-machine-list'>
-    //           <VirtualMachineList user={this.state.user} />
+    //           <VirtualMachinesList user={this.state.user} />
     //         </Route>
     //         <Route path='/task-console'>
     //           <TaskConsole user={this.state.user} />
@@ -78,5 +54,28 @@ export class Vprotect extends React.Component {
     //     </div>
     //   </Router>
     // )
+    return (
+      <Router>
+        <div className={'py-4 container-fluid'}>
+          <Switch>
+            <Route path='/dashboard'>
+              <Dashboard />
+            </Route>
+            <Route path='/virtual-machines'>
+              <VirtualMachines />
+            </Route>
+            <Route path='/task-console'>
+              <TaskConsole />
+            </Route>
+            <Route path='/policies'>
+              <Policies />
+            </Route>
+            <Route path='/schedules'>
+              <Schedules />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    )
   }
 }

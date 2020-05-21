@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import * as sort from 'sortabular'
 import {
   defaultSortingOrder,
@@ -14,8 +13,8 @@ import {
 } from 'patternfly-react'
 import {vprotectService} from '../../services/vprotect-service'
 import {DateShow} from '../../compoenents/convert/Date'
-import {TableWithPagination} from '../../compoenents/controls/TableWithPagination'
-import {TableFilter} from '../../compoenents/controls/TableFilter'
+import {TableWithPagination} from '../../compoenents/table/TableWithPagination'
+import {TableFilter} from '../../compoenents/table/TableFilter'
 import {alertService} from '../../services/alert-service'
 
 export class TaskConsole extends React.Component {
@@ -279,7 +278,7 @@ export class TaskConsole extends React.Component {
               index: 8
             },
             formatters: [(value) => {
-              return <td><DateShow date={value} timezone={this.props.user.uiTimeZone} /></td>
+              return <td><DateShow date={value} /></td>
             }]
           }
         },
@@ -301,7 +300,7 @@ export class TaskConsole extends React.Component {
               index: 9
             },
             formatters: [(value) => {
-              return <td><DateShow date={value} timezone={this.props.user.uiTimeZone} /></td>
+              return <td><DateShow date={value} /></td>
             }]
           }
         },
@@ -428,8 +427,4 @@ export class TaskConsole extends React.Component {
       </div>
     )
   }
-}
-
-TaskConsole.propTypes = {
-  user: PropTypes.any.isRequired
 }

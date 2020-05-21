@@ -9,8 +9,8 @@ import {
 import {vprotectService} from '../../../../services/vprotect-service'
 import {DateShow} from '../../../../compoenents/convert/Date'
 import {Filesize} from '../../../../compoenents/convert/Filezize'
-import {TableFilter} from '../../../../compoenents/controls/TableFilter'
-import {TableWithPagination} from '../../../../compoenents/controls/TableWithPagination'
+import {TableFilter} from '../../../../compoenents/table/TableFilter'
+import {TableWithPagination} from '../../../../compoenents/table/TableWithPagination'
 
 export class BackupHistoryList extends React.Component {
   constructor (props) {
@@ -72,7 +72,7 @@ export class BackupHistoryList extends React.Component {
               index: 0
             },
             formatters: [(value) => {
-              return <td><DateShow date={value} timezone={this.props.user.uiTimeZone} /></td>
+              return <td><DateShow date={value} /></td>
             }]
           }
         },
@@ -213,6 +213,5 @@ export class BackupHistoryList extends React.Component {
 }
 
 BackupHistoryList.propTypes = {
-  user: PropTypes.any.isRequired,
   virtualEnvironmentGuid: PropTypes.string.isRequired
 }
