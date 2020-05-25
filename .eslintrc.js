@@ -22,6 +22,5 @@ module.exports = {
     'chai-friendly/no-unused-expressions': 'error',
     'template-curly-spacing': 'off',
     indent: 'off'
-  },
-  'parser': 'babel-eslint'
+  }
 }

@@ -7,22 +7,8 @@
   },
   "zanataLocales": "de,es,fr,it,ja,ko,pt-BR,zh-CN,cs",
   "scripts": {
-    "prebuild": "yarn test",
-    "build": "NODE_ENV=production webpack --config webpack.prod.js",
-    "build:analyze": "NODE_ENV=production Q=1 webpack --progress --config webpack.prod.js --profile --json > stats.json && webpack-bundle-analyzer ./stats.json",
-    "dev": "NODE_ENV=development webpack --progress --config webpack.dev.js",
-    "dev:analyze": "NODE_ENV=development Q=1 webpack --progress --config webpack.dev.js --profile --json > stats.json && webpack-bundle-analyzer ./stats.json",
-    "dev:watch": "yarn dev --watch",
-    "intl:extract": "node zanata/extract-translations.js && rip json2pot 'extra/messages/**/*.json' -o 'extra/messages/messages.pot'",
-    "intl:push-all": "cd zanata && zanata-cli push --push-type source --locales $npm_package_zanataLocales",
-    "intl:pull-all": "cd zanata && zanata-cli pull --pull-type trans --locales $npm_package_zanataLocales",
-    "intl:apply": "rip po2json 'extra/messages/po/messages.*.po' -m 'extra/messages/**/*.json' -o 'src/intl/translations.json'",
-    "intl:normalize": "node zanata/normalize-translations.js",
-    "intl:report": "node zanata/report.js",
-    "lint": "eslint . --ext js,jsx",
-    "pretest": "yarn lint",
-    "test": "NODE_ENV=test jest --no-watch",
-    "test:watch": "NODE_ENV=test jest --watch",
+    "build": "webpack --config webpack.prod.js",
+    "dev": "webpack --progress --config webpack.dev.js",
     "start": "webpack-dev-server --config webpack.local.dev.js"
   },
   "dependencies": {
@@ -30,6 +16,8 @@
     "@patternfly/react-charts": "^5.1.5",
     "@patternfly/react-core": "^3.120.5",
     "@patternfly/react-icons": "^3.14.18",
+    "@reduxjs/toolkit": "^1.2.5",
+    "@types/react-redux": "^7.1.7",
     "bootstrap": "^4.4.1",
     "c3": "0.4.22",
     "chart.js": "^2.9.3",
@@ -51,6 +39,8 @@
     "react": "~16.8.0",
     "react-dom": "~16.8.0",
     "react-router-dom": "^5.1.2",
+    "react-redux": "^7.2.0",
+    "redux-thunk": "^2.3.0",
     "webpack-dev-server": "^3.11.0"
   },
   "devDependencies": {
@@ -61,7 +51,7 @@
     "@babel/preset-react": "^7.0.0",
     "ajv": "^6.10.2",
     "autoprefixer": "^9.6.1",
-    "babel-eslint": "^10.0.3",
+    "awesome-typescript-loader": "^5.2.1",
     "babel-jest": "^24.8.0",
     "babel-loader": "^8.0.6",
     "chai": "^4.2.0",
@@ -98,46 +88,14 @@
     "style-loader": "^0.23.1",
     "table": "^5.4.6",
     "terser-webpack-plugin": "^1.4.1",
+    "ts-loader": "^7.0.4",
+    "tslint": "^6.1.2",
+    "tslint-webpack-plugin": "^2.1.0",
+    "typescript": "^3.9.3",
     "url-loader": "^2.1.0",
     "webpack": "^4.39.3",
     "webpack-bundle-analyzer": "^3.5.0",
     "webpack-cli": "^3.3.6",
     "webpack-merge": "^4.2.2"
-  },
-  "jest": {
-    "verbose": true,
-    "bail": true,
-    "globals": {
-      "__DEV__": false
-    },
-    "moduleFileExtensions": [
-      "jsx",
-      "js"
-    ],
-    "moduleDirectories": [
-      "node_modules"
-    ],
-    "moduleNameMapper": {
-      "^react(.*)$": "<rootDir>/node_modules/react",
-      "^_/(.*)$": "<rootDir>/src/$1",
-      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/jest/fileMock.js",
-      "^.+\\.(css|less)$": "identity-obj-proxy"
-    },
-    "setupFiles": [
-      "<rootDir>/jest/polyfills.js",
-      "<rootDir>/jest/chalk.logger.js"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/test-index.js"
-    ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/dist",
-      "<rootDir>/exported-artifacts",
-      "<rootDir>/node_modules",
-      "<rootDir>/packaging",
-      "<rootDir>/rpmbuild",
-      "<rootDir>/zanata"
-    ],
-    "testRegex": "(/__tests__/.*|[.-]test)\\.jsx?$"
   }
 }

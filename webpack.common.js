@@ -34,6 +34,13 @@ async function common () {
             loader: 'babel-loader' // options from __.babelrc.js__
           }
         },
+        {
+          test: /\.(ts|tsx)$/,
+          include: path.resolve(__dirname, 'src'),
+          use: {
+            loader: 'ts-loader' // options from __.babelrc.js__
+          }
+        },
 
         // inline base64 URLs for <= 8k images, direct URLs for the rest
         {
@@ -75,7 +82,7 @@ async function common () {
 
     entry: {
       'plugin': [...commonModules, './src/plugin.js'],
-      'index': [...commonModules, './src/index.js']
+      'index': [...commonModules, './src/index.tsx']
     },
 
     resolve: {

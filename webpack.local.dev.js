@@ -1,6 +1,7 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
+const TSLintPlugin = require('tslint-webpack-plugin')
 
 let fontsToEmbed
 
@@ -17,7 +18,7 @@ module.exports = {
       }
     },
     entry: {
-      index: './src/index.js'
+      index: './src/index.tsx'
     },
     module: {
       rules: [
@@ -30,6 +31,13 @@ module.exports = {
           include: path.resolve(__dirname, 'src'),
           use: {
             loader: 'babel-loader' // options from __.babelrc.js__
+          }
+        },
+        {
+          test: /\.(ts|tsx)$/,
+          include: path.resolve(__dirname, 'src'),
+          use: {
+            loader: 'ts-loader' // options from __.babelrc.js__
           }
         },
 
@@ -70,6 +78,9 @@ module.exports = {
         }
       ]
     },
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.jsx']
+    },
 
     plugins: [
       // new CleanWebpackPlugin(['dist/*']) for < v2 versions of CleanWebpackPlugin
@@ -80,6 +91,9 @@ module.exports = {
         template: 'static/html/index.template.ejs',
         inject: true,
         chunks: ['webpack-manifest', 'vendor', 'index']
+      }),
+      new TSLintPlugin({
+        files: ['./src/**/*.ts']
       })
     ],
     output: {

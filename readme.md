@@ -34,6 +34,8 @@ It will look like this:
 Set the vProtect connection parameters in the config property.
 
 #### Deployment
+Note that plugins require version >=4.3 of oVirt web admin.
+
 Put following files and directories 
 
 1. vprotect.json

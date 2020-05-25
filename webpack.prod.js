@@ -17,29 +17,11 @@ async function prod () {
 
     module: {
       rules: [
-        // {
-        //   test: /\.css$/,
-        //   include: cssToExtract = [
-        //     path.resolve(__dirname, 'src'),
-        //     path.resolve(__dirname, 'static'),
-        //     path.resolve(__dirname, 'node_modules')
-        //   ],
-        //   use: [
-        //     MiniCssExtractPlugin.loader,
-        //     {
-        //       loader: 'css-loader',
-        //       options: {
-        //         sourceMap: true
-        //       }
-        //     }
-        //   ]
-        // },
-        {
-          test: /\.css$/,
-          // exclude: cssToExtract,
-          use: ['style-loader', 'css-loader']
-        }
-      ]
+          {
+            test: /\.(css|scss)$/,
+            use: ['style-loader', 'css-loader', 'sass-loader']
+          }
+        ]
     },
 
     output: {

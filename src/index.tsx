@@ -27,12 +27,16 @@ import 'primereact/resources/themes/nova-light/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
 import {Vprotect} from './components/vprotect/Vprotect'
+import {store} from './store'
+import {Provider} from 'react-redux'
 
 const appRoot = document.getElementById('app')
 
 appInit.run().then(() => {
-  ReactDOM.render(
-    <Vprotect />,
-    appRoot
-  )
+    ReactDOM.render(
+        <Provider store={store}>
+            <Vprotect/>
+        </Provider>,
+        appRoot
+    )
 })

@@ -4,7 +4,8 @@ import {Dashboard} from './pages/dashboard/Dashboard'
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from 'react-router-dom'
 import {TaskConsole} from './pages/task-console/TaskConsole'
 import Policies from './pages/policies/Policies'
@@ -25,43 +26,20 @@ export class Vprotect extends React.Component {
   }
 
   render () {
-    // return (
-    //   <Router>
-    //     <Redirect
-    //       to={{
-    //         pathname: '/' + this.state.path,
-    //         state: {from: '/'}
-    //       }}
-    //     />
-    //     <div className={'pt-4 container-fluid'}>
-    //       <Switch>
-    //         <Route path='/dashboard'>
-    //           <Dashboard user={this.state.user} />
-    //         </Route>
-    //         <Route path='/virtual-machine-list'>
-    //           <VirtualMachinesList user={this.state.user} />
-    //         </Route>
-    //         <Route path='/task-console'>
-    //           <TaskConsole user={this.state.user} />
-    //         </Route>
-    //         <Route path='/policies'>
-    //           <Policies />
-    //         </Route>
-    //         <Route path='/schedules'>
-    //           <Schedules />
-    //         </Route>
-    //       </Switch>
-    //     </div>
-    //   </Router>
-    // )
     return (
       <Router>
-        <div className={'py-4 container-fluid'}>
+        <Redirect
+          to={{
+            pathname: '/' + this.state.path,
+            state: {from: '/'}
+          }}
+        />
+        <div className={'pt-4 container-fluid'}>
           <Switch>
             <Route path='/dashboard'>
               <Dashboard />
             </Route>
-            <Route path='/virtual-machines'>
+            <Route path='/virtual-machine-list'>
               <VirtualMachines />
             </Route>
             <Route path='/task-console'>
@@ -77,5 +55,28 @@ export class Vprotect extends React.Component {
         </div>
       </Router>
     )
+    // return (
+    //   <Router>
+    //     <div className={'py-4 container-fluid'}>
+    //       <Switch>
+    //         <Route path='/dashboard'>
+    //           <Dashboard />
+    //         </Route>
+    //         <Route path='/virtual-machines'>
+    //           <VirtualMachines />
+    //         </Route>
+    //         <Route path='/task-console'>
+    //           <TaskConsole />
+    //         </Route>
+    //         <Route path='/policies'>
+    //           <Policies />
+    //         </Route>
+    //         <Route path='/schedules'>
+    //           <Schedules />
+    //         </Route>
+    //       </Switch>
+    //     </div>
+    //   </Router>
+    // )
   }
 }
