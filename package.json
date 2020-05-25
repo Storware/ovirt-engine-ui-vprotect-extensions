@@ -38,8 +38,8 @@
     "prop-types": "^15.6.0",
     "react": "~16.8.0",
     "react-dom": "~16.8.0",
-    "react-router-dom": "^5.1.2",
     "react-redux": "^7.2.0",
+    "react-router-dom": "^5.1.2",
     "redux-thunk": "^2.3.0",
     "webpack-dev-server": "^3.11.0"
   },
@@ -49,6 +49,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
+    "@types/prop-types": "^15.7.3",
     "ajv": "^6.10.2",
     "autoprefixer": "^9.6.1",
     "awesome-typescript-loader": "^5.2.1",

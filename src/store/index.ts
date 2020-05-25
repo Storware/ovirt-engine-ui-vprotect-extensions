@@ -4,12 +4,12 @@ import {
     applyMiddleware, ThunkAction, Action,
 } from '@reduxjs/toolkit';
 import user from './user';
-import notes from './notes';
+import virtualMachine from './virtual-machine';
 import thunk from 'redux-thunk';
 
 export const rootReducer = combineReducers({
     user,
-    notes,
+    virtualMachine,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));

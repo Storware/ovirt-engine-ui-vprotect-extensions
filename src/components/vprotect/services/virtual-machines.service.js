@@ -8,6 +8,10 @@ class VirtualMachinesService {
   getVirtualMachine (id) {
     return vprotectApiService.get('/virtual-machines/' + id)
   }
+
+  getVirtualMachineSnapshots (id) {
+    return vprotectApiService.get('/snapshots?protected-entity=' + id)
+  }
 }
 
 export const virtualMachinesService = new VirtualMachinesService()
