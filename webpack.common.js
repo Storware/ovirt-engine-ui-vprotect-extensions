@@ -79,7 +79,6 @@ async function common () {
         }
       ]
     },
-
     entry: {
       'plugin': [...commonModules, './src/plugin.js'],
       'index': [...commonModules, './src/index.tsx']
@@ -90,7 +89,7 @@ async function common () {
         'react': path.join(__dirname, 'node_modules', 'react'), // TODO: Still needed?
         '_': path.join(__dirname, 'src')
       },
-      extensions: ['.js', '.jsx', '*']
+      extensions: ['.ts', '.tsx', '.js', '.jsx', '*']
     },
 
     output: {

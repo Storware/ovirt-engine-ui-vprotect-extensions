@@ -1,0 +1,21 @@
+.p-inputtext {
+    font-size: $fontSize;
+    color: $textColor;
+    background: $inputBgColor;
+    padding: $inputPadding;
+    border: $inputBorder;
+    @include transition($inputTransition);
+    @include appearance(none);
+    @include border-radius($borderRadius);
+
+    &:enabled:hover {
+        border-color: $inputHoverBorderColor;
+    }
+
+    &:enabled:focus {
+        @include focused-input();
+    }
+}
+.p-inputtext.p-error {
+    border: $inputErrorBorder;
+}

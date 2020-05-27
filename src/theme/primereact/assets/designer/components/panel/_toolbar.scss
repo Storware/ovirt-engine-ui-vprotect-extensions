@@ -1,0 +1,16 @@
+.p-toolbar {
+    background-color: $panelHeaderBgColor;
+    border: $panelHeaderBorder;
+    padding: $panelHeaderPadding;
+    @include border-radius($borderRadius);
+
+    button {
+        vertical-align: middle;
+    }
+
+    .p-toolbar-separator {
+        vertical-align: middle;
+        color: $panelHeaderIconColor;
+        margin: 0 $inlineSpacing;
+    }
+}

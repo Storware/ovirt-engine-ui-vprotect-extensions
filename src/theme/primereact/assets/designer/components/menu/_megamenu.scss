@@ -1,0 +1,62 @@
+.p-megamenu {
+    padding: $menuPadding;
+    background-color: $menuBgColor;
+    border: $menuBorder;
+    @include border-radius($borderRadius);
+
+    .p-menuitem-link {
+        @include menuitem-link();
+    }
+
+    .p-megamenu-submenu-header {
+        margin: $submenuHeaderMargin;
+        padding: $panelHeaderPadding;
+        color: $panelHeaderTextColor;
+        background-color: $panelHeaderBgColor;
+        font-weight: $panelHeaderFontWeight;
+        border: 0 none;
+    }
+
+    .p-megamenu-panel {
+        padding: $submenuPadding;
+        background-color: $menuBgColor;
+        border: $overlayMenuBorder;
+        @include shadow($overlayMenuShadow);
+    }
+
+    .p-menuitem {
+        margin: $menuitemMargin;
+
+        .p-menuitem-link {
+            .p-submenu-icon {
+                right: 0.429em;
+            }
+        }
+
+        &.p-menuitem-active {
+            > .p-menuitem-link {
+                background-color: $menuitemActiveBgColor;
+
+                .p-menuitem-text {
+                    color: $menuitemActiveTextColor;
+                }
+
+                .p-menuitem-icon, .p-submenu-icon {
+                    color: $menuitemActiveIconColor;
+                }
+            }
+        }
+    }
+
+    &.p-megamenu-vertical {
+        .p-megamenu-root-list {
+            > .p-menuitem {
+                > .p-menuitem-link {
+                    > .p-submenu-icon {
+                        right: 0.429em;
+                    }
+                }
+            }
+        }
+    }
+}

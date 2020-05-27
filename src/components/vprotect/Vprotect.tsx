@@ -12,17 +12,12 @@ import Policies from './pages/policies/Policies'
 import Schedules from './pages/schedules/Schedules'
 
 export class Vprotect extends React.Component {
+  path;
   constructor (props) {
     super(props)
-
     const href = window.location.href
     const start = href.indexOf(';')
-    const path = href.substring(start + 1)
-
-    this.state = {
-      user: JSON.parse(localStorage.getItem('user')),
-      path: path
-    }
+    this.path = href.substring(start + 1)
   }
 
   render () {
@@ -30,7 +25,7 @@ export class Vprotect extends React.Component {
     //   <Router>
     //     <Redirect
     //       to={{
-    //         pathname: '/' + this.state.path,
+    //         pathname: '/' + this.path,
     //         state: {from: '/'}
     //       }}
     //     />
@@ -39,7 +34,7 @@ export class Vprotect extends React.Component {
     //         <Route path='/dashboard'>
     //           <Dashboard />
     //         </Route>
-    //         <Route path='/virtual-machine-list'>
+    //         <Route path='/virtual-machines'>
     //           <VirtualMachines />
     //         </Route>
     //         <Route path='/task-console'>

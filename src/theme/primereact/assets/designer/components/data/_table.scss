@@ -1,0 +1,212 @@
+.p-datatable {
+    .p-datatable-header,
+    .p-datatable-footer {
+        background-color: $panelHeaderBgColor;
+        color: $panelHeaderTextColor;
+        border: $panelHeaderBorder;
+        padding: $panelHeaderPadding;
+        text-align: center;
+    }
+
+    .p-datatable-header {
+        border-bottom: 0 none;
+        font-weight: $tableHeaderCellFontWeight;
+        @include border-radius-top($borderRadius);
+    }
+
+    .p-datatable-footer {
+        border-top: 0 none;
+        font-weight: $tableFooterCellFontWeight;
+        @include border-radius-bottom($borderRadius);
+    }
+
+    .p-datatable-thead > tr > th {
+        padding: $tableHeaderCellPadding;
+        border: $tableHeaderCellBorder;
+        font-weight: $tableHeaderCellFontWeight;
+        color: $tableHeaderCellTextColor;
+        background-color: $tableHeaderCellBgColor;
+        text-align: center;
+    }
+
+    .p-datatable-tfoot > tr > td {
+        padding: $tableFooterCellPadding;
+        border: $tableFooterCellBorder;
+        font-weight: $tableFooterCellFontWeight;
+        color: $tableFooterCellTextColor;
+        background-color: $tableFooterCellBgColor;
+        text-align: center;
+    }
+
+    .p-sortable-column {
+        @include transition(background-color $transitionDuration, box-shadow $transitionDuration);
+
+        .p-sortable-column-icon {
+            color: $tableHeaderCellIconColor;
+        }
+
+        .p-sortable-column-badge {
+            border-radius: 50%;
+            height: $fontSize + 4;
+            min-width: $fontSize + 4;
+            line-height: $fontSize + 4;
+            display: inline-block;
+            color: $highlightBgColor;
+            background-color: $highlightColorText;
+        }
+
+        &:not(.p-highlight):hover {
+            background-color: $tableHeaderCellHoverBgColor;
+            color: $tableHeaderCellHoverTextColor;
+
+            .p-sortable-column-icon {
+                color: $tableHeaderCellHoverIconColor;
+            }
+        }
+
+        &:focus {
+            @include focused-listitem();
+        }
+
+        &.p-highlight {
+            background-color: $highlightBgColor;
+            color: $highlightColorText;
+
+            .p-sortable-column-icon {
+                color: $highlightColorText;
+            }
+        }
+    }
+
+    .p-editable-column {
+        input {
+            font-size: $fontSize;
+            font-family: $fontFamily;
+        }
+    }
+
+    .p-row-editor-init {
+        @include transition($buttonTransition);
+    }
+
+    .p-datatable-tbody {
+        > tr {
+            background: $tableBodyRowBgColor;
+            color: $tableBodyRowTextColor;
+            @include transition(background-color $transitionDuration, box-shadow $transitionDuration);
+
+            > td {
+                background: inherit;
+                border: $tableBodyCellBorder;
+                padding: $tableBodyCellPadding;
+
+                .p-row-toggler {
+                    color: $dataIconColor;
+                    @include transition(color $transitionDuration, box-shadow $transitionDuration);
+
+                    &:hover {
+                        color: $dataIconHoverColor;
+                    }
+                }
+            }
+
+            &.p-highlight {
+                background-color: $highlightBgColor;
+                color: $highlightColorText;
+
+                .p-row-toggler {
+                    color: $highlightColorText;
+
+                    &:hover {
+                        color: $highlightColorText;
+                    }
+                }
+            }
+
+            &.p-highlight-contextmenu {
+                background-color: lighten($highlightBgColor, 25%);
+                color: $highlightColorText;
+            }
+
+            &.p-datatable-dragpoint-top > td {
+                box-shadow: inset 0 2px 0 0 $highlightBgColor;
+            }
+
+            &.p-datatable-dragpoint-bottom > td {
+                box-shadow: inset 0 -2px 0 0 $highlightBgColor;
+            }
+
+            &:focus {
+                outline: none;
+
+                + tr > td {
+                    box-shadow: 0 -.2em 0 0 $focusOutlineColor;
+                }
+
+                > td {
+                    box-shadow: 0 -.2em 0 0 $focusOutlineColor, 0 .2em 0 0 $focusOutlineColor;
+                }
+
+                > td:first-child {
+                    box-shadow: 0 -0.2em 0 0 $focusOutlineColor, 0 0.2em 0 0 $focusOutlineColor, -0.1em -0.1em 0 0.1em $focusOutlineColor;
+                }
+
+                > td:last-child {
+                    box-shadow: 0 -0.2em 0 0 $focusOutlineColor, 0 0.2em 0 0 $focusOutlineColor, 0.1em -0.1em 0 0.1em $focusOutlineColor;
+                }
+            }
+
+            &.p-rowgroup-header
+            &.p-rowgroup-footer {
+                font-weight: 700;
+            }
+        }
+
+        > tr:nth-child(even) {
+            background-color: $tableBodyRowEvenBgColor;
+
+            &.p-highlight {
+                background-color: $highlightBgColor;
+                color: $highlightColorText;
+
+                .p-row-toggler {
+                    color: $highlightColorText;
+
+                    &:hover {
+                        color: $highlightColorText;
+                    }
+                }
+            }
+
+            &.p-highlight-contextmenu {
+                background-color: lighten($highlightBgColor, 25%);
+                color: $highlightColorText;
+
+                .p-row-toggler {
+                    color: $highlightColorText;
+
+                    &:hover {
+                        color: $highlightColorText;
+                    }
+                }
+            }
+        }
+    }
+
+    &.p-datatable-hoverable-rows {
+        .p-datatable-tbody > tr:not(.p-highlight):not(.p-highlight-contextmenu):hover {
+            cursor: pointer;
+            background-color: $tableBodyRowHoverBgColor;
+            color: $tableBodyRowHoverTextColor;
+        }
+    }
+
+    .p-column-resizer-helper {
+        background-color: $tableResizerHelperBgColor;
+    }
+
+    .p-datatable-scrollable-header,
+    .p-datatable-scrollable-footer {
+        background-color: $panelHeaderBgColor;
+    }
+}

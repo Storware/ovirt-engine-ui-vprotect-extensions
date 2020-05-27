@@ -1,0 +1,54 @@
+.p-fieldset {
+    border: $panelContentBorder;
+    background-color: $panelContentBgColor;
+    color: $panelContentTextColor;
+    @include border-radius($borderRadius);
+
+    .p-fieldset-legend {
+        a {
+            padding: $panelHeaderPadding;
+            border: $panelHeaderBorder;
+            color: $panelHeaderTextColor;
+            background-color: $panelHeaderBgColor;
+            font-weight: $panelHeaderFontWeight;
+            @include border-radius($borderRadius);
+            @include transition($panelHeaderTransition);
+
+            .p-fieldset-toggler {
+                float: none;
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: .5em;
+                color: $panelHeaderIconColor;
+            }
+
+            .p-fieldset-legend-text{
+                padding: 0;
+            }
+
+            &:focus {
+                @include focused();
+            }
+        }
+    }
+
+    &.p-fieldset-toggleable {
+        .p-fieldset-legend {
+            a {
+                &:hover {
+                    background-color: $panelHeaderHoverBgColor;
+                    border: $panelHeaderHoverBorder;
+                    color: $panelHeaderHoverTextColor;
+
+                    .p-fieldset-toggler {
+                        color: $panelHeaderHoverIconColor;
+                    }
+                }
+            }
+        }
+    }
+
+    .p-fieldset-content {
+        padding: 0;
+    }
+}

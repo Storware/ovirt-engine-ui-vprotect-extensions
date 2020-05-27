@@ -1,0 +1,62 @@
+.p-selectbutton {
+    .p-button {
+        background-color: $toggleButtonBgColor;
+        border: $toggleButtonBorder;
+        color: $toggleButtonTextColor;
+        outline: 0 none;
+        @include transition($buttonTransition);
+        @include border-radius(0);
+
+        .p-button-icon-left {
+            color: $toggleButtonIconColor;
+        }
+
+        &:not(.p-disabled):not(.p-highlight):hover {
+            background-color: $toggleButtonHoverBgColor;
+            border-color: $toggleButtonHoverBorderColor;
+            color: $toggleButtonHoverTextColor;
+
+            .p-button-icon-left {
+                color: $toggleButtonHoverIconColor;
+            }
+        }
+
+        &.p-focus,
+        &:focus {
+            @include focused();
+            z-index: 1;
+        }
+
+        &.p-highlight {
+            background-color: $toggleButtonActiveBgColor;
+            border-color: $toggleButtonActiveBorderColor;
+            color: $toggleButtonActiveTextColor;
+
+            .p-button-icon-left {
+                color: $toggleButtonActiveIconColor;
+            }
+
+            &:not(.p-disabled):hover {
+                background-color: $toggleButtonActiveHoverBgColor;
+                border-color: $toggleButtonActiveHoverBorderColor;
+                color: $toggleButtonActiveHoverTextColor;
+
+                .p-button-icon-left {
+                    color: $toggleButtonActiveHoverIconColor;
+                }
+            }
+        }
+
+        &:first-child {
+            @include border-radius-left($borderRadius);
+        }
+
+        &:last-child {
+            @include border-radius-right($borderRadius);
+        }
+    }
+}
+
+.p-selectbutton.p-error > .p-button {
+    border: $inputErrorBorder;
+}

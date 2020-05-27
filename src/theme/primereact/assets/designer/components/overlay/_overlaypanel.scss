@@ -1,0 +1,55 @@
+.p-overlaypanel {
+    background-color: $panelContentBgColor;
+    color: $panelContentTextColor;
+    padding: 0;
+    border: $overlayContentBorder;
+    @include border-radius($borderRadius);
+    @include shadow($overlayContainerShadow);
+
+    .p-overlaypanel-content {
+        padding: $dialogContentPadding;
+    }
+
+    .p-overlaypanel-close {
+        background-color: $overlayPanelCloseIconBgColor;
+        color: $overlayPanelCloseIconColor;
+        width: 1.538em;
+        height: 1.538em;
+        line-height: 1.538em;
+        text-align: center;
+        position: absolute;
+        top: -1 * 1.538em / 2;
+        right: -1 * 1.538em / 2;
+        @include border-radius(50%);
+        @include transition(background-color $transitionDuration, box-shadow $transitionDuration);
+
+        &:hover {
+            background-color: $overlayPanelCloseIconHoverBgColor;
+            color: $overlayPanelCloseIconHoverColor;
+        }
+
+        > span {
+            line-height: inherit;
+        }
+    }
+
+    &:after {
+        border-color: rgba($panelContentBgColor, 0);
+        border-bottom-color: $panelContentBgColor;
+    }
+
+    &:before {
+        border-color: rgba($overlayContentBorderColor, 0);
+        border-bottom-color: $overlayContentBorderColor;
+    }
+
+    &.p-overlaypanel-flipped {
+        &:after {
+            border-top-color: $panelContentBgColor;
+        }
+
+        &:before {
+            border-top-color: $overlayContentBorderColor;
+        }
+    }
+}

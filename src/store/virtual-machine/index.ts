@@ -1,7 +1,7 @@
 import {
-  SET_BACKUPS_HISTORY,
-  SET_HYPERVISOR,
-  SET_RESTORES_HISTORY, SET_SNAPSHOTS,
+  SET_BACKUPS_HISTORY, SET_DISKS,
+  SET_HYPERVISOR, SET_POLICIES,
+  SET_RESTORES_HISTORY, SET_SCHEDULES, SET_SNAPSHOT_POLICIES, SET_SNAPSHOTS,
   SET_VIRTUAL_MACHINE,
   VirtualMachineAction
 } from './types';
@@ -12,6 +12,10 @@ export type VirtualMachineStore = {
   readonly backupsHistory: any[];
   readonly restoresHistory: any[];
   readonly snapshots: any[];
+  readonly disks: any[];
+  readonly schedules: any[];
+  readonly policies: any[];
+  readonly snapshotPolicies: any[];
 };
 
 const initial: VirtualMachineStore = {
@@ -19,7 +23,11 @@ const initial: VirtualMachineStore = {
   hypervisor: {},
   backupsHistory: [],
   restoresHistory: [],
-  snapshots: []
+  snapshots: [],
+  disks: [],
+  schedules: [],
+  policies: [],
+  snapshotPolicies: []
 };
 
 export default (state = initial, action: VirtualMachineAction) => {
@@ -51,6 +59,30 @@ export default (state = initial, action: VirtualMachineAction) => {
     return {
       ...state,
       snapshots: action.payload,
+    };
+  }
+  if (action.type === SET_DISKS) {
+    return {
+      ...state,
+      disks: action.payload,
+    };
+  }
+  if (action.type === SET_SCHEDULES) {
+    return {
+      ...state,
+      schedules: action.payload,
+    };
+  }
+  if (action.type === SET_POLICIES) {
+    return {
+      ...state,
+      policies: action.payload,
+    };
+  }
+  if (action.type === SET_SNAPSHOT_POLICIES) {
+    return {
+      ...state,
+      snapshotPolicies: action.payload,
     };
   }
   return state;

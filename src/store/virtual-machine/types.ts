@@ -3,6 +3,10 @@ export const SET_HYPERVISOR = 'SET_HYPERVISOR';
 export const SET_BACKUPS_HISTORY = 'SET_BACKUPS_HISTORY';
 export const SET_RESTORES_HISTORY = 'SET_RESTORES_HISTORY';
 export const SET_SNAPSHOTS = 'SET_SNAPSHOTS';
+export const SET_DISKS = 'SET_DISKS';
+export const SET_SCHEDULES = 'SET_SCHEDULES';
+export const SET_POLICIES = 'SET_POLICIES';
+export const SET_SNAPSHOT_POLICIES = 'SET_SNAPSHOT_POLICIES';
 
 export type SetVirtualMachineAction = {
     type: typeof SET_VIRTUAL_MACHINE;
@@ -29,9 +33,33 @@ export type SetSnapshotsAction = {
     payload?: any;
 };
 
+export type SetDisksAction = {
+    type: typeof SET_DISKS;
+    payload?: any;
+};
+
+export type SetSchedulesAction = {
+    type: typeof SET_SCHEDULES;
+    payload?: any;
+};
+
+export type SetPoliciesAction = {
+    type: typeof SET_POLICIES;
+    payload?: any;
+};
+
+export type SetSnapshotPoliciesAction = {
+    type: typeof SET_SNAPSHOT_POLICIES;
+    payload?: any;
+};
+
 
 export type VirtualMachineAction = SetVirtualMachineAction |
     SetHypervisorAction |
     SetBackupsHistoryAction |
     SetRestoresHistoryAction |
-    SetSnapshotsAction;
+    SetSnapshotsAction |
+    SetDisksAction |
+    SetSchedulesAction |
+    SetPoliciesAction |
+    SetSnapshotPoliciesAction;

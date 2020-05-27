@@ -1,0 +1,54 @@
+.p-spinner {
+    .p-spinner-input {
+        padding-right: $spinnerButtonWidth + $inputPadding;
+    }
+
+    .p-spinner-button {
+        width: $spinnerButtonWidth;
+
+        .p-spinner-button-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -.5em;
+            margin-left: -.5em;
+            width: 1em;
+        }
+
+        &.p-spinner-button {
+            @include border-radius(0);
+
+            &.p-spinner-button-up {
+                @include border-radius-top-right($borderRadius);
+            }
+
+            &.p-spinner-button-down {
+                @include border-radius-bottom-right($borderRadius);
+            }
+
+            &:focus {
+                z-index: 1;
+            }
+        }
+    }
+}
+
+.p-fluid {
+    .p-spinner {
+        .p-spinner-input {
+            padding-right: $spinnerButtonWidth + $inputPadding;
+        }
+
+        .p-spinner-button {
+            width: $spinnerButtonWidth;
+
+            .p-spinner-button-icon {
+                left: 50%;
+            }
+        }
+    }
+}
+
+.p-spinner.p-error > .p-inputtext {
+    border: $inputErrorBorder;
+}

@@ -1,0 +1,129 @@
+.p-panelmenu {
+    .p-icon {
+        position: static;
+    }
+
+    .p-panelmenu-panel {
+        .p-panelmenu-header {
+            margin-top: $accordionSpacing;
+        }
+
+        &:first-child {
+            .p-panelmenu-header {
+                margin-top: 0;
+            }
+        }
+    }
+
+    .p-panelmenu-header {
+        padding: 0;
+
+        > a {
+            border: $panelHeaderBorder;
+            background-color: $panelHeaderBgColor;
+            color: $panelHeaderTextColor;
+            padding: $menuitemPadding;
+            font-weight: $panelHeaderFontWeight;
+            position: static;
+            font-size: $fontSize;
+            @include border-radius($borderRadius);
+            @include transition($panelHeaderTransition);
+
+            .p-panelmenu-icon {
+                color: $panelHeaderIconColor;
+
+                &.pi-caret-right {
+                    @include icon_override("\e901");
+                }
+
+                &.pi-caret-down {
+                    @include icon_override("\e902");
+                }
+            }
+
+            &:focus {
+                @include focused();
+                z-index: 100;
+            }
+        }
+
+        &:not(.p-highlight) {
+            > a:hover {
+                outline: 0 none;
+                border: $panelHeaderHoverBorder;
+                background-color: $panelHeaderHoverBgColor;
+                color: $panelHeaderHoverTextColor;
+
+                .p-panelmenu-icon {
+                    color: $panelHeaderHoverIconColor;
+                }
+            }
+        }
+
+        &.p-highlight {
+            margin-bottom: 0;
+            > a {
+                border: $panelHeaderActiveBorder;
+                background-color: $panelHeaderActiveBgColor;
+                color: $panelHeaderActiveTextColor;
+                @include border-radius-bottom(0);
+
+                .p-panelmenu-icon {
+                    color: $panelHeaderActiveIconColor;
+                }
+
+                &:hover {
+                    outline: 0 none;
+                    border: $panelHeaderActiveHoverBorder;
+                    background-color: $panelHeaderActiveHoverBgColor;
+                    color: $panelHeaderActiveHoverTextColor;
+
+                    .p-panelmenu-icon {
+                        color: $panelHeaderActiveHoverIconColor;
+                    }
+                }
+            }
+        }
+    }
+
+    .p-panelmenu-panel {
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+
+    .p-panelmenu-content {
+        padding: $menuPadding;
+        background-color: $menuBgColor;
+        border: $menuBorder;
+        margin-top: 0;
+        position: static;
+        border-top: 0 none;
+
+        .p-menuitem {
+            margin: $menuitemMargin;
+
+            .p-menuitem-link {
+                padding: $menuitemPadding;
+                color: $menuitemTextColor;
+                @include transition(background-color $transitionDuration, box-shadow $transitionDuration);
+
+                &:hover {
+                    background-color: $menuitemHoverBgColor;
+
+                    .p-menuitem-icon, .p-panelmenu-icon {
+                        color: $menuitemHoverIconColor;
+                    }
+
+                    .p-menuitem-text {
+                        color: $menuitemHoverTextColor;
+                    }
+                }
+
+                &:focus {
+                    @include focused-listitem();
+                }
+            }
+        }
+    }
+}

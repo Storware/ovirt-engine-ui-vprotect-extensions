@@ -82,7 +82,7 @@ export class BackupModal extends React.Component {
           <Modal.Title>Backup</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div>
+          <div className='form'>
             <label>Backup type</label>
             <Dropdown optionLabel='name'
               value={this.state.task.backupType}

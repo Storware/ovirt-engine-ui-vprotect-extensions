@@ -1,0 +1,34 @@
+.p-menu {
+    padding: $menuPadding;
+    background-color: $menuBgColor;
+    border: $menuBorder;
+    @include border-radius($borderRadius);
+
+    .p-menuitem-link {
+        @include menuitem-link();
+    }
+
+    .p-menuitem {
+        margin: $menuitemMargin;
+    }
+
+    &.p-menu-overlay {
+        border: $overlayMenuBorder;
+        @include shadow($overlayMenuShadow);
+    }
+
+    .p-submenu-header {
+        margin: $submenuHeaderMargin;
+        padding: $menuitemPadding;
+        color: $panelHeaderTextColor;
+        background-color: $panelHeaderBgColor;
+        font-weight: $panelHeaderFontWeight;
+        border: 0 none;
+        @include border-radius-top($borderRadius);
+    }
+
+    .p-menu-separator {
+        border: $menuBorder;
+        border-width: 1px 0 0 0;
+    }
+}

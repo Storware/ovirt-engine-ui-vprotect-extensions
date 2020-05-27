@@ -1,0 +1,74 @@
+.p-dialog {
+    padding: 0;
+    @include border-radius($borderRadius);
+    @include shadow($overlayContainerShadow);
+
+    .p-dialog-titlebar {
+        border: $panelHeaderBorder;
+        background-color: $panelHeaderBgColor;
+        color: $panelHeaderTextColor;
+        padding: $dialogHeaderPadding;
+        font-weight: $panelHeaderFontWeight;
+        border-bottom: 0 none;
+        @include border-radius-top($borderRadius);
+
+        .p-dialog-title {
+            margin: 0;
+            float: none;
+            font-weight: $panelHeaderFontWeight;
+        }
+
+        .p-dialog-titlebar-icon {
+            color: $panelHeaderIconColor;
+            border: 0 none;
+            padding: 0;
+            margin-left: $inlineSpacing;
+            @include transition(color $transitionDuration, box-shadow $transitionDuration);
+
+            &:hover {
+                color: $panelHeaderIconHoverColor;
+            }
+        }
+    }
+
+    .p-dialog-content {
+        background-color: $panelContentBgColor;
+        color: $panelContentTextColor;
+        border: $overlayContentBorder;
+        padding: $dialogContentPadding;
+    }
+
+    .p-dialog-footer {
+        border: $panelFooterBorder;
+        border-top: 0 none;
+        background-color: $panelFooterBgColor;
+        color: $panelFooterTextColor;
+        padding: $panelFooterPadding;
+        margin: 0;
+        text-align: right;
+
+        button {
+            margin: 0 $inlineSpacing 0 0;
+            width: auto;
+        }
+    }
+
+    &.p-confirm-dialog {
+        .p-dialog-content {
+            padding: $confirmDialogPadding;
+
+            > span {
+                float: none;
+                display: inline-block;
+                vertical-align: middle;
+                line-height: $fontSize;
+                margin: 0;
+
+                &.p-icon {
+                    margin-right: .35em;
+                    font-size: $fontSize + 2;
+                }
+            }
+        }
+    }
+}

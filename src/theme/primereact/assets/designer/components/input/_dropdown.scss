@@ -1,0 +1,96 @@
+.p-dropdown {
+    background: $inputBgColor;
+    border: $inputBorder;
+    @include transition($inputTransition);
+    @include border-radius($borderRadius);
+
+    &:not(.p-disabled):hover {
+        border-color: $inputHoverBorderColor;
+    }
+
+    &:not(.p-disabled).p-focus {
+        @include focused-input();
+    }
+
+    .p-dropdown-label {
+        padding-right: 2em;
+
+        &.p-placeholder {
+            color: $inputPlaceholderTextColor;
+        }
+
+        &:focus {
+            outline: 0 none;
+            @include shadow(none);
+        }
+    }
+
+    .p-dropdown-trigger {
+        background-color: $inputBgColor;
+        width: 2em;
+        line-height: 2em;
+        text-align: center;
+        padding: 0;
+        color: $inputDropdownIconColor;
+        @include border-radius($borderRadius);
+    }
+
+    .p-dropdown-clear-icon {
+        color: $inputDropdownIconColor;
+    }
+}
+
+.p-dropdown-panel {
+    padding: 0;
+    border: $inputOverlayBorder;
+    background-color: $inputListBgColor;
+    @include shadow($inputOverlayShadow);
+
+    .p-dropdown-filter-container {
+        padding: $inputListHeaderPaddingTop $inputListHeaderPaddingRight $inputListHeaderPaddingBottom $inputListHeaderPaddingLeft;
+        border-bottom: $inputListHeaderBorder;
+        color: $inputListHeaderTextColor;
+        background-color: $inputListHeaderBgColor;
+        margin: $inputListHeaderMargin;
+
+        .p-dropdown-filter {
+            width: 100%;
+            padding-right: 2em;
+        }
+
+        .p-dropdown-filter-icon {
+            top: 50%;
+            margin-top: -.5em;
+            right: $inputListHeaderPaddingRight + .5em;
+            color: $inputListHeaderSearchIconColor;
+        }
+    }
+
+    .p-dropdown-items {
+        padding: $inputListPadding;
+
+        .p-dropdown-item, .p-dropdown-item-group {
+            margin: $inputListItemMargin;
+            padding: $inputListItemPadding;
+            border: $inputListItemBorder;
+            color: $inputListItemTextColor;
+            background-color: $inputListItemBgColor;
+            @include transition($inputListItemTransition);
+            @include border-radius(0);
+
+            &.p-highlight {
+                color: $inputListItemHighlightTextColor;
+                background-color: $inputListItemHighlightBgColor;
+            }
+
+            &:not(.p-highlight):not(.p-disabled):hover {
+                color: $inputListItemHoverTextColor;
+                background-color: $inputListItemHoverBgColor;
+            }
+        }
+    }
+}
+
+.p-dropdown.p-error {
+    border: $inputErrorBorder;
+}

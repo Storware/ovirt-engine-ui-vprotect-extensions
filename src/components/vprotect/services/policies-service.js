@@ -34,6 +34,22 @@ class PoliciesService {
   deletePolicy (type, id) {
     return vprotectApiService.delete(`/policies/${type}/${id}`)
   }
+
+  getAllVmBackupPolicies () {
+    return vprotectApiService.get('/policies/vm-backup')
+  }
+
+  getAllSnapshotMgmtPolicies() {
+    return vprotectApiService.get('/policies/snapshot')
+  }
+
+  isSnapshotManagementAvailable(vm) {
+    let hvmWithSnapshotMgmt = ['AWS', 'NUTANIX', 'RHEV', 'RHV', 'VCENTER'];
+    let hvWithSnapshotMgmt = ['CITRIX', 'PROXMOX', 'ESXI', 'HYPERV'];
+
+    return (vm.hvType != null && hvWithSnapshotMgmt.includes(vm.hvType.name))
+      || (vm.hvmType != null && hvmWithSnapshotMgmt.includes(vm.hvmType.name));
+  }
 }
 
 export const policiesService = new PoliciesService()

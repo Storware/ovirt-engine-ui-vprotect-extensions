@@ -1,0 +1,62 @@
+.p-growl {
+    top: $growlTopLocation;
+    @include opacity($growlOpacity);
+
+    .p-growl-item-container {
+        margin: $growlMargin;
+        @include shadow($growlShadow);
+
+        .p-growl-item {
+            padding: $growlPadding;
+
+            .p-growl-image {
+                font-size: $growlIconFontSize;
+            }
+        }
+
+        &.p-growl-message-info {
+            background-color: $infoMessageBgColor;
+            border: $infoMessageBorder;
+            color: $infoMessageTextColor;
+
+            .p-growl-image,
+            .p-growl-icon-close {
+                color: $infoMessageIconColor;
+            }
+        }
+
+        &.p-growl-message-success {
+            background-color: $successMessageBgColor;
+            border: $successMessageBorder;
+            color: $successMessageTextColor;
+
+            .p-growl-image,
+            .p-growl-icon-close {
+                color: $successMessageIconColor;
+            }
+        }
+
+        &.p-growl-message-warn {
+            background-color: $warnMessageBgColor;
+            border: $warnMessageBorder;
+            color: $warnMessageTextColor;
+
+            .p-growl-image,
+            .p-growl-icon-close {
+                color: $warnMessageIconColor;
+            }
+        }
+
+        &.p-growl-message-error {
+            background-color: $errorMessageBgColor;
+            border: $errorMessageBorder;
+            color: $errorMessageTextColor;
+
+            .p-growl-image,
+            .p-growl-icon-close {
+                color: $errorMessageIconColor;
+            }
+        }
+
+    }
+}

@@ -1,0 +1,49 @@
+.p-chips {
+    > ul.p-inputtext {
+        padding: $inputPadding / 2 $inputPadding;
+        display: inline-block;
+
+        &:not(.p-disabled):hover {
+            border-color: $inputHoverBorderColor;
+        }
+
+        &:not(.p-disabled).p-focus {
+            @include focused-input();
+        }
+
+        .p-chips-input-token {
+            padding: $inputPadding / 2 0;
+
+            input {
+                font-family: $fontFamily;
+                font-size: $fontSize;
+                padding: 0;
+                margin: 0;
+                color: $textColor;
+
+                &:hover {
+                    border: 0 none;
+                }
+
+                &:focus {
+                    @include shadow(none);
+                    outline: 0 none;
+                    border: 0 none;
+                }
+            }
+        }
+
+        .p-chips-token {
+            font-size: $fontSize;
+            padding: $inputPadding / 2 $inputPadding;
+            margin: $chipsItemMargin;
+            background: $highlightBgColor;
+            color: $highlightColorText;
+            @include border-radius($borderRadius);
+        }
+    }
+}
+
+.p-chips.p-error > .p-inputtext {
+    border: $inputErrorBorder;
+}

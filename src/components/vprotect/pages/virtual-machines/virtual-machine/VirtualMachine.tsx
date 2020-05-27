@@ -25,6 +25,9 @@ import BackupsTable from './BackupsTable';
 import RestoresHistory from './RestoresHistoryTable';
 import RestoresHistoryTable from './RestoresHistoryTable';
 import SnapshotsTable from './SnapshotsTable';
+import DisksTable from './DisksTable';
+import SchedulesTable from './SchedulesTable';
+import Settings from './Settings';
 
 const VirtualMachine = () => {
     let dispatch = useDispatch();
@@ -144,13 +147,13 @@ const VirtualMachine = () => {
                         <SnapshotsTable />
                     </TabPanel>
                     <TabPanel header='Disks'>
-                        Content III
+                        <DisksTable />
                     </TabPanel>
                     <TabPanel header='Schedules'>
-                        Content III
+                        <SchedulesTable />
                     </TabPanel>
                     <TabPanel header='Settings'>
-                        Content III
+                        <Settings />
                     </TabPanel>
                 </TabView>
             </Card>
@@ -159,14 +162,14 @@ const VirtualMachine = () => {
             <BackupModal closeModal={() => {
                 setShowBackupModal(false)
             }}
-                         virtualEnvironments={[this.state.virtualMachine]}/>
+                         virtualEnvironments={[virtualMachine]}/>
             }
 
             {showRestoreModal &&
             <RestoreModal closeModal={() => {
                 setShowRestoreModal(false)
             }}
-                          virtualEnvironment={this.state.virtualMachine}/>
+                          virtualEnvironment={virtualMachine}/>
             }
         </Panel>
     )

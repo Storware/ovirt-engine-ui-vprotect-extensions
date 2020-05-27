@@ -1,0 +1,104 @@
+.p-autocomplete {
+    .p-autocomplete-input {
+        padding: $inputPadding;
+    }
+
+    &.p-autocomplete-multiple {
+        .p-autocomplete-multiple-container {
+            padding: $inputPadding / 2 $inputPadding;
+
+            &:not(.p-disabled):hover {
+                border-color: $inputHoverBorderColor;
+            }
+
+            &:not(.p-disabled).p-focus {
+                @include focused-input();
+            }
+
+            .p-autocomplete-input-token {
+                margin: 0;
+                padding: $inputPadding / 2 0;
+                color: $textColor;
+
+                input {
+                    font-family: $fontFamily;
+                    font-size: $fontSize;
+                    padding: 0;
+                    margin: 0;
+                }
+            }
+
+            .p-autocomplete-token {
+                font-size: $fontSize;
+                padding: $inputPadding / 2 $inputPadding;
+                margin: $chipsItemMargin;
+                background: $highlightBgColor;
+                color: $highlightColorText;
+                @include border-radius($borderRadius);
+            }
+        }
+    }
+}
+
+.p-autocomplete-panel {
+    padding: 0;
+    border: $inputOverlayBorder;
+    background-color: $inputListBgColor;
+    @include shadow($inputOverlayShadow);
+
+    .p-autocomplete-items {
+        padding: $inputListPadding;
+
+        .p-autocomplete-list-item {
+            margin: $inputListItemMargin;
+            padding: $inputListItemPadding;
+            border: $inputListItemBorder;
+            color: $inputListItemTextColor;
+            background-color: $inputListItemBgColor;
+            @include transition($inputListItemTransition);
+            @include border-radius(0);
+
+            &:hover {
+                color: $inputListItemHoverTextColor;
+                background-color: $inputListItemHoverBgColor;
+            }
+
+            &.p-highlight {
+                color: $inputListItemHighlightTextColor;
+                background-color: $inputListItemHighlightBgColor;
+            }
+        }
+
+        .p-autocomplete-group {
+            padding: $inputListItemPadding;
+            background-color: $inputListItemDividerColor;
+            color: $textColor;
+        }
+    }
+}
+
+.p-fluid {
+    .p-autocomplete {
+        .p-autocomplete-dropdown.p-button {
+            width: $buttonIconOnlyWidth;
+        }
+
+        &.p-autocomplete-multiple.p-autocomplete-dd {
+            .p-autocomplete-multiple-container {
+                border-right: 0 none;
+                width: calc(100% - #{$buttonIconOnlyWidth});
+            }
+        }
+
+        &.p-autocomplete-dd {
+            .p-inputtext {
+                border-right: 0 none;
+                width: calc(100% - #{$buttonIconOnlyWidth});
+            }
+        }
+    }
+}
+
+.p-autocomplete.p-error > .p-inputtext {
+    border: $inputErrorBorder;
+}

@@ -1,0 +1,151 @@
+.p-tabview {
+    &.p-tabview-top,
+    &.p-tabview-bottom,
+    &.p-tabview-left,
+    &.p-tabview-right {
+        border: 0 none;
+
+        .p-tabview-nav {
+            padding: 0;
+            background: $tabsNavBgColor;
+            border: $tabsNavBorder;
+
+            li {
+                a {
+                    border: $panelHeaderBorder;
+                    background-color: $panelHeaderBgColor;
+                    float: none;
+                    display: inline-block;
+                    color: $panelHeaderTextColor;
+                    padding: $panelHeaderPadding;
+                    font-weight: $panelHeaderFontWeight;
+                    @include transition($panelHeaderTransition);
+
+                    .p-tabview-left-icon {
+                        margin-right: $inlineSpacing;
+                    }
+
+                    .p-tabview-right-icon {
+                        margin-left: $inlineSpacing;
+                    }
+
+                    &:not(.p-disabled):focus {
+                        @include focused();
+                    }
+                }
+
+                .p-tabview-close {
+                    color: $panelHeaderIconColor;
+                    margin: 0 $inlineSpacing 0 0;
+                    vertical-align: middle;
+                }
+
+                &:not(.p-highlight):not(.p-disabled):hover {
+                    a {
+                        background-color: $panelHeaderHoverBgColor;
+                        border: $panelHeaderHoverBorder;
+                        color: $panelHeaderHoverTextColor;
+                    }
+
+                    .p-tabview-close {
+                        color: $panelHeaderHoverTextColor;
+                    }
+                }
+
+                &.p-highlight {
+                    a {
+                        background-color: $panelHeaderActiveBgColor;
+                        border: $panelHeaderActiveBorder;
+                        color: $panelHeaderActiveTextColor;
+                    }
+
+                    .p-tabview-close {
+                        color: $panelHeaderActiveIconColor;
+                    }
+
+                    &:hover {
+                        a {
+                            border: $panelHeaderActiveHoverBorder;
+                            background-color: $panelHeaderActiveHoverBgColor;
+                            color: $panelHeaderActiveHoverTextColor;
+
+                            .p-tabview-left-icon, .p-tabview-right-icon{
+                                color: $panelHeaderActiveHoverIconColor;
+                            }
+                        }
+                    }
+                }
+
+                &.p-tabview-selected {
+                    a {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+
+    &.p-tabview-top {
+        .p-tabview-nav {
+            margin-bottom: -1px;
+
+            li {
+                a {
+                    margin-right: $tabHeaderSpacing;
+                    @include border-radius-top($borderRadius);
+                }
+            }
+        }
+    }
+
+    &.p-tabview-bottom {
+        .p-tabview-nav {
+            margin-top: -1px;
+
+            li {
+                a {
+                    margin-right: $tabHeaderSpacing;
+                    @include border-radius-bottom($borderRadius);
+                }
+            }
+        }
+    }
+
+    &.p-tabview-left {
+        .p-tabview-nav {
+            margin-right: -1px;
+
+            li {
+                a {
+                    margin-bottom: $tabHeaderSpacing;
+                    @include border-radius-left($borderRadius);
+                }
+            }
+        }
+    }
+
+    &.p-tabview-right {
+        .p-tabview-nav {
+            margin-right: -1px;
+
+            li {
+                a {
+                    margin-bottom: $tabHeaderSpacing;
+                    @include border-radius-right($borderRadius);
+                }
+            }
+        }
+    }
+
+    .p-tabview-panels {
+        background-color: $panelContentBgColor;
+        padding: $panelContentPadding;
+        border: $panelContentBorder;
+        color: $panelContentTextColor;
+        @include border-radius-bottom($borderRadius);
+
+        .p-tabview-panel {
+            padding: 0;
+        }
+    }
+}

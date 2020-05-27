@@ -1,9 +1,11 @@
-import {SET_SNAPSHOTS, VirtualMachineAction} from './types';
+import {SET_DISKS, SET_POLICIES, SET_SCHEDULES, SET_SNAPSHOT_POLICIES, SET_SNAPSHOTS, VirtualMachineAction} from './types';
 import {Dispatch} from 'redux';
 import {SET_RESTORES_HISTORY, SET_BACKUPS_HISTORY, SET_HYPERVISOR, SET_VIRTUAL_MACHINE} from './types';
-import {virtualMachinesService} from '../../components/vprotect/services/virtual-machines.service';
+import {virtualMachinesService} from '../../components/vprotect/services/virtual-machines-service';
 import {hypervisorsService} from '../../components/vprotect/services/hypervisors-service';
 import {backupsService} from '../../components/vprotect/services/backups-service';
+import {schedulesService} from '../../components/vprotect/services/schedules-service';
+import {policiesService} from '../../components/vprotect/services/policies-service';
 
 export const setVirtualMachine = (payload: any): VirtualMachineAction => {
     return {
@@ -40,14 +42,45 @@ export const setSnapshots = (payload: any[]): VirtualMachineAction => {
     };
 };
 
+export const setDisks = (payload: any[]): VirtualMachineAction => {
+    return {
+        type: SET_DISKS,
+        payload
+    };
+};
+
+export const setSchedules = (payload: any[]): VirtualMachineAction => {
+    return {
+        type: SET_SCHEDULES,
+        payload
+    };
+};
+
+export const setPolicies = (payload: any[]): VirtualMachineAction => {
+    return {
+        type: SET_POLICIES,
+        payload
+    };
+};
+
+
+export const setSnapshotPolicies = (payload: any[]): VirtualMachineAction => {
+    return {
+        type: SET_SNAPSHOT_POLICIES,
+        payload
+    };
+};
+
 export const getVirtualMachinePage = (guid) => async (dispatch: Dispatch) => {
     if (!guid) {
         return;
     }
     const virtualMachine = await virtualMachinesService.getVirtualMachine(guid)
     await dispatch(setVirtualMachine(virtualMachine));
-    const hypervisor = await hypervisorsService.getHypervisor(virtualMachine.hypervisor.guid)
-    await dispatch(setHypervisor(hypervisor));
+    if (virtualMachine.hypervisor) {
+        const hypervisor = await hypervisorsService.getHypervisor(virtualMachine.hypervisor.guid)
+        await dispatch(setHypervisor(hypervisor));
+    }
     const backupsHistory = await backupsService.getProtectedEntityBackups(guid)
     await dispatch(setBackupsHistory(backupsHistory));
     const restoresHistory = await backupsService.getProtectedEntityRestoreJobs(guid)
@@ -55,6 +88,14 @@ export const getVirtualMachinePage = (guid) => async (dispatch: Dispatch) => {
     let snapshots = await virtualMachinesService.getVirtualMachineSnapshots(guid)
     snapshots = setCurrentForIncrementalBackup(virtualMachine, snapshots)
     await dispatch(setSnapshots(snapshots));
+    const disks = await virtualMachinesService.getVirtualMachineDisks(guid)
+    await dispatch(setDisks(disks));
+    const schedules = await schedulesService.getProtectedEntitySchedules(guid)
+    await dispatch(setSchedules(schedules));
+    const policies = await policiesService.getAllVmBackupPolicies(guid)
+    await dispatch(setPolicies(policies));
+    const snapshotPolicies = await policiesService.getAllSnapshotMgmtPolicies(guid)
+    await dispatch(setSnapshotPolicies(snapshotPolicies));
 };
 
 const setCurrentForIncrementalBackup = (virtualMachine, snapshots) => {

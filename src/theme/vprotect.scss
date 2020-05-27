@@ -1,4 +1,8 @@
+@import '~primereact/resources/primereact.min.css';
+@import '~primeicons/primeicons.css';
+@import "primereact/App";
 @import "form";
+@import "table.scss";
 
 label, input {
     display: block;

@@ -1,0 +1,111 @@
+.p-paginator {
+    background-color: $paginatorBgColor;
+    border: $paginatorBorder;
+    padding: $paginatorPadding;
+
+    .p-paginator-first,
+    .p-paginator-prev,
+    .p-paginator-next,
+    .p-paginator-last {
+        color: $paginatorIconColor;
+        height: $paginatorElementHeight;
+        min-width: $paginatorElementWidth;
+        border: $paginatorElementBorder;
+        line-height: $paginatorElementHeight;
+        padding: $paginatorElementPadding;
+        margin: $paginatorElementMargin;
+        vertical-align: top;
+        @include transition(background-color $transitionDuration, box-shadow $transitionDuration);
+        @include border-radius($paginatorElementBorderRadius);
+
+        &:not(.p-disabled):not(.p-highlight):hover {
+            background-color: $paginatorElementHoverBgColor;
+            color: $paginatorElementHoverIconColor;
+        }
+    }
+
+    .p-dropdown {
+        border: 0 none;
+
+        .p-dropdown-trigger, .p-dropdown-label {
+            color: $paginatorIconColor;
+        }
+
+        &:hover {
+            .p-dropdown-trigger, .p-dropdown-label {
+                color: $paginatorElementHoverIconColor;
+            }
+        }
+    }
+
+    .p-paginator-first {
+        &:before {
+            position: relative;
+            top: 1px;
+        }
+    }
+
+    .p-paginator-prev {
+        &:before {
+            position: relative;
+        }
+    }
+
+    .p-paginator-next {
+        &:before {
+            position: relative;
+            top: 1px;
+        }
+    }
+
+    .p-paginator-last {
+        &:before {
+            position: relative;
+            top: 1px;
+        }
+    }
+
+    .p-paginator-current {
+        vertical-align: top;
+        display: inline-block;
+        height: $paginatorElementHeight;
+        min-width: $paginatorElementWidth;
+        border: $paginatorElementBorder;
+        line-height: $paginatorElementHeight;
+    }
+
+    .p-paginator-pages {
+        vertical-align: top;
+        display: inline-block;
+        padding: 0;
+
+        .p-paginator-page {
+            color: $paginatorIconColor;
+            height: $paginatorElementHeight;
+            min-width: $paginatorElementWidth;
+            border: $paginatorElementBorder;
+            line-height: $paginatorElementHeight;
+            padding: $paginatorElementPadding;
+            margin: $paginatorElementMargin;
+            vertical-align: top;
+            @include transition(background-color $transitionDuration, box-shadow $transitionDuration);
+            @include border-radius($paginatorElementBorderRadius);
+
+            &.p-highlight {
+                background-color: $highlightBgColor;
+                color: $highlightColorText;
+            }
+
+            &:not(.p-highlight):hover {
+                background-color: $paginatorElementHoverBgColor;
+                color: $paginatorElementHoverIconColor;
+            }
+        }
+    }
+
+    .p-dropdown {
+        margin-left: $inlineSpacing;
+        height: $paginatorElementHeight;
+        min-width: auto;
+    }
+}

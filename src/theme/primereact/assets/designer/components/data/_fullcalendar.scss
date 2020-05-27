@@ -1,0 +1,92 @@
+.fc {
+    th {
+        background-color: $panelHeaderBgColor;
+        border: $panelHeaderBorder;
+        color: $panelHeaderTextColor;
+        padding: $panelHeaderPadding;
+    }
+
+    td {
+        &.ui-widget-content {
+            background-color: $panelContentBgColor;
+            border: $panelContentBorder;
+            color: $panelContentTextColor;
+        }
+
+        &.fc-head-container {
+            border: $panelHeaderBorder;
+        }
+    }
+
+    .fc-row {
+        border-right: $panelHeaderBorder;
+    }
+
+    .fc-event {
+        background-color: $scheduleEventBgColor;
+        border: $scheduleEventBorder;
+        color: $scheduleEventTextColor;
+    }
+
+    .fc-toolbar {
+        .fc-button {
+            color: $buttonTextColor;
+            background-color: $buttonBgColor;
+            border: $buttonBorder;
+            font-size: $fontSize;
+            @include transition($buttonTransition);
+            @include border-radius($borderRadius);
+
+            &:enabled:hover {
+                background-color: $buttonHoverBgColor;
+                color: $buttonHoverTextColor;
+                border-color: $buttonHoverBorderColor;
+            }
+
+            .fc-icon-chevron-left{
+                font-family: 'PrimeIcons' !important;
+                text-indent: 0;
+                @include icon_override("\e900");
+            }
+
+            .fc-icon-chevron-right {
+                font-family: 'PrimeIcons' !important;
+                text-indent: 0;
+                @include icon_override("\e901");
+            }
+
+            &:focus {
+                @include focused();
+            }
+        }
+
+        .fc-button-group {
+            .fc-button {
+                @include border-radius(0);
+
+                &:first-child {
+                    @include border-radius-left($borderRadius);
+                }
+
+                &:last-child {
+                    @include border-radius-right($borderRadius);
+                }
+            }
+        }
+    }
+
+    .fc-divider {
+        background-color: $panelHeaderBgColor;
+        border: $panelHeaderBorder;
+    }
+}
+
+.p-fluid {
+    .fc {
+        .fc-toolbar {
+            .ui-button {
+                width: auto;
+            }
+        }
+    }
+}

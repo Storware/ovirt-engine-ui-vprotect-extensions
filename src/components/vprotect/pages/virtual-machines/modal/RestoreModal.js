@@ -163,7 +163,7 @@ export class RestoreModal extends React.Component {
           </button>
           <Modal.Title>Restore</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className='form'>
           <div>
             <label>Backup</label>
             <DateDropdown value={this.state.task.backup}

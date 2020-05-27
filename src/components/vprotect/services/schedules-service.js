@@ -1,6 +1,6 @@
 import {vprotectApiService} from './vprotect-api-service'
 import * as moment from 'moment-timezone'
-import {offset} from './time'
+import {offset, sourceToViewShiftedDays} from './time'
 
 class SchedulesService {
   backupTypes = [
@@ -13,8 +13,11 @@ class SchedulesService {
     {name: 'INTERVAL', description: 'Interval'}
   ];
 
-  getAllTypeSchedules (type) {
-    return vprotectApiService.get('/schedules?type=' + type)
+  async getAllTypeSchedules (type) {
+    let data = await vprotectApiService.get('/schedules?type=' + type)
+    return data.map(el => {
+      return {...el, daysOfWeek: sourceToViewShiftedDays(el.daysOfWeek, el.hour)}
+    })
   }
 
   deleteSchedule (id) {
@@ -31,6 +34,13 @@ class SchedulesService {
 
   updateSchedule (id, schedule) {
     return vprotectApiService.put('/schedules/' + id, schedule)
+  }
+
+  async getProtectedEntitySchedules (id) {
+    let data = await vprotectApiService.get('/schedules?protected-entity=' + id);
+    return data.map(el => {
+      return {...el, daysOfWeek: sourceToViewShiftedDays(el.daysOfWeek, el.hour)}
+    })
   }
 
   getScheduleTimeOrIntervalLabel (schedule) {

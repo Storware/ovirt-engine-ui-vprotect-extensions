@@ -13,7 +13,7 @@ import {
 
 import {BackupModal} from '../../../compoenents/modal/BackupModal'
 import {RestoreModal} from '../modal/RestoreModal'
-import {virtualMachinesService} from '../../../services/virtual-machines.service'
+import {virtualMachinesService} from '../../../services/virtual-machines-service'
 import {DateShow} from '../../../compoenents/convert/Date'
 import {Filesize} from '../../../compoenents/convert/Filezize'
 import {TableFilter} from '../../../compoenents/table/TableFilter'
