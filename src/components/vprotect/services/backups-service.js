@@ -12,6 +12,14 @@ class BackupsService {
   getProtectedEntityBackupsByStatus (id, status) {
     return vprotectApiService.get('/backups?protected-entity=' + id + '&status=' + status)
   }
+
+  getAllMountedBackups () {
+    return vprotectApiService.get('/mounted-backups')
+  }
+
+  getMountedBackup (id) {
+    return vprotectApiService.get('/mounted-backups/' + id)
+  }
 }
 
 export const backupsService = new BackupsService()

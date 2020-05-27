@@ -22,7 +22,6 @@ import {
 import {getVirtualMachinePage} from '../../../../../store/virtual-machine/actions';
 import BackupsHistoryTable from './BackupsHistoryTable';
 import BackupsTable from './BackupsTable';
-import RestoresHistory from './RestoresHistoryTable';
 import RestoresHistoryTable from './RestoresHistoryTable';
 import SnapshotsTable from './SnapshotsTable';
 import DisksTable from './DisksTable';

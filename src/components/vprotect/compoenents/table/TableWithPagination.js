@@ -6,9 +6,39 @@ import * as resolve from 'table-resolver'
 import {
   customHeaderFormattersDefinition,
   Table
-, PaginationRow, paginate, PAGINATION_VIEW} from 'patternfly-react'
+, PaginationRow, paginate, PAGINATION_VIEW, TABLE_SORT_DIRECTION} from 'patternfly-react'
 
 import {compose} from 'recompose'
+
+export const sortingColumns = {
+  name: {
+    direction: TABLE_SORT_DIRECTION.ASC,
+    position: 0
+  }
+}
+
+export const getSortingColumns = () => sortingColumns || {}
+
+export const sortableTransform = sort.sort({
+  getSortingColumns,
+  onSort: selectedColumn => {
+    this.setState({
+      sortingColumns: sort.byColumn({
+        sortingColumns: sortingColumns,
+        sortingOrder: defaultSortingOrder,
+        selectedColumn
+      })
+    })
+  },
+  strategy: sort.strategies.byProperty
+})
+
+export const sortingFormatter = sort.header({
+  sortableTransform,
+  getSortingColumns,
+  strategy: sort.strategies.byProperty
+})
+
 
 export class TableWithPagination extends React.Component {
   constructor (props) {

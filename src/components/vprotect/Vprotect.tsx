@@ -10,6 +10,7 @@ import {
 import {TaskConsole} from './pages/task-console/TaskConsole'
 import Policies from './pages/policies/Policies'
 import Schedules from './pages/schedules/Schedules'
+import MountedBackups from './pages/mounted-backups/MountedBackups';
 
 export class Vprotect extends React.Component {
   path;
@@ -68,6 +69,9 @@ export class Vprotect extends React.Component {
             </Route>
             <Route path='/schedules'>
               <Schedules />
+            </Route>
+            <Route path='/mounted-backups'>
+              <MountedBackups />
             </Route>
           </Switch>
         </div>

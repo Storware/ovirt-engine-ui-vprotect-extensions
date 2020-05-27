@@ -32,6 +32,7 @@ export const vprotectVirtualMachineListPlaceToken = 'vprotect-virtual-machine-li
 export const vprotectTaskConsolePlaceToken = 'vprotect-task-console-list'
 export const vprotectPoliciesToken = 'vprotect-policies'
 export const vprotectSchedulesToken = 'vprotect-schedules'
+export const vprotectMountedBackupsToken = 'vprotect-mounted-backups'
 
 export const searchPrefixes = {
   dc: 'DataCenter',
@@ -98,7 +99,7 @@ export const utilizationListGridNameThreshold = 30
 export const entityTypes = {
   cluster: 'Cluster',
   host: 'Host',
-  vm: 'VirtualMachine'
+  vm: 'MountedBackup'
 }
 
 export const vmUpStates = ['Up', 'PoweringUp', 'RebootInProgress', 'Paused']
