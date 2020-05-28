@@ -20,6 +20,14 @@ class BackupsService {
   getMountedBackup (id) {
     return vprotectApiService.get('/mounted-backups/' + id)
   }
+
+  getMountedBackupFilesystemsDetailed (id) {
+    return vprotectApiService.get('/mounted-file-systems/detailed?mounted-backup=' + id)
+  }
+
+  getMountedBackupFiles (id) {
+    return vprotectApiService.get('/mounted-files?mounted-backup=' + id)
+  }
 }
 
 export const backupsService = new BackupsService()

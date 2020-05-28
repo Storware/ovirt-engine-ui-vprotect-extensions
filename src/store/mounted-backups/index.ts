@@ -1,16 +1,20 @@
 import {
   SET_MOUNTED_BACKUPS,
-  MountedBackupsAction, SET_MOUNTED_BACKUP
+  MountedBackupsAction, SET_MOUNTED_BACKUP, SET_FILESYSTEMS, SET_FILES
 } from './types';
 
 export type MountedBackupsStore = {
   readonly mountedBackups: any[];
   readonly mountedBackup: any;
+  readonly fileSystems: any[];
+  readonly files: any[];
 };
 
 const initial: MountedBackupsStore = {
   mountedBackups: [],
-  mountedBackup: {}
+  mountedBackup: {},
+  fileSystems: [],
+  files: []
 };
 
 export default (state = initial, action: MountedBackupsAction) => {
@@ -24,6 +28,18 @@ export default (state = initial, action: MountedBackupsAction) => {
     return {
       ...state,
       mountedBackup: action.payload,
+    };
+  }
+  if (action.type === SET_FILESYSTEMS) {
+    return {
+      ...state,
+      fileSystems: action.payload,
+    };
+  }
+  if (action.type === SET_FILES) {
+    return {
+      ...state,
+      files: action.payload,
     };
   }
   return state;

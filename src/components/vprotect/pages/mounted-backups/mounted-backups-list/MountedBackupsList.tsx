@@ -21,6 +21,10 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {getMountedBackupsListPage} from '../../../../../store/mounted-backups/actions';
 import {selectMountedBackups} from '../../../../../store/mounted-backups/selectors';
+import {MountTask} from '../../../model/tasks/mount-task';
+import {tasksService} from '../../../services/tasks-service';
+import {alertService} from '../../../services/alert-service';
+import {UnmountTask} from '../../../model/tasks/unmount-task';
 
 const columns = [
     {
@@ -188,10 +192,21 @@ const columns = [
                                       </div>
                                     </Link>
                                 </MenuItem>}
-                                <MenuItem onClick={() => {
-
+                                <MenuItem onClick={async () => {
+                                    let task = new MountTask()
+                                    task.mountedBackup = {guid: rowData.guid, name: ''};
+                                    await tasksService.submitTaskMount(task);
+                                    alertService.info('Mount task has been submitted');
                                 }}>
                                     Remount
+                                </MenuItem>
+                                <MenuItem onClick={async () => {
+                                    let task = new UnmountTask()
+                                    task.mountedBackup = {guid: rowData.guid, name: ''};
+                                    await tasksService.submitTaskUnmount(task);
+                                    alertService.info('Unmount task has been submitted');
+                                }}>
+                                    Unmount
                                 </MenuItem>
                             </Table.DropdownKebab>
                         </Table.Actions>

@@ -4,29 +4,31 @@ import {
     Link,
     useParams
 } from 'react-router-dom'
-import {getMountedBackupsPage} from '../../../../../store/mounted-backups/actions';
+import {getMountedBackup} from '../../../../../store/mounted-backups/actions';
 import {selectMountedBackup} from '../../../../../store/mounted-backups/selectors';
 import {Button} from 'primereact/button';
 import {Card} from 'primereact/card';
 import {Panel} from 'primereact/panel';
 import {DateShow} from '../../../compoenents/convert/Date'
 import {Filesize} from '../../../compoenents/convert/Filezize'
+import {TabPanel, TabView} from 'primereact/tabview';
+import FileSystemsTable from './FileSystemsTable';
+import FilesTable from './FilesTable';
 
 const MountedBackup = () => {
     let dispatch = useDispatch();
     let {guid} = useParams();
 
     useEffect(() => {
-        dispatch(getMountedBackupsPage(guid));
+        dispatch(getMountedBackup(guid));
     }, [])
 
     let mountedBackup: any = useSelector(selectMountedBackup)
-    console.log(mountedBackup);
     return (
         <Panel header='Mounted Backup'>
             <div className='d-flex mt-3'>
                 <div>
-                    <Link to={`mounted-backups`}>
+                    <Link to={`/mounted-backups`}>
                         <Button label='Back'/>
                     </Link>
                 </div>
@@ -57,6 +59,16 @@ const MountedBackup = () => {
                   </div>
                 </div>
             </Card>}
+            <Card className='mt-4' title='Mounted Backup Details'>
+                <TabView>
+                    <TabPanel header='File systems'>
+                        <FileSystemsTable/>
+                    </TabPanel>
+                    <TabPanel header='Files'>
+                        <FilesTable/>
+                    </TabPanel>
+                </TabView>
+            </Card>
         </Panel>
     )
 }
