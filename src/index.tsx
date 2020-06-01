@@ -23,7 +23,7 @@ import 'bootstrap/dist/css/bootstrap-grid.css'
 // Bootstrap 3.3.7 Tooltip.getPosition() function has a bug, this override fixes
 // the problem.
 import './bootstrap-overrides/tooltip-fix'
-import {Vprotect} from './components/vprotect/Vprotect'
+import Vprotect from './components/vprotect/index'
 import {store} from './store'
 import {Provider} from 'react-redux'
 
