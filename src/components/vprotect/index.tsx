@@ -14,10 +14,11 @@ import MountedBackups from './pages/mounted-backups/MountedBackups';
 import ModalContainer from './compoenents/modal/ModalContainer';
 import {useSelector} from 'react-redux';
 import {selectShow} from '../../store/modal/selectors';
+import {selectLoading} from '../../store/loading/selectors';
 
 const Index = () => {
   let modalShow = useSelector(selectShow);
-
+  let loading = useSelector(selectLoading)
   const href = window.location.href
   const start = href.indexOf(';')
   const path = href.substring(start + 1)
@@ -76,6 +77,9 @@ const Index = () => {
           </div>
         </Router>
         {modalShow && <ModalContainer/>}
+        <div className={'loading ' + (loading && 'active')}>
+          <div className={'spinner'} />
+        </div>
       </div>
   )
 }

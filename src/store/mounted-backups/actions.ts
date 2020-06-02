@@ -1,6 +1,14 @@
-import {MountedBackupsAction, SET_FILES, SET_FILESYSTEMS, SET_MOUNTED_BACKUP, SET_MOUNTED_BACKUPS} from './types';
+import {
+    MountedBackupsAction,
+    SET_FILES,
+    SET_FILESYSTEM_LISTING,
+    SET_FILESYSTEMS,
+    SET_MOUNTED_BACKUP,
+    SET_MOUNTED_BACKUPS,
+} from './types';
 import {Dispatch} from 'redux';
 import {backupsService} from '../../components/vprotect/services/backups-service';
+import {startLoading, stopLoading} from '../loading/actions';
 
 export const setMountedBackups = (payload: any): MountedBackupsAction => {
     return {
@@ -30,6 +38,13 @@ export const setFiles = (payload: any): MountedBackupsAction => {
     };
 };
 
+export const setFileSystemListing = (payload: any): MountedBackupsAction => {
+    return {
+        type: SET_FILESYSTEM_LISTING,
+        payload
+    };
+};
+
 export const getMountedBackupsListPage = async (dispatch: Dispatch) => {
     const mountedBackups = await backupsService.getAllMountedBackups()
     await dispatch(setMountedBackups(mountedBackups));
@@ -48,4 +63,14 @@ export const getFileSystems = (guid) => async (dispatch: Dispatch) => {
 export const getFiles = (guid) => async (dispatch: Dispatch) => {
     const files = await backupsService.getMountedBackupFiles(guid)
     await dispatch(setFiles(files));
+}
+
+export const getFilesystemListing = (guid, path) => async (dispatch: Dispatch) => {
+    await dispatch(startLoading())
+    try {
+        const files = await backupsService.getMountedBackupFilesystemsListing(guid, path);
+        await dispatch(setFileSystemListing(files));
+    } finally {
+        await dispatch(stopLoading())
+    }
 }

@@ -34,7 +34,7 @@ class VprotectApiService {
       })
   }
 
-  post (url, body) {
+  post (url, body, options) {
     return fetch(vprotectURL + url, {
       method: 'POST',
       credentials: 'include',
@@ -42,6 +42,7 @@ class VprotectApiService {
       headers: {
         'Content-Type': 'application/json'
       },
+      ...options,
       body: JSON.stringify(body)
     })
       .then(response => {
@@ -49,7 +50,7 @@ class VprotectApiService {
           alertService.error(errorMessage(response))
           return Promise.reject(response)
         }
-        return response.json()
+        return options && options.observe ? response : response.json()
       })
   }
 

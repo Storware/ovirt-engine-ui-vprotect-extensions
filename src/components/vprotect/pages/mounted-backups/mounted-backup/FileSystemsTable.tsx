@@ -6,15 +6,25 @@ import {selectFileSystems} from '../../../../../store/mounted-backups/selectors'
 import {getFileSystems} from '../../../../../store/mounted-backups/actions';
 import {useParams} from 'react-router-dom'
 import {showModal} from '../../../../../store/modal/actions';
-import FileSystemModal from '../../../compoenents/modal/FileSystemModal';
+import FileSystemModal from '../../../compoenents/modal/FileSystemModal/index';
 import {Dispatch} from 'redux';
+import {sizeTemplate} from '../../../compoenents/table/templates'
+import {Button} from 'primereact/button';
 
 const actionTemplate = (dispatch: Dispatch) => (rowData) => {
-    return <button onClick={() => {
-        dispatch(showModal(
-            {modal: FileSystemModal , props: rowData.guid}
+    return <Button
+        onClick={() => {
+            dispatch(showModal(
+                {
+                    modal: FileSystemModal,
+                    props: {
+                        guid: rowData.guid
+                    }
+                }
             ))
-    }} >Browse</button>
+        }}
+        label='Browse'
+    />
 };
 
 const FileSystemsTable = () => {
@@ -31,10 +41,10 @@ const FileSystemsTable = () => {
             <Table value={fileSystems}>
                 <Column field='fileSystem.volume' header='Volume'/>
                 <Column field='mountPath' header='Mount path'/>
-                <Column field='fileSystem.size' header='Size'/>
+                <Column field='fileSystem.size' header='Size' body={sizeTemplate}/>
                 <Column field='fileSystem.type' header='Type'/>
                 <Column field='fileSystem.label' header='Label'/>
-                <Column field='guid' header='Action' body={actionTemplate(dispatch)} />
+                <Column field='guid' header='Action' body={actionTemplate(dispatch)}/>
             </Table>
         </div>
     )

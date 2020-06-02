@@ -6,11 +6,13 @@ import {
 import user from './user';
 import virtualMachine from './virtual-machine';
 import mountedBackups from './mounted-backups';
+import loading from './loading';
 import modal from './modal';
 import thunk from 'redux-thunk';
 
 export const rootReducer = combineReducers({
     user,
+    loading,
     virtualMachine,
     mountedBackups,
     modal

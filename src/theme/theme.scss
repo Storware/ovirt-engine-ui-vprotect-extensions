@@ -2,7 +2,9 @@
 @import '~primeicons/primeicons.css';
 @import "primereact/App";
 @import "form";
-@import "table.scss";
+@import "table";
+@import "modal";
+@import "loading-overlay";
 
 label, input {
     display: block;
@@ -63,4 +65,8 @@ label, input {
 
 .p-chart {
     height: 300px
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }

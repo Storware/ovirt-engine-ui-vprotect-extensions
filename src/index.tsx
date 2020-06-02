@@ -11,7 +11,7 @@ import 'patternfly-react/dist/css/patternfly-react.css'
 // have that React component import the CSS. Once we update our code to use only
 // patternfly-react components, remove dependency on PatternFly as well as related
 // dependencies like jQuery and C3/D3.
-import './theme/vprotect.scss'
+import './theme/theme.scss'
 
 // TODO(vs): For now, we use Bootstrap JavaScript library providing interactive
 // components via jQuery plugins. Eventually, we should use only patternfly-react
