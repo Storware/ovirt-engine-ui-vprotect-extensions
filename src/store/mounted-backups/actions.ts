@@ -70,6 +70,8 @@ export const getFilesystemListing = (guid, path) => async (dispatch: Dispatch) =
     try {
         const files = await backupsService.getMountedBackupFilesystemsListing(guid, path);
         await dispatch(setFileSystemListing(files));
+    } catch (e) {
+        await dispatch(setFileSystemListing([]))
     } finally {
         await dispatch(stopLoading())
     }

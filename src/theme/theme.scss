@@ -5,6 +5,7 @@
 @import "table";
 @import "modal";
 @import "loading-overlay";
+@import "filesystem-table";
 
 label, input {
     display: block;
@@ -52,7 +53,11 @@ label, input {
 }
 
 .background-gray {
-    background: #f5f5f5;
+    background: #f5f5f5 !important;
+}
+
+.background-white {
+    background: #fff !important;
 }
 
 .width-850px .modal-dialog {

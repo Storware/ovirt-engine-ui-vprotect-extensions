@@ -2,10 +2,10 @@ import React from 'react'
 import VirtualMachines from './pages/virtual-machines/VirtualMachines'
 import {Dashboard} from './pages/dashboard/Dashboard'
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect
 } from 'react-router-dom'
 import {TaskConsole} from './pages/task-console/TaskConsole'
 import Policies from './pages/policies/Policies'
@@ -17,71 +17,47 @@ import {selectShow} from '../../store/modal/selectors';
 import {selectLoading} from '../../store/loading/selectors';
 
 const Index = () => {
-  let modalShow = useSelector(selectShow);
-  let loading = useSelector(selectLoading)
-  const href = window.location.href
-  const start = href.indexOf(';')
-  const path = href.substring(start + 1)
+    let modalShow = useSelector(selectShow)
+    let loading = useSelector(selectLoading)
+    const href = window.location.href
+    const start = href.indexOf(';')
+    const path = href.substring(start + 1)
 
-  return (
-      //   <Router>
-      //     <Redirect
-      //       to={{
-      //         pathname: '/' + this.path,
-      //         state: {from: '/'}
-      //       }}
-      //     />
-      //     <div className={'pt-4 container-fluid'}>
-      //       <Switch>
-      //         <Route path='/dashboard'>
-      //           <Dashboard />
-      //         </Route>
-      //         <Route path='/virtual-machines'>
-      //           <VirtualMachines />
-      //         </Route>
-      //         <Route path='/task-console'>
-      //           <TaskConsole />
-      //         </Route>
-      //         <Route path='/policies'>
-      //           <Policies />
-      //         </Route>
-      //         <Route path='/schedules'>
-      //           <Schedules />
-      //         </Route>
-      //       </Switch>
-      //     </div>
-      //   </Router>
-      <div>
+    return (
         <Router>
-          <div className={'py-4 container-fluid'}>
-            <Switch>
-              <Route path='/dashboard'>
-                <Dashboard />
-              </Route>
-              <Route path='/virtual-machines'>
-                <VirtualMachines />
-              </Route>
-              <Route path='/task-console'>
-                <TaskConsole />
-              </Route>
-              <Route path='/policies'>
-                <Policies />
-              </Route>
-              <Route path='/schedules'>
-                <Schedules />
-              </Route>
-              <Route path='/mounted-backups'>
-                <MountedBackups />
-              </Route>
-            </Switch>
-          </div>
+            {start > 0 && <Redirect
+                to={{
+                    pathname: '/' + path,
+                }}
+            />}
+            <div className={'py-4 container-fluid'}>
+                <Switch>
+                    <Route path='/dashboard'>
+                        <Dashboard/>
+                    </Route>
+                    <Route path='/virtual-machines'>
+                        <VirtualMachines/>
+                    </Route>
+                    <Route path='/task-console'>
+                        <TaskConsole/>
+                    </Route>
+                    <Route path='/policies'>
+                        <Policies/>
+                    </Route>
+                    <Route path='/schedules'>
+                        <Schedules/>
+                    </Route>
+                    <Route path='/mounted-backups'>
+                        <MountedBackups/>
+                    </Route>
+                </Switch>
+                {modalShow && <ModalContainer/>}
+                <div className={'loading ' + (loading && 'active')}>
+                    <div className={'spinner'}/>
+                </div>
+            </div>
         </Router>
-        {modalShow && <ModalContainer/>}
-        <div className={'loading ' + (loading && 'active')}>
-          <div className={'spinner'} />
-        </div>
-      </div>
-  )
+    )
 }
 
 export default Index

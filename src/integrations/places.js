@@ -37,8 +37,8 @@ function addVprotectPlace () {
     priority: 13
   })
 
-  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectSchedules(), vprotectMountedBackupsToken, `${pluginBasePath}/index.html;mounted-backups`, {
-    priority: 13
+  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectMountedBackups(), vprotectMountedBackupsToken, `${pluginBasePath}/index.html;mounted-backups`, {
+    priority: 14
   })
 }
 

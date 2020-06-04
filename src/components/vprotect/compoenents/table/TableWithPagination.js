@@ -147,7 +147,6 @@ export class TableWithPagination extends React.Component {
     return (
       <div>
         <Table.PfProvider
-          striped
           bordered
           hover
           dataTable

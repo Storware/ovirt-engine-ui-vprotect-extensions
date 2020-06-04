@@ -110,6 +110,12 @@ const messageDescriptors = {
     description: 'title `Schedules` used in various components'
   },
 
+  vprotectMountedBackups: {
+    id: 'common.vprotectMountedBackups',
+    defaultMessage: 'Mounted Backups',
+    description: 'title `Mounted Backups` used in various components'
+  },
+
   used: {
     id: 'common.used',
     defaultMessage: 'Used',
