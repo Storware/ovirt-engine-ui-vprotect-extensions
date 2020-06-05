@@ -5,7 +5,7 @@ import Table from '../../../compoenents/table/primereactTable';
 import {selectFileSystems} from '../../../../../store/mounted-backups/selectors';
 import {getFileSystems} from '../../../../../store/mounted-backups/actions';
 import {useParams} from 'react-router-dom'
-import {showModal} from '../../../../../store/modal/actions';
+import {showModalAction} from '../../../../../store/modal/actions';
 import FileSystemModal from './FileSystemModal/index';
 import {Dispatch} from 'redux';
 import {sizeTemplate} from '../../../compoenents/table/templates'
@@ -14,7 +14,7 @@ import {Button} from 'primereact/button';
 const actionTemplate = (dispatch: Dispatch) => (rowData) => {
     return <Button
         onClick={() => {
-            dispatch(showModal(
+            dispatch(showModalAction(
                 {
                     modal: FileSystemModal,
                     props: {

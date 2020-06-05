@@ -27,7 +27,7 @@ import SnapshotsTable from './SnapshotsTable';
 import DisksTable from './DisksTable';
 import SchedulesTable from './SchedulesTable';
 import Settings from './Settings';
-import {showModal} from '../../../../../store/modal/actions';
+import {showModalAction} from '../../../../../store/modal/actions';
 
 const VirtualMachine = () => {
     let dispatch = useDispatch();
@@ -56,7 +56,7 @@ const VirtualMachine = () => {
                 </div>
                 <div>
                     <Button className='mx-2' label='Backup' onClick={() => {
-                        dispatch(showModal({
+                        dispatch(showModalAction({
                             modal: BackupModal,
                             props: {
                                 virtualEnvironments: [virtualMachine]

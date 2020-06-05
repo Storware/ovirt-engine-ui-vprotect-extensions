@@ -2,7 +2,7 @@ import React from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {Modal, Icon} from 'patternfly-react'
 import {selectModal, selectProps, selectShow} from '../../../../store/modal/selectors';
-import {hideModal, saveModal} from '../../../../store/modal/actions';
+import {hideModalAction, saveModalAction} from '../../../../store/modal/actions';
 import {Button} from 'primereact/button';
 
 const ModalContainer = () => {
@@ -18,7 +18,7 @@ const ModalContainer = () => {
                     aria-hidden='true'
                     aria-label='Close'
                     onClick={() => {
-                        dispatch(hideModal())
+                        dispatch(hideModalAction())
                     }}
                 >
                     <Icon type='pf' name='close'/>
@@ -32,13 +32,13 @@ const ModalContainer = () => {
                 <div className='d-flex justify-content-between'>
                     <Button className='p-button-danger'
                             onClick={() => {
-                                dispatch(hideModal())
+                                dispatch(hideModalAction())
                             }}
                             label='Cancel'
                     />
                     <Button className='p-button-success'
                             onClick={() => {
-                                dispatch(saveModal())
+                                dispatch(saveModalAction())
                             }}
                             label='Save'
                     />

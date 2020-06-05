@@ -21,7 +21,7 @@ import {
     sortingFormatter,
     sortingColumns
 } from '../../../compoenents/table/TableWithPagination'
-import {showModal} from '../../../../../store/modal/actions';
+import {showModalAction} from '../../../../../store/modal/actions';
 import {BackupModal} from '../../../compoenents/modal/BackupModal'
 
 
@@ -217,7 +217,7 @@ export const PoliciesList = () => {
                                 <Table.DropdownKebab id='myKebab' pullRight>
                                     {rowData.vmCount > 0 && <MenuItem onClick={async () => {
                                         const policy = await policiesService.getPolicy('vm-backup', rowData.guid);
-                                        dispatch(showModal({
+                                        dispatch(showModalAction({
                                             modal: BackupModal,
                                             props: {
                                                 virtualEnvironments: policy.vms

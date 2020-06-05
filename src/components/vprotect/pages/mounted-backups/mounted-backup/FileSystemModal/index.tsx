@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {selectSaved} from '../../../../../../store/modal/selectors';
-import {hideModal, showModal, unsaveModal} from '../../../../../../store/modal/actions';
+import {hideModalAction, unsaveModalAction} from '../../../../../../store/modal/actions';
 import {getFilesystemListing} from '../../../../../../store/mounted-backups/actions';
 import {selectFileSystemListing} from '../../../../../../store/mounted-backups/selectors';
 import {BreadCrumb} from 'primereact/breadcrumb';
@@ -24,9 +24,9 @@ const FileSystemModal = ({guid}) => {
 
     const save = () => {
         if (1) {
-            dispatch(hideModal())
+            dispatch(hideModalAction())
         } else {
-            dispatch(unsaveModal())
+            dispatch(unsaveModalAction())
         }
     }
 

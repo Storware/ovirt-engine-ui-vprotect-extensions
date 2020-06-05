@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Dropdown} from 'primereact/dropdown'
 
-export class DateDropdown extends React.Component {
+export class BackupDropdown extends React.Component {
   constructor (props) {
     super(props)
 
@@ -13,11 +13,12 @@ export class DateDropdown extends React.Component {
   }
 
   static getDerivedStateFromProps (props, state) {
+    let options = props.options.map(el => {
+      return {guid: el.guid, time: `${new Date(el.snapshotTime).toLocaleString()} ${el.type && el.type.name === 'FULL' ? '(Full)' : ''}`}
+    })
     return {
-      options: props.options.map(el => {
-        return {guid: el.guid, time: new Date(el.snapshotTime).toLocaleString()}
-      }),
-      value: state.options.filter(el => el.guid === props.value.guid)[0]
+      options: options,
+      value: props.value ? state.options.find(el => el.guid === props.value.guid) : options[0]
     }
   }
 
@@ -25,6 +26,7 @@ export class DateDropdown extends React.Component {
     return (
       <Dropdown optionLabel='time'
         value={this.state.value}
+        required={this.props.required}
         options={this.state.options}
         onChange={(event) => {
           this.props.onChange(this.props.options.filter(el => el.guid === event.value.guid)[0])
@@ -34,8 +36,9 @@ export class DateDropdown extends React.Component {
   }
 }
 
-DateDropdown.propTypes = {
+BackupDropdown.propTypes = {
   value: PropTypes.any,
   onChange: PropTypes.func.isRequired,
-  options: PropTypes.array.isRequired
+  options: PropTypes.array.isRequired,
+  required: PropTypes.boolean
 }

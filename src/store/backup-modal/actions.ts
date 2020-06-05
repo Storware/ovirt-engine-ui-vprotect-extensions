@@ -4,7 +4,7 @@ import {backupDestinationsService} from '../../components/vprotect/services/back
 import {vprotectService} from '../../components/vprotect/services/vprotect-service';
 import {alertService} from '../../components/vprotect/services/alert-service';
 import {BackupTask} from '../../components/vprotect/model/tasks/backup-task';
-import {hideModal, unsaveModal} from '../modal/actions';
+import {hideModalAction, unsaveModalAction} from '../modal/actions';
 
 export const setTaskAction = (payload: any): BackupModalAction => {
     return {
@@ -43,8 +43,8 @@ export const submitTask = (task: BackupTask) => async (dispatch: Dispatch) => {
     try {
         await vprotectService.submitExportTask(task)
         alertService.info('Backup task has been submitted')
-        await dispatch(hideModal())
+        await dispatch(hideModalAction())
     } catch (e) {
-        await dispatch(unsaveModal())
+        await dispatch(unsaveModalAction())
     }
 }

@@ -11,6 +11,7 @@ import loading from './loading';
 import modal from './modal';
 import policies from './policies';
 import backupModal from './backup-modal';
+import mountBackupModal from './mount-backup-modal';
 import thunk from 'redux-thunk';
 
 export const rootReducer = combineReducers({
@@ -21,6 +22,7 @@ export const rootReducer = combineReducers({
     mountedBackups,
     policies,
     backupModal,
+    mountBackupModal,
     modal
 });
 

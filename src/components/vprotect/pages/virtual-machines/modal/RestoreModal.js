@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import {vprotectService} from '../../../services/vprotect-service'
 import {Dropdown} from 'primereact/dropdown'
 import {alertService} from '../../../services/alert-service'
-import {DateDropdown} from '../../../compoenents/input/DateDropdown'
+import {BackupDropdown} from '../../../compoenents/input/BackupDropdown'
 import {InputText} from 'primereact/inputtext'
 import {Filesize} from '../../../compoenents/convert/Filezize'
 import {ToggleButton} from 'primereact/togglebutton'
@@ -166,11 +166,11 @@ export class RestoreModal extends React.Component {
         <Modal.Body className='form'>
           <div>
             <label>Backup</label>
-            <DateDropdown value={this.state.task.backup}
-              onChange={(value) => {
+            <BackupDropdown value={this.state.task.backup}
+                            onChange={(value) => {
                             this.setState({task: {...this.state.task, backup: value}})
                           }}
-              options={this.state.backups}
+                            options={this.state.backups}
             />
           </div>
           <div>

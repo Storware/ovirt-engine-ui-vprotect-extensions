@@ -1,25 +1,25 @@
 import {HIDE_MODAL, ModalAction, SAVE_MODAL, SHOW_MODAL, UNSAVE_MODAL} from './types';
 
-export const showModal = (payload: any): ModalAction => {
+export const showModalAction = (payload: any): ModalAction => {
     return {
         type: SHOW_MODAL,
         payload
     };
 };
 
-export const hideModal = (): ModalAction => {
+export const hideModalAction = (): ModalAction => {
     return {
         type: HIDE_MODAL
     };
 };
 
-export const saveModal = (): ModalAction => {
+export const saveModalAction = (): ModalAction => {
     return {
         type: SAVE_MODAL
     };
 };
 
-export const unsaveModal = (): ModalAction => {
+export const unsaveModalAction = (): ModalAction => {
     return {
         type: UNSAVE_MODAL
     };

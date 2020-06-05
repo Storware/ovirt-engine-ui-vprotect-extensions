@@ -26,7 +26,8 @@ import {
 import {useDispatch, useSelector} from 'react-redux'
 import {getVirtualMachinesPage, setFilteredVirtualMachines} from '../../../../../store/virtual-machines/actions'
 import {selectVirtualMachines, selectFilteredVirtualMachines} from '../../../../../store/virtual-machines/selectors'
-import {showModal} from '../../../../../store/modal/actions'
+import {showModalAction} from '../../../../../store/modal/actions'
+import {MountBackupModal} from '../../../compoenents/modal/MountBackupModal'
 
 const filterFields = [
   {
@@ -272,13 +273,22 @@ const VirtualMachinesList = () => {
               <Table.Actions key='0'>
                 <Table.DropdownKebab id='myKebab' pullRight>
                   <MenuItem onClick={() => {
-                    dispatch(showModal({
+                    dispatch(showModalAction({
                       modal: BackupModal,
                       props: {
                         virtualEnvironments: [rowData]
                       }
                     }))
                   }}>Backup</MenuItem>
+                  {rowData.lastSuccessfulBackupSize > 0 &&
+                  <MenuItem onClick={() => {
+                    dispatch(showModalAction({
+                      modal: MountBackupModal,
+                      props: {
+                        guid: rowData.guid
+                      }
+                    }))
+                  }}>Mount</MenuItem>}
                   {rowData.lastSuccessfulBackupSize > 0 &&
                   <MenuItem onClick={() => {
                     setShowModal({

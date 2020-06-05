@@ -36,6 +36,10 @@ class BackupsService {
   downloadBackupFilesystemsFiles (id, state) {
     return vprotectApiService.post('/mounted-file-systems/' + id + '/download', state, {responseType: 'blob', observe: 'response'})
   }
+
+  getMountableBackups (id) {
+    return vprotectApiService.get('/backups?protected-entity=' + id + '&only-mountable=true')
+  }
 }
 
 export const backupsService = new BackupsService()
