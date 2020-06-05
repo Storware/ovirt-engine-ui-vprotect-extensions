@@ -5,16 +5,22 @@ import {
 } from '@reduxjs/toolkit';
 import user from './user';
 import virtualMachine from './virtual-machine';
+import virtualMachines from './virtual-machines';
 import mountedBackups from './mounted-backups';
 import loading from './loading';
 import modal from './modal';
+import policies from './policies';
+import backupModal from './backup-modal';
 import thunk from 'redux-thunk';
 
 export const rootReducer = combineReducers({
     user,
     loading,
     virtualMachine,
+    virtualMachines,
     mountedBackups,
+    policies,
+    backupModal,
     modal
 });
 

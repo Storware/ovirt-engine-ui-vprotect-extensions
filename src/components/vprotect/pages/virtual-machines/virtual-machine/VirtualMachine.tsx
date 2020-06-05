@@ -27,14 +27,12 @@ import SnapshotsTable from './SnapshotsTable';
 import DisksTable from './DisksTable';
 import SchedulesTable from './SchedulesTable';
 import Settings from './Settings';
+import {showModal} from '../../../../../store/modal/actions';
 
 const VirtualMachine = () => {
     let dispatch = useDispatch();
     let {guid} = useParams();
 
-    let showBackupModal;
-    let setShowBackupModal;
-    [showBackupModal, setShowBackupModal] = useState(false);
     let showRestoreModal;
     let setShowRestoreModal;
     [showRestoreModal, setShowRestoreModal] = useState(false);
@@ -58,7 +56,12 @@ const VirtualMachine = () => {
                 </div>
                 <div>
                     <Button className='mx-2' label='Backup' onClick={() => {
-                        setShowBackupModal(true)
+                        dispatch(showModal({
+                            modal: BackupModal,
+                            props: {
+                                virtualEnvironments: [virtualMachine]
+                            }
+                        }))
                     }}/>
                     {virtualMachine.lastSuccessfulBackupSize > 0 &&
                     <Button className='mx-2' label='Restore' onClick={() => {
@@ -156,13 +159,6 @@ const VirtualMachine = () => {
                     </TabPanel>
                 </TabView>
             </Card>
-
-            {showBackupModal &&
-            <BackupModal closeModal={() => {
-                setShowBackupModal(false)
-            }}
-                         virtualEnvironments={[virtualMachine]}/>
-            }
 
             {showRestoreModal &&
             <RestoreModal closeModal={() => {

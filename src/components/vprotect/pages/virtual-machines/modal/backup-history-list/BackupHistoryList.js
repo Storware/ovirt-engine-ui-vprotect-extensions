@@ -177,9 +177,6 @@ export class BackupHistoryList extends React.Component {
 
       pageChangeValue: 1,
 
-      selectedVirtualEnvironment: null,
-      showBackupModal: false,
-      showRestoreModal: false
     }
   }
 

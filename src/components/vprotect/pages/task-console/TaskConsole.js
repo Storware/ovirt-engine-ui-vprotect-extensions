@@ -367,9 +367,6 @@ export class TaskConsole extends React.Component {
 
       pageChangeValue: 1,
 
-      selectedVirtualEnvironment: null,
-      showBackupModal: false,
-      showRestoreModal: false
     }
 
     this.closeModal = this.closeModal.bind(this)
