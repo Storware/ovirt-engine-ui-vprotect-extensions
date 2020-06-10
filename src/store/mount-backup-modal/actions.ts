@@ -1,18 +1,21 @@
-import {MountBackupModalAction, SET_MOUNTABLE_BACKUPS, SET_NODES, SET_TASK} from './types';
+import {
+    MountBackupModalAction,
+    SET_BACKUP_FILES,
+    SET_ISCSI_MOUNTABLE,
+    SET_MANUAL_MOUNT_FILESYSTEMS,
+    SET_MOUNTABLE_BACKUPS,
+    SET_NODES
+} from './types';
 import {Dispatch} from 'redux';
 import {backupsService} from '../../components/vprotect/services/backups-service';
-import {vprotectService} from '../../components/vprotect/services/vprotect-service';
+import {tasksService} from '../../components/vprotect/services/tasks-service';
 import {alertService} from '../../components/vprotect/services/alert-service';
 import {nodesService} from '../../components/vprotect/services/nodes-service';
 import {BackupTask} from '../../components/vprotect/model/tasks/backup-task';
 import {hideModalAction, unsaveModalAction} from '../modal/actions';
-
-export const setTaskAction = (payload: any): MountBackupModalAction => {
-    return {
-        type: SET_TASK,
-        payload
-    };
-};
+import {MountedFileSystemRequest} from '../../components/vprotect/model/tasks/mounted-file-system-request';
+import moment from 'moment-timezone'
+import {BackupFile} from '../../components/vprotect/model/backup-file';
 
 export const setMountableBackupsAction = (payload: any[]): MountBackupModalAction => {
     return {
@@ -28,22 +31,71 @@ export const setNodesAction = (payload: any[]): MountBackupModalAction => {
     };
 };
 
+export const setManualMountFilesystemsAction = (payload: any[]): MountBackupModalAction => {
+    return {
+        type: SET_MANUAL_MOUNT_FILESYSTEMS,
+        payload
+    };
+};
+
+export const setIscsiMountableAction = (payload: boolean): MountBackupModalAction => {
+    return {
+        type: SET_ISCSI_MOUNTABLE,
+        payload
+    };
+};
+
+export const setBackupFilesAction = (payload: BackupFile[]): MountBackupModalAction => {
+    return {
+        type: SET_BACKUP_FILES,
+        payload
+    };
+};
+
 export const getMountedBackup = (guid: string) => async (dispatch: Dispatch) => {
     const mountableBackups = await backupsService.getMountableBackups(guid)
     await dispatch(setMountableBackupsAction(mountableBackups))
     const nodes = await nodesService.getAllNodes()
     await dispatch(setNodesAction(nodes))
+};
 
+export const getBackupFilesystems = (backup: any) => async (dispatch: Dispatch) => {
+    const data = await backupsService.getBackupFileSystems(backup.guid)
+    const manualMountFileSystems = [];
+    data.forEach(element => {
+        const ms = new MountedFileSystemRequest();
+        ms.fileSystem = element;
+        ms.mountPath = '/mnt/vprotect/' + backup.protectedEntity.name
+            + '/' + moment(backup.snapshotTime).format('YYYYMMDD_HHmmss')
+            + '/' + element.volume.replace(/^.*[\\\/]/, '');
+        manualMountFileSystems.push(ms);
+    });
+    await dispatch(setManualMountFilesystemsAction(manualMountFileSystems))
+};
 
+export const checkIfIscsiMountable = (backup: any) => async (dispatch: Dispatch) => {
+    const data = await backupsService.getBackup(backup.guid)
+    await dispatch(setIscsiMountableAction(data.iscsiMountable))
+    if (data.iscsiMountable) {
+        await dispatch(await getBackupFiles(backup))
+    }
+};
 
+export const getBackupFiles = async (backup: any) => {
+    const data = await backupsService.getBackupFiles(backup.guid)
+
+    return setBackupFilesAction(data.filter(el => {
+        return el.hasOwnProperty('iscsiMountable') && el.iscsiMountable === true;
+    }))
 };
 
 export const submitTask = (task: BackupTask) => async (dispatch: Dispatch) => {
     try {
-        await vprotectService.submitExportTask(task)
-        alertService.info('Backup task has been submitted')
+        await tasksService.submitTaskRestoreAndMount(task)
+        alertService.info('Restore and Mount task has been submitted')
         await dispatch(hideModalAction())
     } catch (e) {
         await dispatch(unsaveModalAction())
     }
 }
+

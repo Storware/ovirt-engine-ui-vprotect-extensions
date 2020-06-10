@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {ListBox} from 'primereact/listbox'
-import {Filesize} from '../convert/Filezize'
+import {Filesize} from '../convert/Filesize'
 
 const selectedPolicies = (value, policies) => {
   let data = []

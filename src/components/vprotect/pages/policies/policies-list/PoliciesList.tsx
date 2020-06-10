@@ -6,7 +6,7 @@ import {
 } from 'patternfly-react'
 
 import {policiesService} from '../../../services/policies-service'
-import {Filesize} from '../../../compoenents/convert/Filezize'
+import {Filesize} from '../../../compoenents/convert/Filesize'
 import {TableFilter} from '../../../compoenents/table/TableFilter'
 import {
     Link,

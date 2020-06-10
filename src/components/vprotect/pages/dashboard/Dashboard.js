@@ -2,7 +2,7 @@ import React from 'react'
 import {vprotectService} from '../../services/vprotect-service'
 import {hypervisorsService} from '../../services/hypervisors-service'
 import {Button, DonutChart, ListView, ListViewItem, ProgressBar, Toolbar} from 'patternfly-react'
-import {Filesize} from '../../compoenents/convert/Filezize'
+import {Filesize} from '../../compoenents/convert/Filesize'
 
 export class Dashboard extends React.Component {
   constructor (props) {

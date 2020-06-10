@@ -6,7 +6,7 @@ import {Dropdown} from 'primereact/dropdown'
 import {alertService} from '../../../services/alert-service'
 import {BackupDropdown} from '../../../compoenents/input/BackupDropdown'
 import {InputText} from 'primereact/inputtext'
-import {Filesize} from '../../../compoenents/convert/Filezize'
+import {Filesize} from '../../../compoenents/convert/Filesize'
 import {ToggleButton} from 'primereact/togglebutton'
 import {msg} from '../../../../../intl-messages'
 

@@ -10,7 +10,7 @@ import {
 import {BackupModal} from '../../../compoenents/modal/BackupModal'
 import {RestoreModal} from '../modal/RestoreModal'
 import {DateShow} from '../../../compoenents/convert/Date'
-import {Filesize} from '../../../compoenents/convert/Filezize'
+import {Filesize} from '../../../compoenents/convert/Filesize'
 import {TableFilter} from '../../../compoenents/table/TableFilter'
 import {BackupHistoryListContainer} from '../modal/backup-history-list/BackupHistoryListContainer'
 import {

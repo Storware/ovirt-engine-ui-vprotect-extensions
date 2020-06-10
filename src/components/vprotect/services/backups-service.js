@@ -1,6 +1,10 @@
 import {vprotectApiService} from './vprotect-api-service'
 
 class BackupsService {
+  getBackup (id) {
+    return vprotectApiService.get('/backups/' + id)
+  }
+
   getProtectedEntityBackups (id) {
     return vprotectApiService.get('/backups?protected-entity=' + id)
   }
@@ -39,6 +43,14 @@ class BackupsService {
 
   getMountableBackups (id) {
     return vprotectApiService.get('/backups?protected-entity=' + id + '&only-mountable=true')
+  }
+
+  getBackupFileSystems (id) {
+    return vprotectApiService.get('/file-systems?backup=' + id)
+  }
+
+  getBackupFiles (id) {
+    return vprotectApiService.get('/backup-files?backup=' + id)
   }
 }
 

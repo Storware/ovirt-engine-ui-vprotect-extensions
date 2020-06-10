@@ -1,28 +1,26 @@
 import {
-    MountBackupModalAction, SET_MOUNTABLE_BACKUPS, SET_NODES, SET_TASK
+    MountBackupModalAction, SET_BACKUP_FILES, SET_ISCSI_MOUNTABLE, SET_MANUAL_MOUNT_FILESYSTEMS, SET_MOUNTABLE_BACKUPS, SET_NODES
 } from './types';
-import {BackupTask} from '../../components/vprotect/model/tasks/backup-task';
-import {RestoreAndMountTask} from '../../components/vprotect/model/tasks/restore-and-mount-task';
+import {MountedFileSystemRequest} from '../../components/vprotect/model/tasks/mounted-file-system-request';
+import {BackupFile} from '../../components/vprotect/model/backup-file';
 
 export type MounteBackupStore = {
-    readonly task: RestoreAndMountTask
     readonly nodes: any[];
     readonly mountableBackups: any[];
+    readonly manualMountFileSystems: MountedFileSystemRequest[];
+    readonly iscsiMountable: boolean;
+    readonly backupFiles: BackupFile[];
 };
 
 const initial: MounteBackupStore = {
-    task: new RestoreAndMountTask(),
     nodes: [],
-    mountableBackups: []
+    mountableBackups: [],
+    manualMountFileSystems: [],
+    iscsiMountable: false,
+    backupFiles: []
 };
 
 export default (state = initial, action: MountBackupModalAction) => {
-    if (action.type === SET_TASK) {
-        return {
-            ...state,
-            task: action.payload,
-        };
-    }
     if (action.type === SET_MOUNTABLE_BACKUPS) {
         return {
             ...state,
@@ -35,6 +33,23 @@ export default (state = initial, action: MountBackupModalAction) => {
             nodes: action.payload,
         };
     }
-
+    if (action.type === SET_MANUAL_MOUNT_FILESYSTEMS) {
+        return {
+            ...state,
+            manualMountFileSystems: action.payload,
+        };
+    }
+    if (action.type === SET_ISCSI_MOUNTABLE) {
+        return {
+            ...state,
+            iscsiMountable: action.payload,
+        };
+    }
+    if (action.type === SET_BACKUP_FILES) {
+        return {
+            ...state,
+            backupFiles: action.payload,
+        };
+    }
     return state;
 };

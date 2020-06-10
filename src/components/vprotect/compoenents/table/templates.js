@@ -1,6 +1,6 @@
 import React from 'react'
 import {DateShow} from '../convert/Date'
-import {Filesize} from '../convert/Filezize'
+import {Filesize} from '../convert/Filesize'
 import {schedulesService} from '../../services/schedules-service'
 
 export const dateTemplate = (rowData, column) => {

@@ -10,7 +10,7 @@ import {Button} from 'primereact/button';
 import {Card} from 'primereact/card';
 import {Panel} from 'primereact/panel';
 import {DateShow} from '../../../compoenents/convert/Date'
-import {Filesize} from '../../../compoenents/convert/Filezize'
+import {Filesize} from '../../../compoenents/convert/Filesize'
 import {TabPanel, TabView} from 'primereact/tabview';
 import FileSystemsTable from './FileSystemsTable';
 import FilesTable from './FilesTable';

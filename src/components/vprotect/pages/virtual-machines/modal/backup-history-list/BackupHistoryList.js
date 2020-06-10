@@ -8,7 +8,7 @@ import {
 , Grid} from 'patternfly-react'
 import {vprotectService} from '../../../../services/vprotect-service'
 import {DateShow} from '../../../../compoenents/convert/Date'
-import {Filesize} from '../../../../compoenents/convert/Filezize'
+import {Filesize} from '../../../../compoenents/convert/Filesize'
 import {TableFilter} from '../../../../compoenents/table/TableFilter'
 import {TableWithPagination} from '../../../../compoenents/table/TableWithPagination'
 
