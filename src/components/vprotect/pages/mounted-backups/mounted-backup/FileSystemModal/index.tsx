@@ -80,6 +80,7 @@ const FileSystemModal = ({guid}) => {
     }
 
     const home = {
+        icon: 'pi pi-home',
         command: goToBreadcrumbs,
         label: 'ROOT'
     }

@@ -20,7 +20,7 @@ import {schedulesService} from '../../../services/schedules-service'
 import {alertService} from '../../../services/alert-service'
 import {VirtualMachineBackupPolicy} from '../../../model/VirtualMachineBackupPolicy'
 
-class Policy extends React.Component {
+class BackupPolicy extends React.Component {
   constructor (props) {
     super(props)
 
@@ -331,7 +331,7 @@ class Policy extends React.Component {
         </Accordion>
         <div className='d-flex justify-content-between mt-3'>
           <div>
-            <Link to={`/policies`}>
+            <Link to={`/policies/list/vm-backup`}>
               <Button label='Back' />
             </Link>
           </div>
@@ -344,8 +344,8 @@ class Policy extends React.Component {
   }
 }
 
-Policy.propTypes = {
+BackupPolicy.propTypes = {
   match: PropTypes.object.isRequired
 }
 
-export default withRouter(Policy)
+export default withRouter(BackupPolicy)
