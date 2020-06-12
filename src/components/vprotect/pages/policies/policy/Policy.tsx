@@ -5,6 +5,7 @@ import {
     useRouteMatch
 } from 'react-router-dom'
 import BackupPolicy from './BackupPolicy'
+import SnapshotPolicy from './SnapshotPolicy'
 
 export const Policy = () => {
     let match = useRouteMatch();
@@ -13,6 +14,9 @@ export const Policy = () => {
         <Switch>
             <Route path={`${match.path}/vm-backup/:guid`}>
                 <BackupPolicy/>
+            </Route>
+            <Route path={`${match.path}/snapshot/:guid`}>
+                <SnapshotPolicy/>
             </Route>
         </Switch>
     )

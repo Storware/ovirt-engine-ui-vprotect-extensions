@@ -4,7 +4,7 @@ import {
     Route,
     useRouteMatch
 } from 'react-router-dom'
-import PoliciesList from './policies-list/PoliciesList';
+import PoliciesListContainer from './policies-list/PoliciesListContainer';
 import Policy from './policy/Policy';
 
 export const Policies = () => {
@@ -13,7 +13,7 @@ export const Policies = () => {
     return (
         <Switch>
             <Route path={`${match.path}/list`}>
-                <PoliciesList/>
+                <PoliciesListContainer/>
             </Route>
             <Route path={`${match.path}/edit`}>
                 <Policy/>

@@ -43,6 +43,10 @@ class PoliciesService {
     return vprotectApiService.get('/policies/snapshot')
   }
 
+  submitTaskSnapshot(task) {
+    return vprotectApiService.post('/tasks/snapshot', task);
+  }
+
   isSnapshotManagementAvailable(vm) {
     let hvmWithSnapshotMgmt = ['AWS', 'NUTANIX', 'RHEV', 'RHV', 'VCENTER'];
     let hvWithSnapshotMgmt = ['CITRIX', 'PROXMOX', 'ESXI', 'HYPERV'];

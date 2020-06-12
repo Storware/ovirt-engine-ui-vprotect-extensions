@@ -12,6 +12,7 @@ import modal from './modal';
 import policies from './policies';
 import backupModal from './backup-modal';
 import mountBackupModal from './mount-backup-modal';
+import policy from './policy';
 import thunk from 'redux-thunk';
 
 export const rootReducer = combineReducers({
@@ -23,6 +24,7 @@ export const rootReducer = combineReducers({
     policies,
     backupModal,
     mountBackupModal,
+    policy,
     modal
 });
 

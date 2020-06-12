@@ -29,7 +29,7 @@ function addVprotectPlace () {
     priority: 11
   })
 
-  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectPolicies(), vprotectPoliciesToken, `${pluginBasePath}/index.html;policies`, {
+  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectPolicies(), vprotectPoliciesToken, `${pluginBasePath}/index.html;policies/vm-backup`, {
     priority: 12
   })
 
