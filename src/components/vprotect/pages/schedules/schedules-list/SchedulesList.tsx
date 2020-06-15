@@ -1,31 +1,28 @@
 import React, {useEffect} from 'react'
 import {
     sortableHeaderCellFormatter,
-    tableCellFormatter
-    , Grid, Toolbar, Button, actionHeaderCellFormatter, Table, MenuItem
+    Grid, Toolbar, Button, actionHeaderCellFormatter, Table, MenuItem
 } from 'patternfly-react'
-
-import {policiesService} from '../../../services/policies-service'
-import {TableFilter} from '../../../compoenents/table/TableFilter'
-import {
-    Link,
-    useParams,
-    useRouteMatch
-} from 'react-router-dom'
-import {useDispatch, useSelector} from 'react-redux';
-import {getPolicies, removePolicy, setFilteredPolicies, snapshotPolicy} from '../../../../../store/policies/actions';
-import {selectFilteredPolicies, selectPolicies} from '../../../../../store/policies/selectors';
 import {
     TableWithPagination,
     sortableTransform,
     sortingFormatter,
     sortingColumns
 } from '../../../compoenents/table/TableWithPagination'
-import {Filesize} from '../../../compoenents/convert/Filesize'
-import {showModalAction} from '../../../../../store/modal/actions';
-import {BackupModal} from '../../../compoenents/modal/BackupModal'
+import {schedulesService} from '../../../services/schedules-service'
+import {TableFilter} from '../../../compoenents/table/TableFilter'
+import {alertService} from '../../../services/alert-service'
+import {useDispatch, useSelector} from 'react-redux'
+import {setFilteredPolicies} from '../../../../../store/policies/actions'
+import {getSchedules, removeSchedule} from '../../../../../store/schedules/actions'
+import {
+    Link,
+    useParams,
+    useRouteMatch
+} from 'react-router-dom'
+import {selectFilteredSchedules, selectSchedules} from '../../../../../store/schedules/selectors';
 
-const filterFields = [
+let filterFields = [
     {
         property: 'name',
         title: 'Name',
@@ -42,22 +39,21 @@ const filterFields = [
         placeholder: 'Filter by Backup Destination',
         filterType: 'text'
     }
-];
+]
 
-export const PoliciesList = () => {
+const SchedulesList = () => {
     const dispatch = useDispatch()
     const {type} = useParams()
     let match = useRouteMatch();
-
     useEffect(() => {
-        dispatch(getPolicies(type))
+        dispatch(getSchedules(type))
     }, [type])
 
-    let rows = useSelector(selectPolicies);
-    let filteredRows = useSelector(selectFilteredPolicies);
+    let rows = useSelector(selectSchedules);
+    let filteredRows = useSelector(selectFilteredSchedules);
 
-    const columns = {
-        'vm-backup': [
+    let columns = {
+        'VM_BACKUP': [
             {
                 property: 'name',
                 header: {
@@ -77,7 +73,7 @@ export const PoliciesList = () => {
                     },
                     formatters: [(value, {rowData}) => {
                         return <td>
-                            <Link to={`/policies/edit/${type}/${rowData.guid}`}>
+                            <Link to={`/schedules/edit/${type}/${rowData.guid}`}>
                                 {value}
                             </Link>
                         </td>
@@ -85,9 +81,9 @@ export const PoliciesList = () => {
                 }
             },
             {
-                property: 'backupDestination',
+                property: 'active',
                 header: {
-                    label: 'Backup Destination',
+                    label: 'Active',
                     props: {
                         index: 1,
                         rowSpan: 1,
@@ -101,17 +97,16 @@ export const PoliciesList = () => {
                     props: {
                         index: 1
                     },
-                    formatters: [value => {
-                        return <td>
-                            {value ? value.name : ''}
-                        </td>
+                    formatters: [(value) => {
+                        return <td className={'text-center'}>{value ? <span className='fa fa-check text-success'/> :
+                            <span className='fa fa-times text-danger'/>}</td>
                     }]
                 }
             },
             {
-                property: 'priority',
+                property: 'hour',
                 header: {
-                    label: 'Priority',
+                    label: 'Schedule',
                     props: {
                         index: 2,
                         rowSpan: 1,
@@ -125,13 +120,17 @@ export const PoliciesList = () => {
                     props: {
                         index: 2
                     },
-                    formatters: [tableCellFormatter]
+                    formatters: [(value, {rowData}) => {
+                        return <td>
+                            {schedulesService.getScheduleTimeOrIntervalLabel(rowData)}
+                        </td>
+                    }]
                 }
             },
             {
-                property: 'vmCount',
+                property: 'daysOfWeek',
                 header: {
-                    label: 'VM Count',
+                    label: 'Days',
                     props: {
                         index: 3,
                         rowSpan: 1,
@@ -145,13 +144,19 @@ export const PoliciesList = () => {
                     props: {
                         index: 3
                     },
-                    formatters: [tableCellFormatter]
+                    formatters: [(value) => {
+                        return <td>
+                            {value.map(el => {
+                                return <span>{el.name} </span>
+                            })}
+                        </td>
+                    }]
                 }
             },
             {
-                property: 'vmBackupPolicy',
+                property: 'backupType',
                 header: {
-                    label: 'Policy',
+                    label: 'Backup Type',
                     props: {
                         index: 4,
                         rowSpan: 1,
@@ -167,15 +172,15 @@ export const PoliciesList = () => {
                     },
                     formatters: [value => {
                         return <td>
-                            {value ? value.name : ''}
+                            {value ? value.description : ''}
                         </td>
                     }]
                 }
             },
             {
-                property: 'averageBackupSize',
+                property: 'rules',
                 header: {
-                    label: 'Average Backup Size',
+                    label: 'Policies',
                     props: {
                         index: 5,
                         rowSpan: 1,
@@ -189,9 +194,33 @@ export const PoliciesList = () => {
                     props: {
                         index: 5
                     },
-                    formatters: [(value) => {
+                    formatters: [value => {
                         return <td>
-                            <Filesize bytes={value} />
+                            {value.length}
+                        </td>
+                    }]
+                }
+            },
+            {
+                property: 'startWindowLength',
+                header: {
+                    label: 'Start window [min]',
+                    props: {
+                        index: 6,
+                        rowSpan: 1,
+                        colSpan: 1
+                    },
+                    transforms: [sortableTransform],
+                    formatters: [sortingFormatter],
+                    customFormatters: [sortableHeaderCellFormatter]
+                },
+                cell: {
+                    props: {
+                        index: 6
+                    },
+                    formatters: [value => {
+                        return <td>
+                            {value / 1000 / 60}
                         </td>
                     }]
                 }
@@ -200,7 +229,7 @@ export const PoliciesList = () => {
                 header: {
                     label: 'Actions',
                     props: {
-                        index: 6,
+                        index: 7,
                         rowSpan: 1,
                         colSpan: 1
                     },
@@ -208,7 +237,7 @@ export const PoliciesList = () => {
                 },
                 cell: {
                     props: {
-                        index: 6,
+                        index: 7,
                         rowSpan: 1,
                         colSpan: 1
                     },
@@ -217,22 +246,9 @@ export const PoliciesList = () => {
                             return [
                                 <Table.Actions key='0'>
                                     <Table.DropdownKebab id='myKebab' pullRight>
-                                        {rowData.vmCount > 0 && <MenuItem onClick={async () => {
-                                            const policy = await policiesService.getPolicy('vm-backup', rowData.guid)
-                                            dispatch(showModalAction({
-                                                modal: BackupModal,
-                                                props: {
-                                                    virtualEnvironments: policy.vms
-                                                }
-                                            }))
-                                        }}>
-                                          Backup
-                                        </MenuItem>}
-                                        <MenuItem onClick={() => {
-                                            dispatch(removePolicy(type, rowData.guid))
-                                        }}>
-                                            Remove
-                                        </MenuItem>
+                                        <MenuItem onClick={async () => {
+                                            dispatch(removeSchedule(type, rowData.guid))
+                                        }}>Remove</MenuItem>
                                     </Table.DropdownKebab>
                                 </Table.Actions>
                             ]
@@ -241,7 +257,7 @@ export const PoliciesList = () => {
                 }
             }
         ],
-        'snapshot': [
+        'SNAPSHOT': [
             {
                 property: 'name',
                 header: {
@@ -261,7 +277,7 @@ export const PoliciesList = () => {
                     },
                     formatters: [(value, {rowData}) => {
                         return <td>
-                            <Link to={`/policies/edit/${type}/${rowData.guid}`}>
+                            <Link to={`/schedules/edit/${type}/${rowData.guid}`}>
                                 {value}
                             </Link>
                         </td>
@@ -269,9 +285,9 @@ export const PoliciesList = () => {
                 }
             },
             {
-                property: 'priority',
+                property: 'active',
                 header: {
-                    label: 'Priority',
+                    label: 'Active',
                     props: {
                         index: 1,
                         rowSpan: 1,
@@ -285,13 +301,16 @@ export const PoliciesList = () => {
                     props: {
                         index: 1
                     },
-                    formatters: [tableCellFormatter]
+                    formatters: [(value) => {
+                        return <td className={'text-center'}>{value ? <span className='fa fa-check text-success'/> :
+                            <span className='fa fa-times text-danger'/>}</td>
+                    }]
                 }
             },
             {
-                property: 'ruleCount',
+                property: 'hour',
                 header: {
-                    label: 'Rule Count',
+                    label: 'Schedule',
                     props: {
                         index: 2,
                         rowSpan: 1,
@@ -305,13 +324,17 @@ export const PoliciesList = () => {
                     props: {
                         index: 2
                     },
-                    formatters: [tableCellFormatter]
+                    formatters: [(value, {rowData}) => {
+                        return <td>
+                            {schedulesService.getScheduleTimeOrIntervalLabel(rowData)}
+                        </td>
+                    }]
                 }
             },
             {
-                property: 'vmCount',
+                property: 'daysOfWeek',
                 header: {
-                    label: 'VM Count',
+                    label: 'Days',
                     props: {
                         index: 3,
                         rowSpan: 1,
@@ -325,14 +348,68 @@ export const PoliciesList = () => {
                     props: {
                         index: 3
                     },
-                    formatters: [tableCellFormatter]
+                    formatters: [(value) => {
+                        return <td>
+                            {value.map(el => {
+                                return <span>{el.name} </span>
+                            })}
+                        </td>
+                    }]
+                }
+            },
+            {
+                property: 'rules',
+                header: {
+                    label: 'Policies',
+                    props: {
+                        index: 4,
+                        rowSpan: 1,
+                        colSpan: 1
+                    },
+                    transforms: [sortableTransform],
+                    formatters: [sortingFormatter],
+                    customFormatters: [sortableHeaderCellFormatter]
+                },
+                cell: {
+                    props: {
+                        index: 4
+                    },
+                    formatters: [value => {
+                        return <td>
+                            {value.length}
+                        </td>
+                    }]
+                }
+            },
+            {
+                property: 'startWindowLength',
+                header: {
+                    label: 'Start window [min]',
+                    props: {
+                        index: 5,
+                        rowSpan: 1,
+                        colSpan: 1
+                    },
+                    transforms: [sortableTransform],
+                    formatters: [sortingFormatter],
+                    customFormatters: [sortableHeaderCellFormatter]
+                },
+                cell: {
+                    props: {
+                        index: 5
+                    },
+                    formatters: [value => {
+                        return <td>
+                            {value / 1000 / 60}
+                        </td>
+                    }]
                 }
             },
             {
                 header: {
                     label: 'Actions',
                     props: {
-                        index: 4,
+                        index: 6,
                         rowSpan: 1,
                         colSpan: 1
                     },
@@ -340,7 +417,7 @@ export const PoliciesList = () => {
                 },
                 cell: {
                     props: {
-                        index: 4,
+                        index: 6,
                         rowSpan: 1,
                         colSpan: 1
                     },
@@ -349,16 +426,9 @@ export const PoliciesList = () => {
                             return [
                                 <Table.Actions key='0'>
                                     <Table.DropdownKebab id='myKebab' pullRight>
-                                        <MenuItem onClick={() => {
-                                            dispatch(snapshotPolicy(type, rowData))
-                                        }}>
-                                          Snapshot
-                                        </MenuItem>
-                                        <MenuItem onClick={() => {
-                                            dispatch(removePolicy(type, rowData.guid))
-                                        }}>
-                                            Remove
-                                        </MenuItem>
+                                        <MenuItem onClick={async () => {
+                                            dispatch(removeSchedule(type, rowData.guid))
+                                        }}>Remove</MenuItem>
                                     </Table.DropdownKebab>
                                 </Table.Actions>
                             ]
@@ -379,7 +449,7 @@ export const PoliciesList = () => {
                         }}/>
                     </div>
                     <div className={'form-group'}>
-                        <Link to={`/policies/edit/${type}/create`}>
+                        <Link to={`/schedules/edit/${type}/create`}>
                             <Button className={'btn btn-default'}>Create</Button>
                         </Link>
                     </div>
@@ -388,12 +458,12 @@ export const PoliciesList = () => {
             <div className={'pt-4'}>
                 <Grid fluid>
                     {type && <TableWithPagination columns={columns[type]}
-                                         sortingColumns={sortingColumns}
-                                         rows={filteredRows}/>}
+                                                  sortingColumns={sortingColumns}
+                                                  rows={filteredRows}/>}
                 </Grid>
             </div>
         </div>
     )
 }
 
-export default PoliciesList
+export default SchedulesList

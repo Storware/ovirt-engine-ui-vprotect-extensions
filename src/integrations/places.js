@@ -29,11 +29,11 @@ function addVprotectPlace () {
     priority: 11
   })
 
-  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectPolicies(), vprotectPoliciesToken, `${pluginBasePath}/index.html;policies/vm-backup`, {
+  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectPolicies(), vprotectPoliciesToken, `${pluginBasePath}/index.html;policies/list/vm-backup`, {
     priority: 12
   })
 
-  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectSchedules(), vprotectSchedulesToken, `${pluginBasePath}/index.html;schedules`, {
+  getPluginApi().addSecondaryMenuPlace(primaryMenuId, msg.vprotectSchedules(), vprotectSchedulesToken, `${pluginBasePath}/index.html;schedules/list/VM_BACKUP`, {
     priority: 13
   })
 

@@ -1,21 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {selectPolicies, selectSnapshotPolicies, selectVirtualMachine} from '../../../../../store/virtual-machine/selectors'
 import {Accordion, AccordionTab} from 'primereact/accordion';
-import {Dropdown} from 'primereact/dropdown';
 import {policiesService} from '../../../services/policies-service';
-import {alertService} from '../../../services/alert-service';
-import {virtualMachinesService, preAndPostSnapStdErrorHandlingOptions} from '../../../services/virtual-machines-service';
-import {ToggleButton} from 'primereact/togglebutton';
-import {InputText} from 'primereact/inputtext';
-import {Chips} from 'primereact/chips';
 import {Button} from 'primereact/button';
 import {Link} from 'react-router-dom'
-import {ErrorMessage, Field, Form, Formik} from 'formik';
+import {Field, Form, Formik} from 'formik';
 import Text from '../../../compoenents/input/reactive/Text';
 import {PolicySnapshot} from '../../../model/policies/policy-snapshot';
 import Toggle from '../../../compoenents/input/reactive/Toggle';
-import {ListBox} from 'primereact/listbox';
 import Select from '../../../compoenents/input/reactive/Select';
 import InputSlider from '../../../compoenents/input/reactive/InputSlider';
 import InputChips from '../../../compoenents/input/reactive/InputChips';
@@ -28,6 +20,7 @@ import {
 import {getPolicyPage} from '../../../../../store/policy/actions';
 import {useParams} from 'react-router-dom'
 import InputListBox from '../../../compoenents/input/reactive/InputListBox';
+import {save} from '../../../../../store/policy/actions';
 
 const SnapshotPolicy = () => {
     let dispatch = useDispatch()
@@ -49,24 +42,6 @@ const SnapshotPolicy = () => {
         first: [0],
         second: []
     });
-
-    const save = async (model) => {
-        if (model.guid) {
-            await policiesService.updatePolicy('snapshot', model.guid, model)
-            await policiesService.updateRule('snapshot', model.rules[0].guid, model.rules[0])
-            alertService.info('Policy updated')
-        } else {
-            const policy = await policiesService.createPolicy('snapshot', model)
-            await policiesService.createRule('snapshot', {
-                ...model.rules[0],
-                name: 'Default',
-                policy: {
-                    guid: policy.guid
-                }
-            })
-            alertService.info('Policy created')
-        }
-    }
 
     return (
         <div className='form'>

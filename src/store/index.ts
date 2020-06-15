@@ -13,6 +13,8 @@ import policies from './policies';
 import backupModal from './backup-modal';
 import mountBackupModal from './mount-backup-modal';
 import policy from './policy';
+import schedules from './schedules';
+import schedule from './schedule';
 import thunk from 'redux-thunk';
 
 export const rootReducer = combineReducers({
@@ -25,6 +27,8 @@ export const rootReducer = combineReducers({
     backupModal,
     mountBackupModal,
     policy,
+    schedules,
+    schedule,
     modal
 });
 

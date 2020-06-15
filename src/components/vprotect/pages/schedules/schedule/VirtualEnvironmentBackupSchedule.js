@@ -21,7 +21,7 @@ import {ListBox} from 'primereact/listbox'
 import {dayOfWeekOccurrences, months} from '../../../model/Occurrences'
 import {InputSchedulePolicies} from '../../../compoenents/input/InputSchedulePolicies'
 
-class Schedule extends React.Component {
+class VirtualEnvironmentBackupSchedule extends React.Component {
   constructor (props) {
     super(props)
 
@@ -297,8 +297,8 @@ class Schedule extends React.Component {
   }
 }
 
-Schedule.propTypes = {
+VirtualEnvironmentBackupSchedule.propTypes = {
   match: PropTypes.object.isRequired
 }
 
-export default withRouter(Schedule)
+export default withRouter(VirtualEnvironmentBackupSchedule)
