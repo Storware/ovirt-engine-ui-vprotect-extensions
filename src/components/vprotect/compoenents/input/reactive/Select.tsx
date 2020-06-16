@@ -18,7 +18,14 @@ const Select = ({
     return (
         <div className='pt-3'>
             {!!props.label && <label>{props.label}</label>}
-            <Dropdown {...field} {...props} />
+            <Dropdown {...field}
+                      {...props}
+                      onChange={(e) => {
+                          field.onChange(e)
+                          if (props.change) {
+                              props.change(e)
+                          }
+                      }} />
         </div>
     );
 }

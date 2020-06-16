@@ -16,6 +16,9 @@ export const shiftedDays = (value, shiftValue) => {
 const oneDayDuration = 1000 * 60 * 60 * 24
 
 export const sourceToViewShiftedDays = (value, hour) => {
+  if (!value) {
+    return []
+  }
   hour = hour - offset
   const shiftValue = hour >= oneDayDuration ? 1 : hour < 0 ? -1 : 0
   return shiftedDays(value, shiftValue)

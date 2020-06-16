@@ -23,7 +23,7 @@ export const getSchedules = (type: string) => async (dispatch: Dispatch) => {
 }
 
 export const removeSchedule = (type: string, guid: string) => async (dispatch: Dispatch) => {
-    await schedulesService.getAllTypeSchedules(guid)
+    await schedulesService.deleteSchedule(guid)
     const schedules = await schedulesService.getAllTypeSchedules(type)
     await dispatch(setSchedules(schedules))
     alertService.info('Schedule removed')

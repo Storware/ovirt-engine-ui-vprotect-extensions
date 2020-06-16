@@ -284,7 +284,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
         </div>
         <div className='d-flex justify-content-between mt-3'>
           <div>
-            <Link to={`/schedules`}>
+            <Link to={`/schedules/list/VM_BACKUP`}>
               <Button label='Back' />
             </Link>
           </div>

@@ -12,7 +12,7 @@ export const Policy = () => {
 
     return (
         <Switch>
-            <Route path={`${match.path}/vm-backup/:guid`}>
+            <Route path={`${match.path}/vm_backup/:guid`}>
                 <VirtualEnvironmentBackupSchedule/>
             </Route>
             <Route path={`${match.path}/snapshot/:guid`}>
