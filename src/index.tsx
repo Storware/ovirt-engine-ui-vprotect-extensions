@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// import appInit from './components/vprotect/services/app-init'
-import appInit from './app-init';
+import appInit from 'integrations/app-init'
 
 import 'patternfly/dist/css/patternfly.min.css';
 import 'patternfly/dist/css/patternfly-additions.min.css';

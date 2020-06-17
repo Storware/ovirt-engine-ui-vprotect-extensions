@@ -5,11 +5,9 @@
   "repository": {
     "type": "git"
   },
-  "zanataLocales": "de,es,fr,it,ja,ko,pt-BR,zh-CN,cs",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
-    "dev": "webpack --progress --config webpack.dev.js",
-    "start": "webpack-dev-server --config webpack.local.dev.js",
+    "start": "webpack-dev-server --config webpack.dev.js",
     "prettify": "prettier --write **/*.ts* --single-quote"
   },
   "dependencies": {
