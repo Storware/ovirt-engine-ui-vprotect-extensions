@@ -1,8 +1,0 @@
----
-- name: oVirt cluster upgrade wizard target
-  hosts: localhost
-  remote_user: root
-  gather_facts: false
-
-  roles:
-    - ovirt.cluster-upgrade

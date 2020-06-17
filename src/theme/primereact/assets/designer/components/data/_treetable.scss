@@ -1,0 +1,165 @@
+.p-treetable {
+    .p-treetable-header,
+    .p-treetable-footer {
+        background-color: $panelHeaderBgColor;
+        color: $panelHeaderTextColor;
+        border: $panelHeaderBorder;
+        padding: $panelHeaderPadding;
+        text-align: center;
+    }
+
+    .p-treetable-header {
+        border-bottom: 0 none;
+        font-weight: $tableHeaderCellFontWeight;
+        @include border-radius-top($borderRadius);
+    }
+
+    .p-treetable-footer {
+        border-top: 0 none;
+        font-weight: $tableFooterCellFontWeight;
+        @include border-radius-bottom($borderRadius);
+    }
+
+    .p-treetable-thead > tr > th {
+        padding: $tableHeaderCellPadding;
+        border: $tableHeaderCellBorder;
+        font-weight: $tableHeaderCellFontWeight;
+        color: $tableHeaderCellTextColor;
+        background-color: $tableHeaderCellBgColor;
+        text-align: center;
+    }
+
+    .p-treetable-tfoot > tr > td {
+        padding: $tableFooterCellPadding;
+        border: $tableFooterCellBorder;
+        font-weight: $tableFooterCellFontWeight;
+        color: $tableFooterCellTextColor;
+        background-color: $tableFooterCellBgColor;
+        text-align: center;
+    }
+
+    .p-sortable-column {
+        @include transition(background-color $transitionDuration, box-shadow $transitionDuration);
+
+        .p-sortable-column-icon{
+            color: $tableHeaderCellIconColor;
+        }
+
+        .p-sortable-column-badge {
+            border-radius: 50%;
+            height: $fontSize + 4;
+            min-width: $fontSize + 4;
+            line-height: $fontSize + 4;
+            display: inline-block;
+            color: $highlightBgColor;
+            background-color: $highlightColorText;
+        }
+
+        &:not(.p-highlight):hover {
+            background-color: $tableHeaderCellHoverBgColor;
+            color: $tableHeaderCellHoverTextColor;
+
+            .p-sortable-column-icon {
+                color: $tableHeaderCellHoverIconColor;
+            }
+        }
+
+        &:focus {
+            @include focused-listitem();
+        }
+
+        &.p-highlight {
+            background-color: $highlightBgColor;
+            color: $highlightColorText;
+
+            .p-sortable-column-icon {
+                color: $highlightColorText;
+            }
+        }
+    }
+
+    .p-editable-column {
+        input {
+            font-size: $fontSize;
+            font-family: $fontFamily;
+        }
+    }
+
+    .p-treetable-tbody {
+        > tr {
+            background: $tableBodyRowBgColor;
+            color: $tableBodyRowTextColor;
+            @include transition(background-color $transitionDuration);
+
+            > td {
+                background: inherit;
+                border: $tableBodyCellBorder;
+                padding: $tableBodyCellPadding;
+
+                .p-treetable-toggler {
+                    color: $dataIconColor;
+                    vertical-align: middle;
+                }
+            }
+
+            &.p-highlight {
+                background-color: $highlightBgColor;
+                color: $highlightColorText;
+
+                .p-treetable-toggler {
+                    color: $highlightColorText;
+                }
+            }
+
+            &.p-highlight-contextmenu {
+                background-color: lighten($highlightBgColor, 25%);
+                color: $highlightColorText;
+
+                .p-treetable-toggler {
+                    color: $highlightColorText;
+                }
+            }
+
+            &:focus {
+                outline: none;
+
+                + tr > td {
+                    box-shadow: 0 -.2em 0 0 $focusOutlineColor;
+                }
+
+                > td {
+                    box-shadow: 0 -.2em 0 0 $focusOutlineColor, 0 .2em 0 0 $focusOutlineColor;
+                }
+
+                > td:first-child {
+                    box-shadow: 0 -0.2em 0 0 $focusOutlineColor, 0 0.2em 0 0 $focusOutlineColor, -0.1em -0.1em 0 0.1em $focusOutlineColor;
+                }
+
+                > td:last-child {
+                    box-shadow: 0 -0.2em 0 0 $focusOutlineColor, 0 0.2em 0 0 $focusOutlineColor, 0.1em -0.1em 0 0.1em $focusOutlineColor;
+                }
+            }
+        }
+    }
+
+    &.p-treetable-hoverable-rows {
+        .p-treetable-tbody > tr:not(.p-highlight):not(.p-highlight-contextmenu):hover {
+            cursor: pointer;
+            background-color: $tableBodyRowHoverBgColor;
+            color: $tableBodyRowHoverTextColor;
+
+            .p-treetable-toggler {
+                color: $tableBodyRowHoverTextColor;
+            }
+        }
+    }
+
+    .p-column-resizer-helper {
+        background-color: $tableResizerHelperBgColor;
+    }
+
+    .p-treetable-scrollable-header,
+    .p-treetable-scrollable-footer {
+        background-color: $panelHeaderBgColor;
+    }
+}

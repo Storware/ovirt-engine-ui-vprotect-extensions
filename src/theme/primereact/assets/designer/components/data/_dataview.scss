@@ -1,0 +1,27 @@
+.p-dataview {
+    .p-dataview-header {
+        background-color: $panelHeaderBgColor;
+        color: $panelHeaderTextColor;
+        border: $panelHeaderBorder;
+        padding: $panelHeaderPadding;
+        font-weight: $panelHeaderFontWeight;
+        border-bottom: 0 none;
+        @include border-radius-top($borderRadius);
+    }
+
+    .p-dataview-content {
+        padding: $panelContentPadding;
+        border: $panelContentBorder;
+        background-color: $panelContentBgColor;
+        color: $panelContentTextColor;
+    }
+
+    .p-dataview-footer {
+        background-color: $panelFooterBgColor;
+        color: $panelFooterTextColor;
+        border: $panelFooterBorder;
+        padding: $panelFooterPadding;
+        border-top: 0 none;
+        @include border-radius-bottom($borderRadius);
+    }
+}

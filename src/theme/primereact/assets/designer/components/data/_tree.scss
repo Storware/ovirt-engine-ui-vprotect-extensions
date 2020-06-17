@@ -1,0 +1,153 @@
+.p-tree {
+    border: $panelContentBorder;
+    background-color: $panelContentBgColor;
+    color: $panelContentTextColor;
+    padding: $panelContentPadding;
+    @include border-radius($borderRadius);
+
+    .p-tree-container {
+        padding: 0.286em;
+        margin: 0;
+
+        .p-treenode {
+            padding: $treeNodePadding;
+
+            .p-treenode-content {
+                padding: 0;
+                border: 1px solid transparent;
+                @include transition(background-color $transitionDuration, box-shadow $transitionDuration);
+                @include border-radius($borderRadius);
+
+                .p-tree-toggler {
+                    vertical-align: middle;
+                    display: inline-block;
+                    float: none;
+                    margin: 0 $treeNodeContentSpacing 0 0;
+                    color: $dataIconColor;
+
+                    .p-tree-toggler-icon {
+                        line-height: $primeIconFontSize;
+                    }
+                }
+
+                .p-treenode-icon {
+                    vertical-align: middle;
+                    display: inline-block;
+                    margin: 0 $treeNodeContentSpacing 0 0;
+                    color: $dataIconColor;
+                }
+
+                .p-treenode-label {
+                    margin: 0;
+                    vertical-align: middle;
+                    display: inline-block;
+                    padding: $treeNodeLabelPadding;
+                }
+
+                .p-checkbox {
+                    margin: 0 $treeNodeContentSpacing 0 0;
+                }
+
+                &:focus {
+                    @include focused();
+                }
+
+                &.p-highlight {
+                    background-color: $highlightBgColor;
+                    color: $highlightColorText;
+
+                    .p-tree-toggler,
+                    .p-treenode-icon {
+                        color: $highlightColorText;
+                    }
+
+                    .p-checkbox {
+                        .p-checkbox-box {
+                            border-color: $highlightColorText;
+                        }
+                    }
+                }
+
+                &.p-highlight-contextmenu {
+                    border: 1px dashed $highlightBgColor;
+                }
+
+                &.p-treenode-selectable:not(.p-highlight):not(.p-disabled):hover {
+                    background-color: $inputListItemHoverBgColor;
+                    color: $inputListItemHoverTextColor;
+
+                    .p-treenode-icon {
+                        color: $inputListItemHoverTextColor;
+                    }
+                }
+
+                > span {
+                    line-height: inherit;
+                }
+
+                &.p-treenode-dragover {
+                    background-color: $inputListItemHoverBgColor;
+                    color: $inputListItemHoverTextColor;
+                }
+            }
+        }
+
+        .p-treenode-droppoint {
+            &.p-treenode-droppoint-active {
+                background-color: $highlightBgColor;
+            }
+        }
+    }
+
+    &.p-tree-horizontal {
+        padding-left: 0;
+        padding-right: 0;
+
+        .p-treenode {
+
+            .p-treenode-content {
+                border: $panelContentBorder;
+                background-color: $panelContentBgColor;
+                color: $panelContentTextColor;
+                padding: $panelContentPadding;
+                @include border-radius($borderRadius);
+
+                &.p-highlight {
+                    background-color: $highlightBgColor;
+                    color: $highlightColorText;
+                }
+
+                .p-checkbox {
+                    .p-icon {
+                        color: $primaryColor;
+                    }
+                }
+
+                .p-treenode-label:not(.p-highlight):not(.p-disabled):hover {
+                    background-color: inherit;
+                    color: inherit;
+                }
+
+                &.p-treenode-selectable:not(.p-highlight):not(.p-disabled):hover {
+                    background-color: $inputListItemHoverBgColor;
+                    color: $inputListItemHoverTextColor;
+                }
+            }
+        }
+    }
+
+    .p-tree-filter-container {
+        .p-tree-filter {
+            width: 100%;
+            padding-right: 2em;
+        }
+
+        .p-tree-filter-icon {
+            top: 50%;
+            left: auto;
+            margin-top: -.5em;
+            right: .8em;
+            color: $inputListHeaderSearchIconColor;
+        }
+    }
+}

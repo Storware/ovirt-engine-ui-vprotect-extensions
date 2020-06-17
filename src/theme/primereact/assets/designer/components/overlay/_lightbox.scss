@@ -1,0 +1,51 @@
+.p-lightbox {
+    @include shadow($overlayContainerShadow);
+
+    .p-lightbox-caption {
+        border: $panelHeaderBorder;
+        background-color: $panelHeaderBgColor;
+        color: $panelHeaderTextColor;
+        padding: $panelHeaderPadding;
+        font-weight: $panelHeaderFontWeight;
+
+
+        .p-lightbox-caption-text {
+            color: $panelHeaderTextColor;
+            margin: 0;
+        }
+
+        .p-lightbox-close {
+            padding: 0;
+            color: $panelHeaderIconColor;
+            @include transition(color $transitionDuration);
+
+            &:hover {
+                color: $panelHeaderIconHoverColor;
+            }
+        }
+    }
+
+    .p-lightbox-content-wrapper {
+        overflow: hidden;
+        background-color: $panelContentBgColor;
+        color: $panelContentTextColor;
+        border: 0 none;
+        padding: 0;
+        @include border-radius(0);
+
+        .p-lightbox-nav-left, .p-lightbox-nav-right {
+            @include transition(all $transitionDuration);
+            font-size: $lightBoxNavIconFontSize;
+            color: $lightBoxNavIconColor;
+            margin-top: -.5em;
+
+            &:hover {
+                @include scale(1.2);
+            }
+        }
+
+        .p-lightbox-content.p-lightbox-loading ~ a {
+            display: none;
+        }
+    }
+}

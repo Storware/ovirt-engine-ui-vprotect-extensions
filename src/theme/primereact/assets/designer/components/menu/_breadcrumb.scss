@@ -1,0 +1,37 @@
+.p-breadcrumb {
+    background-color: $panelContentBgColor;
+    border: $panelContentBorder;
+    padding: $panelContentPadding;
+    @include border-radius($borderRadius);
+
+    ul {
+        li {
+            .p-menuitem-link {
+                color: $panelContentTextColor;
+                margin: 0;
+                @include transition(box-shadow $transitionDuration);
+                @include border-radius($borderRadius);
+
+                &:focus {
+                    @include focused();
+                }
+            }
+
+            &.p-breadcrumb-chevron {
+                margin: 0 $inlineSpacing 0 $inlineSpacing;
+                color: $textSecondaryColor;
+            }
+
+            &:first-child {
+                a {
+                    color: $textSecondaryColor;
+                    margin: 0;
+                }
+            }
+
+            .p-menuitem-icon {
+                color: $textSecondaryColor;
+            }
+        }
+    }
+}

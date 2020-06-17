@@ -1,0 +1,57 @@
+.p-inputswitch {
+    width: $inputSwitchWidth;
+    height: $inputSwitchHeight;
+
+    .p-inputswitch-slider {
+        @include transition($inputSwitchTransition);
+        border-radius: $inputSwitchBorderRadius;
+        background: $inputSwitchSliderOffBgColor;
+
+        &:before {
+            background-color: $inputSwitchHandleOffBgColor;
+            height: 1.250em;
+            width: 1.250em;
+            left: .25em;
+            bottom: .25em;
+            border-radius: 50%;
+            -webkit-transition: $transitionDuration;
+            transition: $transitionDuration;
+        }
+    }
+
+    &.p-inputswitch-checked {
+        .p-inputswitch-slider:before {
+            -webkit-transform: translateX(1.250em);
+            -ms-transform: translateX(1.250em);
+            transform: translateX(1.250em);
+        }
+    }
+
+    &.p-inputswitch-focus {
+        .p-inputswitch-slider {
+            @include focused();
+        }
+    }
+
+    &:not(.p-disabled):hover {
+        .p-inputswitch-slider {
+            background-color: $inputSwitchSliderOffHoverBgColor;
+        }
+    }
+
+    &.p-inputswitch-checked {
+        .p-inputswitch-slider {
+            background-color: $inputSwitchSliderOnBgColor;
+        }
+
+        &:not(.p-disabled):hover {
+            .p-inputswitch-slider {
+                background-color: $inputSwitchSliderOnHoverBgColor;
+            }
+        }
+    }
+}
+
+.p-inputswitch.p-error {
+    border: $inputErrorBorder;
+}

@@ -1,0 +1,42 @@
+.p-carousel {
+    .p-carousel-content {
+        .p-carousel-prev,
+        .p-carousel-next {
+            background-color: $carouselNavButtonsBgColor;
+            border: $carouselNavButtonsBorder;
+            @include border-radius($carouselNavButtonsBorderRadius);
+            margin: $carouselNavButtonsMargin;
+            color: $carouselNavButtonsColor;
+            @include transition($carouselNavButtonsTransition);
+
+            &:not(.p-disabled) {
+                &:hover {
+                    background-color: $carouselNavButtonsHoverBgColor;
+                    color: $carouselNavButtonsHoverColor;
+                    border-color: $carouselNavButtonsHoverBorderColor;
+                }
+            }
+        }
+    }
+
+    .p-carousel-dots-container {
+        .p-carousel-dot-item {
+            .p-carousel-dot-icon {
+                width: $carouselDotIconWidth;
+                height: $carouselDotIconHeight;
+                background-color: $carouselDotIconBgColor;
+                margin: $carouselDotIconMargin;
+
+                &::before {
+                    content: ' ';
+                }
+            }
+
+            &.p-highlight {
+                .p-carousel-dot-icon {
+                    background-color: $carouselActiveDotIconBgColor;
+                }
+            }
+        }
+    }
+}

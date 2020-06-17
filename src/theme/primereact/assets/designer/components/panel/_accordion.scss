@@ -1,0 +1,88 @@
+.p-accordion {
+    .p-accordion-tab {
+        margin-bottom: $accordionSpacing;
+    }
+
+    .p-accordion-header {
+        a {
+            padding: $panelHeaderPadding;
+            border: $panelHeaderBorder;
+            color: $panelHeaderTextColor;
+            background-color: $panelHeaderBgColor;
+            color: $panelHeaderTextColor;
+            font-weight: $panelHeaderFontWeight;
+            @include border-radius($borderRadius);
+            @include transition($panelHeaderTransition);
+
+            .p-accordion-toggle-icon {
+                color: $panelHeaderIconColor;
+
+                &.pi-caret-right {
+                    @include icon_override("\e901");
+                }
+
+                &.pi-caret-down {
+                    @include icon_override("\e902");
+                }
+            }
+        }
+
+        &:not(.p-disabled) {
+            a {
+                &:focus {
+                    @include focused();
+                }
+            }
+        }
+
+        &:not(.p-highlight):not(.p-disabled):hover {
+            a {
+                background-color: $panelHeaderHoverBgColor;
+                border: $panelHeaderHoverBorder;
+                color: $panelHeaderHoverTextColor;
+
+                .p-accordion-toggle-icon {
+                    color: $panelHeaderHoverIconColor;
+                }
+            }
+        }
+
+        &:not(.p-disabled).p-highlight {
+            margin-bottom: 0;
+
+            a {
+                background-color: $panelHeaderActiveBgColor;
+                border: $panelHeaderActiveBorder;
+                color: $panelHeaderActiveTextColor;
+                @include border-radius-bottom(0);
+
+                .p-accordion-toggle-icon {
+                    color: $panelHeaderActiveIconColor;
+                }
+            }
+
+            &:hover {
+                a {
+                    border: $panelHeaderActiveHoverBorder;
+                    background-color: $panelHeaderActiveHoverBgColor;
+                    color: $panelHeaderActiveHoverTextColor;
+
+                    .p-accordion-toggle-icon {
+                        color: $panelHeaderActiveHoverIconColor;
+                    }
+                }
+            }
+        }
+    }
+
+    .p-accordion-content {
+        padding: $panelContentPadding;
+        border: $panelContentBorder;
+        background-color: $panelContentBgColor;
+        color: $panelContentTextColor;
+        padding: $panelContentPadding;
+        border-top: 0;
+        @include border-radius-top(0);
+        @include border-radius-bottom($borderRadius);
+    }
+}

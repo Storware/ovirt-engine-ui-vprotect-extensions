@@ -1,0 +1,66 @@
+.p-tabmenu {
+    border: 0 none;
+
+    .p-tabmenu-nav {
+        padding: 0;
+        background: $tabsNavBgColor;
+        border-bottom: $panelHeaderBorder;
+        @include clearfix();
+
+        .p-tabmenuitem {
+            .p-menuitem-link {
+                margin-bottom: -1px;
+                border: $panelHeaderBorder;
+                background-color: $panelHeaderBgColor;
+                color: $panelHeaderTextColor;
+                padding: $panelHeaderPadding;
+                margin-right: $tabHeaderSpacing;
+                @include border-radius-top($borderRadius);
+                @include transition($panelHeaderTransition);
+
+                .p-menuitem-text {
+                    color: $panelHeaderTextColor;
+                }
+
+                .p-menuitem-icon {
+                    color: $panelHeaderIconColor;
+                    margin-right: $inlineSpacing;
+                }
+
+                &:focus {
+                    @include focused();
+                }
+            }
+
+            &:not(.p-highlight):not(.p-disabled):hover {
+                .p-menuitem-link {
+                    background-color: $panelHeaderHoverBgColor;
+                    border: $panelHeaderHoverBorder;
+
+                    .p-menuitem-text {
+                        color: $panelHeaderHoverTextColor;
+                    }
+
+                    .p-menuitem-icon {
+                        color: $panelHeaderIconHoverColor;
+                    }
+                }
+            }
+
+            &.p-highlight {
+                .p-menuitem-link {
+                    background-color: $panelHeaderActiveBgColor;
+                    border: $panelHeaderActiveBorder;
+
+                    .p-menuitem-text {
+                        color: $panelHeaderActiveTextColor;
+                    }
+
+                    .p-menuitem-icon {
+                        color: $panelHeaderActiveIconColor;
+                    }
+                }
+            }
+        }
+    }
+}

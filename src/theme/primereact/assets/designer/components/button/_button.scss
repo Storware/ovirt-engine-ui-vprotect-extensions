@@ -1,0 +1,175 @@
+.p-button {
+    margin: 0;
+    color: $buttonTextColor;
+    background-color: $buttonBgColor;
+    border: $buttonBorder;
+    font-size: $fontSize;
+    @include transition($buttonTransition);
+    @include border-radius($borderRadius);
+
+    &:enabled:hover {
+        background-color: $buttonHoverBgColor;
+        color: $buttonHoverTextColor;
+        border-color: $buttonHoverBorderColor;
+    }
+
+    &:enabled:focus {
+        @include focused();
+    }
+
+    &:enabled:active  {
+        background-color: $buttonActiveBgColor;
+        color: $buttonActiveTextColor;
+        border-color: $buttonActiveBorderColor;
+    }
+
+    &.p-button-text-only {
+        .p-button-text {
+            padding: $buttonTextOnlyPadding;
+        }
+    }
+
+    &.p-button-text-icon-left {
+        .p-button-text {
+            padding: $buttonWithLeftIconPadding;
+        }
+    }
+
+    &.p-button-text-icon-right {
+        .p-button-text {
+            padding: $buttonWithRightIconPadding;
+        }
+    }
+
+    &.p-button-icon-only {
+        width: $buttonIconOnlyWidth;
+
+        .p-button-text {
+            padding: $buttonIconOnlyPadding;
+        }
+    }
+
+    &.p-button-raised {
+        @include shadow($raisedButtonShadow);
+    }
+
+    &.p-button-rounded {
+        @include border-radius($roundedButtonBorderRadius);
+    }
+}
+
+.p-fluid {
+    .p-button-icon-only {
+        width: $buttonIconOnlyWidth;
+    }
+}
+
+.p-button.p-button-secondary, .p-buttonset.p-button-secondary > .p-button  {
+    color: $secondaryButtonTextColor;
+    background-color: $secondaryButtonBgColor;
+    border: $secondaryButtonBorder;
+
+    &:enabled:hover {
+        background-color: $secondaryButtonHoverBgColor;
+        color: $secondaryButtonHoverTextColor;
+        border-color: $secondaryButtonHoverBorderColor;
+    }
+
+    &:enabled:focus {
+        @include shadow($secondaryButtonFocusShadow);
+    }
+
+    &:enabled:active {
+        background-color: $secondaryButtonActiveBgColor;
+        color: $secondaryButtonActiveTextColor;
+        border-color: $secondaryButtonActiveBorderColor;
+    }
+}
+
+.p-button.p-button-info, .p-buttonset.p-button-info > .p-button  {
+    color: $infoButtonTextColor;
+    background-color: $infoButtonBgColor;
+    border: $infoButtonBorder;
+
+    &:enabled:hover {
+        background-color: $infoButtonHoverBgColor;
+        color: $infoButtonHoverTextColor;
+        border-color: $infoButtonHoverBorderColor;
+    }
+
+    &:enabled:focus {
+        @include shadow($infoButtonFocusShadow);
+    }
+
+    &:enabled:active {
+        background-color: $infoButtonActiveBgColor;
+        color: $infoButtonActiveTextColor;
+        border-color: $infoButtonActiveBorderColor;
+    }
+}
+
+.p-button.p-button-success, .p-buttonset.p-button-success > .p-button  {
+    color: $successButtonTextColor;
+    background-color: $successButtonBgColor;
+    border: $successButtonBorder;
+
+    &:enabled:hover {
+        background-color: $successButtonHoverBgColor;
+        color: $successButtonHoverTextColor;
+        border-color: $successButtonHoverBorderColor;
+    }
+
+    &:enabled:focus {
+        @include shadow($successButtonFocusShadow);
+    }
+
+    &:enabled:active {
+        background-color: $successButtonActiveBgColor;
+        color: $successButtonActiveTextColor;
+        border-color: $successButtonActiveBorderColor;
+    }
+}
+
+.p-button.p-button-warning, .p-buttonset.p-button-warning > .p-button  {
+    color: $warningButtonTextColor;
+    background-color: $warningButtonBgColor;
+    border: $warningButtonBorder;
+
+    &:enabled:hover {
+        background-color: $warningButtonHoverBgColor;
+        color: $warningButtonHoverTextColor;
+        border-color: $warningButtonHoverBorderColor;
+    }
+
+    &:enabled:focus {
+        @include shadow($warningButtonFocusShadow);
+    }
+
+    &:enabled:active {
+        background-color: $warningButtonActiveBgColor;
+        color: $warningButtonActiveTextColor;
+        border-color: $warningButtonActiveBorderColor;
+    }
+}
+
+.p-button.p-button-danger, .p-buttonset.p-button-danger > .p-button  {
+    color: $dangerButtonTextColor;
+    background-color: $dangerButtonBgColor;
+    border: $dangerButtonBorder;
+
+    &:enabled:hover {
+        background-color: $dangerButtonHoverBgColor;
+        color: $dangerButtonHoverTextColor;
+        border-color: $dangerButtonHoverBorderColor;
+    }
+
+    &:enabled:focus {
+        @include shadow($dangerButtonFocusShadow);
+    }
+
+    &:enabled:active  {
+        background-color: $dangerButtonActiveBgColor;
+        color: $dangerButtonActiveTextColor;
+        border-color: $dangerButtonActiveBorderColor;
+    }
+}

@@ -1,0 +1,67 @@
+.p-inputgroup {
+    .p-inputgroup-addon {
+        border-color: $inputGroupBorderColor;
+        background-color: $inputGroupBgColor;
+        color: $inputGroupTextColor;
+        padding: $inputPadding;
+        min-width: 2em;
+
+        &:first-child {
+            @include border-radius-left($borderRadius);
+        }
+
+        &:last-child {
+            @include border-radius-right($borderRadius);
+        }
+
+        &.p-inputgroup-addon-checkbox {
+            position: relative;
+
+            .p-checkbox {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-left: -1 * $checkboxWidth / 2;
+                margin-top: -1 * $checkboxHeight / 2;
+            }
+        }
+
+        &.p-inputgroup-addon-radiobutton {
+            position: relative;
+
+            .p-radiobutton {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-left: -1 * $radiobuttonWidth / 2;
+                margin-top: -1 * $radiobuttonHeight / 2;
+            }
+        }
+    }
+
+    .p-button {
+        &:first-child {
+            @include border-radius-left($borderRadius);
+        }
+
+        &:last-child {
+            @include border-radius-right($borderRadius);
+        }
+    }
+
+    .p-inputtext:focus {
+        z-index: 1;
+    }
+}
+
+.p-fluid {
+    .p-inputgroup {
+        .p-button {
+            width: auto;
+
+            &.p-button-icon-only {
+                width: $buttonIconOnlyWidth;
+            }
+        }
+    }
+}

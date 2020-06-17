@@ -1,0 +1,68 @@
+.p-radiobutton {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    width: $radiobuttonWidth;
+    height: $radiobuttonHeight;
+
+    .p-radiobutton-box {
+        border: $inputBorder;
+        background-color: $inputBgColor;
+        width: $radiobuttonWidth;
+        height: $radiobuttonHeight;
+        text-align: center;
+        position: relative;
+        @include transition($radiobuttonTransition);
+        @include border-radius(50%);
+
+        &:not(.p-disabled):not(.p-highlight):hover {
+            border-color: $inputHoverBorderColor;
+        }
+
+        &:not(.p-disabled).p-focus {
+            @include focused-input();
+        }
+
+        &.p-highlight {
+            border-color: $radiobuttonActiveBorderColor;
+            background-color: $radiobuttonActiveBgColor;
+            color: $radiobuttonActiveTextColor;
+
+            .p-radiobutton-icon {
+                background-color: $radiobuttonActiveTextColor;
+            }
+
+            &:not(.p-disabled):hover {
+                border-color: $radiobuttonActiveHoverBorderColor;
+                background-color: $radiobuttonActiveHoverBgColor;
+                color: $radiobuttonActiveHoverTextColor;
+            }
+        }
+
+        .p-radiobutton-icon {
+            background: transparent;
+            width: $radiobuttonWidth / 2;
+            height: $radiobuttonHeight / 2;
+            display: inline-block;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -1 * $radiobuttonWidth / 4;
+            margin-top: -1 * $radiobuttonWidth / 4;
+            @include transition(background-color $transitionDuration);
+            @include border-radius(50%);
+
+            &:before {
+                display: none;
+            }
+        }
+    }
+}
+
+.p-radiobutton-label {
+    margin: 0 0 0 .5em;
+}
+
+.p-radiobutton.p-error > .p-radiobutton-box {
+    border: $inputErrorBorder;
+}

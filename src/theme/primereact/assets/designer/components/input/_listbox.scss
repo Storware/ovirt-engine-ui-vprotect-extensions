@@ -1,0 +1,102 @@
+.p-listbox {
+    padding: 0;
+    min-width: $inputListMinWidth;
+    background: $inputListBgColor;
+    border: $inputListBorder;
+
+    .p-checkbox {
+        margin: 0 $inlineSpacing 0 0;
+    }
+
+    .p-listbox-header {
+        padding: $inputListHeaderPaddingTop $inputListHeaderPaddingRight $inputListHeaderPaddingBottom $inputListHeaderPaddingLeft;
+        border-bottom: $inputListHeaderBorder;
+        color: $inputListHeaderTextColor;
+        background-color: $inputListHeaderBgColor;
+        margin: $inputListHeaderMargin;
+        @include border-radius-top($borderRadius);
+
+        .p-listbox-filter-container {
+            input {
+                padding: $inputPadding;
+                padding-right: 2em;
+            }
+
+            .p-listbox-filter-icon {
+                top: 50%;
+                left: auto;
+                margin-top: -.5em;
+                right: .5em;
+                color: $inputListHeaderSearchIconColor;
+            }
+        }
+    }
+
+    .p-listbox-list {
+        background-color: $inputListBgColor;
+
+        .p-listbox-item {
+            margin: $inputListItemMargin;
+            padding: $inputListItemPadding;
+            border: $inputListItemBorder;
+            color: $inputListItemTextColor;
+            background-color: $inputListItemBgColor;
+            @include transition($inputListItemTransition);
+            @include border-radius(0);
+
+            &.p-highlight {
+                color: $inputListItemHighlightTextColor;
+                background-color: $inputListItemHighlightBgColor;
+            }
+
+            &:focus {
+                @include focused-listitem();
+            }
+
+            .p-checkbox {
+                position: static;
+                display: inline-block;
+                vertical-align: middle;
+                margin: 0 $inlineSpacing 0 0;
+            }
+
+            label {
+                display: inline-block;
+                vertical-align: middle;
+            }
+        }
+    }
+
+
+    &:not(.p-disabled) {
+        .p-listbox-item {
+            &:not(.p-highlight):not(.p-disabled):hover {
+                color: $inputListItemHoverTextColor;
+                background-color: $inputListItemHoverBgColor;
+            }
+        }
+    }
+
+    &.p-disabled {
+        .p-checkbox-box {
+            &:not(.p-disabled):not(.p-highlight):hover {
+                border: $inputBorder;
+            }
+        }
+    }
+
+    .p-listbox-list-wrapper {
+        @include border-radius($borderRadius);
+    }
+
+    .p-listbox-footer {
+        padding: $inputListHeaderPaddingTop $inputListHeaderPaddingRight $inputListHeaderPaddingBottom $inputListHeaderPaddingLeft;
+        border-top: $inputListHeaderBorder;
+        color: $inputListHeaderTextColor;
+        background-color: $inputListHeaderBgColor;
+    }
+}
+
+.p-listbox.p-error {
+    border: $inputErrorBorder;
+}

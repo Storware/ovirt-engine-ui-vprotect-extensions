@@ -1,0 +1,92 @@
+.p-messages {
+    margin: $messagesMargin;
+    @include border-radius($borderRadius);
+
+    .p-messages-wrapper {
+        padding: $messagesPadding;
+    }
+
+    &.p-messages-info {
+        background-color: $infoMessageBgColor;
+        border: $infoMessageBorder;
+        color: $infoMessageTextColor;
+
+        .p-messages-icon {
+            color: $infoMessageIconColor;
+        }
+
+        .p-messages-close {
+            background-color: $infoMessageBgColor;
+            color:  $infoMessageIconColor;
+        }
+    }
+
+    &.p-messages-success {
+        background-color: $successMessageBgColor;
+        border: $successMessageBorder;
+        color: $successMessageTextColor;
+
+        .p-messages-icon {
+            color: $successMessageIconColor;
+        }
+
+        .p-messages-close {
+            background-color: $successMessageBgColor;
+            color:  $successMessageIconColor;
+        }
+    }
+
+    &.p-messages-warn {
+        background-color: $warnMessageBgColor;
+        border: $warnMessageBorder;
+        color: $warnMessageTextColor;
+
+        .p-messages-icon {
+            color: $warnMessageIconColor;
+        }
+
+        .p-messages-close {
+            background-color: $warnMessageBgColor;
+            color:  $warnMessageIconColor;
+        }
+    }
+
+    &.p-messages-error {
+        background-color: $errorMessageBgColor;
+        border: $errorMessageBorder;
+        color: $errorMessageTextColor;
+
+        .p-messages-icon {
+            color: $errorMessageIconColor;
+        }
+
+        .p-messages-close {
+            background-color: $errorMessageBgColor;
+            color:  $errorMessageIconColor;
+        }
+    }
+
+    .p-messages-close {
+        top: -1 * 1.538em / 2;
+        right: -1 * 1.538em / 2;
+        width: 1.538em;
+        height: 1.538em;
+        line-height: 1.538em;
+        text-align: center;
+        @include border-radius(50%);
+        @include transition(box-shadow $transitionDuration);
+
+        .p-messages-close-icon {
+            line-height: inherit;
+            font-size: $messageCloseIconFontSize;
+        }
+
+        &:focus {
+            @include focused();
+        }
+    }
+
+    .p-messages-icon {
+        font-size: $messagesIconFontSize;
+    }
+}

@@ -1,0 +1,29 @@
+.p-splitbutton {
+    &.p-buttonset {
+        .p-button {
+            border: 1px solid transparent;
+
+            &:first-child {
+                @include border-radius-right(0);
+            }
+
+            &.p-splitbutton-menubutton {
+                @include border-radius-left(0);
+            }
+
+            &:focus {
+                z-index: 1;
+            }
+        }
+
+        .p-menu {
+            min-width: 100%;
+        }
+
+        .p-splitbutton-menubutton {
+            .p-button-icon-left {
+                @include icon_override("\e902");
+            }
+        }
+    }
+}

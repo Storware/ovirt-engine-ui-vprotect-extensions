@@ -1,26 +1,26 @@
-const path = require('path')
+const path = require('path');
 
-const webpack = require('webpack')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin')
+const webpack = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
 
-const env = process.env.NODE_ENV || 'development'
-const useFakeData = process.env.FAKE_DATA === 'true'
-const packageInfo = require('./package.json')
-const fetchGitInfo = require('./webpack.gitinfo.js')
+const env = process.env.NODE_ENV || 'development';
+const useFakeData = process.env.FAKE_DATA === 'true';
+const packageInfo = require('./package.json');
+const fetchGitInfo = require('./webpack.gitinfo.js');
 
 // common modules required by all entry points
-const commonModules = ['core-js/stable']
+const commonModules = ['core-js/stable'];
 
 // common webpack configuration applicable to all environments
 // @see: https://github.com/patternfly/patternfly-react-seed/blob/master/webpack.common.js
-async function common () {
-  const gitInfo = await fetchGitInfo()
+async function common() {
+  const gitInfo = await fetchGitInfo();
 
   // define specific fonts to be embed in CSS via data urls
-  let fontsToEmbed
+  let fontsToEmbed;
 
   const commonConfig = {
     bail: true,
@@ -31,8 +31,15 @@ async function common () {
           test: /\.(js|jsx)$/,
           include: path.resolve(__dirname, 'src'),
           use: {
-            loader: 'babel-loader' // options from __.babelrc.js__
-          }
+            loader: 'babel-loader', // options from __.babelrc.js__
+          },
+        },
+        {
+          test: /\.(ts|tsx)$/,
+          include: path.resolve(__dirname, 'src'),
+          use: {
+            loader: 'ts-loader', // options from __.babelrc.js__
+          },
         },
 
         // inline base64 URLs for <= 8k images, direct URLs for the rest
@@ -42,23 +49,23 @@ async function common () {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              name: 'media/[name].[hash:8].[ext]'
-            }
-          }
+              name: 'media/[name].[hash:8].[ext]',
+            },
+          },
         },
 
         // embed the woff2 fonts and any fonts that are used by the PF icons
         // directly in the CSS (to avoid lag applying fonts), export the rest
         // to be loaded seperately as needed
         {
-          test: fontsToEmbed = [
+          test: (fontsToEmbed = [
             /\.woff2(\?v=[0-9].[0-9].[0-9])?$/,
-            /PatternFlyIcons-webfont\.ttf/
-          ],
+            /PatternFlyIcons-webfont\.ttf/,
+          ]),
           use: {
             loader: 'url-loader',
-            options: {}
-          }
+            options: {},
+          },
         },
         {
           test: /\.(ttf|eot|svg|woff(?!2))(\?v=[0-9].[0-9].[0-9])?$/,
@@ -66,24 +73,29 @@ async function common () {
           use: {
             loader: 'file-loader',
             options: {
-              name: 'fonts/[name].[hash:8].[ext]'
-            }
-          }
-        }
-      ]
+              name: 'fonts/[name].[hash:8].[ext]',
+            },
+          },
+        },
+      ],
     },
-
     entry: {
-      'plugin': [...commonModules, './src/plugin.js'],
-      'index': [...commonModules, './src/index.js']
+      plugin: [...commonModules, './src/plugin.js'],
+      index: [...commonModules, './src/index.tsx'],
     },
 
     resolve: {
       alias: {
-        'react': path.join(__dirname, 'node_modules', 'react'), // TODO: Still needed?
-        '_': path.join(__dirname, 'src')
+        react: path.join(__dirname, 'node_modules', 'react'), // TODO: Still needed?
+        _: path.join(__dirname, 'src'),
+        components: path.resolve(__dirname, 'src/components/'),
+        model: path.resolve(__dirname, 'src/model/'),
+        pages: path.resolve(__dirname, 'src/pages/'),
+        services: path.resolve(__dirname, 'src/services/'),
+        store: path.resolve(__dirname, 'src/store/'),
+        utils: path.resolve(__dirname, 'src/utils/'),
       },
-      extensions: ['.js', '.jsx', '*']
+      extensions: ['.ts', '.tsx', '.js', '.jsx', '*'],
     },
 
     output: {
@@ -91,7 +103,7 @@ async function common () {
       path: path.resolve(__dirname, 'dist/vprotect-resources'),
 
       // UI plugin resources are served through Engine
-      publicPath: '/ovirt-engine/webadmin/plugin/vprotect/'
+      publicPath: '/ovirt-engine/webadmin/plugin/vprotect/',
     },
 
     optimization: {
@@ -100,47 +112,48 @@ async function common () {
           vendor: {
             name: 'vendor',
             chunks: 'initial',
-            test: /[\\/]node_modules[\\/]/
-          }
-        }
+            test: /[\\/]node_modules[\\/]/,
+          },
+        },
       },
-      runtimeChunk: { name: 'webpack-manifest' }
+      runtimeChunk: { name: 'webpack-manifest' },
     },
 
     plugins: [
       new webpack.ProvidePlugin({
-        jQuery: 'jquery' // Bootstrap's JavaScript implicitly requires jQuery global
+        jQuery: 'jquery', // Bootstrap's JavaScript implicitly requires jQuery global
       }),
 
       new webpack.DefinePlugin({
         'process.env': {
-          NODE_ENV: JSON.stringify(env)
+          NODE_ENV: JSON.stringify(env),
         },
-        '__DEV__': JSON.stringify(env === 'development')
+        __DEV__: JSON.stringify(env === 'development'),
       }),
 
       new CleanWebpackPlugin({
-        verbose: false
+        verbose: false,
       }),
       new CopyWebpackPlugin([
         {
           from: 'static/vprotect.json',
           to: '../',
-          transform: (content) => content.toString().replace('"__FAKE_DATA__"', useFakeData)
-        }
+          transform: (content) =>
+            content.toString().replace('"__FAKE_DATA__"', useFakeData),
+        },
       ]),
 
       new HtmlWebpackPlugin({
         filename: 'plugin.html',
         template: 'static/html/plugin.template.ejs',
         inject: true,
-        chunks: ['webpack-manifest', 'vendor', 'plugin']
+        chunks: ['webpack-manifest', 'vendor', 'plugin'],
       }),
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: 'static/html/index.template.ejs',
         inject: true,
-        chunks: ['webpack-manifest', 'vendor', 'index']
+        chunks: ['webpack-manifest', 'vendor', 'index'],
       }),
       new InlineManifestWebpackPlugin('webpack-manifest'),
 
@@ -153,13 +166,14 @@ async function common () {
 
       // emit banner comment at the top of each generated chunk
       new webpack.BannerPlugin({
-        banner: `${packageInfo.name} v${packageInfo.version}` +
+        banner:
+          `${packageInfo.name} v${packageInfo.version}` +
           (gitInfo ? ` [git.${gitInfo.headOid}]` : '') +
-          (gitInfo && gitInfo.hasChanges ? ` ${JSON.stringify(gitInfo)}` : '')
-      })
-    ]
-  }
+          (gitInfo && gitInfo.hasChanges ? ` ${JSON.stringify(gitInfo)}` : ''),
+      }),
+    ],
+  };
 
-  return commonConfig
+  return commonConfig;
 }
-module.exports = common()
+module.exports = common();

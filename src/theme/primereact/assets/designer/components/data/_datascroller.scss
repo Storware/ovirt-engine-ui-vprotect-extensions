@@ -1,0 +1,26 @@
+.p-datascroller {
+    .p-datascroller-header {
+        background-color: $panelHeaderBgColor;
+        color: $panelHeaderTextColor;
+        border: $panelHeaderBorder;
+        padding: $panelHeaderPadding;
+        font-weight: $panelHeaderFontWeight;
+        border-bottom: 0 none;
+    }
+
+    .p-datascroller-content {
+        padding: $panelContentPadding;
+        border: $panelContentBorder;
+        background-color: $panelContentBgColor;
+        color: $panelContentTextColor;
+        padding: $panelContentPadding;
+    }
+
+    .p-datascroller-footer {
+        background-color: $panelFooterBgColor;
+        color: $panelFooterTextColor;
+        border: $panelFooterBorder;
+        padding: $panelFooterPadding;
+        border-top: 0 none;
+    }
+}

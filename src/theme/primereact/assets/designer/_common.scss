@@ -1,0 +1,53 @@
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    .p-component {
+        font-family: $fontFamily;
+        font-size: $fontSize;
+        text-decoration: none;
+    }
+
+    .p-component-overlay {
+        background-color: $maskBgColor;
+    }
+
+    a {
+        color: $linkColor;
+        text-decoration: none;
+
+        &:hover {
+            color: $linkHoverColor;
+        }
+
+        &:active {
+            color: $linkActiveColor;
+        }
+    }
+
+    .p-disabled, .p-component:disabled {
+        @include opacity($disabledOpacity);
+    }
+
+    .pi {
+        font-size: $primeIconFontSize;
+    }
+
+    .p-link {
+        font-size: $fontSize;
+        font-family: $fontFamily;
+        @include border-radius($borderRadius);
+
+        &:focus {
+            @include focused();
+        }
+    }
+
+    ::-webkit-input-placeholder {color:$inputPlaceholderTextColor}
+    :-moz-placeholder           {color:$inputPlaceholderTextColor}
+    ::-moz-placeholder          {color:$inputPlaceholderTextColor}
+    :-ms-input-placeholder      {color:$inputPlaceholderTextColor}
+}

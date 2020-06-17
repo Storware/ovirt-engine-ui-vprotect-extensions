@@ -1,0 +1,17 @@
+.p-sidebar {
+    background-color: $panelContentBgColor;
+    color: $panelContentTextColor;
+    padding: $panelContentPadding;
+    border: $overlayContentBorder;
+    @include shadow($overlayContainerShadow);
+
+    .p-sidebar-close {
+        color: $textSecondaryColor;
+        line-height: 1;
+        @include transition($buttonTransition);
+
+        &:hover {
+            color: $textColor;
+        }
+    }
+}

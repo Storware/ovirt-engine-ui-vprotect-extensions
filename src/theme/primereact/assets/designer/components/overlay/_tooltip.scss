@@ -1,0 +1,33 @@
+.p-tooltip {
+    .p-tooltip-text {
+        background-color: $tooltipBgColor;
+        color: $tooltipTextColor;
+        padding: $tooltipPadding;
+        @include shadow($overlayContainerShadow);
+        @include border-radius($borderRadius);
+    }
+
+    &.p-tooltip-right {
+        .p-tooltip-arrow {
+            border-right-color: $tooltipBgColor;
+        }
+    }
+
+    &.p-tooltip-left {
+        .p-tooltip-arrow {
+            border-left-color: $tooltipBgColor;
+        }
+    }
+
+    &.p-tooltip-top {
+        .p-tooltip-arrow {
+            border-top-color: $tooltipBgColor;
+        }
+    }
+
+    &.p-tooltip-bottom {
+        .p-tooltip-arrow {
+            border-bottom-color: $tooltipBgColor;
+        }
+    }
+}

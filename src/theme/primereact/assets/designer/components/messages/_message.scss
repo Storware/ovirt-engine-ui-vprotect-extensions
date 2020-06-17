@@ -1,0 +1,53 @@
+.p-message {
+    padding: $messagePadding;
+    margin: $messageMargin;
+    @include border-radius($borderRadius);
+
+    &.p-message-info {
+        background-color: $infoMessageBgColor;
+        border: $infoMessageBorder;
+        color: $infoMessageTextColor;
+
+        .p-message-icon {
+            color: $infoMessageIconColor;
+        }
+    }
+
+    &.p-message-success {
+        background-color: $successMessageBgColor;
+        border: $successMessageBorder;
+        color: $successMessageTextColor;
+
+        .p-message-icon {
+            color: $successMessageIconColor;
+        }
+    }
+
+    &.p-message-warn {
+        background-color: $warnMessageBgColor;
+        border: $warnMessageBorder;
+        color: $warnMessageTextColor;
+
+        .p-message-icon {
+            color: $warnMessageIconColor;
+        }
+    }
+
+    &.p-message-error {
+        background-color: $errorMessageBgColor;
+        border: $errorMessageBorder;
+        color: $errorMessageTextColor;
+
+        .p-message-icon {
+            color: $errorMessageIconColor;
+        }
+    }
+
+    .p-message-icon {
+        font-size: $messageIconFontSize;
+    }
+
+    .p-message-text {
+        font-size: $messageTextFontSize;
+    }
+}

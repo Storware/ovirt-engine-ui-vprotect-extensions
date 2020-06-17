@@ -1,0 +1,32 @@
+.p-rating {
+    .p-rating-icon {
+        font-size: $ratingIconFontSize;
+        text-align: center;
+        display: inline-block;
+        color: $ratingStarIconColor;
+        @include border-radius($borderRadius);
+        @include transition($ratingTransition);
+
+        &.p-rating-cancel {
+            color: $ratingCancelIconColor;
+        }
+
+        &:focus {
+            @include focused();
+        }
+    }
+
+    &:not(.p-disabled):not(.p-rating-readonly) {
+        .p-rating-icon {
+            &:hover {
+                color: $ratingStarIconHoverColor;
+            }
+
+            &.p-rating-cancel {
+                &:hover {
+                    color: $ratingCancelHoverIconColor;
+                }
+            }
+        }
+    }
+}

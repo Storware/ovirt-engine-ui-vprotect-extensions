@@ -1,0 +1,51 @@
+.p-checkbox {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    width: $checkboxWidth;
+    height: $checkboxHeight;
+
+    .p-checkbox-box {
+        border: $inputBorder;
+        background-color: $inputBgColor;
+        width: $checkboxWidth;
+        height: $checkboxHeight;
+        text-align: center;
+        @include border-radius($borderRadius);
+        @include transition($checkboxTransition);
+
+        &:not(.p-disabled):hover {
+            border-color: $inputHoverBorderColor;
+        }
+
+        &:not(.p-disabled).p-focus {
+            @include focused-input();
+        }
+
+        &.p-highlight {
+            border-color: $checkboxActiveBorderColor;
+            background-color: $checkboxActiveBgColor;
+            color: $checkboxActiveTextColor;
+
+            &:not(.p-disabled):hover {
+                border-color: $checkboxActiveHoverBorderColor;
+                background-color: $checkboxActiveHoverBgColor;
+                color: $checkboxActiveHoverTextColor;
+            }
+        }
+
+        .p-checkbox-icon {
+            overflow: hidden;
+            position: relative;
+            font-size: $fontSize + 4;
+        }
+    }
+}
+
+.p-checkbox-label {
+    margin: 0 0 0 $inlineSpacing;
+}
+
+.p-checkbox.p-error > .p-checkbox-box {
+    border: $inputErrorBorder;
+}

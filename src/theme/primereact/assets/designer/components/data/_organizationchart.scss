@@ -1,0 +1,52 @@
+.p-organizationchart {
+    .p-organizationchart-node-content {
+        &.p-organizationchart-selectable-node:not(.p-highlight):hover {
+            background-color: $inputListItemHoverBgColor;
+            color: $inputListItemHoverTextColor;
+        }
+
+        &.p-highlight {
+            background-color: $highlightBgColor;
+            color: $highlightColorText;
+
+            .p-node-toggler {
+                i {
+                    color: darken($highlightBgColor, 25%);
+                }
+            }
+        }
+    }
+
+    .p-organizationchart-line-down {
+        background-color: $organizationChartConnectorColor;
+    }
+
+    .p-organizationchart-line-left {
+        border-right: $panelContentBorder;
+        border-color: $organizationChartConnectorColor;
+    }
+
+    .p-organizationchart-line-top {
+        border-top: $panelContentBorder;
+        border-color: $organizationChartConnectorColor;
+    }
+
+    .p-organizationchart-node-content {
+        border: $panelContentBorder;
+        background-color: $panelContentBgColor;
+        color: $panelContentTextColor;
+        padding: $panelContentPadding;
+    }
+
+    .p-organizationchart-node-content .p-node-toggler {
+        bottom: -.7em;
+        margin-left: -.46em;
+        color: $dataIconColor;
+        @include border-radius($borderRadius);
+        @include transition(box-shadow $transitionDuration);
+
+        &:focus {
+            @include focused();
+        }
+    }
+}

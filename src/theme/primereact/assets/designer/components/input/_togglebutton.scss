@@ -1,0 +1,48 @@
+.p-togglebutton {
+    background-color: $toggleButtonBgColor;
+    border: $toggleButtonBorder;
+    color: $toggleButtonTextColor;
+    @include transition($buttonTransition);
+
+    .p-button-icon-left {
+        color: $toggleButtonIconColor;
+    }
+
+    &:not(.p-disabled):not(.p-highlight):hover {
+        background-color: $toggleButtonHoverBgColor;
+        border-color: $toggleButtonHoverBorderColor;
+        color: $toggleButtonHoverTextColor;
+
+        .p-button-icon-left {
+            color: $toggleButtonHoverIconColor;
+        }
+    }
+
+    &.p-focus {
+        @include focused();
+    }
+
+    &.p-highlight {
+        background-color: $toggleButtonActiveBgColor;
+        border-color: $toggleButtonActiveBorderColor;
+        color: $toggleButtonActiveTextColor;
+
+        .p-button-icon-left {
+            color: $toggleButtonActiveIconColor;
+        }
+
+        &:hover {
+            background-color: $toggleButtonActiveHoverBgColor;
+            border-color: $toggleButtonActiveHoverBorderColor;
+            color: $toggleButtonActiveHoverTextColor;
+
+            .p-button-icon-left {
+                color: $toggleButtonActiveHoverIconColor;
+            }
+        }
+    }
+}
+
+.p-togglebutton.p-error > .p-button {
+    border: $inputErrorBorder;
+}
