@@ -1,37 +1,114 @@
-const util = require('util');
-const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const TSLintPlugin = require('tslint-webpack-plugin');
+
+let fontsToEmbed;
 
 // development mode
 // @see https://github.com/patternfly/patternfly-react-seed/blob/master/webpack.dev.js
-async function dev() {
-  const devConfig = merge(await common, {
-    mode: 'development',
-    devtool: 'eval-source-map',
-
-    module: {
-      rules: [
-        {
-          test: /\.css$/,
-          use: ['style-loader', 'css-loader'],
-        },
-      ],
+module.exports = {
+  mode: 'development',
+  devtool: 'eval-source-map',
+  devServer: {
+    contentBase: './dist',
+    writeToDisk: true,
+    historyApiFallback: {
+      index: 'index.html',
     },
+  },
+  entry: {
+    index: './src/index.tsx',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(css|scss)$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.(js|jsx)$/,
+        include: path.resolve(__dirname, 'src'),
+        use: {
+          loader: 'babel-loader', // options from __.babelrc.js__
+        },
+      },
+      {
+        test: /\.(ts|tsx)$/,
+        include: path.resolve(__dirname, 'src'),
+        use: {
+          loader: 'ts-loader',
+        },
+      },
 
-    plugins: [],
-  });
+      // inline base64 URLs for <= 8k images, direct URLs for the rest
+      {
+        test: /\.(png|jpg|jpeg|gif)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 8192,
+            name: 'media/[name].[hash:8].[ext]',
+          },
+        },
+      },
 
-  if (!process.env.Q) {
-    console.log('development webpack configuration:');
-    console.log(
-      util.inspect(devConfig, {
-        compact: false,
-        breakLength: 120,
-        depth: null,
-        colors: true,
-      }),
-    );
-  }
-  return devConfig;
-}
-module.exports = dev();
+      // embed the woff2 fonts and any fonts that are used by the PF icons
+      // directly in the CSS (to avoid lag applying fonts), export the rest
+      // to be loaded seperately as needed
+      {
+        test: (fontsToEmbed = [
+          /\.woff2(\?v=[0-9].[0-9].[0-9])?$/,
+          /PatternFlyIcons-webfont\.ttf/,
+        ]),
+        use: {
+          loader: 'url-loader',
+          options: {},
+        },
+      },
+      {
+        test: /\.(ttf|eot|svg|woff(?!2))(\?v=[0-9].[0-9].[0-9])?$/,
+        exclude: fontsToEmbed,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: 'fonts/[name].[hash:8].[ext]',
+          },
+        },
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    alias: {
+      components: path.resolve(__dirname, 'src/components/'),
+      model: path.resolve(__dirname, 'src/model/'),
+      pages: path.resolve(__dirname, 'src/pages/'),
+      services: path.resolve(__dirname, 'src/services/'),
+      store: path.resolve(__dirname, 'src/store/'),
+      utils: path.resolve(__dirname, 'src/utils/'),
+      integrations: path.resolve(__dirname, 'src/integrations/'),
+      [path.resolve(__dirname, "src/integrations/app-init.js")]: path.resolve(__dirname, "src/integrations/dev-server-mock-plugin-api/app-init.js"),
+      [path.resolve(__dirname, "src/integrations/plugin-api.js")]: path.resolve(__dirname, "src/integrations/dev-server-mock-plugin-api/plugin-api.js"),
+    },
+  },
+
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      title: 'Development',
+      filename: 'index.html',
+      template: 'static/html/index.template.ejs',
+      inject: true,
+      chunks: ['webpack-manifest', 'vendor', 'index'],
+    }),
+    new TSLintPlugin({
+      files: ['./src/**/*.ts'],
+    }),
+  ],
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+  },
+};

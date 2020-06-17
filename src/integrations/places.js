@@ -7,8 +7,8 @@ import {
   vprotectPoliciesToken,
   vprotectSchedulesToken,
   vprotectMountedBackupsToken,
-} from '../constants';
-import getPluginApi from '../plugin-api';
+} from 'utils/constants';
+import getPluginApi from 'integrations/plugin-api';
 
 function addVprotectPlace() {
   getPluginApi().addPrimaryMenuContainer('VM Backup', primaryMenuId, {
