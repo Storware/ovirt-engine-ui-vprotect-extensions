@@ -1,23 +1,23 @@
-import {LoadingAction, START, STOP} from './types';
+import { LoadingAction, START, STOP } from './types';
 
 export type LoadingStore = {
-    readonly loading: boolean;
+  readonly loading: boolean;
 };
 
 const initial: LoadingStore = {
-    loading: false,
+  loading: false,
 };
 
 export default (state = initial, action: LoadingAction) => {
-    if (action.type === START) {
-        return {
-            loading: true
-        };
-    }
-    if (action.type === STOP) {
-        return {
-            loading: false
-        };
-    }
-    return state;
+  if (action.type === START) {
+    return {
+      loading: true,
+    };
+  }
+  if (action.type === STOP) {
+    return {
+      loading: false,
+    };
+  }
+  return state;
 };

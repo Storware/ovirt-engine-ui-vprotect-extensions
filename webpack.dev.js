@@ -1,10 +1,10 @@
-const util = require('util')
-const merge = require('webpack-merge')
-const common = require('./webpack.common.js')
+const util = require('util');
+const merge = require('webpack-merge');
+const common = require('./webpack.common.js');
 
 // development mode
 // @see https://github.com/patternfly/patternfly-react-seed/blob/master/webpack.dev.js
-async function dev () {
+async function dev() {
   const devConfig = merge(await common, {
     mode: 'development',
     devtool: 'eval-source-map',
@@ -13,18 +13,25 @@ async function dev () {
       rules: [
         {
           test: /\.css$/,
-          use: ['style-loader', 'css-loader']
-        }
-      ]
+          use: ['style-loader', 'css-loader'],
+        },
+      ],
     },
 
-    plugins: []
-  })
+    plugins: [],
+  });
 
   if (!process.env.Q) {
-    console.log('development webpack configuration:')
-    console.log(util.inspect(devConfig, { compact: false, breakLength: 120, depth: null, colors: true }))
+    console.log('development webpack configuration:');
+    console.log(
+      util.inspect(devConfig, {
+        compact: false,
+        breakLength: 120,
+        depth: null,
+        colors: true,
+      }),
+    );
   }
-  return devConfig
+  return devConfig;
 }
-module.exports = dev()
+module.exports = dev();

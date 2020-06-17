@@ -1,10 +1,8 @@
-import '_/logger'
-import getPluginApi from './plugin-api'
-import appInit from './components/vprotect/services/app-init'
-import { addPlaces } from './integrations/places'
-import { addButtons } from './integrations/buttons'
+import getPluginApi from './plugin-api';
+import appInit from './services/app-init';
+import { addPlaces } from './integrations/places';
 
-import 'patternfly-react/dist/css/patternfly-react.css'
+import 'patternfly-react/dist/css/patternfly-react.css';
 /*
     PatternFly 4
     ------------
@@ -24,22 +22,21 @@ import 'patternfly-react/dist/css/patternfly-react.css'
     do right now (4-Nov-2019).
  */
 // import '@patternfly/patternfly/patternfly-no-reset.css'
-import {vprotectService} from './components/vprotect/services/vprotect-service'
+import { vprotectService } from './services/vprotect-service';
 
-const username = getPluginApi().configObject().username
-const password = getPluginApi().configObject().password
+const username = getPluginApi().configObject().username;
+const password = getPluginApi().configObject().password;
 
 getPluginApi().register({
   UiInit: () => {
     vprotectService.login(username, password).then((user) => {
-      localStorage.setItem('user', JSON.stringify(user))
-      addPlaces()
-      addButtons()
-    })
-  }
-})
+      localStorage.setItem('user', JSON.stringify(user));
+      addPlaces();
+    });
+  },
+});
 
 appInit.run().then(() => {
   // proceed with plugin initialization (UI plugin infra will call UiInit)
-  getPluginApi().ready()
-})
+  getPluginApi().ready();
+});

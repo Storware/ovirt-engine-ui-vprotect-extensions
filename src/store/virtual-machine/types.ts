@@ -9,57 +9,57 @@ export const SET_POLICIES = 'SET_POLICIES';
 export const SET_SNAPSHOT_POLICIES = 'SET_SNAPSHOT_POLICIES';
 
 export type SetVirtualMachineAction = {
-    type: typeof SET_VIRTUAL_MACHINE;
-    payload?: any;
+  type: typeof SET_VIRTUAL_MACHINE;
+  payload?: any;
 };
 
 export type SetHypervisorAction = {
-    type: typeof SET_HYPERVISOR;
-    payload?: any;
+  type: typeof SET_HYPERVISOR;
+  payload?: any;
 };
 
 export type SetBackupsHistoryAction = {
-    type: typeof SET_BACKUPS_HISTORY;
-    payload?: any;
+  type: typeof SET_BACKUPS_HISTORY;
+  payload?: any;
 };
 
 export type SetRestoresHistoryAction = {
-    type: typeof SET_RESTORES_HISTORY;
-    payload?: any;
+  type: typeof SET_RESTORES_HISTORY;
+  payload?: any;
 };
 
 export type SetSnapshotsAction = {
-    type: typeof SET_SNAPSHOTS;
-    payload?: any;
+  type: typeof SET_SNAPSHOTS;
+  payload?: any;
 };
 
 export type SetDisksAction = {
-    type: typeof SET_DISKS;
-    payload?: any;
+  type: typeof SET_DISKS;
+  payload?: any;
 };
 
 export type SetSchedulesAction = {
-    type: typeof SET_SCHEDULES;
-    payload?: any;
+  type: typeof SET_SCHEDULES;
+  payload?: any;
 };
 
 export type SetPoliciesAction = {
-    type: typeof SET_POLICIES;
-    payload?: any;
+  type: typeof SET_POLICIES;
+  payload?: any;
 };
 
 export type SetSnapshotPoliciesAction = {
-    type: typeof SET_SNAPSHOT_POLICIES;
-    payload?: any;
+  type: typeof SET_SNAPSHOT_POLICIES;
+  payload?: any;
 };
 
-
-export type VirtualMachineAction = SetVirtualMachineAction |
-    SetHypervisorAction |
-    SetBackupsHistoryAction |
-    SetRestoresHistoryAction |
-    SetSnapshotsAction |
-    SetDisksAction |
-    SetSchedulesAction |
-    SetPoliciesAction |
-    SetSnapshotPoliciesAction;
+export type VirtualMachineAction =
+  | SetVirtualMachineAction
+  | SetHypervisorAction
+  | SetBackupsHistoryAction
+  | SetRestoresHistoryAction
+  | SetSnapshotsAction
+  | SetDisksAction
+  | SetSchedulesAction
+  | SetPoliciesAction
+  | SetSnapshotPoliciesAction;

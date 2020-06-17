@@ -1,8 +1,4 @@
-import {
-  SET_POLICIES,
-  SET_SCHEDULE,
-  PolicyAction
-} from './types';
+import { SET_POLICIES, SET_SCHEDULE, PolicyAction } from './types';
 
 export type VirtualMachineStore = {
   readonly schedule: any;

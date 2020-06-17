@@ -1,14 +1,13 @@
-import {LoadingAction, START, STOP} from './types';
+import { LoadingAction, START, STOP } from './types';
 
 export const startLoading = (): LoadingAction => {
-    return {
-        type: START
-    };
+  return {
+    type: START,
+  };
 };
 
 export const stopLoading = (): LoadingAction => {
-    return {
-        type: STOP
-    };
+  return {
+    type: STOP,
+  };
 };
-

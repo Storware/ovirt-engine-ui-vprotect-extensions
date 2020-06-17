@@ -1,8 +1,8 @@
 //
 // Module scoped variables with config default values. Change values with `updateConfig`.
 //
-let useFakeData = false
-let clusterUpgradePlaybook = 'ovirt-cluster-upgrade'
+let useFakeData = false;
+let clusterUpgradePlaybook = 'ovirt-cluster-upgrade';
 
 //
 // Defining the properties against the `pluginConfigs` object allows the client code to
@@ -17,7 +17,6 @@ let clusterUpgradePlaybook = 'ovirt-cluster-upgrade'
  * `ui-plugins` config folder.
  */
 const pluginConfigs = {
-
   /**
    * This flag is a hint to components that normally work with remote
    * data. If set to true, such components should use fake data instead
@@ -33,39 +32,42 @@ const pluginConfigs = {
    *
    * @readonly
    */
-  clusterUpgradePlaybook
-
-}
+  clusterUpgradePlaybook,
+};
 
 Object.defineProperties(pluginConfigs, {
-  'useFakeData': {
-    get () { return useFakeData },
-    enumerable: true
+  useFakeData: {
+    get() {
+      return useFakeData;
+    },
+    enumerable: true,
   },
-  'clusterUpgradePlaybook': {
-    get () { return clusterUpgradePlaybook },
-    enumerable: true
-  }
-})
+  clusterUpgradePlaybook: {
+    get() {
+      return clusterUpgradePlaybook;
+    },
+    enumerable: true,
+  },
+});
 
-function testDefined (obj, key) {
-  return obj[key] !== undefined && obj[key] !== null
+function testDefined(obj, key) {
+  return obj[key] !== undefined && obj[key] !== null;
 }
 
 /**
  * Use this function to update configurations.  The default export __pluginConfigs__
  * cannot be edited directly.
  */
-export function updateConfig (updates) {
-  if (__DEV__) console.log('updateConfig:', updates)
+export function updateConfig(updates) {
+  if (__DEV__) console.log('updateConfig:', updates);
 
   if (testDefined(updates, 'useFakeData')) {
-    useFakeData = Boolean(updates.useFakeData)
+    useFakeData = Boolean(updates.useFakeData);
   }
 
   if (testDefined(updates, 'clusterUpgradePlaybook')) {
-    clusterUpgradePlaybook = String(updates.clusterUpgradePlaybook)
+    clusterUpgradePlaybook = String(updates.clusterUpgradePlaybook);
   }
 }
 
-export default pluginConfigs
+export default pluginConfigs;

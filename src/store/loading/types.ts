@@ -2,14 +2,11 @@ export const START = 'START';
 export const STOP = 'STOP';
 
 export type StartAction = {
-    type: typeof START;
+  type: typeof START;
 };
 
 export type StopAction = {
-    type: typeof STOP;
+  type: typeof STOP;
 };
 
-
-export type LoadingAction =
-    StartAction |
-    StopAction
+export type LoadingAction = StartAction | StopAction;

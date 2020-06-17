@@ -1,6 +1,6 @@
 enum WebadminToastTypeEnum { // TODO: Best as an enum or something else?
   info = 'info',
-  danger = 'danger'
+  danger = 'danger',
 }
 
 enum WebadminPlacesEnum { // TODO: Best as an enum or something else?
@@ -10,12 +10,11 @@ enum WebadminPlacesEnum { // TODO: Best as an enum or something else?
   storage = 'storage',
   vms = 'vms',
   events = 'events',
-  volumes = 'volumes'
+  volumes = 'volumes',
 }
 
-export enum EntityType {
-  // TODO: Add the entities.
-}
+export enum EntityType {}
+// TODO: Add the entities.
 
 /**
  * The event handler callbacks that a plugin may register with the plugin API.
@@ -35,10 +34,7 @@ interface EventHandlers {
    * @param userNameWithDomain follows user@domain convention
    * @param userId
    */
-  UserLogin(
-    userNameWithDomain: string,
-    userId: string
-  ): void;
+  UserLogin(userNameWithDomain: string, userId: string): void;
 
   /**
    * Called after a user logs out of WebAdmin.
@@ -73,7 +69,7 @@ interface ActionButtonInterface {
   /**
    * Where in the existing set of buttons should the plugin's button be inserted?
    */
-  index: number,
+  index: number;
 }
 
 /**
@@ -95,11 +91,7 @@ interface OvirtPluginApi {
    * overriding default API options.  It may be called anytime during the
    * lifetime of a plugin.
    */
-  options(
-    apiOptions: {
-      allowedMessageOrigins: string | string[]
-    }
-  ): void;
+  options(apiOptions: { allowedMessageOrigins: string | string[] }): void;
 
   /**
    * Tell the API that the app is ready to proceed with plugin initialization,
@@ -169,7 +161,6 @@ interface OvirtPluginApi {
    */
   setSearchString(search: string): void;
 
-
   // ----- Main Views and Detail Tabs
   /**
    * Adds new primary menu place with content provided from given URL.  Primary menu
@@ -186,9 +177,9 @@ interface OvirtPluginApi {
     historyToken: string,
     contentUrl: string,
     options?: {
-      priority?: number,
-      defaultPlace?: boolean,
-      icon?: string,
+      priority?: number;
+      defaultPlace?: boolean;
+      icon?: string;
     },
   ): void;
 
@@ -205,8 +196,8 @@ interface OvirtPluginApi {
     label: string,
     primaryMenuId: string,
     options?: {
-      priority?: number,
-      icon?: string,
+      priority?: number;
+      icon?: string;
     },
   ): void;
 
@@ -226,10 +217,9 @@ interface OvirtPluginApi {
     historyToken: string,
     contentUrl: string,
     options?: {
-      priority?: number,
+      priority?: number;
     },
   ): void;
-
 
   /**
    * Adds a new detail place with content provided from given URL.
@@ -248,8 +238,8 @@ interface OvirtPluginApi {
     historyToken: string,
     contentUrl: string,
     options?: {
-      priority?: number,
-    }
+      priority?: number;
+    },
   ): void;
 
   /**
@@ -308,5 +298,5 @@ interface OvirtPluginApi {
 /**
  * Returns a reference to the WebAdmin UI plugin integration API.
  */
-declare function getPluginApi(): OvirtPluginApi
-export default getPluginApi
+declare function getPluginApi(): OvirtPluginApi;
+export default getPluginApi;

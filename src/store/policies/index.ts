@@ -1,6 +1,4 @@
-import {
-  PoliciesAction, SET_FILTERED_POLICIES, SET_POLICIES
-} from './types';
+import { PoliciesAction, SET_FILTERED_POLICIES, SET_POLICIES } from './types';
 
 export type PoliciesStore = {
   readonly policies: any[];
@@ -9,7 +7,7 @@ export type PoliciesStore = {
 
 const initial: PoliciesStore = {
   policies: [],
-  filteredPolicies: []
+  filteredPolicies: [],
 };
 
 export default (state = initial, action: PoliciesAction) => {

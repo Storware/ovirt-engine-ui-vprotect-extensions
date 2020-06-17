@@ -1,7 +1,7 @@
 import {
   SET_FILTERED_VIRTUAL_MACHINES,
   SET_VIRTUAL_MACHINES,
-  VirtualMachinesAction
+  VirtualMachinesAction,
 } from './types';
 
 export type VirtualMachinesStore = {

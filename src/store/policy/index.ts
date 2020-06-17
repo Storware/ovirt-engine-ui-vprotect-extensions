@@ -4,9 +4,9 @@ import {
   SET_BACKUP_DESTINATIONS,
   SET_SCHEDULES,
   SET_POLICY,
-  PolicyAction
+  PolicyAction,
 } from './types';
-import {PolicySnapshot} from '../../components/vprotect/model/policies/policy-snapshot';
+import { PolicySnapshot } from '../../model/policies/policy-snapshot';
 
 export type VirtualMachineStore = {
   readonly policy: any;

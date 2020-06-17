@@ -1,9 +1,14 @@
 import {
-  SET_BACKUPS_HISTORY, SET_DISKS,
-  SET_HYPERVISOR, SET_POLICIES,
-  SET_RESTORES_HISTORY, SET_SCHEDULES, SET_SNAPSHOT_POLICIES, SET_SNAPSHOTS,
+  SET_BACKUPS_HISTORY,
+  SET_DISKS,
+  SET_HYPERVISOR,
+  SET_POLICIES,
+  SET_RESTORES_HISTORY,
+  SET_SCHEDULES,
+  SET_SNAPSHOT_POLICIES,
+  SET_SNAPSHOTS,
   SET_VIRTUAL_MACHINE,
-  VirtualMachineAction
+  VirtualMachineAction,
 } from './types';
 
 export type VirtualMachineStore = {
@@ -27,7 +32,7 @@ const initial: VirtualMachineStore = {
   disks: [],
   schedules: [],
   policies: [],
-  snapshotPolicies: []
+  snapshotPolicies: [],
 };
 
 export default (state = initial, action: VirtualMachineAction) => {
