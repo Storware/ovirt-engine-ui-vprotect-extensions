@@ -29,7 +29,7 @@
     "formik": "^2.1.4",
     "intl": "^1.2.4",
     "intl-messageformat": "^7.2.1",
-    "jquery": "3.4.1",
+    "jquery": "3.5.0",
     "lodash": "^4.17.15",
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.27",
