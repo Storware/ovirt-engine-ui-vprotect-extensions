@@ -13,6 +13,7 @@ import loading from './loading';
 import modal from './modal';
 import policies from './policies';
 import backupModal from './backup-modal';
+import restoreModal from './restore-modal';
 import mountBackupModal from './mount-backup-modal';
 import policy from './policy';
 import schedules from './schedules';
@@ -27,6 +28,7 @@ export const rootReducer = combineReducers({
   mountedBackups,
   policies,
   backupModal,
+  restoreModal,
   mountBackupModal,
   policy,
   schedules,

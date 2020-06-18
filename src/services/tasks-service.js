@@ -12,6 +12,10 @@ class TasksService {
   submitTaskRestoreAndMount(task) {
     return vprotectApiService.post('/tasks/restore-and-mount', task);
   }
+
+  submitTaskRestoreAndImport(task) {
+    return vprotectApiService.post(`/tasks/restore-and-import`, task);
+  }
 }
 
 export const tasksService = new TasksService();

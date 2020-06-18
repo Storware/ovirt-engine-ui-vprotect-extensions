@@ -30,10 +30,6 @@ const VirtualMachine = () => {
   let dispatch = useDispatch();
   let { guid } = useParams();
 
-  let showRestoreModal;
-  let setShowRestoreModal;
-  [showRestoreModal, setShowRestoreModal] = useState(false);
-
   useEffect(() => {
     dispatch(getVirtualMachinePage(guid));
   }, [dispatch]);
@@ -71,7 +67,14 @@ const VirtualMachine = () => {
               className="mx-2"
               label="Restore"
               onClick={() => {
-                setShowRestoreModal(true);
+                dispatch(
+                  showModalAction({
+                    modal: RestoreModal,
+                    props: {
+                      virtualEnvironment: virtualMachine
+                    },
+                  })
+                )
               }}
             />
           )}
@@ -183,15 +186,6 @@ const VirtualMachine = () => {
           </TabPanel>
         </TabView>
       </Card>
-
-      {showRestoreModal && (
-        <RestoreModal
-          closeModal={() => {
-            setShowRestoreModal(false);
-          }}
-          virtualEnvironment={virtualMachine}
-        />
-      )}
     </Panel>
   );
 };
