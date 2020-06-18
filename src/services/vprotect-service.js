@@ -43,34 +43,6 @@ class VprotectService {
     return vprotectApiService.post(`/tasks/export`, task);
   }
 
-  getRestorableBackups(virtualMachineGuid) {
-    return vprotectApiService.get(
-      `/backups?protected-entity=${virtualMachineGuid}&status=SUCCESS`,
-    );
-  }
-
-  getHypervisorManagersAvailableForBackup(id) {
-    return vprotectApiService.get(
-      `/hypervisor-managers/?backup-to-be-restored=${id}`,
-    );
-  }
-
-  getHypervisorStoragesForHvm(id) {
-    return vprotectApiService.get(
-      `/hypervisor-storages?hypervisor-manager=${id}`,
-    );
-  }
-
-  getHypervisorClustersForHvm(id) {
-    return vprotectApiService.get(
-      `/hypervisor-clusters?hypervisor-manager=${id}`,
-    );
-  }
-
-  submitTaskRestoreAndImport(task) {
-    return vprotectApiService.post(`/tasks/restore-and-import`, task);
-  }
-
   getAllTasks() {
     return vprotectApiService.get('/tasks');
   }

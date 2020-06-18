@@ -65,6 +65,14 @@ class BackupsService {
   getBackupFiles(id) {
     return vprotectApiService.get('/backup-files?backup=' + id);
   }
+
+  getRestorableBackups(virtualMachineGuid) {
+    return vprotectApiService.get(`/backups?protected-entity=${virtualMachineGuid}&status=SUCCESS`);
+  }
+
+  getHypervisorManagersAvailableForBackup(id) {
+    return vprotectApiService.get(`/hypervisor-managers/?backup-to-be-restored=${id}`);
+  }
 }
 
 export const backupsService = new BackupsService();
