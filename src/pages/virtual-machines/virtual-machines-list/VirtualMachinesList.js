@@ -14,7 +14,6 @@ import { RestoreModal } from '../modal/RestoreModal';
 import { DateShow } from 'components/convert/Date';
 import { Filesize } from 'components/convert/Filesize';
 import { TableFilter } from 'components/table/TableFilter';
-import { BackupHistoryListContainer } from '../modal/backup-history-list/BackupHistoryListContainer';
 import { Link, useRouteMatch } from 'react-router-dom';
 import {
   TableWithPagination,
@@ -71,14 +70,6 @@ const VirtualMachinesList = () => {
 
   let rows = useSelector(selectVirtualMachines);
   let filteredRows = useSelector(selectFilteredVirtualMachines);
-
-  let showModal;
-  let setShowModal;
-  [showModal, setShowModal] = useState({
-    backupHistory: false,
-    restore: false,
-    selectedVirtualEnvironment: null,
-  });
 
   const columns = [
     {
@@ -353,26 +344,18 @@ const VirtualMachinesList = () => {
                   {rowData.lastSuccessfulBackupSize > 0 && (
                     <MenuItem
                       onClick={() => {
-                        setShowModal({
-                          ...showModal,
-                          selectedVirtualEnvironment: rowData,
-                          restore: true,
-                        });
+                        dispatch(
+                          showModalAction({
+                            modal: RestoreModal,
+                            props: {
+                              virtualEnvironment: rowData
+                            },
+                          }));
                       }}
                     >
                       Restore
                     </MenuItem>
                   )}
-                  <MenuItem
-                    onClick={() => {
-                      setShowModal({
-                        selectedVirtualEnvironment: rowData,
-                        backupsHistory: true,
-                      });
-                    }}
-                  >
-                    Show Backup History
-                  </MenuItem>
                 </Table.DropdownKebab>
               </Table.Actions>,
             ];
@@ -381,13 +364,6 @@ const VirtualMachinesList = () => {
       },
     },
   ];
-
-  const closeModal = () => {
-    setShowModal({
-      backupHistory: false,
-      restore: false,
-    });
-  };
 
   return (
     <div>
@@ -409,19 +385,6 @@ const VirtualMachinesList = () => {
           />
         </Grid>
       </div>
-      {showModal.restore && (
-        <RestoreModal
-          closeModal={closeModal}
-          virtualEnvironment={showModal.selectedVirtualEnvironment}
-        />
-      )}
-
-      {showModal.backupsHistory && (
-        <BackupHistoryListContainer
-          closeModal={closeModal}
-          virtualEnvironment={showModal.selectedVirtualEnvironment}
-        />
-      )}
     </div>
   );
 };

@@ -87,6 +87,14 @@ class HypervisorsService {
   getHypervisor(id) {
     return vprotectApiService.get('/hypervisors/' + id);
   }
+
+  getHypervisorStoragesForHvm(id) {
+    return vprotectApiService.get(`/hypervisor-storages?hypervisor-manager=${id}`);
+  }
+
+  getHypervisorClustersForHvm(id) {
+    return vprotectApiService.get(`/hypervisor-clusters?hypervisor-manager=${id}`);
+  }
 }
 
 export const hypervisorsService = new HypervisorsService();

@@ -18,7 +18,7 @@ Configure vProtect API url and credentials in the static/vprotect.json file in t
   "lazyLoad": false,
 
   "config": {
-    "vProtectURL": "http://10.40.0.55:8080/api",
+    "vProtectURL": "http://server_ip_address/api",
     "username": "admin",
     "password": "vPr0tect"
   }
@@ -47,7 +47,7 @@ function getPluginApi() {
       return { // property that mocks config property from vprotect.json
         username: 'admin',
         password: 'vPr0tect',
-        vProtectURL: 'https://10.40.0.55:8181/api'
+        vProtectURL: 'https://server_ip_address/api'
       }
     },
     // function that mocks alert logic used in services/alert-service.js
@@ -82,7 +82,7 @@ It will look like this:
   "lazyLoad": false,
 
   "config": {
-    "vProtectURL": "http://10.40.0.55:8080/api",
+    "vProtectURL": "http://server_ip_address/api",
     "username": "admin",
     "password": "vPr0tect"
   }
