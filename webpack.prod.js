@@ -5,6 +5,20 @@ const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
+const webpack = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
+
+const env = process.env.NODE_ENV || 'development';
+const useFakeData = process.env.FAKE_DATA === 'true';
+const packageInfo = require('./package.json');
+
+// common modules required by all entry points
+const commonModules = ['core-js/stable'];
+
+
 module.exports = {
   mode: 'production',
   devtool: 'source-map',
@@ -69,8 +83,11 @@ module.exports = {
   },
 
   output: {
-    filename: 'js/[name].[chunkhash:8].js',
-    chunkFilename: 'js/[name].[chunkhash:8].chunk.js',
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist/vprotect-resources'),
+
+    // UI plugin resources are served through Engine
+    publicPath: '/ovirt-engine/webadmin/plugin/vprotect/',
   },
 
   optimization: {
@@ -97,14 +114,58 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:8].css',
       chunkFilename: 'css/[name].[contenthash:8].chunk.css',
-    })
+    }),
+
+    new webpack.ProvidePlugin({
+      jQuery: 'jquery', // Bootstrap's JavaScript implicitly requires jQuery global
+    }),
+
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(env),
+      },
+      __DEV__: JSON.stringify(env === 'development'),
+    }),
+
+    new CleanWebpackPlugin({
+      verbose: false,
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: 'static/vprotect.json',
+        to: '../',
+        transform: (content) =>
+          content.toString().replace('"__FAKE_DATA__"', useFakeData),
+      },
+    ]),
+
+    new HtmlWebpackPlugin({
+      filename: 'plugin.html',
+      template: 'static/html/plugin.template.ejs',
+      inject: true,
+      chunks: ['webpack-manifest', 'vendor', 'plugin'],
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'static/html/index.template.ejs',
+      inject: true,
+      chunks: ['webpack-manifest', 'vendor', 'index'],
+    }),
+    new InlineManifestWebpackPlugin('webpack-manifest'),
+
+    // This pulls all of the depends on modules out of the entry chunks and puts them
+    // together here.  Every entry then shares this chunk and it can be cached between
+    // them.  The HtmlWebpackPlugins just need to reference it so the script tag is
+    // written correctly.  HashedModuleIdsPlugin keeps the chunk id stable as long
+    // as the contents of the chunk stay the same (i.e. no new modules are used).
+    new webpack.HashedModuleIdsPlugin(),
   ],
 
   bail: true,
 
   entry: {
-    plugin: './src/integrations/plugin.js',
-    index: './src/index.tsx',
+    plugin: [...commonModules, './src/integrations/plugin.js'],
+    index: [...commonModules, './src/index.tsx'],
   },
 
   resolve: {
