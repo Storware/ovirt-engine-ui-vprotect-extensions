@@ -50,6 +50,7 @@ export const BackupModal = ({ virtualEnvironments }) => {
         <Select
           label="Backup type"
           required
+          dataKey='name'
           optionLabel="name"
           value={task.backupType}
           options={backupTypes}
@@ -65,6 +66,7 @@ export const BackupModal = ({ virtualEnvironments }) => {
           label="Backup destination"
           required
           optionLabel="name"
+          dataKey='guid'
           value={task.backupDestination}
           options={backupDestinations}
           onChange={(event) =>
