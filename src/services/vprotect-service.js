@@ -71,9 +71,9 @@ class VprotectService {
     return vprotectApiService.get(`/backups?protected-entity=${id}`);
   }
 
-  getBackupTypes(vm) {
+  getBackupTypes(vm, showIncremental = false) {
     let backupTypes = [{ name: 'FULL', description: 'Full' }];
-    if (this.isIncrementalAvailable(vm)) {
+    if (this.isIncrementalAvailable(vm) || showIncremental) {
       backupTypes.push({ name: 'INCREMENTAL', description: 'Incremental' });
     }
     return backupTypes;

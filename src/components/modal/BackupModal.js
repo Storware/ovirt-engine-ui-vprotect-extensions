@@ -15,7 +15,7 @@ import { selectSaved } from 'store/modal/selectors';
 import { BackupTask } from 'model/tasks/backup-task';
 import Select from '../input/Select';
 
-export const BackupModal = ({ virtualEnvironments }) => {
+export const BackupModal = ({ virtualEnvironments, ...props}) => {
   const dispatch = useDispatch();
 
   let task;
@@ -27,7 +27,7 @@ export const BackupModal = ({ virtualEnvironments }) => {
       ...task,
       protectedEntities: virtualEnvironments,
     });
-    dispatch(getBackupDestinationsAndBackupTypes(virtualEnvironments));
+    dispatch(getBackupDestinationsAndBackupTypes(virtualEnvironments, props.showIncremental));
   }, []);
 
   const backupDestinations = useSelector(selectBackupDestinations);

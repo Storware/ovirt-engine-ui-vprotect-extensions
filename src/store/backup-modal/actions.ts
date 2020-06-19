@@ -26,14 +26,10 @@ export const setBackupTypesAction = (payload: any[]): BackupModalAction => {
   };
 };
 
-export const getBackupDestinationsAndBackupTypes = (
-  virtualEnvironments: any,
-) => async (dispatch: Dispatch) => {
-  const backupDestiantions = await backupDestinationsService.getBackupDestinationsForVMs(
-    virtualEnvironments,
-  );
+export const getBackupDestinationsAndBackupTypes = (virtualEnvironments: any, showIncremental = false) => async (dispatch: Dispatch) => {
+  const backupDestiantions = await backupDestinationsService.getBackupDestinationsForVMs(virtualEnvironments);
   await dispatch(setBackupDestinationsAction(backupDestiantions));
-  const backupTypes = vprotectService.getBackupTypes(virtualEnvironments[0]);
+  const backupTypes = vprotectService.getBackupTypes(virtualEnvironments[0], showIncremental);
   await dispatch(setBackupTypesAction(backupTypes));
 };
 

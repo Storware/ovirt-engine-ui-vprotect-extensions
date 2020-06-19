@@ -248,6 +248,7 @@ export const PoliciesList = () => {
                               modal: BackupModal,
                               props: {
                                 virtualEnvironments: policy.vms,
+                                showIncremental: true
                               },
                             }),
                           );
