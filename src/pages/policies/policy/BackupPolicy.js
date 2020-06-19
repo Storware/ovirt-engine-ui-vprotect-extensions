@@ -129,7 +129,15 @@ class BackupPolicy extends React.Component {
               <h3>Auto remove non-present Virtual Environments</h3>
               <ToggleButton
                 checked={this.state.model.autoRemoveNonPresent}
-                onChange={this.handle('autoRemoveNonPresent')}
+                onChange={(e) => {
+                  this.setState({
+                    ...this.state,
+                    model: {
+                      ...this.state.model,
+                      autoRemoveNonPresent: e.value,
+                    }
+                  })
+                }}
               />
             </div>
             <div className={'pt-2'}>
