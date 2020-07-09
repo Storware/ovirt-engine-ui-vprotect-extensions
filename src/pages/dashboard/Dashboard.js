@@ -10,6 +10,9 @@ import {
   Toolbar,
 } from 'patternfly-react';
 import { Filesize } from '../../components/convert/Filesize';
+import { TIMEZONES } from 'model/timezones';
+
+const fullTimeZoneName = TIMEZONES.find(el => el.utc[0] === JSON.parse(localStorage.getItem('user')).uiTimeZone).text
 
 export class Dashboard extends React.Component {
   constructor(props) {
@@ -42,7 +45,7 @@ export class Dashboard extends React.Component {
         <Toolbar>
           <div className={'d-flex flex-row justify-content-between'}>
             <div>
-              Timezone: {JSON.parse(localStorage.getItem('user')).uiTimeZone}
+              Timezone: {fullTimeZoneName}
             </div>
             <div className={'form-group'}>
               <Button
