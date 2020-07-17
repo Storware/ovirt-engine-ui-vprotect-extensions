@@ -28,7 +28,7 @@ Configure vProtect API url and credentials in the static/vprotect.json file in t
 #### Build
 1. Make sure you have Node.js installed - in CentOS 8 it looks like this
    ```bash
-   sudo yum module install nodejs
+   sudo dnf module install nodejs
    ```
 
 1. Install build tool - [yarn](https://yarnpkg.com/) package manager to build the extension - example for CentOS 8:
