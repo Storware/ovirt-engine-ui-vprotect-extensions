@@ -49,10 +49,10 @@ Configure vProtect API url and credentials in the static/vprotect.json file in t
    cd ovirt-engine-ui-vprotect-extensions
    ```
 
-1. Install additional packages:
+1. Install node modules:
 
    ```bash
-   npm install webpack webpack-cli @fortawesome/fontawesome-svg-core
+   yarn install
    ```
 
 1. Run build
