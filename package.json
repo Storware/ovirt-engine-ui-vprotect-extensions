@@ -13,7 +13,7 @@
   "dependencies": {
     "@fortawesome/free-regular-svg-icons": "^5.13.0",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
-    "@fortawesome/fontawesome-svg-core": "^5.13.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@patternfly/patternfly": "^2.40.6",
     "@patternfly/react-charts": "^5.1.5",
     "@patternfly/react-core": "^3.120.5",
