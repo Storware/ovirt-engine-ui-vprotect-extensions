@@ -27,35 +27,39 @@ Configure vProtect API url and credentials in the static/vprotect.json file in t
 
 #### Build
 1. Make sure you have Node.js installed - in CentOS 8 it looks like this
-```
-sudo yum module install nodejs
-```
+   ```bash
+   sudo yum module install nodejs
+   ```
 
-1. Install yarn build tool
-Use the [yarn](https://yarnpkg.com/) package manager to build the extension.
-```bash
-yarn build
-```
+1. Install build tool - [yarn](https://yarnpkg.com/) package manager to build the extension - example for CentOS 8:
+  
+   ```bash
+   sudo dnf install yarn
+   ```
 
 1. clone this repository using git or download ZIP sources:
-```
-git clone https://github.com/Storware/ovirt-engine-ui-vprotect-extensions.git
-```
+
+   ```bash
+   git clone https://github.com/Storware/ovirt-engine-ui-vprotect-extensions.git
+   ```
 
 1. Change directory to sources directory `ovirt-engine-ui-vprotect-extensions`:
-```
-cd ovirt-engine-ui-vprotect-extensions
-```
+
+   ```bash
+   cd ovirt-engine-ui-vprotect-extensions
+   ```
 
 1. Install additional packages:
-```
-npm install webpack webpack-cli @fortawesome/fontawesome-svg-core
-```
+
+   ```bash
+   npm install webpack webpack-cli @fortawesome/fontawesome-svg-core
+   ```
 
 1. Run build
-```
-yarn build
-```
+
+   ```bash
+   yarn build
+   ```
 
 1. You will find `vprotect-resources` directory generatord in `dist` directory
 
