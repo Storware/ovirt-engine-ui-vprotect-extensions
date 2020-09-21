@@ -6,5 +6,9 @@ body .filesystemModal {
 
     .p-datatable .p-datatable-tbody > tr {
         background: white;
+
+        &.p-highlight {
+            background: $primaryColor;
+        }
     }
 }

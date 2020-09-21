@@ -47,9 +47,11 @@ const FileSystemModal = ({ guid }) => {
 
   let data = useSelector(selectFileSystemListing);
 
-  const currentPath = {
+  let currentPath;
+  let setCurrentPath;
+  [currentPath, setCurrentPath] = useState({
     path: '/',
-  };
+  });
 
   let breadCrumb;
   let setBreadCrumb;
@@ -75,11 +77,13 @@ const FileSystemModal = ({ guid }) => {
   };
 
   const goToPage = (newBreadCrumb) => {
-    currentPath.path =
-      newBreadCrumb.length > 0
-        ? `/${newBreadCrumb.map((el) => el.label).join('/')}/`
-        : '/';
-    dispatch(getFilesystemListing(guid, currentPath));
+    const newCurrentPath = {
+      path: newBreadCrumb.length > 0
+          ? `/${newBreadCrumb.map((el) => el.label).join('/')}/`
+          : '/'
+    };
+    setCurrentPath(newCurrentPath)
+    dispatch(getFilesystemListing(guid, newCurrentPath));
     setBreadCrumb(newBreadCrumb);
   };
 
