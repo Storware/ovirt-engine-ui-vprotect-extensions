@@ -182,13 +182,13 @@ export class Dashboard extends React.Component {
                           columns: [
                             [
                               'Success',
-                              this.state.backupStats.successfulBackups,
+                              this.state.backupStats.successful,
                             ],
                             [
                               'In progress',
-                              this.state.backupStats.backupsInProgress,
+                              this.state.backupStats.inProgress,
                             ],
-                            ['Failed', this.state.backupStats.failedBackups],
+                            ['Failed', this.state.backupStats.failed],
                           ],
                           groups: [['Success', 'In progress', 'Failed']],
                           order: null,
@@ -198,10 +198,7 @@ export class Dashboard extends React.Component {
                       />
                     </div>
                     <div className={'align-self-center'}>
-                      Total data protected:{' '}
-                      <Filesize
-                        bytes={this.state.backupStats.totalDataProtected}
-                      />
+                      Total data protected: {this.state.backupStats.totalData}
                     </div>
                   </div>
                 </div>
