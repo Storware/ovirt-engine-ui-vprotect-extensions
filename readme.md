@@ -107,8 +107,8 @@ These are available in dist directory after build. You can also download them fr
 (https://github.com/Storware/ovirt-engine-ui-vprotect-extensions/releases).
 
 #### Configuration
-Build command will generate the /dist directory with the /dist/vprotect.json file inside.
-It will look like this:
+Set the vProtect connection parameters in the config property in the vprotect.json file.
+It should look like this:
 ```json
 {
   "name": "vprotect",
@@ -123,4 +123,3 @@ It will look like this:
   }
 }
 ```
-Set the vProtect connection parameters in the config property.
