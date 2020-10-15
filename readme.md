@@ -96,13 +96,15 @@ export default getPluginApi;
 
 Note that plugins require version >=4.3 of oVirt web admin.
 
-Put following files and directories (these are available in dist directory after build)
+Put following files and directories. 
 
 1. vprotect.json
 2. vprotect-resources
 
 to the /usr/share/ovirt-engine/ui-plugins/ directory in the Engine.
 
+These are available in dist directory after build. You can also download them from releases.
+(https://github.com/Storware/ovirt-engine-ui-vprotect-extensions/releases).
 
 #### Configuration
 Build command will generate the /dist directory with the /dist/vprotect.json file inside.
