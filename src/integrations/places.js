@@ -50,7 +50,7 @@ function addVprotectPlace() {
     primaryMenuId,
     'Policies',
     vprotectPoliciesToken,
-    `${pluginBasePath}/index.html;policies/list/vm-backup`,
+    `${pluginBasePath}/index.html;policies;list;vm-backup`,
     {
       priority: 12,
     },
@@ -60,7 +60,7 @@ function addVprotectPlace() {
     primaryMenuId,
     'Schedules',
     vprotectSchedulesToken,
-    `${pluginBasePath}/index.html;schedules/list/VM_BACKUP`,
+    `${pluginBasePath}/index.html;schedules;list;VM_BACKUP`,
     {
       priority: 13,
     },

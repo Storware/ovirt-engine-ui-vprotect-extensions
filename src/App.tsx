@@ -21,7 +21,7 @@ const App = () => {
   let loading = useSelector(selectLoading);
   const href = window.location.href;
   const start = href.indexOf(';');
-  const path = href.substring(start + 1);
+  const path = href.substring(start + 1).replace(/;/g, '/');
 
   return (
     <Router>
