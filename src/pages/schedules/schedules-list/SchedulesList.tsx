@@ -25,6 +25,8 @@ import {
   selectFilteredSchedules,
   selectSchedules,
 } from '../../../store/schedules/selectors';
+import {nameTemplate} from 'pages/policies/policies-list/PoliciesList';
+import {createBrowserHistory} from 'history';
 
 let filterFields = [
   {
@@ -50,7 +52,8 @@ let filterFields = [
 const SchedulesList = () => {
   const dispatch = useDispatch();
   const { type } = useParams();
-  let match = useRouteMatch();
+  const history = createBrowserHistory()
+
   useEffect(() => {
     dispatch(getSchedules(type));
   }, [type]);
@@ -78,15 +81,7 @@ const SchedulesList = () => {
             index: 0,
           },
           formatters: [
-            (value, { rowData }) => {
-              return (
-                <td>
-                  <Link to={`/schedules/edit/${type}/${rowData.guid}`}>
-                    {value}
-                  </Link>
-                </td>
-              );
-            },
+            (value, { rowData }) => nameTemplate(history, rowData, value),
           ],
         },
       },
@@ -307,15 +302,7 @@ const SchedulesList = () => {
             index: 0,
           },
           formatters: [
-            (value, { rowData }) => {
-              return (
-                <td>
-                  <Link to={`/schedules/edit/${type}/${rowData.guid}`}>
-                    {value}
-                  </Link>
-                </td>
-              );
-            },
+            (value, { rowData }) => nameTemplate(history, rowData, value),
           ],
         },
       },

@@ -93,7 +93,7 @@ const VirtualMachinesList = () => {
           (value, { rowData }) => {
             return (
               <td>
-                <Link to={`${match.path}/${rowData.guid}`}>{value}</Link>
+                <Link to={`${match.path}${rowData.guid}`}>{value}</Link>
               </td>
             );
           },

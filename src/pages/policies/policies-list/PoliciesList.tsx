@@ -33,6 +33,7 @@ import {
 import { Filesize } from '../../../components/convert/Filesize';
 import { showModalAction } from '../../../store/modal/actions';
 import { BackupModal } from '../../../components/modal/BackupModal';
+import { createBrowserHistory } from 'history';
 
 const filterFields = [
   {
@@ -55,10 +56,18 @@ const filterFields = [
   },
 ];
 
+export const nameTemplate = (history, rowData, value) => {
+  return <td>
+    <Link to={`${history.location.pathname}/${rowData.guid}`}>
+      {value}
+    </Link>
+  </td>
+}
+
 export const PoliciesList = () => {
   const dispatch = useDispatch();
   const { type } = useParams();
-  let match = useRouteMatch();
+  const history = createBrowserHistory()
 
   useEffect(() => {
     dispatch(getPolicies(type));
@@ -87,15 +96,7 @@ export const PoliciesList = () => {
             index: 0,
           },
           formatters: [
-            (value, { rowData }) => {
-              return (
-                <td>
-                  <Link to={`/policies/edit/${type}/${rowData.guid}`}>
-                    {value}
-                  </Link>
-                </td>
-              );
-            },
+            (value, { rowData }) => nameTemplate(history, rowData, value),
           ],
         },
       },
@@ -291,15 +292,7 @@ export const PoliciesList = () => {
             index: 0,
           },
           formatters: [
-            (value, { rowData }) => {
-              return (
-                <td>
-                  <Link to={`/policies/edit/${type}/${rowData.guid}`}>
-                    {value}
-                  </Link>
-                </td>
-              );
-            },
+            (value, { rowData }) => nameTemplate(history, rowData, value),
           ],
         },
       },
@@ -422,7 +415,7 @@ export const PoliciesList = () => {
             />
           </div>
           <div className={'form-group'}>
-            <Link to={`/policies/edit/${type}/create`}>
+            <Link to={`${history.location.pathname}/create`}>
               <Button className={'btn btn-default'}>Create</Button>
             </Link>
           </div>

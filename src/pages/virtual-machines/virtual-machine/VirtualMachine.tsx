@@ -25,10 +25,12 @@ import DisksTable from './DisksTable';
 import SchedulesTable from './SchedulesTable';
 import Settings from './Settings';
 import { showModalAction } from '../../../store/modal/actions';
+import {createBrowserHistory} from 'history';
 
 const VirtualMachine = () => {
   let dispatch = useDispatch();
   let { guid } = useParams();
+  const history = createBrowserHistory()
 
   useEffect(() => {
     dispatch(getVirtualMachinePage(guid));
@@ -43,9 +45,7 @@ const VirtualMachine = () => {
     <Panel header="Virtual Machine">
       <div className="d-flex justify-content-between mt-3">
         <div>
-          <Link to={`/virtual-machines`}>
-            <Button label="Back" />
-          </Link>
+          <Button label="Back" onClick={history.back} />
         </div>
         <div>
           <Button

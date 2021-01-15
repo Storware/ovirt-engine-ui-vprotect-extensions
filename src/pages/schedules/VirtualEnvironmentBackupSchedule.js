@@ -1,22 +1,23 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { policiesService } from '../../../services/policies-service';
+import { policiesService } from '../../services/policies-service';
 import { InputText } from 'primereact/inputtext';
 import { ToggleButton } from 'primereact/togglebutton';
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
-import { schedulesService } from '../../../services/schedules-service';
-import { alertService } from '../../../services/alert-service';
-import { InputConvert } from '../../../components/input/InputConvert';
+import { schedulesService } from '../../services/schedules-service';
+import { alertService } from '../../services/alert-service';
+import { InputConvert } from '../../components/input/InputConvert';
 import { Panel } from 'primereact/panel';
-import { InputTime } from '../../../components/input/InputTime';
-import { VirtualMachineSchedule } from '../../../model/VirtualMachineSchedule';
-import { Interval } from '../../../model/Interval';
-import { InputDays } from '../../../components/input/InputDays';
+import { InputTime } from '../../components/input/InputTime';
+import { VirtualMachineSchedule } from '../../model/VirtualMachineSchedule';
+import { Interval } from '../../model/Interval';
+import { InputDays } from '../../components/input/InputDays';
 import { ListBox } from 'primereact/listbox';
-import { dayOfWeekOccurrences, months } from '../../../model/Occurrences';
-import { InputSchedulePolicies } from '../../../components/input/InputSchedulePolicies';
+import { dayOfWeekOccurrences, months } from '../../model/Occurrences';
+import { InputSchedulePolicies } from '../../components/input/InputSchedulePolicies';
+import {createBrowserHistory} from "history";
 
 class VirtualEnvironmentBackupSchedule extends React.Component {
   constructor(props) {
@@ -83,6 +84,8 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
   }
 
   render() {
+    const history = createBrowserHistory()
+
     return (
       <Panel className={'form'} header="Schedule">
         <div>
@@ -319,9 +322,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
         </div>
         <div className="d-flex justify-content-between mt-3">
           <div>
-            <Link to={`/schedules/list/VM_BACKUP`}>
-              <Button label="Back" />
-            </Link>
+            <Button label="Back" onClick={history.back} />
           </div>
           <div>
             <Button

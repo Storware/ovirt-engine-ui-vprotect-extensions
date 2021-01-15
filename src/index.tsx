@@ -9,7 +9,7 @@ import 'patternfly-react/dist/css/patternfly-react.css';
 
 import './theme/theme.scss';
 
-import 'bootstrap';
+// import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap-grid.css';
 
 import App from './App';

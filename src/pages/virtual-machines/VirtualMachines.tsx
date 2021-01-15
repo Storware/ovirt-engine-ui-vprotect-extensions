@@ -9,11 +9,11 @@ const VirtualMachines = () => {
 
   return (
     <Switch>
-      <Route exact path={match.path}>
-        <VirtualMachinesList />
-      </Route>
-      <Route path={`${match.path}/:guid`}>
+      <Route path={`${match.path}:guid`}>
         <VirtualMachine />
+      </Route>
+      <Route path={match.path}>
+        <VirtualMachinesList />
       </Route>
     </Switch>
   );

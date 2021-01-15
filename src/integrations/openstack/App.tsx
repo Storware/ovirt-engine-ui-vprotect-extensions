@@ -1,3 +1,4 @@
+import React from 'react';
 import Schedules from 'pages/schedules/Schedules';
 import Policies from 'pages/policies/Policies';
 import Dashboard from 'pages/dashboard/Dashboard';

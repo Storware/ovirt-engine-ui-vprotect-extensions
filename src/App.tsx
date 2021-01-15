@@ -1,7 +1,8 @@
+import React from 'react';
 import Schedules from 'pages/schedules/Schedules';
 import Policies from 'pages/policies/Policies';
-import Dashboard from 'pages/dashboard/Dashboard';
-import TaskConsole from 'pages/task-console/TaskConsole';
+import {Dashboard} from 'pages/dashboard/Dashboard';
+import {TaskConsole} from 'pages/task-console/TaskConsole';
 import {useSelector} from 'react-redux';
 import MountedBackups from 'pages/mounted-backups/MountedBackups';
 import {selectLoading} from 'store/loading/selectors';
@@ -12,43 +13,32 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
 } from 'react-router-dom';
 
 const App = () => {
   const modalShow = useSelector(selectShow);
   const loading = useSelector(selectLoading);
-  const href = window.location.href;
-  const start = href.indexOf(';');
-  const path = href.substring(start + 1).replace(/;/g, '/');
 
   return (
     <Router>
-      {start > 0 && (
-        <Redirect
-          to={{
-            pathname: '/' + path,
-          }}
-        />
-      )}
       <div className={'py-4 container-fluid'}>
         <Switch>
-          <Route path='/dashboard'>
+          <Route exact path='/dashboard/vprotect/'>
             <Dashboard />
           </Route>
-          <Route path='/virtual-machines'>
+          <Route path='/dashboard/vprotect/virtualEnvironments/'>
             <VirtualMachines />
           </Route>
-          <Route path='/task-console'>
+          <Route path='/dashboard/vprotect/taskConsole/'>
             <TaskConsole />
           </Route>
-          <Route path='/policies'>
+          <Route path='/dashboard/vprotect/policies/'>
             <Policies />
           </Route>
-          <Route path='/schedules'>
+          <Route path='/dashboard/vprotect/schedules/'>
             <Schedules />
           </Route>
-          <Route path='/mounted-backups'>
+          <Route path='/dashboard/vprotect/mounted-backups/'>
             <MountedBackups />
           </Route>
         </Switch>

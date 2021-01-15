@@ -1,18 +1,22 @@
 import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import PoliciesListContainer from './policies-list/PoliciesListContainer';
-import Policy from './policy/Policy';
+import SnapshotPolicy from 'pages/policies/SnapshotPolicy';
+import BackupPolicy from './BackupPolicy';
 
 export const Policies = () => {
-  let match = useRouteMatch();
+  const match = useRouteMatch();
 
   return (
     <Switch>
-      <Route path={`${match.path}/list`}>
+        <Route path={`${match.path}vm-backup/:guid`}>
+            <BackupPolicy />
+        </Route>
+        <Route path={`${match.path}snapshot/:guid`}>
+            <SnapshotPolicy />
+        </Route>
+      <Route path={`${match.path}`}>
         <PoliciesListContainer />
-      </Route>
-      <Route path={`${match.path}/edit`}>
-        <Policy />
       </Route>
     </Switch>
   );

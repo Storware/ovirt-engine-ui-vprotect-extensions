@@ -9,13 +9,14 @@ import { Chips } from 'primereact/chips';
 import { Button } from 'primereact/button';
 import { ListBox } from 'primereact/listbox';
 import { Accordion, AccordionTab } from 'primereact/accordion';
-import { policiesService } from '../../../services/policies-service';
-import { hypervisorsService } from '../../../services/hypervisors-service';
-import { virtualMachinesService } from '../../../services/virtual-machines-service';
-import { backupDestinationsService } from '../../../services/backup-destinations-service';
-import { schedulesService } from '../../../services/schedules-service';
-import { alertService } from '../../../services/alert-service';
-import { VirtualMachineBackupPolicy } from '../../../model/VirtualMachineBackupPolicy';
+import { policiesService } from '../../services/policies-service';
+import { hypervisorsService } from '../../services/hypervisors-service';
+import { virtualMachinesService } from '../../services/virtual-machines-service';
+import { backupDestinationsService } from '../../services/backup-destinations-service';
+import { schedulesService } from '../../services/schedules-service';
+import { alertService } from '../../services/alert-service';
+import { VirtualMachineBackupPolicy } from '../../model/VirtualMachineBackupPolicy';
+import {createBrowserHistory} from "history";
 
 class BackupPolicy extends React.Component {
   constructor(props) {
@@ -110,6 +111,8 @@ class BackupPolicy extends React.Component {
   };
 
   render() {
+    const history = createBrowserHistory()
+
     return (
       <div className={'form'}>
         <Accordion
@@ -450,9 +453,7 @@ class BackupPolicy extends React.Component {
         </Accordion>
         <div className="d-flex justify-content-between mt-3">
           <div>
-            <Link to={`/policies/list/vm-backup`}>
-              <Button label="Back" />
-            </Link>
+            <Button label="Back" onClick={history.back} />
           </div>
           <div>
             <Button
