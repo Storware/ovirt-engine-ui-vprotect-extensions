@@ -5,7 +5,7 @@ import {
   Route,
   useRouteMatch,
   useLocation,
-  Redirect
+  Redirect,
 } from 'react-router-dom';
 import PoliciesList from './PoliciesList';
 
@@ -25,7 +25,7 @@ export const PoliciesListContainer = () => {
         {items.map((el) => {
           return (
             <li className={type === el.type && 'active'}>
-              <Link to={`${match.path}${el.type}`}>
+              <Link to={`${match.path}/${el.type}`}>
                 <a>{el.label}</a>
               </Link>
             </li>
@@ -34,12 +34,12 @@ export const PoliciesListContainer = () => {
       </ul>
 
       <Switch>
-        <Route path={`${match.path}:type`}>
+        <Route path={`${match.path}/:type`}>
           <PoliciesList />
         </Route>
         <Redirect
           to={{
-              pathname: `${match.path}vm-backup`
+            pathname: `${match.path}/vm-backup`,
           }}
         />
       </Switch>

@@ -12,13 +12,12 @@ const errorMessage = (error) => {
 };
 
 class VprotectApiService {
-  config;
   vprotectURL;
 
   async request(method, url, body, options) {
-    if(!this.config) {
-      this.config = await getPluginApi.configObject();
-      this.vprotectURL = this.config.vProtectURL;
+    if (!this.vprotectURL) {
+      const config = await getPluginApi.configObject();
+      this.vprotectURL = config.vProtectURL;
     }
     return fetch(this.vprotectURL + url, {
       method,
@@ -28,7 +27,9 @@ class VprotectApiService {
         'Content-Type': 'application/json',
       },
       ...options,
-      ...(["POST", "PUT"].includes(method) ? {body: JSON.stringify(body)} : {})
+      ...(['POST', 'PUT'].includes(method)
+        ? { body: JSON.stringify(body) }
+        : {}),
     }).then((response) => {
       if (!response.ok) {
         alertService.error(errorMessage(response));
@@ -38,21 +39,21 @@ class VprotectApiService {
     });
   }
 
-    get(url, options = {}) {
-        return this.request("GET", url, {}, options)
-    }
+  get(url, options = {}) {
+    return this.request('GET', url, {}, options);
+  }
 
-    post(url, body, options) {
-        return this.request("POST", url, body, options)
-    }
+  post(url, body, options) {
+    return this.request('POST', url, body, options);
+  }
 
-    put(url, body, options) {
-        return this.request("PUT", url, body, options)
-    }
+  put(url, body, options) {
+    return this.request('PUT', url, body, options);
+  }
 
-    delete(url, options = {}) {
-        return this.request("DELETE", url, {}, options)
-    }
+  delete(url, options = {}) {
+    return this.request('DELETE', url, {}, options);
+  }
 }
 
 export const vprotectApiService = new VprotectApiService();

@@ -9,12 +9,12 @@ export const Policies = () => {
 
   return (
     <Switch>
-        <Route path={`${match.path}vm-backup/:guid`}>
-            <BackupPolicy />
-        </Route>
-        <Route path={`${match.path}snapshot/:guid`}>
-            <SnapshotPolicy />
-        </Route>
+      <Route path={`${match.path}/vm-backup/:guid`}>
+        <BackupPolicy />
+      </Route>
+      <Route path={`${match.path}/snapshot/:guid`}>
+        <SnapshotPolicy />
+      </Route>
       <Route path={`${match.path}`}>
         <PoliciesListContainer />
       </Route>

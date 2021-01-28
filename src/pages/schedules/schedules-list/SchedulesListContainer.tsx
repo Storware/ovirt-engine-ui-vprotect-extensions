@@ -5,7 +5,7 @@ import {
   Route,
   useRouteMatch,
   useLocation,
-  Redirect
+  Redirect,
 } from 'react-router-dom';
 import SchedulesList from './SchedulesList';
 
@@ -21,11 +21,11 @@ export const SchedulesListContainer = () => {
 
   return (
     <div>
-      <ul className='nav nav-tabs'>
+      <ul className="nav nav-tabs">
         {items.map((el) => {
           return (
             <li className={type === el.type && 'active'}>
-              <Link to={`${match.path}${el.type}`}>
+              <Link to={`${match.path}/${el.type}`}>
                 <a>{el.label}</a>
               </Link>
             </li>
@@ -34,15 +34,15 @@ export const SchedulesListContainer = () => {
       </ul>
 
       <Switch>
-        <Route path={`${match.path}:type`}>
+        <Route path={`${match.path}/:type`}>
           <SchedulesList />
         </Route>
         <Route>
-        <Redirect
-          to={{
-              pathname: `${match.path}VM_BACKUP`
-          }}
-        />
+          <Redirect
+            to={{
+              pathname: `${match.path}/VM_BACKUP`,
+            }}
+          />
         </Route>
       </Switch>
     </div>
