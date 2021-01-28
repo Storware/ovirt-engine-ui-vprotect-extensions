@@ -1,10 +1,7 @@
 class getPluginApi {
   configObject = async () => {
-    return {
-      username: 'admin',
-      password: 'vPr0tect',
-      vProtectURL: 'http://10.40.0.54:8080/api'
-    }
+    return await fetch("/dashboard/static/config.json")
+        .then(response => response.json())
   }
   showToast = (toastType, text) => {
     return null

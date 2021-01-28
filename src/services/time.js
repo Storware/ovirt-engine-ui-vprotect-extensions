@@ -1,10 +1,11 @@
 import * as moment from 'moment-timezone';
 import { daysOfWeek } from '../model/Occurrences';
+import {user} from "../utils/user";
 
-export const timezone = JSON.parse(localStorage.getItem('user')).uiTimeZone;
+export const timezone = user && user.uiTimeZone;
 
 export const offset =
-  (moment.tz
+    timezone && (moment.tz
     .zone(timezone)
     .parse(Date.UTC(moment().year(), moment().month(), moment().date(), 0, 0)) +
     60) *

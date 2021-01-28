@@ -1,8 +1,8 @@
 import React from 'react';
 import Schedules from 'pages/schedules/Schedules';
 import Policies from 'pages/policies/Policies';
-import Dashboard from 'pages/dashboard/Dashboard';
-import TaskConsole from 'pages/task-console/TaskConsole';
+import {Dashboard} from 'pages/dashboard/Dashboard';
+import {TaskConsole} from 'pages/task-console/TaskConsole';
 import {useSelector} from 'react-redux';
 import MountedBackups from 'pages/mounted-backups/MountedBackups';
 import {selectLoading} from 'store/loading/selectors';
@@ -13,52 +13,52 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
+  Redirect
 } from 'react-router-dom';
 
 const App = () => {
   const modalShow = useSelector(selectShow);
   const loading = useSelector(selectLoading);
-  const href = window.location.href;
-  const start = href.indexOf(';');
-  const path = href.substring(start + 1).replace(/;/g, '/');
+  const href = window.parent.location.href;
+  const start = href.indexOf('/dashboard/vprotect');
+  const startOfPath = href.substring(start + 20);
+  const path = startOfPath.length ? startOfPath.slice(0, -1) : 'dashboard';
 
   return (
-    <Router>
-      {start > 0 && (
-        <Redirect
-          to={{
-            pathname: '/' + path,
-          }}
-        />
-      )}
-      <div className={'py-4 container-fluid'}>
-        <Switch>
-          <Route path='/dashboard'>
-            <Dashboard />
-          </Route>
-          <Route path='/virtual-machines'>
-            <VirtualMachines />
-          </Route>
-          <Route path='/task-console'>
-            <TaskConsole />
-          </Route>
-          <Route path='/policies'>
-            <Policies />
-          </Route>
-          <Route path='/schedules'>
-            <Schedules />
-          </Route>
-          <Route path='/mounted-backups'>
-            <MountedBackups />
-          </Route>
-        </Switch>
-        {modalShow && <ModalContainer />}
-        <div className={'loading ' + (loading && 'active')}>
-          <div className={'spinner'} />
+      <Router>
+        <div className={'py-4 container-fluid'}>
+          <Redirect
+              to={{
+                pathname: '/' + path
+              }}
+          />
+          <Switch>
+            <Route path='/dashboard'>
+              <div>Dashboard</div>
+              <Dashboard />
+            </Route>
+            <Route path='/virtualEnvironments/'>
+              <VirtualMachines />
+            </Route>
+            <Route path='/taskConsole/'>
+              <TaskConsole />
+            </Route>
+            <Route path='/policies/'>
+              <Policies />
+            </Route>
+            <Route path='/schedules/'>
+              <Schedules />
+            </Route>
+            <Route path='/mounted-backups/'>
+              <MountedBackups />
+            </Route>
+          </Switch>
+          {modalShow && <ModalContainer />}
+          <div className={'loading ' + (loading && 'active')}>
+            <div className={'spinner'} />
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
   );
 };
 

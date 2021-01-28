@@ -13,41 +13,52 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from 'react-router-dom';
 
 const App = () => {
   const modalShow = useSelector(selectShow);
   const loading = useSelector(selectLoading);
+  const href = window.location.href;
+  const start = href.indexOf(';');
+  const path = href.substring(start + 1).replace(/;/g, '/');
 
   return (
-    <Router>
-      <div className={'py-4 container-fluid'}>
-        <Switch>
-          <Route exact path='/dashboard/vprotect/'>
-            <Dashboard />
-          </Route>
-          <Route path='/dashboard/vprotect/virtualEnvironments/'>
-            <VirtualMachines />
-          </Route>
-          <Route path='/dashboard/vprotect/taskConsole/'>
-            <TaskConsole />
-          </Route>
-          <Route path='/dashboard/vprotect/policies/'>
-            <Policies />
-          </Route>
-          <Route path='/dashboard/vprotect/schedules/'>
-            <Schedules />
-          </Route>
-          <Route path='/dashboard/vprotect/mounted-backups/'>
-            <MountedBackups />
-          </Route>
-        </Switch>
-        {modalShow && <ModalContainer />}
-        <div className={'loading ' + (loading && 'active')}>
-          <div className={'spinner'} />
+      <Router>
+        {start > 0 && (
+            <Redirect
+                to={{
+                  pathname: '/' + path,
+                }}
+            />
+        )}
+        <div className={'py-4 container-fluid'}>
+          <Switch>
+            <Route path='/dashboard'>
+              <Dashboard />
+            </Route>
+            <Route path='/virtual-machines'>
+              <VirtualMachines />
+            </Route>
+            <Route path='/task-console'>
+              <TaskConsole />
+            </Route>
+            <Route path='/policies'>
+              <Policies />
+            </Route>
+            <Route path='/schedules'>
+              <Schedules />
+            </Route>
+            <Route path='/mounted-backups'>
+              <MountedBackups />
+            </Route>
+          </Switch>
+          {modalShow && <ModalContainer />}
+          <div className={'loading ' + (loading && 'active')}>
+            <div className={'spinner'} />
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
   );
 };
 

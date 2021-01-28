@@ -11,12 +11,12 @@ import {
 import getPluginApi from 'integrations/plugin-api';
 
 function addVprotectPlace() {
-  getPluginApi().addPrimaryMenuContainer('VM Backup', primaryMenuId, {
+  getPluginApi.addPrimaryMenuContainer('VM Backup', primaryMenuId, {
     priority: 10,
     icon: 'fa-font',
   });
 
-  getPluginApi().addSecondaryMenuPlace(
+  getPluginApi.addSecondaryMenuPlace(
     primaryMenuId,
     'Dashboard',
     vprotectDashboardPlaceToken,
@@ -26,7 +26,7 @@ function addVprotectPlace() {
     },
   );
 
-  getPluginApi().addSecondaryMenuPlace(
+  getPluginApi.addSecondaryMenuPlace(
     primaryMenuId,
     'Virtual Machines',
     vprotectVirtualMachineListPlaceToken,
@@ -36,7 +36,7 @@ function addVprotectPlace() {
     },
   );
 
-  getPluginApi().addSecondaryMenuPlace(
+  getPluginApi.addSecondaryMenuPlace(
     primaryMenuId,
     'Task Console',
     vprotectTaskConsolePlaceToken,
@@ -46,7 +46,7 @@ function addVprotectPlace() {
     },
   );
 
-  getPluginApi().addSecondaryMenuPlace(
+  getPluginApi.addSecondaryMenuPlace(
     primaryMenuId,
     'Policies',
     vprotectPoliciesToken,
@@ -56,7 +56,7 @@ function addVprotectPlace() {
     },
   );
 
-  getPluginApi().addSecondaryMenuPlace(
+  getPluginApi.addSecondaryMenuPlace(
     primaryMenuId,
     'Schedules',
     vprotectSchedulesToken,
@@ -66,7 +66,7 @@ function addVprotectPlace() {
     },
   );
 
-  getPluginApi().addSecondaryMenuPlace(
+  getPluginApi.addSecondaryMenuPlace(
     primaryMenuId,
     'Mounted Backups',
     vprotectMountedBackupsToken,

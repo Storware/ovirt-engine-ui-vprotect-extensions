@@ -11,8 +11,9 @@ import {
 } from 'patternfly-react';
 import { Filesize } from '../../components/convert/Filesize';
 import { TIMEZONES } from 'model/timezones';
+import {user} from "../../utils/user";
 
-const fullTimeZoneName = TIMEZONES.find(el => el.utc[0] === JSON.parse(localStorage.getItem('user')).uiTimeZone).text
+const fullTimeZoneName = user && TIMEZONES.find(el => el.utc[0] === user.uiTimeZone).text
 
 export class Dashboard extends React.Component {
   constructor(props) {
