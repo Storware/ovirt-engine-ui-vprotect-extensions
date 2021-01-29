@@ -3,12 +3,12 @@ class getPluginApi {
     return {
       username: 'admin',
       password: 'vPr0tect',
-      vProtectURL: 'https://10.40.0.54:8181/api'
-    }
-  }
+      vProtectURL: 'http://localhost:8080/api',
+    };
+  };
   showToast = (toastType, text) => {
-    return null
-  }
+    return null;
+  };
 }
 
 export default new getPluginApi();

@@ -6,18 +6,19 @@ import {
   useRouteMatch,
   useLocation,
   Redirect,
+  useParams,
 } from 'react-router-dom';
-import PoliciesList from './PoliciesList';
+import SchedulesList from 'pages/schedules/schedules-list/SchedulesList';
+import PoliciesList from 'pages/policies/policies-list/PoliciesList';
 
 const items = [
-  { label: 'Virtual Environment Backup', type: 'vm-backup' },
-  { label: 'Snapshot Management', type: 'snapshot' },
+  { label: 'Policies', type: 'policies' },
+  { label: 'Schedules', type: 'schedules' },
 ];
 
-export const PoliciesListContainer = () => {
-  let match = useRouteMatch();
-  let location = useLocation();
-  let type = location.pathname.split('/').pop();
+export const ListContainer = () => {
+  const match = useRouteMatch();
+  const { type } = useParams();
 
   return (
     <div>
@@ -34,12 +35,15 @@ export const PoliciesListContainer = () => {
       </ul>
 
       <Switch>
-        <Route path={`${match.path}/:type`}>
+        <Route path={`${match.path}/policies`}>
           <PoliciesList />
+        </Route>
+        <Route path={`${match.path}/schedules`}>
+          <SchedulesList />
         </Route>
         <Redirect
           to={{
-            pathname: `${match.path}/vm-backup`,
+            pathname: `${match.path}/policies`,
           }}
         />
       </Switch>
@@ -47,4 +51,4 @@ export const PoliciesListContainer = () => {
   );
 };
 
-export default PoliciesListContainer;
+export default ListContainer;

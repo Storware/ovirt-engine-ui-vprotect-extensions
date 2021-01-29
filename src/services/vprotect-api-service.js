@@ -1,5 +1,6 @@
 import getPluginApi from 'integrations/plugin-api';
 import { alertService } from './alert-service';
+import { fetchUrl } from '../utils/fetchUrl';
 
 const errorMessage = (error) => {
   if (error && error.error && error.error.message) {
@@ -14,12 +15,12 @@ const errorMessage = (error) => {
 class VprotectApiService {
   vprotectURL;
 
-  async request(method, url, body, options) {
+  async request(method, path, body, options) {
     if (!this.vprotectURL) {
       const config = await getPluginApi.configObject();
       this.vprotectURL = config.vProtectURL;
     }
-    return fetch(this.vprotectURL + url, {
+    return fetch(fetchUrl(this.vprotectURL, path), {
       method,
       credentials: 'include',
       mode: 'cors',
@@ -39,20 +40,20 @@ class VprotectApiService {
     });
   }
 
-  get(url, options = {}) {
-    return this.request('GET', url, {}, options);
+  get(path, options = {}) {
+    return this.request('GET', path, {}, options);
   }
 
-  post(url, body, options) {
-    return this.request('POST', url, body, options);
+  post(path, body, options) {
+    return this.request('POST', path, body, options);
   }
 
-  put(url, body, options) {
-    return this.request('PUT', url, body, options);
+  put(path, body, options) {
+    return this.request('PUT', path, body, options);
   }
 
-  delete(url, options = {}) {
-    return this.request('DELETE', url, {}, options);
+  delete(path, options = {}) {
+    return this.request('DELETE', path, {}, options);
   }
 }
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
-import SchedulesListContainer from './schedules-list/SchedulesListContainer';
 import SnapshotSchedule from 'pages/schedules/SnapshotSchedule';
 import VirtualEnvironmentBackupSchedule from './VirtualEnvironmentBackupSchedule';
 
@@ -14,9 +13,6 @@ const Schedules = () => {
       </Route>
       <Route path={`${match.path}/snapshot/:guid`}>
         <SnapshotSchedule />
-      </Route>
-      <Route path={`${match.path}`}>
-        <SchedulesListContainer />
       </Route>
     </Switch>
   );
