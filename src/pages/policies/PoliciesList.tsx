@@ -10,8 +10,8 @@ import {
   MenuItem,
 } from 'patternfly-react';
 
-import { policiesService } from '../../../services/policies-service';
-import { TableFilter } from '../../../components/table/TableFilter';
+import { policiesService } from 'services/policies-service';
+import { TableFilter } from 'components/table/TableFilter';
 import { Link, useParams, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -19,20 +19,20 @@ import {
   removePolicy,
   setFilteredPolicies,
   snapshotPolicy,
-} from '../../../store/policies/actions';
+} from 'store/policies/actions';
 import {
   selectFilteredPolicies,
   selectPolicies,
-} from '../../../store/policies/selectors';
+} from 'store/policies/selectors';
 import {
   TableWithPagination,
   sortableTransform,
   sortingFormatter,
   sortingColumns,
-} from '../../../components/table/TableWithPagination';
-import { Filesize } from '../../../components/convert/Filesize';
-import { showModalAction } from '../../../store/modal/actions';
-import { BackupModal } from '../../../components/modal/BackupModal';
+} from 'components/table/TableWithPagination';
+import { Filesize } from 'components/convert/Filesize';
+import { showModalAction } from 'store/modal/actions';
+import { BackupModal } from 'components/modal/BackupModal';
 import { createBrowserHistory } from 'history';
 
 const filterFields = [
@@ -57,17 +57,17 @@ const filterFields = [
 ];
 
 export const nameTemplate = (history, rowData, value) => {
-  return <td>
-    <Link to={`${history.location.pathname}/${rowData.guid}`}>
-      {value}
-    </Link>
-  </td>
-}
+  return (
+    <td>
+      <Link to={`${history.location.pathname}/${rowData.guid}`}>{value}</Link>
+    </td>
+  );
+};
 
 export const PoliciesList = () => {
   const dispatch = useDispatch();
   const { type } = useParams();
-  const history = createBrowserHistory()
+  const history = createBrowserHistory();
 
   useEffect(() => {
     dispatch(getPolicies(type));
@@ -249,7 +249,7 @@ export const PoliciesList = () => {
                               modal: BackupModal,
                               props: {
                                 virtualEnvironments: policy.vms,
-                                showIncremental: true
+                                showIncremental: true,
                               },
                             }),
                           );

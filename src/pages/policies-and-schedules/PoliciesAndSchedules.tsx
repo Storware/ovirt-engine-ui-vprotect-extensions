@@ -18,10 +18,10 @@ export const PoliciesAndSchedules = () => {
   return (
     <div>
       <Switch>
-        <Route path={`${match.path}/VM_BACKUP/schedules/:guid`}>
+        <Route path={`${match.path}/vm-backup/schedules/:guid`}>
           <VirtualEnvironmentBackupSchedule />
         </Route>
-        <Route path={`${match.path}/SNAPSHOT/schedules/:guid`}>
+        <Route path={`${match.path}/snapshot/schedules/:guid`}>
           <SnapshotSchedule />
         </Route>
         <Route path={`${match.path}/vm-backup/policies/:guid`}>

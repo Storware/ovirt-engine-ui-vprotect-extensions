@@ -1,6 +1,4 @@
 import React from 'react';
-import Schedules from 'pages/schedules/Schedules';
-import Policies from 'pages/policies/Policies';
 import { Dashboard } from 'pages/dashboard/Dashboard';
 import { TaskConsole } from 'pages/task-console/TaskConsole';
 import { useSelector } from 'react-redux';
@@ -15,6 +13,7 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
+import PoliciesAndSchedules from 'pages/policies-and-schedules/PoliciesAndSchedules';
 
 const App = () => {
   const modalShow = useSelector(selectShow);
@@ -42,11 +41,8 @@ const App = () => {
           <Route path="/taskConsole">
             <TaskConsole />
           </Route>
-          <Route path="/policies">
-            <Policies />
-          </Route>
-          <Route path="/schedules">
-            <Schedules />
+          <Route path="/policiesAndSchedules">
+            <PoliciesAndSchedules />
           </Route>
           <Route path="/mountedBackups">
             <MountedBackups />

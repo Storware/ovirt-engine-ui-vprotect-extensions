@@ -1,6 +1,4 @@
 import React from 'react';
-import Schedules from 'pages/schedules/Schedules';
-import Policies from 'pages/policies/Policies';
 import { Dashboard } from 'pages/dashboard/Dashboard';
 import { TaskConsole } from 'pages/task-console/TaskConsole';
 import { useSelector } from 'react-redux';
@@ -43,12 +41,6 @@ const App = () => {
           </Route>
           <Route path="/task-console">
             <TaskConsole />
-          </Route>
-          <Route path="/policies">
-            <Policies />
-          </Route>
-          <Route path="/schedules">
-            <Schedules />
           </Route>
           <Route path="/policies-and-schedules">
             <PoliciesAndSchedules />

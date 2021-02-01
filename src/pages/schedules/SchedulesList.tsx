@@ -13,20 +13,20 @@ import {
   sortableTransform,
   sortingFormatter,
   sortingColumns,
-} from '../../../components/table/TableWithPagination';
-import { schedulesService } from '../../../services/schedules-service';
-import { TableFilter } from '../../../components/table/TableFilter';
-import { alertService } from '../../../services/alert-service';
+} from 'components/table/TableWithPagination';
+import { schedulesService } from 'services/schedules-service';
+import { TableFilter } from 'components/table/TableFilter';
+import { alertService } from 'services/alert-service';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilteredPolicies } from '../../../store/policies/actions';
-import { getSchedules, removeSchedule } from '../../../store/schedules/actions';
+import { setFilteredPolicies } from 'store/policies/actions';
+import { getSchedules, removeSchedule } from 'store/schedules/actions';
 import { Link, useParams, useRouteMatch } from 'react-router-dom';
 import {
   selectFilteredSchedules,
   selectSchedules,
-} from '../../../store/schedules/selectors';
-import {nameTemplate} from 'pages/policies/policies-list/PoliciesList';
-import {createBrowserHistory} from 'history';
+} from 'store/schedules/selectors';
+import { nameTemplate } from 'pages/policies/PoliciesList';
+import { createBrowserHistory } from 'history';
 
 let filterFields = [
   {
@@ -49,20 +49,25 @@ let filterFields = [
   },
 ];
 
+const typeMap = {
+  'vm-backup': 'VM_BACKUP',
+  snapshot: 'SNAPSHOT',
+};
+
 const SchedulesList = () => {
   const dispatch = useDispatch();
   const { type } = useParams();
-  const history = createBrowserHistory()
+  const history = createBrowserHistory();
 
   useEffect(() => {
-    dispatch(getSchedules(type));
+    dispatch(getSchedules(typeMap[type]));
   }, [type]);
 
   let rows = useSelector(selectSchedules);
   let filteredRows = useSelector(selectFilteredSchedules);
 
   let columns = {
-    VM_BACKUP: [
+    'vm-backup': [
       {
         property: 'name',
         header: {
@@ -283,7 +288,7 @@ const SchedulesList = () => {
         },
       },
     ],
-    SNAPSHOT: [
+    snapshot: [
       {
         property: 'name',
         header: {
@@ -496,7 +501,7 @@ const SchedulesList = () => {
             />
           </div>
           <div className={'form-group'}>
-            <Link to={`/schedules/edit/${type}/create`}>
+            <Link to={`${history.location.pathname}/create`}>
               <Button className={'btn btn-default'}>Create</Button>
             </Link>
           </div>

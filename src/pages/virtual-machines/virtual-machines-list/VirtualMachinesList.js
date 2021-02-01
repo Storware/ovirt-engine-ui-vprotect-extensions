@@ -32,7 +32,7 @@ import {
 } from 'store/virtual-machines/selectors';
 import { showModalAction } from 'store/modal/actions';
 import { MountBackupModal } from 'components/modal/MountBackupModal';
-import { nameTemplate } from '../../policies/policies-list/PoliciesList';
+import { nameTemplate } from '../../policies/PoliciesList';
 import { createBrowserHistory } from 'history';
 
 const filterFields = [

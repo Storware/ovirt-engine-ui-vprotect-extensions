@@ -6,10 +6,9 @@ import {
   useRouteMatch,
   useLocation,
   Redirect,
-  useParams,
 } from 'react-router-dom';
-import SchedulesList from 'pages/schedules/schedules-list/SchedulesList';
-import PoliciesList from 'pages/policies/policies-list/PoliciesList';
+import SchedulesList from 'pages/schedules/SchedulesList';
+import PoliciesList from 'pages/policies/PoliciesList';
 
 const items = [
   { label: 'Policies', type: 'policies' },
@@ -18,15 +17,18 @@ const items = [
 
 export const ListContainer = () => {
   const match = useRouteMatch();
-  const { type } = useParams();
+  const location = useLocation();
+  const pathParts = location.pathname.split('/');
+  const path = pathParts[pathParts.length - 1];
+  const pathWithoutTab = location.pathname.split('/').slice(0, -1).join('/');
 
   return (
     <div>
       <ul className="nav nav-tabs">
         {items.map((el) => {
           return (
-            <li className={type === el.type && 'active'}>
-              <Link to={`${match.path}/${el.type}`}>
+            <li className={path === el.type && 'active'}>
+              <Link to={`${pathWithoutTab}/${el.type}`}>
                 <a>{el.label}</a>
               </Link>
             </li>
