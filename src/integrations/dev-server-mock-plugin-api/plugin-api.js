@@ -4,6 +4,7 @@ class getPluginApi {
       username: 'admin',
       password: 'vPr0tect',
       vProtectURL: 'http://localhost:8080/api',
+      projectId: '335',
     };
   };
   showToast = (toastType, text) => {

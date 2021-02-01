@@ -1,9 +1,9 @@
 // const path = require('path')
 
-const path = require('path')
-const TerserPlugin = require('terser-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -17,7 +17,6 @@ const packageInfo = require('./package.json');
 
 // common modules required by all entry points
 const commonModules = ['core-js/stable'];
-
 
 module.exports = {
   mode: 'production',
@@ -179,11 +178,23 @@ module.exports = {
       store: path.resolve(__dirname, 'src/store/'),
       utils: path.resolve(__dirname, 'src/utils/'),
       integrations: path.resolve(__dirname, 'src/integrations/'),
-      [path.resolve(__dirname, "src/integrations/app-init.js")]: path.resolve(__dirname, "src/integrations/openstack/app-init.js"),
-      [path.resolve(__dirname, "src/integrations/plugin-api.js")]: path.resolve(__dirname, "src/integrations/openstack/plugin-api.js"),
-      [path.resolve(__dirname, "src/App.tsx")]: path.resolve(__dirname, "src/integrations/openstack/App.tsx"),
+      [path.resolve(__dirname, 'src/integrations/app-init.js')]: path.resolve(
+        __dirname,
+        'src/integrations/openstack/app-init.js',
+      ),
+      [path.resolve(__dirname, 'src/integrations/plugin-api.js')]: path.resolve(
+        __dirname,
+        'src/integrations/openstack/plugin-api.js',
+      ),
+      [path.resolve(__dirname, 'src/App.tsx')]: path.resolve(
+        __dirname,
+        'src/integrations/openstack/App.tsx',
+      ),
+      [path.resolve(__dirname, 'src/utils.fetchUrl.js')]: path.resolve(
+        __dirname,
+        'src/integrations/openstack/fetchUrl.js',
+      ),
     },
     extensions: ['.ts', '.tsx', '.js', '.jsx', '*'],
-  }
-}
-
+  },
+};

@@ -14,13 +14,16 @@ const errorMessage = (error) => {
 
 class VprotectApiService {
   vprotectURL;
+  projectId;
 
   async request(method, path, body, options) {
     if (!this.vprotectURL) {
       const config = await getPluginApi.configObject();
       this.vprotectURL = config.vProtectURL;
+      this.projectId = config.projectId;
     }
-    return fetch(fetchUrl(this.vprotectURL, path), {
+    console.log(fetchUrl(this.vprotectURL, path, this.projectId));
+    return fetch(fetchUrl(this.vprotectURL, path, this.projectId), {
       method,
       credentials: 'include',
       mode: 'cors',

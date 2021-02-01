@@ -1,3 +1,5 @@
-export const fetchUrl = (vProtectUrl, path) => {
-  return `${vProtectUrl + path}?projectId=`;
+export const fetchUrl = (vProtectUrl, path, projectId) => {
+  return `${vProtectUrl + path}${
+    path.includes('?') ? '&' : '?'
+  }projectId=${projectId}`;
 };
