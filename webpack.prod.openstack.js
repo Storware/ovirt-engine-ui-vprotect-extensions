@@ -190,7 +190,7 @@ module.exports = {
         __dirname,
         'src/integrations/openstack/App.tsx',
       ),
-      [path.resolve(__dirname, 'src/utils.fetchUrl.js')]: path.resolve(
+      [path.resolve(__dirname, 'src/utils/fetchUrl.js')]: path.resolve(
         __dirname,
         'src/integrations/openstack/fetchUrl.js',
       ),

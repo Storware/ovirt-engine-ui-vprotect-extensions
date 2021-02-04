@@ -1,3 +1,3 @@
-export const fetchUrl = (vProtectUrl, path, projectId) => {
+export const fetchUrl = (vProtectUrl, path) => {
   return vProtectUrl + path;
 };

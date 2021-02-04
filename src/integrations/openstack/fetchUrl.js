@@ -1,5 +1,7 @@
-export const fetchUrl = (vProtectUrl, path, projectId) => {
+import { getProjectIdCookie } from 'utils/getProjectIdCookie';
+
+export const fetchUrl = (vProtectUrl, path) => {
   return `${vProtectUrl + path}${
     path.includes('?') ? '&' : '?'
-  }projectId=${projectId}`;
+  }projectId=${getProjectIdCookie()}`;
 };
