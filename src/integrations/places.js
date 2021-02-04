@@ -4,8 +4,6 @@ import {
   vprotectTaskConsolePlaceToken,
   primaryMenuId,
   vprotectDashboardPlaceToken,
-  vprotectPoliciesToken,
-  vprotectSchedulesToken,
   vprotectMountedBackupsToken,
 } from 'utils/constants';
 import getPluginApi from 'integrations/plugin-api';
@@ -48,21 +46,11 @@ function addVprotectPlace() {
 
   getPluginApi.addSecondaryMenuPlace(
     primaryMenuId,
-    'Policies',
-    vprotectPoliciesToken,
-    `${pluginBasePath}/index.html;policies;list;vm-backup`,
+    'Backup SLAs',
+    'vprotect-policies-and-schedules',
+    `${pluginBasePath}/index.html;policies-and-schedules`,
     {
       priority: 12,
-    },
-  );
-
-  getPluginApi.addSecondaryMenuPlace(
-    primaryMenuId,
-    'Schedules',
-    vprotectSchedulesToken,
-    `${pluginBasePath}/index.html;schedules;list;VM_BACKUP`,
-    {
-      priority: 13,
     },
   );
 
