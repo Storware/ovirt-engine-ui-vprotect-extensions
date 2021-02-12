@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getMountedBackup } from '../../../store/mounted-backups/actions';
 import { selectMountedBackup } from '../../../store/mounted-backups/selectors';
 import { Button } from 'primereact/button';
@@ -11,23 +11,23 @@ import { Filesize } from '../../../components/convert/Filesize';
 import { TabPanel, TabView } from 'primereact/tabview';
 import FileSystemsTable from './FileSystemsTable';
 import FilesTable from './FilesTable';
+import { createBrowserHistory } from 'history';
 
 const MountedBackup = () => {
-  let dispatch = useDispatch();
-  let { guid } = useParams();
+  const dispatch = useDispatch();
+  const { guid } = useParams();
+  const history = createBrowserHistory();
 
   useEffect(() => {
     dispatch(getMountedBackup(guid));
   }, []);
 
-  let mountedBackup: any = useSelector(selectMountedBackup);
+  const mountedBackup: any = useSelector(selectMountedBackup);
   return (
     <Panel header="Mounted Backup">
       <div className="d-flex mt-3">
         <div>
-          <Link to={`/mounted-backups`}>
-            <Button label="Back" />
-          </Link>
+          <Button label="Back" onClick={history.back} />
         </div>
       </div>
       {mountedBackup.backup && (

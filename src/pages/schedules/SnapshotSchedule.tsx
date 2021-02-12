@@ -1,32 +1,35 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectPolicies } from '../../../store/virtual-machine/selectors';
+import { selectPolicies } from 'store/virtual-machine/selectors';
 import { Button } from 'primereact/button';
 import { Link } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
-import Text from '../../../components/input/reactive/Text';
-import Toggle from '../../../components/input/reactive/Toggle';
-import Select from '../../../components/input/reactive/Select';
+import Text from 'components/input/reactive/Text';
+import Toggle from 'components/input/reactive/Toggle';
+import Select from 'components/input/reactive/Select';
 import { useParams } from 'react-router-dom';
-import { selectSchedule } from '../../../store/schedule/selectors';
+import { selectSchedule } from 'store/schedule/selectors';
 import {
   getSchedulePage,
   save,
   setScheduleAction,
-} from '../../../store/schedule/actions';
-import { schedulesService } from '../../../services/schedules-service';
-import Convert from '../../../components/input/reactive/Convert';
-import Time from '../../../components/input/reactive/Time';
-import { Interval } from '../../../model/Interval';
-import Days from '../../../components/input/reactive/Days';
-import InputListBox from '../../../components/input/reactive/InputListBox';
-import { dayOfWeekOccurrences, months } from '../../../model/Occurrences';
-import SchedulePolicies from '../../../components/input/reactive/SchedulePolicies';
+} from 'store/schedule/actions';
+import { schedulesService } from 'services/schedules-service';
+import Convert from 'components/input/reactive/Convert';
+import Time from 'components/input/reactive/Time';
+import { Interval } from 'model/Interval';
+import Days from 'components/input/reactive/Days';
+import InputListBox from 'components/input/reactive/InputListBox';
+import { dayOfWeekOccurrences, months } from 'model/Occurrences';
+import SchedulePolicies from 'components/input/reactive/SchedulePolicies';
 import { Panel } from 'primereact/panel';
+import {createBrowserHistory} from 'history';
 
 const SnapshotSchedule = () => {
   let dispatch = useDispatch();
   let { guid } = useParams();
+
+  const history = createBrowserHistory()
 
   let model = useSelector(selectSchedule);
   let policies = useSelector(selectPolicies);
@@ -157,9 +160,7 @@ const SnapshotSchedule = () => {
 
             <div className="d-flex justify-content-between mt-3">
               <div>
-                <Link to={`/schedules/list/SNAPSHOT`}>
-                  <Button label="Back" />
-                </Link>
+                <Button label="Back" onClick={history.back} />
               </div>
               <div>
                 <Button

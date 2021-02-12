@@ -1,12 +1,8 @@
 import { store } from 'react-notifications-component';
 
 class getPluginApi {
-  configObject = () => {
-    return {
-      username: 'admin',
-      password: 'vPr0tect',
-      vProtectURL: 'http://localhost:8080/api',
-    };
+  configObject = async () => {
+    return { vProtectURL: `${window.parent.origin}/dashboard/vprotect/api` };
   };
   showToast = (toastType, text) => {
     store.addNotification({

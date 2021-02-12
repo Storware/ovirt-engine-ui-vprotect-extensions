@@ -1,31 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Accordion, AccordionTab } from 'primereact/accordion';
-import { policiesService } from '../../../services/policies-service';
+import { policiesService } from 'services/policies-service';
 import { Button } from 'primereact/button';
 import { Link } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
-import Text from '../../../components/input/reactive/Text';
-import { PolicySnapshot } from '../../../model/policies/policy-snapshot';
-import Toggle from '../../../components/input/reactive/Toggle';
-import Select from '../../../components/input/reactive/Select';
-import InputSlider from '../../../components/input/reactive/InputSlider';
-import InputChips from '../../../components/input/reactive/InputChips';
+import Text from 'components/input/reactive/Text';
+import { PolicySnapshot } from 'model/policies/policy-snapshot';
+import Toggle from 'components/input/reactive/Toggle';
+import Select from 'components/input/reactive/Select';
+import InputSlider from 'components/input/reactive/InputSlider';
+import InputChips from 'components/input/reactive/InputChips';
 import {
   selectBackupDestinations,
   selectHypervisorClusters,
   selectPolicy,
   selectSchedules,
   selectVirtualMachines,
-} from '../../../store/policy/selectors';
-import { getPolicyPage } from '../../../store/policy/actions';
+} from 'store/policy/selectors';
+import { getPolicyPage } from 'store/policy/actions';
 import { useParams } from 'react-router-dom';
-import InputListBox from '../../../components/input/reactive/InputListBox';
-import { save } from '../../../store/policy/actions';
+import InputListBox from 'components/input/reactive/InputListBox';
+import { save } from 'store/policy/actions';
+import {createBrowserHistory} from 'history';
 
 const SnapshotPolicy = () => {
   let dispatch = useDispatch();
   let { guid } = useParams();
+  const history = createBrowserHistory()
 
   let model =
     guid === 'create' ? new PolicySnapshot() : useSelector(selectPolicy);
@@ -176,9 +178,7 @@ const SnapshotPolicy = () => {
 
             <div className="d-flex justify-content-between mt-3">
               <div>
-                <Link to={`/policies/list/snapshot`}>
-                  <Button label="Back" />
-                </Link>
+                <Button label="Back" onClick={history.back} />
               </div>
               <div>
                 <Button

@@ -8,6 +8,7 @@
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "start": "webpack-dev-server --config webpack.dev.js",
+    "openstackBuild": "webpack --config webpack.prod.openstack.js",
     "prettify": "prettier --write **/*.ts*"
   },
   "dependencies": {
@@ -28,6 +29,7 @@
     "d3": "^3.5.16",
     "file-saver": "2.0.0",
     "formik": "^2.1.4",
+    "history": "^5.0.0",
     "intl": "^1.2.4",
     "intl-messageformat": "^7.2.1",
     "jquery": "3.5.0",
@@ -42,6 +44,7 @@
     "prop-types": "^15.6.0",
     "react": "~16.8.0",
     "react-dom": "~16.8.0",
+    "react-notifications-component": "^3.0.3",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "redux-thunk": "^2.3.0",

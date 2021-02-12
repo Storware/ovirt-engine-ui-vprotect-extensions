@@ -1,7 +1,6 @@
 import getPluginApi from 'integrations/plugin-api';
 import { alertService } from './alert-service';
-
-const vprotectURL = getPluginApi().configObject().vProtectURL
+import { getCsrfTokenHeader } from '../utils/getCsrfTokenHeader';
 
 const errorMessage = (error) => {
   if (error && error.error && error.error.message) {
@@ -14,76 +13,49 @@ const errorMessage = (error) => {
 };
 
 class VprotectApiService {
-  get(url, options = {}) {
-    return fetch(vprotectURL + url, {
-      method: 'GET',
+  vprotectURL;
+
+  async request(method, path, body, options) {
+    if (!this.vprotectURL) {
+      const config = await getPluginApi.configObject();
+      this.vprotectURL = config.vProtectURL;
+    }
+    return fetch(this.vprotectURL + path, {
+      method,
       credentials: 'include',
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
+        ...getCsrfTokenHeader(),
       },
       ...options,
-    }).then((response) => {
+      ...(['POST', 'PUT'].includes(method)
+        ? { body: JSON.stringify(body) }
+        : {}),
+    }).then(async (response) => {
+      const jsonResponse = await response.json();
       if (!response.ok) {
-        alertService.error(errorMessage(response));
-        return Promise.reject(response);
+        alertService.error(errorMessage(jsonResponse));
+        return Promise.reject(jsonResponse);
       }
-      return response.json();
+      return jsonResponse;
     });
   }
 
-  post(url, body, options) {
-    return fetch(vprotectURL + url, {
-      method: 'POST',
-      credentials: 'include',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      ...options,
-      body: JSON.stringify(body),
-    }).then((response) => {
-      if (!response.ok) {
-        alertService.error(errorMessage(response));
-        return Promise.reject(response);
-      }
-      return options && options.observe ? response : response.json();
-    });
+  get(path, options = {}) {
+    return this.request('GET', path, {}, options);
   }
 
-  put(url, body) {
-    return fetch(vprotectURL + url, {
-      method: 'PUT',
-      credentials: 'include',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    }).then((response) => {
-      if (!response.ok) {
-        alertService.error(errorMessage(response));
-        return Promise.reject(response);
-      }
-      return response.json();
-    });
+  post(path, body, options) {
+    return this.request('POST', path, body, options);
   }
 
-  delete(url) {
-    return fetch(vprotectURL + url, {
-      method: 'DELETE',
-      credentials: 'include',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then((response) => {
-      if (!response.ok) {
-        alertService.error(errorMessage(response));
-        return Promise.reject(response);
-      }
-      return Promise.resolve();
-    });
+  put(path, body, options) {
+    return this.request('PUT', path, body, options);
+  }
+
+  delete(path, options = {}) {
+    return this.request('DELETE', path, {}, options);
   }
 }
 

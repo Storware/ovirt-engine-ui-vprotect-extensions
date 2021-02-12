@@ -4,9 +4,9 @@ import { updateConfig } from 'integrations/plugin-config';
 // update the app configuration based on the plugin config
 const updateFromPluginConfig = (resolve, reject) => {
   if (__DEV__)
-    console.log('pluginApi.configObject:', getPluginApi().configObject());
+    console.log('pluginApi.configObject:', getPluginApi.configObject());
   let { useFakeData, clusterUpgradePlaybook } =
-    getPluginApi().configObject() || {};
+    getPluginApi.configObject() || {};
 
   try {
     useFakeData =

@@ -32,6 +32,8 @@ import {
 } from 'store/virtual-machines/selectors';
 import { showModalAction } from 'store/modal/actions';
 import { MountBackupModal } from 'components/modal/MountBackupModal';
+import { nameTemplate } from '../../policies/PoliciesList';
+import { createBrowserHistory } from 'history';
 
 const filterFields = [
   {
@@ -62,7 +64,7 @@ const filterFields = [
 
 const VirtualMachinesList = () => {
   let dispatch = useDispatch();
-  let match = useRouteMatch();
+  const history = createBrowserHistory();
 
   useEffect(() => {
     dispatch(getVirtualMachinesPage);
@@ -90,13 +92,7 @@ const VirtualMachinesList = () => {
           index: 0,
         },
         formatters: [
-          (value, { rowData }) => {
-            return (
-              <td>
-                <Link to={`${match.path}/${rowData.guid}`}>{value}</Link>
-              </td>
-            );
-          },
+          (value, { rowData }) => nameTemplate(history, rowData, value),
         ],
       },
     },
@@ -348,9 +344,10 @@ const VirtualMachinesList = () => {
                           showModalAction({
                             modal: RestoreModal,
                             props: {
-                              virtualEnvironment: rowData
+                              virtualEnvironment: rowData,
                             },
-                          }));
+                          }),
+                        );
                       }}
                     >
                       Restore

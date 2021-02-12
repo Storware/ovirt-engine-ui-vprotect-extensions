@@ -1,24 +1,23 @@
 import React from 'react';
-import VirtualMachines from './pages/virtual-machines/VirtualMachines';
-import { Dashboard } from './pages/dashboard/Dashboard';
+import { Dashboard } from 'pages/dashboard/Dashboard';
+import { TaskConsole } from 'pages/task-console/TaskConsole';
+import { useSelector } from 'react-redux';
+import MountedBackups from 'pages/mounted-backups/MountedBackups';
+import { selectLoading } from 'store/loading/selectors';
+import { selectShow } from 'store/modal/selectors';
+import ModalContainer from 'components/modal/ModalContainer';
+import VirtualMachines from 'pages/virtual-machines/VirtualMachines';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from 'react-router-dom';
-import { TaskConsole } from './pages/task-console/TaskConsole';
-import Policies from './pages/policies/Policies';
-import Schedules from './pages/schedules/Schedules';
-import MountedBackups from './pages/mounted-backups/MountedBackups';
-import ModalContainer from './components/modal/ModalContainer';
-import { useSelector } from 'react-redux';
-import { selectShow } from './store/modal/selectors';
-import { selectLoading } from './store/loading/selectors';
+import PoliciesAndSchedules from 'pages/policies-and-schedules/PoliciesAndSchedules';
 
 const App = () => {
-  let modalShow = useSelector(selectShow);
-  let loading = useSelector(selectLoading);
+  const modalShow = useSelector(selectShow);
+  const loading = useSelector(selectLoading);
   const href = window.location.href;
   const start = href.indexOf(';');
   const path = href.substring(start + 1).replace(/;/g, '/');
@@ -43,11 +42,8 @@ const App = () => {
           <Route path="/task-console">
             <TaskConsole />
           </Route>
-          <Route path="/policies">
-            <Policies />
-          </Route>
-          <Route path="/schedules">
-            <Schedules />
+          <Route path="/policies-and-schedules">
+            <PoliciesAndSchedules />
           </Route>
           <Route path="/mounted-backups">
             <MountedBackups />

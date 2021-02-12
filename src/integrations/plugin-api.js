@@ -1,11 +1,7 @@
 import { pluginName } from 'utils/constants';
 import { getWebAdminWindow } from 'utils/webadmin-dom';
 
-let api;
+const getPluginApi = getWebAdminWindow().pluginApi(pluginName);
 
-function getPluginApi() {
-  api = api || getWebAdminWindow().pluginApi(pluginName);
-  return api;
-}
+export default getPluginApi
 
-export default getPluginApi;
