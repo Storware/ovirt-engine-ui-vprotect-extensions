@@ -1,11 +1,8 @@
 import { vprotectService } from 'services/vprotect-service';
-import getPluginApi from 'integrations/plugin-api';
-
 
 class AppInit {
   run = async () => {
-    const config = await getPluginApi.configObject();
-    const user = await vprotectService.login(config.username, config.password);
+    const user = await vprotectService.userInfo();
     localStorage.setItem('user', JSON.stringify(user));
   };
 }

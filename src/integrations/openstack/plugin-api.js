@@ -2,9 +2,7 @@ import { store } from 'react-notifications-component';
 
 class getPluginApi {
   configObject = async () => {
-    return await fetch('/dashboard/static/config.json').then((response) =>
-      response.json(),
-    );
+    return { vProtectURL: `${window.parent.origin}/dashboard/vprotect/api` };
   };
   showToast = (toastType, text) => {
     store.addNotification({

@@ -9,6 +9,10 @@ class VprotectService {
     { name: 'SPARSE', description: 'Sparse' },
   ];
 
+  userInfo() {
+    return vprotectApiService.get(`/user-info`);
+  }
+
   login(username, password) {
     return vprotectApiService.post(`/session/login`, {
       login: username,
