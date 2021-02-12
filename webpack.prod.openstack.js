@@ -1,5 +1,3 @@
-// const path = require('path')
-
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -7,13 +5,10 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
 
 const env = process.env.NODE_ENV || 'development';
-const useFakeData = process.env.FAKE_DATA === 'true';
-const packageInfo = require('./package.json');
 
 // common modules required by all entry points
 const commonModules = ['core-js/stable'];
@@ -83,10 +78,9 @@ module.exports = {
 
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist/vprotect-resources'),
+    path: path.resolve(__dirname, 'dist'),
 
-    // UI plugin resources are served through Engine
-    publicPath: '/ovirt-engine/webadmin/plugin/vprotect/',
+    publicPath: '/dashboard/static/vprotect/',
   },
 
   optimization: {
@@ -129,21 +123,7 @@ module.exports = {
     new CleanWebpackPlugin({
       verbose: false,
     }),
-    new CopyWebpackPlugin([
-      {
-        from: 'static/vprotect.json',
-        to: '../',
-        transform: (content) =>
-          content.toString().replace('"__FAKE_DATA__"', useFakeData),
-      },
-    ]),
 
-    new HtmlWebpackPlugin({
-      filename: 'plugin.html',
-      template: 'static/html/plugin.template.ejs',
-      inject: true,
-      chunks: ['webpack-manifest', 'vendor', 'plugin'],
-    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'static/html/index.template.ejs',
@@ -163,7 +143,6 @@ module.exports = {
   bail: true,
 
   entry: {
-    plugin: [...commonModules, './src/integrations/plugin.js'],
     index: [...commonModules, './src/index.tsx'],
   },
 
@@ -189,10 +168,6 @@ module.exports = {
       [path.resolve(__dirname, 'src/App.tsx')]: path.resolve(
         __dirname,
         'src/integrations/openstack/App.tsx',
-      ),
-      [path.resolve(__dirname, 'src/utils/fetchUrl.js')]: path.resolve(
-        __dirname,
-        'src/integrations/openstack/fetchUrl.js',
       ),
     },
     extensions: ['.ts', '.tsx', '.js', '.jsx', '*'],

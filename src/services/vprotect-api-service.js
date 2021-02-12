@@ -1,6 +1,6 @@
 import getPluginApi from 'integrations/plugin-api';
 import { alertService } from './alert-service';
-import { fetchUrl } from '../utils/fetchUrl';
+import { getCsrfTokenHeader } from '../utils/getCsrfTokenHeader';
 
 const errorMessage = (error) => {
   if (error && error.error && error.error.message) {
@@ -20,23 +20,25 @@ class VprotectApiService {
       const config = await getPluginApi.configObject();
       this.vprotectURL = config.vProtectURL;
     }
-    return fetch(fetchUrl(this.vprotectURL, path), {
+    return fetch(this.vprotectURL + path, {
       method,
       credentials: 'include',
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
+        ...getCsrfTokenHeader(),
       },
       ...options,
       ...(['POST', 'PUT'].includes(method)
         ? { body: JSON.stringify(body) }
         : {}),
-    }).then((response) => {
+    }).then(async (response) => {
+      const jsonResponse = await response.json();
       if (!response.ok) {
-        alertService.error(errorMessage(response));
-        return Promise.reject(response);
+        alertService.error(errorMessage(jsonResponse));
+        return Promise.reject(jsonResponse);
       }
-      return response.json();
+      return jsonResponse;
     });
   }
 
