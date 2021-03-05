@@ -11,9 +11,11 @@ import {
 } from 'patternfly-react';
 import { Filesize } from '../../components/convert/Filesize';
 import { TIMEZONES } from 'model/timezones';
-import {user} from "../../utils/user";
+import { user } from '../../utils/user';
 
-const fullTimeZoneName = user && TIMEZONES.find(el => el.utc[0] === user.uiTimeZone).text
+const fullTimeZoneName =
+  user &&
+  TIMEZONES.find((el) => el.utc.some((utc) => user.uiTimeZone === utc)).text;
 
 export class Dashboard extends React.Component {
   constructor(props) {
@@ -45,9 +47,7 @@ export class Dashboard extends React.Component {
       <div>
         <Toolbar>
           <div className={'d-flex flex-row justify-content-between'}>
-            <div>
-              Timezone: {fullTimeZoneName}
-            </div>
+            <div>Timezone: {fullTimeZoneName}</div>
             <div className={'form-group'}>
               <Button
                 className={'btn btn-default'}
@@ -181,14 +181,8 @@ export class Dashboard extends React.Component {
                             'In progress': '#b2b2b2',
                           },
                           columns: [
-                            [
-                              'Success',
-                              this.state.backupStats.successful,
-                            ],
-                            [
-                              'In progress',
-                              this.state.backupStats.inProgress,
-                            ],
+                            ['Success', this.state.backupStats.successful],
+                            ['In progress', this.state.backupStats.inProgress],
                             ['Failed', this.state.backupStats.failed],
                           ],
                           groups: [['Success', 'In progress', 'Failed']],
