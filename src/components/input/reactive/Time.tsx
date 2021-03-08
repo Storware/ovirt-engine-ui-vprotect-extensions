@@ -8,7 +8,7 @@ const Time = ({ factor, field, form: { setFieldValue }, ...props }) => {
   [value, setValue] = useState();
 
   useEffect(() => {
-    if (field.value) {
+    if (field.value !== undefined) {
       const date = new Date((field.value - offset + 86400000) % 86400000);
       setValue(date);
     }

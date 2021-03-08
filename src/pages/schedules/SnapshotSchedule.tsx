@@ -56,115 +56,107 @@ const SnapshotSchedule = () => {
       <Formik
         enableReinitialize
         initialValues={model}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values) => {
           save(values);
-          setSubmitting(false);
         }}
       >
-        {({ isSubmitting }) => (
-          <Form>
-            <Field name="name" component={Text} label="Name" />
-            <Field name="active" component={Toggle} label="Active" />
-            <Field
-              name="executionType"
-              component={Select}
-              label="Schedule execution type"
-              optionLabel="description"
-              change={onExecutionTypeChange}
-              dataKey="name"
-              options={schedulesService.executionTypes}
-            />
-            {!model.interval && (
-              <div>
-                <Field
-                  name="startWindowLength"
-                  component={Convert}
-                  label="Start Window Length [min]"
-                  factor={1000 * 60}
-                />
-                <Field
-                  name="hour"
-                  component={Time}
-                  label="Choose time of day for backup"
-                />
-              </div>
-            )}
-            {model.interval && (
-              <div>
-                <Field
-                  name="interval.frequency"
-                  component={Convert}
-                  label="Frequency [min]"
-                  factor={1000 * 60}
-                />
-                <Field
-                  name="interval.startHour"
-                  component={Time}
-                  label="Choose time of interval start"
-                />
-                <Field
-                  name="interval.endHour"
-                  component={Time}
-                  label="Choose time of interval end"
-                />
-              </div>
-            )}
-
-            <div className="row">
-              <div className="col">
-                <Field
-                  name="daysOfWeek"
-                  component={Days}
-                  hour={model.hour}
-                  label="Choose days (required)"
-                />
-              </div>
-              <div className="col">
-                <Field
-                  name="dayOfWeekOccurrences"
-                  component={InputListBox}
-                  label="Selected day of week occurrence (optional)"
-                  multiple
-                  optionLabel="name"
-                  options={dayOfWeekOccurrences}
-                  dataKey="name"
-                />
-              </div>
-              <div className="col">
-                <Field
-                  name="months"
-                  component={InputListBox}
-                  label="Selected months (optional)"
-                  multiple
-                  optionLabel="name"
-                  options={months}
-                  dataKey="name"
-                />
-              </div>
+        <Form>
+          <Field name="name" component={Text} label="Name" />
+          <Field name="active" component={Toggle} label="Active" />
+          <Field
+            name="executionType"
+            component={Select}
+            label="Schedule execution type"
+            optionLabel="description"
+            change={onExecutionTypeChange}
+            dataKey="name"
+            options={schedulesService.executionTypes}
+          />
+          {!model.interval && (
+            <div>
+              <Field
+                name="startWindowLength"
+                component={Convert}
+                label="Start Window Length [min]"
+                factor={1000 * 60}
+              />
+              <Field
+                name="hour"
+                component={Time}
+                label="Choose time of day for backup"
+              />
             </div>
-
-            <Field
-              name="rules"
-              component={SchedulePolicies}
-              label="Choose Virtual Environment policies"
-              options={policies}
-            />
-
-            <div className="d-flex justify-content-between mt-3">
-              <div>
-                <Button label="Back" onClick={history.back} />
-              </div>
-              <div>
-                <Button
-                  type="submit"
-                  label="Save"
-                  className="p-button-success"
-                  disabled={isSubmitting}
-                />
-              </div>
+          )}
+          {model.interval && (
+            <div>
+              <Field
+                name="interval.frequency"
+                component={Convert}
+                label="Frequency [min]"
+                factor={1000 * 60}
+              />
+              <Field
+                name="interval.startHour"
+                component={Time}
+                label="Choose time of interval start"
+              />
+              <Field
+                name="interval.endHour"
+                component={Time}
+                label="Choose time of interval end"
+              />
             </div>
-          </Form>
-        )}
+          )}
+
+          <div className="row">
+            <div className="col">
+              <Field
+                name="daysOfWeek"
+                component={Days}
+                hour={model.hour}
+                label="Choose days (required)"
+              />
+            </div>
+            <div className="col">
+              <Field
+                name="dayOfWeekOccurrences"
+                component={InputListBox}
+                label="Selected day of week occurrence (optional)"
+                multiple
+                optionLabel="name"
+                options={dayOfWeekOccurrences}
+                dataKey="name"
+              />
+            </div>
+            <div className="col">
+              <Field
+                name="months"
+                component={InputListBox}
+                label="Selected months (optional)"
+                multiple
+                optionLabel="name"
+                options={months}
+                dataKey="name"
+              />
+            </div>
+          </div>
+
+          <Field
+            name="rules"
+            component={SchedulePolicies}
+            label="Choose Virtual Environment policies"
+            options={policies}
+          />
+
+          <div className="d-flex justify-content-between mt-3">
+            <div>
+              <Button type="button" label="Back" onClick={history.back} />
+            </div>
+            <div>
+              <Button type="submit" label="Save" className="p-button-success" />
+            </div>
+          </div>
+        </Form>
       </Formik>
     </Panel>
   );

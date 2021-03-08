@@ -22,12 +22,12 @@ import { getPolicyPage } from 'store/policy/actions';
 import { useParams } from 'react-router-dom';
 import InputListBox from 'components/input/reactive/InputListBox';
 import { save } from 'store/policy/actions';
-import {createBrowserHistory} from 'history';
+import { createBrowserHistory } from 'history';
 
 const SnapshotPolicy = () => {
   let dispatch = useDispatch();
   let { guid } = useParams();
-  const history = createBrowserHistory()
+  const history = createBrowserHistory();
 
   let model =
     guid === 'create' ? new PolicySnapshot() : useSelector(selectPolicy);
@@ -52,12 +52,11 @@ const SnapshotPolicy = () => {
       <Formik
         enableReinitialize
         initialValues={model}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values) => {
           save(values);
-          setSubmitting(false);
         }}
       >
-        {({ isSubmitting }) => (
+        {() => (
           <Form>
             <Accordion
               multiple
@@ -178,14 +177,13 @@ const SnapshotPolicy = () => {
 
             <div className="d-flex justify-content-between mt-3">
               <div>
-                <Button label="Back" onClick={history.back} />
+                <Button type="button" label="Back" onClick={history.back} />
               </div>
               <div>
                 <Button
                   type="submit"
                   label="Save"
                   className="p-button-success"
-                  disabled={isSubmitting}
                 />
               </div>
             </div>

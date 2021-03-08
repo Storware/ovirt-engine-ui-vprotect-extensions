@@ -80,77 +80,37 @@ export class Dashboard extends React.Component {
               </div>
               {this.state.protection && (
                 <div className="card-pf-body pie-chart-with-title-container">
-                  <div className="col-md-6">
-                    <h3 className={'text-center card-pf-title'}>
-                      VIRTUAL MACHINES
-                    </h3>
-                    <div>
-                      <DonutChart
-                        id="virtual-environments"
-                        data={{
-                          colors: {
-                            Protected: '#34bfa3',
-                            'Not Protected': '#f22d4e',
-                            'Not Scheduled': '#b2b2b2',
-                          },
-                          columns: [
-                            ['Protected', this.state.protection.vm.protectedNo],
-                            [
-                              'Not Protected',
-                              this.state.protection.vm.notProtected,
-                            ],
-                            [
-                              'Not Scheduled',
-                              this.state.protection.vm.noSchedule,
-                            ],
+                  <h3 className={'text-center card-pf-title'}>
+                    VIRTUAL MACHINES
+                  </h3>
+                  <div>
+                    <DonutChart
+                      id="virtual-environments"
+                      data={{
+                        colors: {
+                          Protected: '#34bfa3',
+                          'Not Protected': '#f22d4e',
+                          'Not Scheduled': '#b2b2b2',
+                        },
+                        columns: [
+                          ['Protected', this.state.protection.vm.protectedNo],
+                          [
+                            'Not Protected',
+                            this.state.protection.vm.notProtected,
                           ],
-                          groups: [
-                            ['Protected', 'Not Protected', 'Not Scheduled'],
+                          [
+                            'Not Scheduled',
+                            this.state.protection.vm.noSchedule,
                           ],
-                          // type: 'pie'
-                        }}
-                        tooltip={{ show: true }}
-                        title={{ secondary: 'VMs' }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-md-6">
-                    <h3 className={'text-center card-pf-title'}>
-                      APPLICATIONS
-                    </h3>
-                    <div>
-                      <DonutChart
-                        id="applications"
-                        data={{
-                          colors: {
-                            Protected: '#34bfa3',
-                            'Not Protected': '#f22d4e',
-                            'Not Scheduled': '#b2b2b2',
-                          },
-                          columns: [
-                            [
-                              'Protected',
-                              this.state.protection.app.protectedNo,
-                            ],
-                            [
-                              'Not Protected',
-                              this.state.protection.app.notProtected,
-                            ],
-                            [
-                              'Not Scheduled',
-                              this.state.protection.app.noSchedule,
-                            ],
-                          ],
-                          groups: [
-                            ['Protected', 'Not Protected', 'Not Scheduled'],
-                          ],
-                          // type: 'pie'
-                        }}
-                        tooltip={{ show: true }}
-                        title={{ secondary: 'APPs' }}
-                      />
-                    </div>
+                        ],
+                        groups: [
+                          ['Protected', 'Not Protected', 'Not Scheduled'],
+                        ],
+                        // type: 'pie'
+                      }}
+                      tooltip={{ show: true }}
+                      title={{ secondary: 'VMs' }}
+                    />
                   </div>
                 </div>
               )}
