@@ -23,13 +23,13 @@ import InputListBox from 'components/input/reactive/InputListBox';
 import { dayOfWeekOccurrences, months } from 'model/Occurrences';
 import SchedulePolicies from 'components/input/reactive/SchedulePolicies';
 import { Panel } from 'primereact/panel';
-import {createBrowserHistory} from 'history';
+import { createBrowserHistory } from 'history';
 
 const SnapshotSchedule = () => {
   let dispatch = useDispatch();
   let { guid } = useParams();
 
-  const history = createBrowserHistory()
+  const history = createBrowserHistory();
 
   let model = useSelector(selectSchedule);
   let policies = useSelector(selectPolicies);
@@ -65,14 +65,6 @@ const SnapshotSchedule = () => {
           <Form>
             <Field name="name" component={Text} label="Name" />
             <Field name="active" component={Toggle} label="Active" />
-            <Field
-              name="backupType"
-              component={Select}
-              label="Backup type"
-              optionLabel="description"
-              dataKey="name"
-              options={schedulesService.backupTypes}
-            />
             <Field
               name="executionType"
               component={Select}

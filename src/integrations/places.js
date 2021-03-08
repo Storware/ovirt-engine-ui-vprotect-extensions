@@ -47,8 +47,18 @@ function addVprotectPlace() {
   getPluginApi.addSecondaryMenuPlace(
     primaryMenuId,
     'Backup SLAs',
-    'vprotect-policies-and-schedules',
+    'vprotect-policies-and-schedules-backup',
     `${pluginBasePath}/index.html;policies-and-schedules`,
+    {
+      priority: 12,
+    },
+  );
+
+  getPluginApi.addSecondaryMenuPlace(
+    primaryMenuId,
+    'Snapshot SLAs',
+    'vprotect-policies-and-schedules-snapshot',
+    `${pluginBasePath}/index.html;policies-and-schedules/snapshot`,
     {
       priority: 12,
     },
