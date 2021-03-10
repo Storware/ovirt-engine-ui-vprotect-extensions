@@ -70,7 +70,7 @@ yarn start
 ```
 to start development server. This command uses mock integration with oVirt Engine.
 Files that are responsible for connection with oVirt Engine are replaced 
-with mock logic from integrations/dev-server-mock-plugin-api. Configure mock object in the plugin-api.js.
+with mock logic from integrations. Configure mock object in the plugin-api.js.
 
 ```js
 function getPluginApi() {

@@ -6,9 +6,9 @@
     "type": "git"
   },
   "scripts": {
-    "build": "webpack --config webpack.prod.js",
+    "build": "webpack --config webpack.ovirt.prod.js",
     "start": "webpack-dev-server --config webpack.dev.js",
-    "openstackBuild": "webpack --config webpack.prod.openstack.js",
+    "openstackBuild": "webpack --config webpack.openstack.prod.js",
     "prettify": "prettier --write **/*.ts*"
   },
   "dependencies": {

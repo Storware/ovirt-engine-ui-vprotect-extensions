@@ -12,6 +12,7 @@ import {
 import { Filesize } from '../../components/convert/Filesize';
 import { TIMEZONES } from 'model/timezones';
 import { user } from '../../utils/user';
+import config from 'utils/config';
 
 const fullTimeZoneName =
   user &&
@@ -45,6 +46,7 @@ export class Dashboard extends React.Component {
   render() {
     return (
       <div>
+        {config.build}
         <Toolbar>
           <div className={'d-flex flex-row justify-content-between'}>
             <div>Timezone: {fullTimeZoneName}</div>
