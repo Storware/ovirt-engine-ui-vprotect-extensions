@@ -24,6 +24,7 @@ import { MountTask } from '../../../model/tasks/mount-task';
 import { tasksService } from '../../../services/tasks-service';
 import { alertService } from '../../../services/alert-service';
 import { UnmountTask } from '../../../model/tasks/unmount-task';
+import getRelativePath from 'utils/getRelativePath';
 
 const columns = [
   {
@@ -48,7 +49,7 @@ const columns = [
           return (
             <td>
               {value && (
-                <Link to={`virtual-machines/${value.protectedEntity.guid}`}>
+                <Link to={`virtual_environments/${value.protectedEntity.guid}`}>
                   {value.protectedEntity.name}
                 </Link>
               )}
@@ -207,7 +208,7 @@ const columns = [
               <Table.DropdownKebab id="myKebab" pullRight>
                 {rowData.backup && (
                   <MenuItem>
-                    <Link to={`mounted-backups/${rowData.guid}`}>
+                    <Link to={getRelativePath(rowData.guid)}>
                       <div>Details</div>
                     </Link>
                   </MenuItem>

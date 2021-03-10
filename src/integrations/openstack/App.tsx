@@ -1,21 +1,17 @@
 import React from 'react';
-import { Dashboard } from 'pages/dashboard/Dashboard';
-import { TaskConsole } from 'pages/task-console/TaskConsole';
 import { useSelector } from 'react-redux';
-import MountedBackups from 'pages/mounted-backups/MountedBackups';
 import { selectLoading } from 'store/loading/selectors';
 import { selectShow } from 'store/modal/selectors';
 import ModalContainer from 'components/modal/ModalContainer';
-import VirtualMachines from 'pages/virtual-machines/VirtualMachines';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from 'react-router-dom';
-import PoliciesAndSchedules from 'pages/policies-and-schedules/PoliciesAndSchedules';
 import ReactNotification from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
+import routes from 'utils/routes';
 
 const App = () => {
   const modalShow = useSelector(selectShow);
@@ -35,22 +31,14 @@ const App = () => {
             }}
           />
           <Switch>
-            <Route path="/dashboard">
-              <div>Dashboard</div>
-              <Dashboard />
-            </Route>
-            <Route path="/virtualEnvironments">
-              <VirtualMachines />
-            </Route>
-            <Route path="/taskConsole">
-              <TaskConsole />
-            </Route>
-            <Route path="/policiesAndSchedules">
-              <PoliciesAndSchedules />
-            </Route>
-            <Route path="/mountedBackups">
-              <MountedBackups />
-            </Route>
+            {routes.map((route) => {
+              const Component = route.component;
+              return (
+                <Route path={route.path}>
+                  <Component />
+                </Route>
+              );
+            })}
           </Switch>
           {modalShow && <ModalContainer />}
           <div className={'loading ' + (loading && 'active')}>

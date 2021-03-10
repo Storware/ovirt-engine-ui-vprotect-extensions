@@ -88,8 +88,6 @@ module.exports = {
       store: path.resolve(__dirname, 'src/store/'),
       utils: path.resolve(__dirname, 'src/utils/'),
       integrations: path.resolve(__dirname, 'src/integrations/'),
-      [path.resolve(__dirname, "src/integrations/app-init.js")]: path.resolve(__dirname, "src/integrations/dev-server-mock-plugin-api/app-init.js"),
-      [path.resolve(__dirname, "src/integrations/plugin-api.js")]: path.resolve(__dirname, "src/integrations/dev-server-mock-plugin-api/plugin-api.js"),
     },
   },
 

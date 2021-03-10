@@ -1,19 +1,15 @@
 import React from 'react';
-import { Dashboard } from 'pages/dashboard/Dashboard';
-import { TaskConsole } from 'pages/task-console/TaskConsole';
 import { useSelector } from 'react-redux';
-import MountedBackups from 'pages/mounted-backups/MountedBackups';
 import { selectLoading } from 'store/loading/selectors';
 import { selectShow } from 'store/modal/selectors';
-import ModalContainer from 'components/modal/ModalContainer';
-import VirtualMachines from 'pages/virtual-machines/VirtualMachines';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from 'react-router-dom';
-import PoliciesAndSchedules from 'pages/policies-and-schedules/PoliciesAndSchedules';
+import ModalContainer from 'components/modal/ModalContainer';
+import routes from 'utils/routes';
 
 const App = () => {
   const modalShow = useSelector(selectShow);
@@ -33,21 +29,14 @@ const App = () => {
       )}
       <div className={'py-4 container-fluid'}>
         <Switch>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
-          <Route path="/virtual-machines">
-            <VirtualMachines />
-          </Route>
-          <Route path="/task-console">
-            <TaskConsole />
-          </Route>
-          <Route path="/policies-and-schedules">
-            <PoliciesAndSchedules />
-          </Route>
-          <Route path="/mounted-backups">
-            <MountedBackups />
-          </Route>
+          {routes.map((route) => {
+            const Component = route.component;
+            return (
+              <Route path={route.path}>
+                <Component />
+              </Route>
+            );
+          })}
         </Switch>
         {modalShow && <ModalContainer />}
         <div className={'loading ' + (loading && 'active')}>

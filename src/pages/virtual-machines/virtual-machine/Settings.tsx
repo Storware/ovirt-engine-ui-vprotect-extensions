@@ -17,7 +17,7 @@ import { ToggleButton } from 'primereact/togglebutton';
 import { InputText } from 'primereact/inputtext';
 import { Chips } from 'primereact/chips';
 import { Button } from 'primereact/button';
-import { Link } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 
 const isBaseImageConfigAvailable = (model) => {
   return model.hvmType != null && model.hvmType.name === 'AWS';
@@ -51,6 +51,8 @@ const Settings = () => {
   let snapshotPolicies = useSelector(selectSnapshotPolicies);
 
   let modes = virtualMachinesService.getVirtualMachineExportImportModes(model);
+
+  const history = createBrowserHistory();
 
   let save = async () => {
     await virtualMachinesService.updateVirtualMachineSettings(model);
@@ -366,9 +368,7 @@ const Settings = () => {
       </Accordion>
       <div className="d-flex justify-content-between mt-3">
         <div>
-          <Link to="/virtual-machines">
-            <Button label="Back" />
-          </Link>
+          <Button label="Back" onClick={history.back} />
         </div>
         <div>
           <Button label="Save" className="p-button-success" onClick={save} />
