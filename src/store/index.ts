@@ -18,6 +18,7 @@ import mountBackupModal from './mount-backup-modal';
 import policy from './policy';
 import schedules from './schedules';
 import schedule from './schedule';
+import chargebackChart from './chargeback-chart';
 import thunk from 'redux-thunk';
 
 export const rootReducer = combineReducers({
@@ -34,6 +35,7 @@ export const rootReducer = combineReducers({
   schedules,
   schedule,
   modal,
+  chargebackChart,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
