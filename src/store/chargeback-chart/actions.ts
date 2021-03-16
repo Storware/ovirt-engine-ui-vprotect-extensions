@@ -2,35 +2,14 @@ import {
   ChargebackChartAction,
   SET_CHARGEBACK_DATA,
   SET_PAGE,
-  SET_PAGINATED_CHARGEBACK_DATA,
   SET_SORT_BY,
-  SET_SORTED_CHARGEBACK_DATA,
 } from 'store/chargeback-chart/types';
 import { Dispatch } from 'redux';
 import dashboardService from 'services/dashboard-service';
-import { colors } from 'pages/dashboard/chargeback/colors';
 
 export const setChargebackData = (payload: any): ChargebackChartAction => {
   return {
     type: SET_CHARGEBACK_DATA,
-    payload,
-  };
-};
-
-export const setSortedChargebackData = (
-  payload: any,
-): ChargebackChartAction => {
-  return {
-    type: SET_SORTED_CHARGEBACK_DATA,
-    payload,
-  };
-};
-
-export const setPaginatedChargebackData = (
-  payload: any,
-): ChargebackChartAction => {
-  return {
-    type: SET_PAGINATED_CHARGEBACK_DATA,
     payload,
   };
 };
@@ -59,7 +38,6 @@ export const getChargeBackData = async (dispatch: Dispatch) => {
         {
           data: chartData.map((el) => el.size),
           label: 'Size',
-          backgroundColor: colors[0].backgroundColor,
         },
       ],
     }),

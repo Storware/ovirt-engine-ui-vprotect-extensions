@@ -47,7 +47,6 @@ export class Dashboard extends React.Component {
   render() {
     return (
       <div>
-        <Chargeback />
         <Toolbar>
           <div className={'d-flex flex-row justify-content-between'}>
             <div>Timezone: {fullTimeZoneName}</div>
@@ -430,6 +429,16 @@ export class Dashboard extends React.Component {
               </div>
             </div>
           )}
+          <div className={'col-md-6'}>
+            <div className="card-pf">
+              <div className={'card-pf-heading'}>
+                <h3>Chargeback</h3>
+              </div>
+              <div>
+                <Chargeback />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );

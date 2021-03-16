@@ -2,9 +2,7 @@ import {
   ChargebackChartAction,
   SET_CHARGEBACK_DATA,
   SET_PAGE,
-  SET_PAGINATED_CHARGEBACK_DATA,
   SET_SORT_BY,
-  SET_SORTED_CHARGEBACK_DATA,
 } from './types';
 
 const chartData = {
@@ -14,16 +12,12 @@ const chartData = {
 
 export type ChargebackChart = {
   readonly chartData;
-  readonly sortedChartData;
-  readonly paginatedChartData;
   readonly sortBy;
   readonly page: number;
 };
 
 const initial: ChargebackChart = {
   chartData,
-  sortedChartData: chartData,
-  paginatedChartData: chartData,
   sortBy: {
     size: null,
     name: null,
@@ -36,18 +30,6 @@ export default (state = initial, action: ChargebackChartAction) => {
     return {
       ...state,
       chartData: action.payload,
-    };
-  }
-  if (action.type === SET_SORTED_CHARGEBACK_DATA) {
-    return {
-      ...state,
-      sortedChartData: action.payload,
-    };
-  }
-  if (action.type === SET_PAGINATED_CHARGEBACK_DATA) {
-    return {
-      ...state,
-      paginatedChartData: action.payload,
     };
   }
   if (action.type === SET_SORT_BY) {
