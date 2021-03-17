@@ -75,3 +75,23 @@ label, input {
 .cursor-pointer {
     cursor: pointer;
 }
+
+.text-jumbotron {
+    color: #666666;
+    text-align: center;
+    padding-top: 0.5em;
+    small {
+        font-size: 0.5em;
+        display: block;
+    }
+}
+
+.dashboard-circle-text {
+    position: absolute;
+    top: calc(50% - 41px);
+    left: calc(50% - 50px);
+    font-size: 2em;
+    height: 100px;
+    width: 100px;
+    transition: 0.5s;
+}
