@@ -2,64 +2,63 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectRange, selectReport } from 'store/reporting/selectors';
 import { getReport } from 'store/reporting/actions';
-import { Doughnut } from 'react-chartjs-2';
-import { Report } from 'model/report/report';
+import ProtectionDoughnut from 'pages/reporting/ProtectionDoughnut';
 
-const backgroundColor = ['#0f9d58', '#38689E', '#c70015'];
+const labels = {
+  backups: {
+    successful: 'Successful backups',
+    inProgress: 'Backups in progress',
+    failed: 'Failed backups',
+    total: 'Total backups',
+    totalData: 'Total data protected',
+  },
+  restores: {
+    successful: 'Successful restores',
+    inProgress: 'Restores in progress',
+    failed: 'Failed restores',
+    total: 'Total restores',
+    totalData: 'Total data restored',
+  },
+};
 
 export default () => {
   const range = useSelector(selectRange);
   const report = useSelector(selectReport);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(range);
     dispatch(getReport(range));
   }, [range]);
 
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    cutoutPercentage: 80,
-    legend: {
-      display: false,
-    },
-  };
-
-  const dataset = (type) => {
-    const label = {};
-
-    return {
-      label: '# of Votes',
-      data: [
-        report.backups.successful,
-        report.backups.inProgress,
-        report.backups.failed,
-      ],
-      backgroundColor,
-      borderWidth: 1,
-    };
-  };
-
-  const data = {
-    labels: ['Successful', 'In Progress', 'Failed'],
-    datasets: [
-      {
-        label: '# of Votes',
-        data: [
-          report.backups.successful,
-          report.backups.inProgress,
-          report.backups.failed,
-        ],
-        backgroundColor,
-        borderWidth: 1,
-      },
-    ],
-  };
-
   return (
-    // @ts-ignore
-    <div style={{ height: '180px', position: 'relative' }}>
-      <Doughnut data={data} options={options} />
+    <div>
+      <div className="row mt-5">
+        <div className="col">
+          <div style={{ height: 265 }}>
+            <ProtectionDoughnut report={report} type="backups" />
+          </div>
+          <div>
+            <ProtectionDoughnut report={report} type="restores" />
+          </div>
+        </div>
+        <div className="col">
+          {['backups', 'restores'].map((type) => {
+            return (
+              <table className="mb-4">
+                <tbody>
+                  {Object.keys(labels['backups']).map((property) => {
+                    return (
+                      <tr>
+                        <td className="p-4">{labels[type][property]}</td>
+                        <td className="p-4">{report[type][property]}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };
