@@ -50,26 +50,28 @@ export class Dashboard extends React.Component {
         <Toolbar>
           <div className={'d-flex flex-row justify-content-between'}>
             <div>Timezone: {fullTimeZoneName}</div>
-            <div className={'form-group'}>
-              <Button
-                className={'btn btn-default'}
-                onClick={() => {
-                  hypervisorsService
-                    .getAllHypervisorManagers()
-                    .then((hypervisorManagers) => {
-                      vprotectService.submitTaskSync({
-                        hypervisorManagers: hypervisorManagers
-                          .filter((el) => el.type.name === 'RHV')
-                          .map((el) => {
-                            return { guid: el.guid };
-                          }),
+            {config.build !== 'OPENSTACK' && (
+              <div className={'form-group'}>
+                <Button
+                  className={'btn btn-default'}
+                  onClick={() => {
+                    hypervisorsService
+                      .getAllHypervisorManagers()
+                      .then((hypervisorManagers) => {
+                        vprotectService.submitTaskSync({
+                          hypervisorManagers: hypervisorManagers
+                            .filter((el) => el.type.name === 'RHV')
+                            .map((el) => {
+                              return { guid: el.guid };
+                            }),
+                        });
                       });
-                    });
-                }}
-              >
-                Synchronize inventory
-              </Button>
-            </div>
+                  }}
+                >
+                  Synchronize inventory
+                </Button>
+              </div>
+            )}
           </div>
         </Toolbar>
         <div className={'container-fluid pt-4'}>
