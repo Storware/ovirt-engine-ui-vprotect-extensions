@@ -6,6 +6,7 @@ import { TabList } from 'components/tabs/Tab';
 import { RouteList } from 'components/routes/Route';
 import Routes from 'components/routes/Routes';
 import DateRange from 'pages/reporting/DateRange';
+import ReportTable from 'pages/reporting/ReportTable';
 
 const tabs: TabList = [
   { label: 'Summary', path: 'summary' },
@@ -14,7 +15,11 @@ const tabs: TabList = [
   { label: 'Backup Size', path: 'backup-size' },
 ];
 
-const routes: RouteList = [{ path: 'summary', component: Summary }];
+const routes: RouteList = [
+  { path: 'summary', component: Summary },
+  { path: 'backups', component: ReportTable },
+  { path: 'restores', component: ReportTable },
+];
 
 export default () => {
   const match = useRouteMatch();

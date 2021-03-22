@@ -1,11 +1,11 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { TabList } from 'components/tabs/Tab';
+import getLastElementOfPath from 'components/tabs/getLastElementOfPath';
 
 export default ({ items }: { items: TabList }) => {
   const location = useLocation();
-  const pathParts = location.pathname.split('/');
-  const path = pathParts[pathParts.length - 1];
+  const path = getLastElementOfPath();
   const pathWithoutTab = location.pathname.split('/').slice(0, -1).join('/');
 
   return (
