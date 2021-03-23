@@ -7,6 +7,7 @@ import { RouteList } from 'components/routes/Route';
 import Routes from 'components/routes/Routes';
 import DateRange from 'pages/reporting/DateRange';
 import ReportTable from 'pages/reporting/ReportTable';
+import ChargebackForm from 'pages/reporting/ChargebackForm';
 
 const tabs: TabList = [
   { label: 'Summary', path: 'summary' },
@@ -19,6 +20,7 @@ const routes: RouteList = [
   { path: 'summary', component: Summary },
   { path: 'backups', component: ReportTable },
   { path: 'restores', component: ReportTable },
+  { path: 'backup-size', component: ChargebackForm },
 ];
 
 export default () => {
