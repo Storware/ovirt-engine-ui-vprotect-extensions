@@ -1,4 +1,4 @@
 import { RootState } from '../index';
 
-export const selectOptionsObject = (store: RootState) =>
-  store.chargebackChartForm.optionsObject;
+export const selectPropertyOptions = (store: RootState) =>
+  store.chargebackChartForm.propertyOptions;

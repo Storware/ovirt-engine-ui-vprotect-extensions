@@ -6,6 +6,7 @@ import {
 } from 'store/chargeback-chart/types';
 import { Dispatch } from 'redux';
 import dashboardService from 'services/dashboard-service';
+import { ChargebackRequest } from 'model/chargeback/vm-chargeback-request';
 
 export const setChargebackData = (payload: any): ChargebackChartAction => {
   return {
@@ -28,8 +29,12 @@ export const setPage = (payload: number): ChargebackChartAction => {
   };
 };
 
-export const getChargeBackData = async (dispatch: Dispatch) => {
-  const chartData = await dashboardService.getChargeBackReport();
+export const getChargebackData = (
+  chargebackRequest: ChargebackRequest,
+) => async (dispatch: Dispatch) => {
+  const chartData = await dashboardService.getChargebackReport(
+    chargebackRequest,
+  );
 
   await dispatch(
     setChargebackData({

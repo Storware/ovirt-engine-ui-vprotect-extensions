@@ -1,18 +1,18 @@
-import { ChargebackChartFormAction, SET_OPTIONS } from './types';
+import { ChargebackChartFormAction, SET_PROPERTY_OPTIONS } from './types';
 
 export type ChargebackChartForm = {
-  readonly optionsObject;
+  readonly propertyOptions;
 };
 
 const initial: ChargebackChartForm = {
-  optionsObject: {},
+  propertyOptions: {},
 };
 
 export default (state = initial, action: ChargebackChartFormAction) => {
-  if (action.type === SET_OPTIONS) {
+  if (action.type === SET_PROPERTY_OPTIONS) {
     return {
       ...state,
-      optionsObject: action.payload,
+      propertyOptions: action.payload,
     };
   }
   return state;

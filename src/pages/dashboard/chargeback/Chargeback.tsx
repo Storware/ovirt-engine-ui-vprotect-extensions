@@ -1,137 +1,19 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  selectChartData,
-  selectPage,
-  selectSortBy,
-} from 'store/chargeback-chart/selectors';
-import getFileSize from 'utils/getFileSize';
-import {
-  getChargeBackData,
-  setPage,
-  setSortBy,
-} from 'store/chargeback-chart/actions';
-import { HorizontalBar } from 'react-chartjs-2';
-import getPaginatedAndSortedData from 'pages/dashboard/chargeback/getPaginatedAndSortedData';
+import { useDispatch } from 'react-redux';
+import { getChargebackData } from 'store/chargeback-chart/actions';
+import { ChargebackRequest } from 'model/chargeback/vm-chargeback-request';
+import ChargebackChart from 'components/chart/ChargebackChart';
 
 export default () => {
   const dispatch = useDispatch();
-  const chartData = useSelector(selectChartData);
-  const sortBy = useSelector(selectSortBy);
-  const page = useSelector(selectPage);
-
   useEffect(() => {
-    dispatch(getChargeBackData);
+    dispatch(
+      getChargebackData({
+        groupBy: 'virtual-machine',
+        // ...(config.build === 'OPENSTACK' && { projectGuids: [getCookie('project')] }),
+      } as ChargebackRequest),
+    );
   }, []);
 
-  const options = {
-    scaleShowVerticalLines: false,
-    responsive: true,
-    maintainAspectRatio: true,
-    tooltips: {
-      callbacks: {
-        label: (tooltipItem) => {
-          return `Size: ${getFileSize(tooltipItem.xLabel)}`;
-        },
-      },
-    },
-    scales: {
-      xAxes: [
-        {
-          ticks: {
-            callback: (value) => {
-              return getFileSize(value);
-            },
-            min: 0,
-            max: Math.max(...chartData.datasets[0].data),
-            stepSize: Math.max(...chartData.datasets[0].data) / 10,
-          },
-        },
-      ],
-      yAxes: [
-        {
-          barPercentage: 0.4,
-        },
-      ],
-    },
-  };
-
-  const onSortClick = (property) => () => {
-    Object.keys(sortBy).forEach((el) => {
-      if (el !== property) {
-        sortBy[el] = null;
-      }
-    });
-
-    switch (sortBy[property]) {
-      case true:
-        sortBy[property] = false;
-        break;
-      case false:
-        sortBy[property] = null;
-        break;
-      case null:
-        sortBy[property] = true;
-        break;
-    }
-
-    dispatch(setSortBy({ ...sortBy }));
-  };
-
-  const onPrevClick = () => {
-    dispatch(setPage(page - 1));
-  };
-
-  const onNextClick = () => {
-    dispatch(setPage(page + 1));
-  };
-
-  const pagesLabel = `${page + 1}/${
-    Math.floor((chartData.labels.length - 1) / 10) + 1
-  }`;
-
-  return (
-    <div>
-      <HorizontalBar
-        data={getPaginatedAndSortedData(chartData, sortBy, page)}
-        options={options}
-      />
-      <div className="d-flex justify-content-between cursor-pointer">
-        <div className="d-flex w-25">
-          <div onClick={onSortClick('name')} className="d-flex">
-            <div className="pt-1 px-2">Sort by Name</div>
-            <i
-              className={`fa blue-icon d-flex flex-column justify-content-center ${
-                sortBy.name === true && 'fa-arrow-down'
-              } ${sortBy.name === false && 'fa-arrow-up'}`}
-            />
-          </div>
-          <div onClick={onSortClick('size')} className="d-flex">
-            <div className="pt-1 px-2">Sort by size</div>
-            <i
-              className={`fa blue-icon d-flex flex-column justify-content-center ${
-                sortBy.size === true && 'fa-arrow-down'
-              } ${sortBy.size === false && 'fa-arrow-up'}`}
-            />
-          </div>
-        </div>
-
-        <div className="d-flex">
-          {page > 0 && (
-            <div onClick={onPrevClick} className="d-flex">
-              <i className="fa fa-arrow-left blue-icon d-flex flex-column justify-content-center" />
-              <div className="pt-1 px-2">Previous</div>
-            </div>
-          )}
-          {(page + 1) * 10 < chartData.labels.length && (
-            <div onClick={onNextClick} className="d-flex ml-3">
-              <div className="pt-1 px-2">Next</div>
-              <i className="fa fa-arrow-right blue-icon d-flex flex-column justify-content-center" />
-            </div>
-          )}
-        </div>
-        <div className="d-flex w-25 justify-content-end">Page {pagesLabel}</div>
-      </div>
-    </div>
-  );
+  return <ChargebackChart />;
 };

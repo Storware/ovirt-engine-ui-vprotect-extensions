@@ -1,41 +1,36 @@
 import { Dispatch } from 'redux';
-import dashboardService from 'services/dashboard-service';
 import {
   ChargebackChartFormAction,
-  SET_OPTIONS,
+  SET_PROPERTY_OPTIONS,
 } from 'store/chargeback-chart-form/types';
-import { setChargebackData } from 'store/chargeback-chart/actions';
+import { policiesService } from 'services/policies-service';
+import { hypervisorsService } from 'services/hypervisors-service';
+import { virtualMachinesService } from 'services/virtual-machines-service';
+import { backupDestinationsService } from 'services/backup-destinations-service';
 
-export const setOptions = (payload: any): ChargebackChartFormAction => {
+export const setPropertyOptions = (payload: any): ChargebackChartFormAction => {
   return {
-    type: SET_OPTIONS,
+    type: SET_PROPERTY_OPTIONS,
     payload,
   };
 };
 
-// private getFilterEntitiesOptionsMethod = {
-//   backupDestinationGuids: this.backupDestinationService.getAllBackupDestinations(),
-//   backupPolicyGuids: this.policiesService.queryPolicies(this.getPolicyType()),
-//   hypervisorClusterGuids: this.hypervisorService.getAllHypervisorClusters(),
-//   hypervisorManagerGuids: this.hypervisorManagerService.getAllHypervisorManagers(),
-//   hypervisorGuids: this.hypervisorService.getAllHypervisors(),
-//   virtualMachineGuids: this.virtualMachineService.getAllVirtualMachines(),
-// };
+const getFilterEntitiesOptionsMethod = {
+  backupDestinationGuids: backupDestinationsService.getAllBackupDestinations,
+  backupPolicyGuids: () => policiesService.getPolicies('vm-backup'),
+  hypervisorClusterGuids: hypervisorsService.getAllHypervisorClusters,
+  hypervisorManagerGuids: hypervisorsService.getAllHypervisorManagers,
+  hypervisorGuids: hypervisorsService.getHypervisors,
+  virtualMachineGuids: virtualMachinesService.getVirtualMachines,
+};
 
-export const getChargeBackData = (property: string) => async (
+export const getPropertyOptions = (property: string, propertyOptions) => async (
   dispatch: Dispatch,
 ) => {
-  const chartData = await dashboardService.getChargeBackReport();
-
   await dispatch(
-    setChargebackData({
-      labels: chartData.map((el) => el.name),
-      datasets: [
-        {
-          data: chartData.map((el) => el.size),
-          label: 'Size',
-        },
-      ],
+    setPropertyOptions({
+      ...propertyOptions,
+      [property]: await getFilterEntitiesOptionsMethod[property](),
     }),
   );
 };

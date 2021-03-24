@@ -1,11 +1,12 @@
 import { vprotectApiService } from './vprotect-api-service';
+import { ChargebackRequest } from 'model/chargeback/vm-chargeback-request';
 
 class DashboardService {
-  getChargeBackReport() {
-    return vprotectApiService.post(`/chargeback-reporting/backup-size/vm`, {
-      groupBy: 'virtual-machine',
-      // ...(config.build === 'OPENSTACK' && { projectGuids: [getCookie('project')] }),
-    });
+  getChargebackReport(data: ChargebackRequest) {
+    return vprotectApiService.post(
+      `/chargeback-reporting/backup-size/vm`,
+      data,
+    );
   }
 
   getReport(params = {}) {
