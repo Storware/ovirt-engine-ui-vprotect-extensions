@@ -17,10 +17,11 @@ const actionTemplate = (dispatch: Dispatch) => (rowData) => {
       onClick={() => {
         dispatch(
           showModalAction({
-            modal: FileSystemModal,
+            component: FileSystemModal,
             props: {
               guid: rowData.guid,
             },
+            title: 'File System',
           }),
         );
       }}
