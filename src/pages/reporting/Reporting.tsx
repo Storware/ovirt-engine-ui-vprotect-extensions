@@ -30,18 +30,12 @@ const routes: RouteList = [
 export default () => {
   const match = useRouteMatch();
   const dispatch = useDispatch();
-
   return (
     <div>
       <DateRange />
       <Tabs items={tabs} />
       <Switch>
         <Routes items={routes} absolutePathPart={match.path} />
-        <Redirect
-          to={{
-            pathname: `${match.path}/summary`,
-          }}
-        />
       </Switch>
       <div className="d-flex justify-content-end">
         <Button

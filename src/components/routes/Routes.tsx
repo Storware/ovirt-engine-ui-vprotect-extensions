@@ -1,6 +1,6 @@
 import React from 'react';
 import { RouteList } from 'components/routes/Route';
-import { Route } from 'react-router-dom';
+import { Route, Redirect, useLocation } from 'react-router-dom';
 
 export default ({
   items,
@@ -9,6 +9,12 @@ export default ({
   items: RouteList;
   absolutePathPart?: string;
 }) => {
+  const location = useLocation();
+
+  const isPathAbsolute = [absolutePathPart, `${absolutePathPart}/`].includes(
+    location.pathname,
+  );
+
   return (
     <div>
       {items.map((route) => {
@@ -23,6 +29,13 @@ export default ({
           </Route>
         );
       })}
+      {isPathAbsolute && (
+        <Redirect
+          to={{
+            pathname: `${absolutePathPart}/${items[0].path}`,
+          }}
+        />
+      )}
     </div>
   );
 };
