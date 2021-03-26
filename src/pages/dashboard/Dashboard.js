@@ -14,6 +14,7 @@ import { TIMEZONES } from 'model/timezones';
 import { user } from '../../utils/user';
 import config from 'utils/config';
 import Chargeback from './chargeback/Chargeback';
+import ActivityChart from './activity/ActivityChart';
 
 const fullTimeZoneName =
   user &&
@@ -438,6 +439,16 @@ export class Dashboard extends React.Component {
               </div>
               <div>
                 <Chargeback />
+              </div>
+            </div>
+          </div>
+          <div className={'col-md-6'}>
+            <div className="card-pf">
+              <div className={'card-pf-heading'}>
+                <h3>Activity</h3>
+              </div>
+              <div>
+                <ActivityChart />
               </div>
             </div>
           </div>

@@ -17,6 +17,16 @@ class DashboardService {
       },
     });
   }
+
+  getDashboardVmBackupSizeStats() {
+    const to = new Date();
+    const from = new Date();
+    from.setDate(from.getDate() - 14);
+    return vprotectApiService.get('/dashboard/vm-backup-size-stats', {
+      from: from.getTime(),
+      to: to.getTime(),
+    });
+  }
 }
 
 export default new DashboardService();

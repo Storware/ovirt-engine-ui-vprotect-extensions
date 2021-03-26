@@ -5,10 +5,13 @@ import {
   selectPage,
   selectSortBy,
 } from 'store/chargeback-chart/selectors';
-import getFileSize from 'utils/getFileSize';
 import { setPage, setSortBy } from 'store/chargeback-chart/actions';
 import { HorizontalBar } from 'react-chartjs-2';
 import getPaginatedAndSortedData from 'pages/dashboard/chargeback/getPaginatedAndSortedData';
+import {
+  commonOptions,
+  tickOptions,
+} from 'pages/dashboard/chargeback/commonOptions';
 
 export default () => {
   const dispatch = useDispatch();
@@ -17,29 +20,9 @@ export default () => {
   const page = useSelector(selectPage);
 
   const options = {
-    scaleShowVerticalLines: false,
-    responsive: true,
-    maintainAspectRatio: true,
-    tooltips: {
-      callbacks: {
-        label: (tooltipItem) => {
-          return `Size: ${getFileSize(tooltipItem.xLabel)}`;
-        },
-      },
-    },
+    ...commonOptions('xLabel'),
     scales: {
-      xAxes: [
-        {
-          ticks: {
-            callback: (value) => {
-              return getFileSize(value);
-            },
-            min: 0,
-            max: Math.max(...chartData.datasets[0].data),
-            stepSize: Math.max(...chartData.datasets[0].data) / 10,
-          },
-        },
-      ],
+      xAxes: [tickOptions(chartData.datasets[0].data)],
       yAxes: [
         {
           barPercentage: 0.4,
