@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Accordion, AccordionTab } from 'primereact/accordion';
 import { policiesService } from 'services/policies-service';
 import { Button } from 'primereact/button';
-import { Link } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
 import Text from 'components/input/reactive/Text';
 import { PolicySnapshot } from 'model/policies/policy-snapshot';
@@ -25,24 +24,22 @@ import { save } from 'store/policy/actions';
 import { createBrowserHistory } from 'history';
 
 const SnapshotPolicy = () => {
-  let dispatch = useDispatch();
-  let { guid } = useParams();
+  const dispatch = useDispatch();
+  const { guid } = useParams();
   const history = createBrowserHistory();
 
-  let model =
+  const model =
     guid === 'create' ? new PolicySnapshot() : useSelector(selectPolicy);
-  let hypervisorClusters = useSelector(selectHypervisorClusters);
-  let virtualMachines = useSelector(selectVirtualMachines);
-  let backupDestinations = useSelector(selectBackupDestinations);
-  let schedules = useSelector(selectSchedules);
+  const hypervisorClusters = useSelector(selectHypervisorClusters);
+  const virtualMachines = useSelector(selectVirtualMachines);
+  const backupDestinations = useSelector(selectBackupDestinations);
+  const schedules = useSelector(selectSchedules);
 
   useEffect(() => {
-    dispatch(getPolicyPage('snapshot', guid));
+    dispatch(getPolicyPage('vm-snapshot', guid));
   }, [guid]);
 
-  let activeIndex;
-  let setActiveIndex;
-  [activeIndex, setActiveIndex] = useState({
+  const [activeIndex, setActiveIndex] = useState({
     first: [0],
     second: [],
   });
@@ -52,8 +49,9 @@ const SnapshotPolicy = () => {
       <Formik
         enableReinitialize
         initialValues={model}
-        onSubmit={(values) => {
-          save(values);
+        onSubmit={async (values) => {
+          await save(values);
+          history.back();
         }}
       >
         {() => (
@@ -64,6 +62,7 @@ const SnapshotPolicy = () => {
               onTabChange={(e) =>
                 setActiveIndex({
                   ...activeIndex,
+                  // @ts-ignore
                   first: e.index,
                 })
               }

@@ -275,7 +275,7 @@ export const PoliciesList = () => {
         },
       },
     ],
-    snapshot: [
+    'vm-snapshot': [
       {
         property: 'name',
         header: {

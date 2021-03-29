@@ -16,11 +16,10 @@ import {
 } from 'components/table/TableWithPagination';
 import { schedulesService } from 'services/schedules-service';
 import { TableFilter } from 'components/table/TableFilter';
-import { alertService } from 'services/alert-service';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilteredPolicies } from 'store/policies/actions';
 import { getSchedules, removeSchedule } from 'store/schedules/actions';
-import { Link, useParams, useRouteMatch } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import {
   selectFilteredSchedules,
   selectSchedules,
@@ -51,7 +50,7 @@ let filterFields = [
 
 const typeMap = {
   'vm-backup': 'VM_BACKUP',
-  snapshot: 'SNAPSHOT',
+  'vm-snapshot': 'VM_SNAPSHOT',
 };
 
 const SchedulesList = () => {
@@ -288,7 +287,7 @@ const SchedulesList = () => {
         },
       },
     ],
-    snapshot: [
+    'vm-snapshot': [
       {
         property: 'name',
         header: {

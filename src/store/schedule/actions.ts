@@ -20,7 +20,7 @@ export const setPoliciesAction = (payload: any): PolicyAction => {
 };
 
 const policyType = {
-  SNAPSHOT: 'snapshot',
+  VM_SNAPSHOT: 'vm-snapshot',
   VM_BACKUP: 'vm-backup',
 };
 
