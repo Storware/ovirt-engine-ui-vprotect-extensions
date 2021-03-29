@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Panel } from 'primereact/panel';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
@@ -25,12 +25,12 @@ import DisksTable from './DisksTable';
 import SchedulesTable from './SchedulesTable';
 import Settings from './Settings';
 import { showModalAction } from '../../../store/modal/actions';
-import {createBrowserHistory} from 'history';
+import { createBrowserHistory } from 'history';
 
 const VirtualMachine = () => {
   let dispatch = useDispatch();
   let { guid } = useParams();
-  const history = createBrowserHistory()
+  const history = createBrowserHistory();
 
   useEffect(() => {
     dispatch(getVirtualMachinePage(guid));
@@ -54,10 +54,11 @@ const VirtualMachine = () => {
             onClick={() => {
               dispatch(
                 showModalAction({
-                  modal: BackupModal,
+                  component: BackupModal,
                   props: {
                     virtualEnvironments: [virtualMachine],
                   },
+                  title: 'Backup',
                 }),
               );
             }}
@@ -69,12 +70,13 @@ const VirtualMachine = () => {
               onClick={() => {
                 dispatch(
                   showModalAction({
-                    modal: RestoreModal,
+                    component: RestoreModal,
                     props: {
-                      virtualEnvironment: virtualMachine
+                      virtualEnvironment: virtualMachine,
                     },
-                  })
-                )
+                    title: 'Restore',
+                  }),
+                );
               }}
             />
           )}

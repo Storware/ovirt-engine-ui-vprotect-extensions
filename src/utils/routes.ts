@@ -3,6 +3,7 @@ import { TaskConsole } from 'pages/task-console/TaskConsole';
 import MountedBackups from 'pages/mounted-backups/MountedBackups';
 import VirtualMachines from 'pages/virtual-machines/VirtualMachines';
 import PoliciesAndSchedules from 'pages/policies-and-schedules/PoliciesAndSchedules';
+import Reporting from 'pages/reporting/Reporting';
 
 export default [
   { path: '/dashboard', component: Dashboard },
@@ -10,4 +11,5 @@ export default [
   { path: '/task_console', component: TaskConsole },
   { path: '/policies_and_schedules', component: PoliciesAndSchedules },
   { path: '/mounted_backups', component: MountedBackups },
+  { path: '/reporting', component: Reporting },
 ];

@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Switch,
-  Route,
-  useRouteMatch,
-  useLocation,
-  Redirect,
-} from 'react-router-dom';
+import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
 import BackupPolicy from 'pages/policies/BackupPolicy';
 import ListContainer from 'pages/policies-and-schedules/ListContainer';
 import SnapshotPolicy from 'pages/policies/SnapshotPolicy';
@@ -21,13 +15,13 @@ export const PoliciesAndSchedules = () => {
         <Route path={`${match.path}/vm-backup/schedules/:guid`}>
           <VirtualEnvironmentBackupSchedule />
         </Route>
-        <Route path={`${match.path}/snapshot/schedules/:guid`}>
+        <Route path={`${match.path}/vm-snapshot/schedules/:guid`}>
           <SnapshotSchedule />
         </Route>
         <Route path={`${match.path}/vm-backup/policies/:guid`}>
           <BackupPolicy />
         </Route>
-        <Route path={`${match.path}/snapshot/policies/:guid`}>
+        <Route path={`${match.path}/vm-snapshot/policies/:guid`}>
           <SnapshotPolicy />
         </Route>
         <Route path={`${match.path}/:type`}>

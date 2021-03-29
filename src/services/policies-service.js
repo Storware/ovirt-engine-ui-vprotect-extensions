@@ -40,11 +40,11 @@ class PoliciesService {
   }
 
   getAllSnapshotMgmtPolicies() {
-    return vprotectApiService.get('/policies/snapshot');
+    return vprotectApiService.get('/policies/vm-snapshot');
   }
 
   submitTaskSnapshot(task) {
-    return vprotectApiService.post('/tasks/snapshot', task);
+    return vprotectApiService.post('/tasks/vm-snapshot', task);
   }
 
   isSnapshotManagementAvailable(vm) {

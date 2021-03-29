@@ -3,15 +3,11 @@ import { useSelector } from 'react-redux';
 import { selectLoading } from 'store/loading/selectors';
 import { selectShow } from 'store/modal/selectors';
 import ModalContainer from 'components/modal/ModalContainer';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
 import ReactNotification from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import routes from 'utils/routes';
+import Routes from 'components/routes/Routes';
 
 const App = () => {
   const modalShow = useSelector(selectShow);
@@ -31,14 +27,7 @@ const App = () => {
             }}
           />
           <Switch>
-            {routes.map((route) => {
-              const Component = route.component;
-              return (
-                <Route path={route.path}>
-                  <Component />
-                </Route>
-              );
-            })}
+            <Routes items={routes} />
           </Switch>
           {modalShow && <ModalContainer />}
           <div className={'loading ' + (loading && 'active')}>

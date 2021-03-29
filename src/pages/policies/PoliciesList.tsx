@@ -34,6 +34,7 @@ import { Filesize } from 'components/convert/Filesize';
 import { showModalAction } from 'store/modal/actions';
 import { BackupModal } from 'components/modal/BackupModal';
 import { createBrowserHistory } from 'history';
+import FileSystemModal from 'pages/mounted-backups/mounted-backup/FileSystemModal';
 
 const filterFields = [
   {
@@ -246,11 +247,12 @@ export const PoliciesList = () => {
                           );
                           dispatch(
                             showModalAction({
-                              modal: BackupModal,
+                              component: BackupModal,
                               props: {
                                 virtualEnvironments: policy.vms,
                                 showIncremental: true,
                               },
+                              title: 'Backup',
                             }),
                           );
                         }}
@@ -273,7 +275,7 @@ export const PoliciesList = () => {
         },
       },
     ],
-    snapshot: [
+    'vm-snapshot': [
       {
         property: 'name',
         header: {
