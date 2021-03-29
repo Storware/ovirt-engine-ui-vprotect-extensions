@@ -1,5 +1,5 @@
-import getPluginApi from 'integrations/plugin-api';
-import { updateConfig } from 'integrations/plugin-config';
+import getPluginApi from 'integrations/ovirt/plugin-api';
+import { updateConfig } from 'integrations/ovirt/plugin-config';
 
 // update the app configuration based on the plugin config
 const updateFromPluginConfig = (resolve, reject) => {

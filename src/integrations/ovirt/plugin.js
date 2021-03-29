@@ -1,6 +1,6 @@
-import getPluginApi from 'integrations/plugin-api';
-import appInit from 'integrations/app-init';
-import { addPlaces } from 'integrations/places';
+import getPluginApi from 'integrations/ovirt/plugin-api';
+import appInit from 'integrations/ovirt/app-init';
+import { addPlaces } from 'integrations/ovirt/places';
 import 'patternfly-react/dist/css/patternfly-react.css';
 import { vprotectService } from 'services/vprotect-service';
 
