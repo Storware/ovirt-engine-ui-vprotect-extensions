@@ -10,6 +10,8 @@ import {
   dateTemplate,
   permissionTemplate,
 } from 'components/table/templates';
+import classNames from 'classnames';
+import './ReportTable.scss';
 
 export default () => {
   const type = getLastElementOfPath();
@@ -19,6 +21,19 @@ export default () => {
   useEffect(() => {
     dispatch(getReport(range));
   }, [range]);
+
+  const statusVirtualEnvironment = (rowData) => {
+    const statusClassName = classNames({
+      'Failed': rowData.status === 'Failed',
+      'Success': rowData.status === 'Success (removed)',
+    });
+
+    return (
+        <div className={statusClassName}>
+          {rowData.status}
+        </div>
+    );
+  }
   return (
     <div className="mt-4">
       <Table value={report[type].elements}>
@@ -32,7 +47,7 @@ export default () => {
         )}
         <Column style={{ width: '10%' }} field="size" header="Size" body={sizeTemplate} />
         <Column style={{ width: '10%' }} field="type" header="Type" />
-        <Column style={{ width: '10%' }} field="status" header="Status" />
+        <Column style={{ width: '10%' }} field="status" header="Status" body={statusVirtualEnvironment} />
         <Column field="statusInfo" header="Status Info" />
       </Table>
     </div>
