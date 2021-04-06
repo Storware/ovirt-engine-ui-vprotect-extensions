@@ -22,17 +22,17 @@ export default () => {
   return (
     <div className="mt-4">
       <Table value={report[type].elements}>
-        <Column field="protectedEntity" header="Protected Entity" />
-        <Column field="policy" header="Policy" />
+        <Column style={{ width: '15%' }} field="protectedEntity" header="Protected Entity" />
+        <Column style={{ width: '10%' }} field="policy" header="Policy" />
         {type === 'backups' && (
-          <Column field="snapshotTime" header="Snapshot Time" />
+          <Column style={{ width: '15%' }} field="snapshotTime" header="Snapshot Time" />
         )}
         {type === 'restores' && (
-          <Column field="restoreTime" header="Restore Time" />
+          <Column style={{ width: '15%' }} field="restoreTime" header="Restore Time" />
         )}
-        <Column field="size" header="Size" body={sizeTemplate} />
-        <Column field="type" header="Type" />
-        <Column field="status" header="Status" />
+        <Column style={{ width: '10%' }} field="size" header="Size" body={sizeTemplate} />
+        <Column style={{ width: '10%' }} field="type" header="Type" />
+        <Column style={{ width: '10%' }} field="status" header="Status" />
         <Column field="statusInfo" header="Status Info" />
       </Table>
     </div>
