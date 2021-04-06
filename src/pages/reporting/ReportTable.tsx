@@ -22,7 +22,7 @@ export default () => {
   return (
     <div className="mt-4">
       <Table value={report[type].elements}>
-        <Column style={{ width: '15%' }} field="protectedEntity" header="Protected Entity" />
+        <Column style={{ width: '15%' }} field="protectedEntity" header="Virtual Environment" />
         <Column style={{ width: '10%' }} field="policy" header="Policy" />
         {type === 'backups' && (
           <Column style={{ width: '15%' }} field="snapshotTime" header="Snapshot Time" />
