@@ -12,12 +12,19 @@ import {
 } from 'components/table/templates';
 import classNames from 'classnames';
 import './ReportTable.scss';
+import VirtualMachine from '../virtual-machines/virtual-machine/VirtualMachine';
+import {Switch, Route, useRouteMatch, Link} from 'react-router-dom';
+import {createBrowserHistory} from 'history';
+
 
 export default () => {
   const type = getLastElementOfPath();
   const range = useSelector(selectRange);
   const report = useSelector(selectReport);
   const dispatch = useDispatch();
+
+  const history = createBrowserHistory();
+
   useEffect(() => {
     dispatch(getReport(range));
   }, [range]);
@@ -34,22 +41,49 @@ export default () => {
         </div>
     );
   }
-  return (
-    <div className="mt-4">
-      <Table value={report[type].elements}>
-        <Column style={{ width: '15%' }} field="protectedEntity" header="Virtual Environment" />
-        <Column style={{ width: '10%' }} field="policy" header="Policy" />
-        {type === 'backups' && (
-          <Column style={{ width: '15%' }} field="snapshotTime" header="Snapshot Time" />
-        )}
-        {type === 'restores' && (
-          <Column style={{ width: '15%' }} field="restoreTime" header="Restore Time" />
-        )}
-        <Column style={{ width: '10%' }} field="size" header="Size" body={sizeTemplate} />
-        <Column style={{ width: '10%' }} field="type" header="Type" />
-        <Column style={{ width: '10%' }} field="status" header="Status" body={statusVirtualEnvironment} />
-        <Column field="statusInfo" header="Status Info" />
-      </Table>
-    </div>
-  );
+
+  const nameLink = (rowData) => {
+    return (
+        <td>
+          <Link to={`${history.location.pathname}/${rowData.backupGuid}`}>{rowData.protectedEntity}</Link>
+        </td>
+    );
+  }
+
+  const switchPages = () => {
+    let match = useRouteMatch();
+    return (
+        <Switch>
+          <Route path={`${match.path}/:guid`}>
+            <VirtualMachine />
+          </Route>
+          <Route path={match.path}>
+            {reportsList}
+          </Route>
+        </Switch>
+    );
+  }
+
+  const reportsList = () => {
+    return (
+        <div className="mt-4">
+          <Table value={report[type].elements}>
+            <Column style={{ width: '15%' }} field="protectedEntity" header="Virtual Environment" body={nameLink}/>
+            <Column style={{ width: '10%' }} field="policy" header="Policy" />
+            {type === 'backups' && (
+                <Column style={{ width: '15%' }} field="snapshotTime" header="Snapshot Time" />
+            )}
+            {type === 'restores' && (
+                <Column style={{ width: '15%' }} field="restoreTime" header="Restore Time" />
+            )}
+            <Column style={{ width: '10%' }} field="size" header="Size" body={sizeTemplate} />
+            <Column style={{ width: '10%' }} field="type" header="Type" />
+            <Column style={{ width: '10%' }} field="status" header="Status" body={statusVirtualEnvironment} />
+            <Column field="statusInfo" header="Status Info" />
+          </Table>
+        </div>
+    );
+  }
+
+  return switchPages();
 };
