@@ -74,7 +74,7 @@ export default () => {
       <div className="d-flex justify-content-between cursor-pointer">
         <div className="d-flex w-25">
           <div onClick={onSortClick('name')} className="d-flex">
-            <div className="pt-1 px-2">Sort by Name</div>
+            <div className="pt-1 px-2">Name</div>
             <i
               className={`fa blue-icon d-flex flex-column justify-content-center ${
                 sortBy.name === true && 'fa-arrow-down'
@@ -82,7 +82,7 @@ export default () => {
             />
           </div>
           <div onClick={onSortClick('size')} className="d-flex">
-            <div className="pt-1 px-2">Sort by size</div>
+            <div className="pt-1 px-2">Size</div>
             <i
               className={`fa blue-icon d-flex flex-column justify-content-center ${
                 sortBy.size === true && 'fa-arrow-down'
