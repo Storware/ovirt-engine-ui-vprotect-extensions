@@ -435,7 +435,7 @@ export class Dashboard extends React.Component {
           <div className={'col-md-6'}>
             <div className="card-pf">
               <div className={'card-pf-heading'}>
-                <h3>Chargeback</h3>
+                <h3>Backup Size</h3>
               </div>
               <div>
                 <Chargeback />
