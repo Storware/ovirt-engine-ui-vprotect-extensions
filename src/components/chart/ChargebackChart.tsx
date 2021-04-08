@@ -64,6 +64,13 @@ export default () => {
   const pagesLabel = `${page + 1}/${
     Math.floor((chartData.labels.length - 1) / 10) + 1
   }`;
+  if (chartData.labels.length === 0) {
+    return (
+        <div className="text-center">
+          <h2 className="text-muted">No data</h2>
+        </div>
+    )
+  }
 
   return (
     <div>
