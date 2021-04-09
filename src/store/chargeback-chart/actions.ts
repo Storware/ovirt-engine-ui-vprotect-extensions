@@ -29,6 +29,11 @@ export const setPage = (payload: number): ChargebackChartAction => {
   };
 };
 
+function getHostnameFromRegex(url) {
+  const matches = url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
+  return matches && matches[1];
+}
+
 export const getChargebackData = (
   chargebackRequest: ChargebackRequest,
 ) => async (dispatch: Dispatch) => {
@@ -38,7 +43,10 @@ export const getChargebackData = (
 
   await dispatch(
     setChargebackData({
-      labels: chartData.map((el) => el.name),
+      labels: chartData.map((el) => {
+        const hostname = getHostnameFromRegex(el.name);
+        return hostname ? hostname : el.name;
+      }),
       datasets: [
         {
           data: chartData.map((el) => el.size),
