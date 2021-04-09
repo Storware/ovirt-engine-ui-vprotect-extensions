@@ -5,3 +5,26 @@
 .Success {
   color: #38689e;
 }
+
+.StyleHeader {
+  background: none !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  color: #999999 !important;
+  font-size: 12px;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+}
+
+.StyleRow{
+  background: none !important;
+  &:hover{
+    background: rgba(66,139,202, 0.1) !important; ;
+  }
+}
+
+.StyleBody {
+  border: none !important;
+}

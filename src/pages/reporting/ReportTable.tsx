@@ -63,25 +63,28 @@ export default () => {
         </Switch>
     );
   }
+    const rowClassName = () => {
+        return {'StyleRow' : true};
+    }
 
   const reportsList = () => {
     return (
         <div className="mt-4">
-          <Table value={report[type].elements}>
-            <Column style={{ width: '15%' }} field="protectedEntity" header="Virtual Environment" body={nameLink}/>
-            <Column style={{ width: '10%' }} field="policy" header="Policy" />
+          <Table value={report[type].elements} rowClassName={rowClassName}>
+            <Column headerClassName="StyleHeader" bodyClassName="StyleBody" style={{ width: '15%' }} field="protectedEntity" header="Virtual Environment" body={nameLink}/>
+            <Column headerClassName="StyleHeader" bodyClassName="StyleBody" style={{ width: '10%' }} field="policy" header="Policy" />
             {type === 'backups' && (
-                <Column style={{ width: '15%' }} field="snapshotTime" header="Snapshot Time" />
+                <Column headerClassName="StyleHeader" bodyClassName="StyleBody" style={{ width: '15%' }} field="snapshotTime" header="Snapshot Time" />
             )}
             {type === 'restores' && (
-                <Column style={{ width: '15%' }} field="restoreTime" header="Restore Time" />
+                <Column headerClassName="StyleHeader" bodyClassName="StyleBody" style={{ width: '15%' }} field="restoreTime" header="Restore Time" />
             )}
-            <Column style={{ width: '10%' }} field="size" header="Size" body={sizeTemplate} />
-            <Column style={{ width: '10%' }} field="type" header="Type" />
-            <Column style={{ width: '10%' }} field="status" header="Status" body={statusVirtualEnvironment} />
-            <Column field="statusInfo" header="Status Info" />
+            <Column headerClassName="StyleHeader" bodyClassName="StyleBody" style={{ width: '10%' }} field="size" header="Size" body={sizeTemplate} />
+            <Column headerClassName="StyleHeader" bodyClassName="StyleBody" style={{ width: '10%' }} field="type" header="Type" />
+            <Column headerClassName="StyleHeader" bodyClassName="StyleBody" style={{ width: '10%' }} field="status" header="Status" body={statusVirtualEnvironment} />
+            <Column headerClassName="StyleHeader" bodyClassName="StyleBody" field="statusInfo" header="Status Info"/>
           </Table>
-        </div>
+          </div>
     );
   }
 
