@@ -80,6 +80,7 @@ export default () => {
       />
       <div className="d-flex justify-content-between cursor-pointer">
         <div className="d-flex w-25">
+          <div className="pt-1 px-2">Sort by:</div>
           <div onClick={onSortClick('name')} className="d-flex">
             <div className="pt-1 px-2">Name</div>
             <i
