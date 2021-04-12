@@ -48,8 +48,8 @@ export default () => {
                   {Object.keys(labels['backups']).map((property) => {
                     return (
                       <tr>
-                        <td style={{ textAlign: 'left' }} className="py-4 pr-4">{labels[type][property]}</td>
-                        <td style={{ textAlign: 'left' }} className="py-4 pl-4">{report[type][property]}</td>
+                        <td className="text-left py-4 pr-4">{labels[type][property]}</td>
+                        <td className="text-left py-4 pl-4">{report[type][property]}</td>
                       </tr>
                     );
                   })}
