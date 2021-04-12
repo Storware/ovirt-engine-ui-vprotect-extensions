@@ -31,8 +31,8 @@ export default () => {
 
   const statusVirtualEnvironment = (rowData) => {
     const statusClassName = classNames({
-      'Failed': rowData.status === 'Failed',
-      'Success': rowData.status === 'Success (removed)',
+      'text-danger': rowData.status === 'Failed',
+      'text-info': rowData.status === 'Success (removed)',
     });
 
     return (
