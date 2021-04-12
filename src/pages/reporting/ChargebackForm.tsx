@@ -13,6 +13,7 @@ import {
 import InputListBox from 'components/input/reactive/InputListBox';
 import ChargebackChart from 'components/chart/ChargebackChart';
 import { getChargebackData } from 'store/chargeback-chart/actions';
+import config from '../../utils/config';
 
 const groupByOptions = [
   {
@@ -73,8 +74,6 @@ const filterByFieldOptions = {
   },
 };
 
-const chargeBackObjectTypeProperties = Object.keys(filterByFieldOptions);
-
 const mapPropertiesObjectListToStringOfGuids = (
   chargebackRequest: ChargebackRequest,
 ) => {
@@ -94,6 +93,21 @@ export default () => {
   const dispatch = useDispatch();
   const chargeBackRequest = new ChargebackRequest();
 
+  const filteredGroupByOptions = () => {
+    if (config.build === 'OPENSTACK') {
+      return groupByOptions.filter(item => item.value !== 'hypervisor-cluster' && item.value !== 'hypervisor-manager')
+    }
+    return groupByOptions
+  };
+
+  const chargeBackObjectTypeProperties = () => {
+    const fieldOptions = Object.keys(filterByFieldOptions);
+    if (config.build === 'OPENSTACK') {
+      return fieldOptions.filter(item => item !== 'hypervisorManagerGuids' && item !== 'hypervisorClusterGuids')
+    }
+    return fieldOptions;
+  }
+
   return (
     <div>
       <Formik
@@ -109,7 +123,7 @@ export default () => {
           <Field
             name="groupBy"
             component={Select}
-            options={groupByOptions}
+            options={filteredGroupByOptions()}
             valueProperty="value"
             optionLabel="label"
             required
@@ -119,7 +133,7 @@ export default () => {
 
           <h3>Filter</h3>
 
-          {chargeBackObjectTypeProperties.map((el) => {
+          {chargeBackObjectTypeProperties().map((el) => {
             const [show, setShow] = useState(false);
             return (
               <div>
