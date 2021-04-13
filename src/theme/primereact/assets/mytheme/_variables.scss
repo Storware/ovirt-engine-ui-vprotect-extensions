@@ -332,9 +332,11 @@ $paginatorElementBorder:0 none;
 
 //table
 $tableHeaderCellPadding:0.571em 0.857em;
-$tableHeaderCellBgColor:#f4f4f4;
-$tableHeaderCellTextColor:$textColor;
-$tableHeaderCellFontWeight:700;
+$tableHeaderCellBgColor:none;
+$tableHeaderCellTextColor:#999999;
+$tableHeaderCellFontWeight:600;
+$tableHeaderCellFontSize:12px;
+$tableHeaderCellLetterSpacing:0.5px;
 $tableHeaderCellBorder:1px solid #c8c8c8;
 $tableHeaderCellHoverBgColor:#e0e0e0;
 $tableHeaderCellHoverTextColor:#333333;
