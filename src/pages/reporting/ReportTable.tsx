@@ -12,10 +12,8 @@ import {
 } from 'components/table/templates';
 import classNames from 'classnames';
 import './ReportTable.scss';
-import VirtualMachine from '../virtual-machines/virtual-machine/VirtualMachine';
-import {Switch, Route, useRouteMatch, Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {createBrowserHistory} from 'history';
-import {ColumnProps} from 'primereact/components/column/Column';
 
 
 export default () => {
@@ -46,22 +44,8 @@ export default () => {
   const nameLink = (rowData) => {
     return (
         <td>
-          <Link to={`${history.location.pathname}/${rowData.backupGuid}`}>{rowData.protectedEntity}</Link>
+          <Link to={`/virtual_environments/${rowData.backupGuid}`}>{rowData.protectedEntity}</Link>
         </td>
-    );
-  }
-
-  const switchPages = () => {
-    let match = useRouteMatch();
-    return (
-        <Switch>
-          <Route path={`${match.path}/:guid`}>
-            <VirtualMachine />
-          </Route>
-          <Route path={match.path}>
-            {reportsList}
-          </Route>
-        </Switch>
     );
   }
     const rowClassName = () => {
@@ -89,5 +73,5 @@ export default () => {
     );
   }
 
-  return switchPages();
+  return reportsList();
 };
