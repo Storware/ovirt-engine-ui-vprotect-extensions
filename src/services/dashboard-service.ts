@@ -8,11 +8,10 @@ function getHostnameFromRegex(url) {
 
 class DashboardService {
   getChargebackReport(data: ChargebackRequest) {
-    const request = vprotectApiService.post(
+     return vprotectApiService.post(
       `/chargeback-reporting/backup-size/vm`,
       data,
-    ) as Promise<any>;
-    return request.then(res => {
+    ).then(res => {
       res.map(el => {
         const hostname = getHostnameFromRegex(el.name);
         el.name = hostname ? hostname : el.name;

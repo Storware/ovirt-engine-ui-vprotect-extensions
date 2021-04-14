@@ -15,6 +15,18 @@ import ChargebackChart from 'components/chart/ChargebackChart';
 import { getChargebackData } from 'store/chargeback-chart/actions';
 import config from '../../utils/config';
 
+
+const hypervisorOptions = [
+  {
+    value: 'hypervisor-cluster',
+    label: 'Cluster',
+  },
+  {
+    value: 'hypervisor-manager',
+    label: 'Hypervisor Manager',
+  },
+]
+
 const groupByOptions = [
   {
     value: 'backup-destination',
@@ -23,14 +35,6 @@ const groupByOptions = [
   {
     value: 'backup-policy',
     label: 'Backup Policy',
-  },
-  {
-    value: 'hypervisor-cluster',
-    label: 'Cluster',
-  },
-  {
-    value: 'hypervisor-manager',
-    label: 'Hypervisor Manager',
   },
   {
     value: 'hypervisor',
@@ -44,7 +48,19 @@ const groupByOptions = [
     value: 'project',
     label: 'Project',
   },
+  ...(config.build !== 'OPENSTACK' ? hypervisorOptions : [])
 ];
+
+const hypervisorFieldOptions = {
+  hypervisorClusterGuids: {
+    label: 'Hypervisor Cluster',
+    optionsLabelProperty: 'name',
+  },
+  hypervisorManagerGuids: {
+    label: 'Hypervisor Manager',
+    optionsLabelProperty: 'url',
+  }
+}
 
 const filterByFieldOptions = {
   backupDestinationGuids: {
@@ -55,14 +71,6 @@ const filterByFieldOptions = {
     label: 'Backup Policy',
     optionsLabelProperty: 'name',
   },
-  hypervisorClusterGuids: {
-    label: 'Hypervisor Cluster',
-    optionsLabelProperty: 'name',
-  },
-  hypervisorManagerGuids: {
-    label: 'Hypervisor Manager',
-    optionsLabelProperty: 'url',
-  },
   hypervisorGuids: {
     label: 'Hypervisor',
     optionsLabelProperty: 'host',
@@ -72,6 +80,7 @@ const filterByFieldOptions = {
     label: 'Virtual Environment',
     optionsLabelProperty: 'name',
   },
+  ...(config.build !== 'OPENSTACK' && hypervisorFieldOptions)
 };
 
 const mapPropertiesObjectListToStringOfGuids = (
@@ -93,19 +102,8 @@ export default () => {
   const dispatch = useDispatch();
   const chargeBackRequest = new ChargebackRequest();
 
-  const filteredGroupByOptions = () => {
-    if (config.build === 'OPENSTACK') {
-      return groupByOptions.filter(item => item.value !== 'hypervisor-cluster' && item.value !== 'hypervisor-manager')
-    }
-    return groupByOptions
-  };
-
   const chargeBackObjectTypeProperties = () => {
-    const fieldOptions = Object.keys(filterByFieldOptions);
-    if (config.build === 'OPENSTACK') {
-      return fieldOptions.filter(item => item !== 'hypervisorManagerGuids' && item !== 'hypervisorClusterGuids')
-    }
-    return fieldOptions;
+    return Object.keys(filterByFieldOptions);
   }
 
   return (
@@ -123,7 +121,7 @@ export default () => {
           <Field
             name="groupBy"
             component={Select}
-            options={filteredGroupByOptions()}
+            options={groupByOptions}
             valueProperty="value"
             optionLabel="label"
             required
