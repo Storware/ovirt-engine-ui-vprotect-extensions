@@ -1,6 +1,6 @@
 .p-paginator {
     background-color: $paginatorBgColor;
-    border: $paginatorBorder;
+    border-top: $paginatorBorder !important;
     padding: $paginatorPadding;
 
     .p-paginator-first,
