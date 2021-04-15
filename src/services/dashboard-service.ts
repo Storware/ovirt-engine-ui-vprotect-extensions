@@ -1,12 +1,22 @@
 import { vprotectApiService } from './vprotect-api-service';
 import { ChargebackRequest } from 'model/chargeback/vm-chargeback-request';
 
+function getHostnameFromRegex(url) {
+  const matches = url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
+  return matches && matches[1];
+}
+
 class DashboardService {
   getChargebackReport(data: ChargebackRequest) {
-    return vprotectApiService.post(
+     return vprotectApiService.post(
       `/chargeback-reporting/backup-size/vm`,
       data,
-    );
+    ).then(res => {
+      return res.map(el => {
+        const hostname = getHostnameFromRegex(el.name);
+        el.name = hostname ? hostname : el.name;
+      })
+    });
   }
 
   getReport(params = {}) {

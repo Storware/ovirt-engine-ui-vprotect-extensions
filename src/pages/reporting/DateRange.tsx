@@ -35,7 +35,7 @@ export default () => {
 
           <Button
             type="submit"
-            label="Save"
+            label="Apply"
             className="p-button-success ml-4"
           />
         </Form>

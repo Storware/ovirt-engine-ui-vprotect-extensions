@@ -78,7 +78,7 @@ class BackupPolicy extends React.Component {
           [name]:
             e.target && e.target.nodeName === 'INPUT'
               ? e.target.value
-              : e.value && e.target,
+              : e.value,
         },
       });
     };

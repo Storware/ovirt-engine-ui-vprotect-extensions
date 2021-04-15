@@ -22,11 +22,14 @@
 
     .p-datatable-thead > tr > th {
         padding: $tableHeaderCellPadding;
-        border: $tableHeaderCellBorder;
+        border-bottom: $tableHeaderCellBorder;
         font-weight: $tableHeaderCellFontWeight;
+        font-size: $tableHeaderCellFontSize;
+        letter-spacing: $tableHeaderCellLetterSpacing;
         color: $tableHeaderCellTextColor;
         background-color: $tableHeaderCellBgColor;
         text-align: center;
+        text-transform: uppercase;
     }
 
     .p-datatable-tfoot > tr > td {
@@ -97,7 +100,7 @@
 
             > td {
                 background: inherit;
-                border: $tableBodyCellBorder;
+                border: none;
                 padding: $tableBodyCellPadding;
 
                 .p-row-toggler {
@@ -163,7 +166,7 @@
         }
 
         > tr:nth-child(even) {
-            background-color: $tableBodyRowEvenBgColor;
+            background-color: transparent;
 
             &.p-highlight {
                 background-color: $highlightBgColor;

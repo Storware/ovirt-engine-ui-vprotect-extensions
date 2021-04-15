@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, useRouteMatch, Redirect } from 'react-router-dom';
+import { Switch, useRouteMatch } from 'react-router-dom';
 import Summary from 'pages/reporting/Summary';
 import Tabs from 'components/tabs/Tabs';
 import { TabList } from 'components/tabs/Tab';

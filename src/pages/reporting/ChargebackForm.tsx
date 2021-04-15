@@ -13,6 +13,8 @@ import {
 import InputListBox from 'components/input/reactive/InputListBox';
 import ChargebackChart from 'components/chart/ChargebackChart';
 import { getChargebackData } from 'store/chargeback-chart/actions';
+import config from '../../utils/config';
+
 
 const groupByOptions = [
   {
@@ -22,14 +24,6 @@ const groupByOptions = [
   {
     value: 'backup-policy',
     label: 'Backup Policy',
-  },
-  {
-    value: 'hypervisor-cluster',
-    label: 'Cluster',
-  },
-  {
-    value: 'hypervisor-manager',
-    label: 'Hypervisor Manager',
   },
   {
     value: 'hypervisor',
@@ -43,6 +37,16 @@ const groupByOptions = [
     value: 'project',
     label: 'Project',
   },
+  ...(config.build !== 'OPENSTACK' ? [
+    {
+      value: 'hypervisor-cluster',
+      label: 'Cluster',
+    },
+    {
+      value: 'hypervisor-manager',
+      label: 'Hypervisor Manager',
+    },
+  ] : [])
 ];
 
 const filterByFieldOptions = {
@@ -54,14 +58,6 @@ const filterByFieldOptions = {
     label: 'Backup Policy',
     optionsLabelProperty: 'name',
   },
-  hypervisorClusterGuids: {
-    label: 'Hypervisor Cluster',
-    optionsLabelProperty: 'name',
-  },
-  hypervisorManagerGuids: {
-    label: 'Hypervisor Manager',
-    optionsLabelProperty: 'url',
-  },
   hypervisorGuids: {
     label: 'Hypervisor',
     optionsLabelProperty: 'host',
@@ -71,9 +67,17 @@ const filterByFieldOptions = {
     label: 'Virtual Environment',
     optionsLabelProperty: 'name',
   },
+  ...(config.build !== 'OPENSTACK' && {
+    hypervisorClusterGuids: {
+      label: 'Hypervisor Cluster',
+      optionsLabelProperty: 'name',
+    },
+    hypervisorManagerGuids: {
+      label: 'Hypervisor Manager',
+      optionsLabelProperty: 'url',
+    }
+  })
 };
-
-const chargeBackObjectTypeProperties = Object.keys(filterByFieldOptions);
 
 const mapPropertiesObjectListToStringOfGuids = (
   chargebackRequest: ChargebackRequest,
@@ -93,6 +97,10 @@ export default () => {
   const propertyOptions = useSelector(selectPropertyOptions);
   const dispatch = useDispatch();
   const chargeBackRequest = new ChargebackRequest();
+
+  const chargeBackObjectTypeProperties = () => {
+    return Object.keys(filterByFieldOptions);
+  }
 
   return (
     <div>
@@ -119,7 +127,7 @@ export default () => {
 
           <h3>Filter</h3>
 
-          {chargeBackObjectTypeProperties.map((el) => {
+          {chargeBackObjectTypeProperties().map((el) => {
             const [show, setShow] = useState(false);
             return (
               <div>
