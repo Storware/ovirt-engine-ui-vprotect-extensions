@@ -6,6 +6,7 @@
 @import "modal";
 @import "loading-overlay";
 @import "filesystem-table";
+@import "protection-doughnut";
 
 label, input {
     display: block;
@@ -41,15 +42,6 @@ label, input {
 
 .dashboardContainer .card-pf-heading {
     margin: 0 0 -1px;
-}
-
-.dashboardContainer .list-view-pf-view {
-    margin-top: 0;
-}
-
-.dashboardContainer .list-view-pf-expand {
-    margin-top: 14px;
-    margin-bottom: 14px;
 }
 
 .background-gray {

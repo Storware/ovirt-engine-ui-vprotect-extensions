@@ -35,7 +35,7 @@ const SnapshotSchedule = () => {
   let policies = useSelector(selectPolicies);
 
   useEffect(() => {
-    dispatch(getSchedulePage('SNAPSHOT', guid));
+    dispatch(getSchedulePage('VM_SNAPSHOT', guid));
   }, [guid]);
 
   const onExecutionTypeChange = (e) => {
@@ -56,8 +56,9 @@ const SnapshotSchedule = () => {
       <Formik
         enableReinitialize
         initialValues={model}
-        onSubmit={(values) => {
-          save(values);
+        onSubmit={async (values) => {
+          await save(values);
+          history.back();
         }}
       >
         <Form>

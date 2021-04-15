@@ -20,7 +20,11 @@ class VprotectApiService {
       const config = await getPluginApi.configObject();
       this.vprotectURL = config.vProtectURL;
     }
-    return fetch(this.vprotectURL + path, {
+    let fullPath = this.vprotectURL + path;
+    if (options && options.params) {
+      fullPath += `?${new URLSearchParams(options.params)}`;
+    }
+    return fetch(fullPath, {
       method,
       credentials: 'include',
       mode: 'cors',

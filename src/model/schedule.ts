@@ -4,7 +4,7 @@ import { Interval } from './Interval';
 
 const types = [
   { name: 'VM_BACKUP', description: 'veBackup' },
-  { name: 'SNAPSHOT', description: 'snapshotManagement' },
+  { name: 'VM_SNAPSHOT', description: 'snapshotManagement' },
 ];
 
 export class Schedule {

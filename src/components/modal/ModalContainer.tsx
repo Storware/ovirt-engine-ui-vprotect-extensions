@@ -1,14 +1,15 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Icon } from 'patternfly-react';
-import { selectModal, selectProps } from 'store/modal/selectors';
+import { selectModal } from 'store/modal/selectors';
 import { hideModalAction, saveModalAction } from 'store/modal/actions';
 import { Button } from 'primereact/button';
 
 const ModalContainer = () => {
-  let dispatch = useDispatch();
-  let ModalComponentClass = useSelector(selectModal);
-  let props = useSelector(selectProps);
+  const dispatch = useDispatch();
+  const modal = useSelector(selectModal);
+
+  const Component = modal.component;
 
   return (
     <Modal show>
@@ -23,10 +24,10 @@ const ModalContainer = () => {
         >
           <Icon type="pf" name="close" />
         </button>
-        <Modal.Title>Backup</Modal.Title>
+        <Modal.Title>{modal.title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <ModalComponentClass {...props} />
+        <Component {...modal.props} />
       </Modal.Body>
       <Modal.Footer>
         <div className="d-flex justify-content-between">

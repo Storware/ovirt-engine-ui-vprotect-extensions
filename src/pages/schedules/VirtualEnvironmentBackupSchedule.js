@@ -17,7 +17,9 @@ import { InputDays } from '../../components/input/InputDays';
 import { ListBox } from 'primereact/listbox';
 import { dayOfWeekOccurrences, months } from '../../model/Occurrences';
 import { InputSchedulePolicies } from '../../components/input/InputSchedulePolicies';
-import {createBrowserHistory} from "history";
+import { createBrowserHistory } from 'history';
+
+const history = createBrowserHistory();
 
 class VirtualEnvironmentBackupSchedule extends React.Component {
   constructor(props) {
@@ -59,6 +61,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
       await schedulesService.createSchedule(this.state.model);
       alertService.info('Schedule created');
     }
+    history.back();
   };
 
   onExecutionTypeChange(value) {
@@ -84,8 +87,6 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
   }
 
   render() {
-    const history = createBrowserHistory()
-
     return (
       <Panel className={'form'} header="Schedule">
         <div>

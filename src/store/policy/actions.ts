@@ -62,22 +62,22 @@ export const getPolicyPage = (type: string, guid: string) => async (
   await dispatch(setVirtualMachinesAction(virtualMachines));
   const backupDestinations = await backupDestinationsService.getAllBackupDestinations();
   await dispatch(setBackupDestinationsAction(backupDestinations));
-  const schedueles = await schedulesService.getAllTypeSchedules('SNAPSHOT');
+  const schedueles = await schedulesService.getAllTypeSchedules('VM_SNAPSHOT');
   await dispatch(setSchedules(schedueles));
 };
 
 export const save = async (model) => {
   if (model.guid) {
-    await policiesService.updatePolicy('snapshot', model.guid, model);
+    await policiesService.updatePolicy('vm-snapshot', model.guid, model);
     await policiesService.updateRule(
-      'snapshot',
+      'vm-snapshot',
       model.rules[0].guid,
       model.rules[0],
     );
     alertService.info('Policy updated');
   } else {
-    const policy = await policiesService.createPolicy('snapshot', model);
-    await policiesService.createRule('snapshot', {
+    const policy = await policiesService.createPolicy('vm-snapshot', model);
+    await policiesService.createRule('vm-snapshot', {
       ...model.rules[0],
       name: 'Default',
       policy: {

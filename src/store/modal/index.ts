@@ -7,15 +7,13 @@ import {
 } from './types';
 
 export type ModalStore = {
-  readonly modal: any;
-  readonly props: any;
+  readonly modal: { component: () => JSX.Element; props; title: string };
   readonly show: boolean;
   readonly saved: boolean;
 };
 
 const initial: ModalStore = {
   modal: null,
-  props: null,
   show: false,
   saved: false,
 };
@@ -24,8 +22,7 @@ export default (state = initial, action: ModalAction) => {
   if (action.type === SHOW_MODAL) {
     return {
       ...state,
-      modal: action.payload.modal,
-      props: action.payload.props,
+      modal: action.payload,
       show: true,
     };
   }
@@ -33,7 +30,6 @@ export default (state = initial, action: ModalAction) => {
     return {
       ...state,
       modal: null,
-      props: null,
       show: false,
       saved: false,
     };

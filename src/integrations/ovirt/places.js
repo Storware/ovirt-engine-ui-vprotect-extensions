@@ -29,11 +29,21 @@ function addVprotectPlace() {
 
   getPluginApi.addSecondaryMenuPlace(
     primaryMenuId,
+    'Reporting',
+    'vprotect-reporting',
+    `${pluginBasePath}/index.html;reporting`,
+    {
+      priority: 11,
+    },
+  );
+
+  getPluginApi.addSecondaryMenuPlace(
+    primaryMenuId,
     'Task Console',
     'vprotect-task-console-list',
     `${pluginBasePath}/index.html;task_console`,
     {
-      priority: 11,
+      priority: 12,
     },
   );
 
@@ -43,7 +53,7 @@ function addVprotectPlace() {
     'vprotect-policies-and-schedules-backup',
     `${pluginBasePath}/index.html;policies_and_schedules`,
     {
-      priority: 12,
+      priority: 13,
     },
   );
 
@@ -51,9 +61,9 @@ function addVprotectPlace() {
     primaryMenuId,
     'Snapshot SLAs',
     'vprotect-policies-and-schedules-snapshot',
-    `${pluginBasePath}/index.html;policies_and_schedules/snapshot`,
+    `${pluginBasePath}/index.html;policies_and_schedules/vm-snapshot`,
     {
-      priority: 12,
+      priority: 14,
     },
   );
 
@@ -63,7 +73,7 @@ function addVprotectPlace() {
     'vprotect-mounted-backups',
     `${pluginBasePath}/index.html;mounted_backups`,
     {
-      priority: 14,
+      priority: 15,
     },
   );
 }

@@ -311,10 +311,11 @@ const VirtualMachinesList = () => {
                     onClick={() => {
                       dispatch(
                         showModalAction({
-                          modal: BackupModal,
+                          component: BackupModal,
                           props: {
                             virtualEnvironments: [rowData],
                           },
+                          title: 'Backup',
                         }),
                       );
                     }}
@@ -326,10 +327,11 @@ const VirtualMachinesList = () => {
                       onClick={() => {
                         dispatch(
                           showModalAction({
-                            modal: MountBackupModal,
+                            component: MountBackupModal,
                             props: {
                               guid: rowData.guid,
                             },
+                            title: 'Mount Backup',
                           }),
                         );
                       }}
@@ -342,10 +344,11 @@ const VirtualMachinesList = () => {
                       onClick={() => {
                         dispatch(
                           showModalAction({
-                            modal: RestoreModal,
+                            component: RestoreModal,
                             props: {
                               virtualEnvironment: rowData,
                             },
+                            title: 'Restore',
                           }),
                         );
                       }}

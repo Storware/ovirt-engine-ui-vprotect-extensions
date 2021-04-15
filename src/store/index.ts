@@ -2,8 +2,6 @@ import {
   combineReducers,
   createStore,
   applyMiddleware,
-  ThunkAction,
-  Action,
 } from '@reduxjs/toolkit';
 import user from './user';
 import virtualMachine from './virtual-machine';
@@ -18,6 +16,9 @@ import mountBackupModal from './mount-backup-modal';
 import policy from './policy';
 import schedules from './schedules';
 import schedule from './schedule';
+import chargebackChart from './chargeback-chart';
+import reporting from './reporting';
+import chargebackChartForm from './chargeback-chart-form';
 import thunk from 'redux-thunk';
 
 export const rootReducer = combineReducers({
@@ -34,14 +35,11 @@ export const rootReducer = combineReducers({
   schedules,
   schedule,
   modal,
+  chargebackChart,
+  reporting,
+  chargebackChartForm,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->;

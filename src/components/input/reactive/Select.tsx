@@ -1,18 +1,44 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dropdown } from 'primereact/dropdown';
-import compare from 'utils/compare';
+import { compareWithValueProperty } from 'utils/compare';
+
+const getValue = (value, valueProperty?) => {
+  return valueProperty ? value[valueProperty] : value;
+};
 
 const Select = ({ field, form: { setFieldValue }, ...props }) => {
+  const [value, setValue] = useState();
+
+  const setFieldValueAndEmitChangeEvent = (value) => {
+    setValue(value);
+    const propertyValue = getValue(value, props.valueProperty);
+    setFieldValue(field.name, propertyValue);
+    if (props.change) {
+      props.change({
+        value: propertyValue,
+      });
+    }
+  };
+
   useEffect(() => {
-    if (!props.options[0] || !props.required || (field.value && props.options.some(el => compare(field.value, el)))) {
+    if (!props.options[0]) {
       return;
     }
 
-    setFieldValue(field.name, props.options[0]);
-    if (props.change) {
-      props.change({value: props.options[0]});
+    const option =
+      field.value &&
+      props.options.find((el) =>
+        compareWithValueProperty(props.valueProperty, field.value, el),
+      );
+
+    if (option) {
+      setValue(option);
+      return;
     }
 
+    if (props.required) {
+      setFieldValueAndEmitChangeEvent(props.options[0]);
+    }
   }, [props.options, field.value]);
 
   return (
@@ -21,11 +47,9 @@ const Select = ({ field, form: { setFieldValue }, ...props }) => {
       <Dropdown
         {...field}
         {...props}
+        value={value}
         onChange={(e) => {
-          field.onChange(e);
-          if (props.change) {
-            props.change(e);
-          }
+          setFieldValueAndEmitChangeEvent(e.value);
         }}
       />
     </div>

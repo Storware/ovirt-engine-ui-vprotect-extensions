@@ -16,7 +16,9 @@ import { backupDestinationsService } from '../../services/backup-destinations-se
 import { schedulesService } from '../../services/schedules-service';
 import { alertService } from '../../services/alert-service';
 import { VirtualMachineBackupPolicy } from '../../model/VirtualMachineBackupPolicy';
-import {createBrowserHistory} from "history";
+import { createBrowserHistory } from 'history';
+
+const history = createBrowserHistory();
 
 class BackupPolicy extends React.Component {
   constructor(props) {
@@ -76,7 +78,7 @@ class BackupPolicy extends React.Component {
           [name]:
             e.target && e.target.nodeName === 'INPUT'
               ? e.target.value
-              : e.value && e.target,
+              : e.value,
         },
       });
     };
@@ -108,11 +110,10 @@ class BackupPolicy extends React.Component {
       });
       alertService.info('Policy created');
     }
+    history.back();
   };
 
   render() {
-    const history = createBrowserHistory()
-
     return (
       <div className={'form'}>
         <Accordion
@@ -138,8 +139,8 @@ class BackupPolicy extends React.Component {
                     model: {
                       ...this.state.model,
                       autoRemoveNonPresent: e.value,
-                    }
-                  })
+                    },
+                  });
                 }}
               />
             </div>
