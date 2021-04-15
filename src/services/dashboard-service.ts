@@ -12,11 +12,10 @@ class DashboardService {
       `/chargeback-reporting/backup-size/vm`,
       data,
     ).then(res => {
-      res.map(el => {
+      return res.map(el => {
         const hostname = getHostnameFromRegex(el.name);
         el.name = hostname ? hostname : el.name;
       })
-      return res;
     });
   }
 
