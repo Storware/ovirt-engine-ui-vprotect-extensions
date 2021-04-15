@@ -35,7 +35,6 @@ export const getChargebackData = (
   const chartData = await dashboardService.getChargebackReport(
     chargebackRequest,
   );
-
   await dispatch(
     setChargebackData({
       labels: chartData.map((el) => el.name),

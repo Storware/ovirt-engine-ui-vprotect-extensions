@@ -15,7 +15,6 @@ import ChargebackChart from 'components/chart/ChargebackChart';
 import { getChargebackData } from 'store/chargeback-chart/actions';
 import config from '../../utils/config';
 
-
 const groupByOptions = [
   {
     value: 'backup-destination',
@@ -37,16 +36,18 @@ const groupByOptions = [
     value: 'project',
     label: 'Project',
   },
-  ...(config.build !== 'OPENSTACK' ? [
-    {
-      value: 'hypervisor-cluster',
-      label: 'Cluster',
-    },
-    {
-      value: 'hypervisor-manager',
-      label: 'Hypervisor Manager',
-    },
-  ] : [])
+  ...(config.build !== 'OPENSTACK'
+    ? [
+        {
+          value: 'hypervisor-cluster',
+          label: 'Cluster',
+        },
+        {
+          value: 'hypervisor-manager',
+          label: 'Hypervisor Manager',
+        },
+      ]
+    : []),
 ];
 
 const filterByFieldOptions = {
@@ -75,8 +76,8 @@ const filterByFieldOptions = {
     hypervisorManagerGuids: {
       label: 'Hypervisor Manager',
       optionsLabelProperty: 'url',
-    }
-  })
+    },
+  }),
 };
 
 const mapPropertiesObjectListToStringOfGuids = (
@@ -97,10 +98,6 @@ export default () => {
   const propertyOptions = useSelector(selectPropertyOptions);
   const dispatch = useDispatch();
   const chargeBackRequest = new ChargebackRequest();
-
-  const chargeBackObjectTypeProperties = () => {
-    return Object.keys(filterByFieldOptions);
-  }
 
   return (
     <div>
@@ -127,7 +124,7 @@ export default () => {
 
           <h3>Filter</h3>
 
-          {chargeBackObjectTypeProperties().map((el) => {
+          {Object.keys(filterByFieldOptions).map((el) => {
             const [show, setShow] = useState(false);
             return (
               <div>

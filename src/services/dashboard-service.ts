@@ -8,15 +8,13 @@ function getHostnameFromRegex(url) {
 
 class DashboardService {
   getChargebackReport(data: ChargebackRequest) {
-     return vprotectApiService.post(
-      `/chargeback-reporting/backup-size/vm`,
-      data,
-    ).then(res => {
-      return res.map(el => {
-        const hostname = getHostnameFromRegex(el.name);
-        el.name = hostname ? hostname : el.name;
-      })
-    });
+    return vprotectApiService
+      .post(`/chargeback-reporting/backup-size/vm`, data)
+      .then((res) => {
+        return res.map((el) => {
+          return { ...el, name: getHostnameFromRegex(el.name) || el.name };
+        });
+      });
   }
 
   getReport(params = {}) {
