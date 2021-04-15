@@ -16,17 +16,6 @@ import { getChargebackData } from 'store/chargeback-chart/actions';
 import config from '../../utils/config';
 
 
-const hypervisorOptions = [
-  {
-    value: 'hypervisor-cluster',
-    label: 'Cluster',
-  },
-  {
-    value: 'hypervisor-manager',
-    label: 'Hypervisor Manager',
-  },
-]
-
 const groupByOptions = [
   {
     value: 'backup-destination',
@@ -48,19 +37,17 @@ const groupByOptions = [
     value: 'project',
     label: 'Project',
   },
-  ...(config.build !== 'OPENSTACK' ? hypervisorOptions : [])
+  ...(config.build !== 'OPENSTACK' ? [
+    {
+      value: 'hypervisor-cluster',
+      label: 'Cluster',
+    },
+    {
+      value: 'hypervisor-manager',
+      label: 'Hypervisor Manager',
+    },
+  ] : [])
 ];
-
-const hypervisorFieldOptions = {
-  hypervisorClusterGuids: {
-    label: 'Hypervisor Cluster',
-    optionsLabelProperty: 'name',
-  },
-  hypervisorManagerGuids: {
-    label: 'Hypervisor Manager',
-    optionsLabelProperty: 'url',
-  }
-}
 
 const filterByFieldOptions = {
   backupDestinationGuids: {
@@ -80,7 +67,16 @@ const filterByFieldOptions = {
     label: 'Virtual Environment',
     optionsLabelProperty: 'name',
   },
-  ...(config.build !== 'OPENSTACK' && hypervisorFieldOptions)
+  ...(config.build !== 'OPENSTACK' && {
+    hypervisorClusterGuids: {
+      label: 'Hypervisor Cluster',
+      optionsLabelProperty: 'name',
+    },
+    hypervisorManagerGuids: {
+      label: 'Hypervisor Manager',
+      optionsLabelProperty: 'url',
+    }
+  })
 };
 
 const mapPropertiesObjectListToStringOfGuids = (

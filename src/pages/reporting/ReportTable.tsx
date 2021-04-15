@@ -12,7 +12,7 @@ import classNames from 'classnames';
 import './ReportTable.scss';
 import {Link} from 'react-router-dom';
 
-const statusVirtualEnvironment = (rowData) => {
+const virtualEnvironmentStatus = (rowData) => {
     const statusClassName = classNames({
         'text-danger': rowData.status === 'Failed',
         'text-info': rowData.status === 'Success (removed)',
@@ -60,7 +60,7 @@ export default () => {
                 )}
                 <Column style={{width: '10%'}} field="size" header="Size" body={sizeTemplate}/>
                 <Column style={{width: '10%'}} field="type" header="Type"/>
-                <Column style={{width: '10%'}} field="status" header="Status" body={statusVirtualEnvironment}/>
+                <Column style={{width: '10%'}} field="status" header="Status" body={virtualEnvironmentStatus}/>
                 <Column field="statusInfo" header="Status Info"/>
             </Table>
         </div>

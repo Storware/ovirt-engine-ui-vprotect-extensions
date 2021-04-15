@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, useRouteMatch, Redirect, Route } from 'react-router-dom';
+import { Switch, useRouteMatch } from 'react-router-dom';
 import Summary from 'pages/reporting/Summary';
 import Tabs from 'components/tabs/Tabs';
 import { TabList } from 'components/tabs/Tab';
@@ -12,7 +12,6 @@ import { showModalAction } from 'store/modal/actions';
 import SendReportViaEmailModal from 'pages/dashboard/chargeback/SendReportViaEmailModal';
 import { Button } from 'primereact/button';
 import { useDispatch } from 'react-redux';
-import VirtualMachine from '../virtual-machines/virtual-machine/VirtualMachine';
 
 const tabs: TabList = [
   { label: 'Summary', path: 'summary' },
@@ -36,9 +35,6 @@ export default () => {
       <DateRange />
       <Tabs items={tabs} />
       <Switch>
-          <Route path={'/virtual_environments/:guid'}>
-                <VirtualMachine />
-          </Route>
         <Routes items={routes} absolutePathPart={match.path} />
       </Switch>
       <div className="d-flex justify-content-end">
