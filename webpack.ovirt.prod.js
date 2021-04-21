@@ -162,7 +162,7 @@ module.exports = {
   bail: true,
 
   entry: {
-    plugin: [...commonModules, './src/integrations/plugin.js'],
+    plugin: [...commonModules, './src/integrations/ovirt/plugin.js'],
     index: [...commonModules, './src/index.tsx'],
   },
 
@@ -177,6 +177,14 @@ module.exports = {
       store: path.resolve(__dirname, 'src/store/'),
       utils: path.resolve(__dirname, 'src/utils/'),
       integrations: path.resolve(__dirname, 'src/integrations/'),
+      [path.resolve(__dirname, 'src/integrations/app-init.js')]: path.resolve(
+        __dirname,
+        'src/integrations/ovirt/app-init.js',
+      ),
+      [path.resolve(__dirname, 'src/integrations/plugin-api.js')]: path.resolve(
+        __dirname,
+        'src/integrations/ovirt/plugin-api.js',
+      ),
       [path.resolve(__dirname, 'src/utils/config.js')]: path.resolve(
         __dirname,
         'src/integrations/ovirt/config.js',

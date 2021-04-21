@@ -1,5 +1,5 @@
 import { pluginBasePath, primaryMenuId } from 'utils/constants';
-import getPluginApi from 'integrations/plugin-api';
+import getPluginApi from 'integrations/ovirt/plugin-api';
 
 function addVprotectPlace() {
   getPluginApi.addPrimaryMenuContainer('VM Backup', primaryMenuId, {
