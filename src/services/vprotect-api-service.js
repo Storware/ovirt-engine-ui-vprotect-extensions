@@ -37,12 +37,17 @@ class VprotectApiService {
         ? { body: JSON.stringify(body) }
         : {}),
     }).then(async (response) => {
-      const jsonResponse = await response.json();
       if (!response.ok) {
-        alertService.error(errorMessage(jsonResponse));
-        return Promise.reject(jsonResponse);
+        const json = await response.json();
+        alertService.error(errorMessage(json));
+        return Promise.reject(json);
       }
-      return jsonResponse;
+
+      if (options && options.responseType === 'blob') {
+        return response;
+      }
+
+      return await response.json();
     });
   }
 

@@ -78,11 +78,12 @@ const FileSystemModal = ({ guid }) => {
 
   const goToPage = (newBreadCrumb) => {
     const newCurrentPath = {
-      path: newBreadCrumb.length > 0
+      path:
+        newBreadCrumb.length > 0
           ? `/${newBreadCrumb.map((el) => el.label).join('/')}/`
-          : '/'
+          : '/',
     };
-    setCurrentPath(newCurrentPath)
+    setCurrentPath(newCurrentPath);
     dispatch(getFilesystemListing(guid, newCurrentPath));
     setBreadCrumb(newBreadCrumb);
   };
