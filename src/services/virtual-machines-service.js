@@ -12,7 +12,7 @@ export const preAndPostSnapStdErrorHandlingOptions = [
 
 class VirtualMachinesService {
   getVirtualMachines() {
-    return vprotectApiService.get(`/virtual-machines?hypervisor-manager-type`);
+    return vprotectApiService.get(`/virtual-machines`);
   }
 
   getVirtualMachine(id) {
