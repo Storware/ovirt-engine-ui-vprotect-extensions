@@ -1,27 +1,29 @@
-import React, {useEffect, useRef} from 'react'
-import {vprotectService} from '../../../services/vprotect-service'
-import {Filesize} from '../../../components/convert/Filesize'
-import {RestoreAndImportTask} from 'model/tasks/restore-and-import-task'
-import {Field, Form, Formik} from 'formik'
-import {useDispatch, useSelector} from 'react-redux'
+import React, { useEffect, useRef } from 'react';
+import { vprotectService } from '../../../services/vprotect-service';
+import { Filesize } from '../../../components/convert/Filesize';
+import { RestoreAndImportTask } from 'model/tasks/restore-and-import-task';
+import { Field, Form, Formik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   getHypervisorClustersForHypervisorManager,
   getHypervisorManagersAvailableForBackup,
   getHypervisorStoragesForHypervisorManager,
-  getRestorableBackups, setFilteredHypervisorStoragesAction, submitTask
-} from 'store/restore-modal/actions'
+  getRestorableBackups,
+  setFilteredHypervisorStoragesAction,
+  submitTask,
+} from 'store/restore-modal/actions';
 import {
-  selectBackups, selectFilteredHypervisorStorages,
+  selectBackups,
+  selectFilteredHypervisorStorages,
   selectHypervisorClusters,
   selectHypervisorManagers,
-  selectHypervisorStorages
-} from 'store/restore-modal/selectors'
-import Select from 'components/input/reactive/Select'
-import BackupSelect from 'components/input/reactive/BackupSelect'
-import SelectWithOther from 'components/input/reactive/SelectWithOther'
-import {selectSaved} from 'store/modal/selectors'
-import Toggle from 'components/input/reactive/Toggle'
-import ToggleText from 'components/input/reactive/ToggleText'
+  selectHypervisorStorages,
+} from 'store/restore-modal/selectors';
+import Select from 'components/input/reactive/Select';
+import BackupSelect from 'components/input/reactive/BackupSelect';
+import { selectSaved } from 'store/modal/selectors';
+import Toggle from 'components/input/reactive/Toggle';
+import ToggleText from 'components/input/reactive/ToggleText';
 
 const storageDropdownTemplate = (option) => {
   return (
@@ -29,53 +31,64 @@ const storageDropdownTemplate = (option) => {
       <span>{option.name}</span>
       {option.totalAvailableSpace && (
         <span>
-            <Filesize bytes={option.totalAvailableSpace}/>, free:{' '}
+          <Filesize bytes={option.totalAvailableSpace} />, free:{' '}
           <Filesize
             bytes={option.totalAvailableSpace - option.totalUsedSpace}
           />
-          </span>
+        </span>
       )}
     </div>
-  )
-}
+  );
+};
 
-export const RestoreModal = ({virtualEnvironment}) => {
-  const dispatch = useDispatch()
-  const formRef = useRef()
+export const RestoreModal = ({ virtualEnvironment }) => {
+  const dispatch = useDispatch();
+  const formRef = useRef();
 
   useEffect(() => {
-    dispatch(getRestorableBackups(virtualEnvironment))
-  }, [])
+    dispatch(getRestorableBackups(virtualEnvironment));
+  }, []);
 
-  let backups = useSelector(selectBackups)
-  let hypervisorManagers = useSelector(selectHypervisorManagers)
-  let storages = useSelector(selectHypervisorStorages)
-  let filteredStorages = useSelector(selectFilteredHypervisorStorages)
-  let clusters = useSelector(selectHypervisorClusters)
-  let task = new RestoreAndImportTask()
+  let backups = useSelector(selectBackups);
+  let hypervisorManagers = useSelector(selectHypervisorManagers);
+  let storages = useSelector(selectHypervisorStorages);
+  let filteredStorages = useSelector(selectFilteredHypervisorStorages);
+  let clusters = useSelector(selectHypervisorClusters);
+  let task = new RestoreAndImportTask();
 
   const onBackupChange = (e) => {
-    dispatch(getHypervisorManagersAvailableForBackup(e.value.guid, virtualEnvironment, task))
-  }
+    dispatch(
+      getHypervisorManagersAvailableForBackup(
+        e.value.guid,
+        virtualEnvironment,
+        task,
+      ),
+    );
+  };
 
   const onHypervisorChange = async (e) => {
-    await dispatch(getHypervisorStoragesForHypervisorManager(e.value.guid))
-    await dispatch(getHypervisorClustersForHypervisorManager(e.value.guid))
-  }
+    await dispatch(getHypervisorStoragesForHypervisorManager(e.value.guid));
+    await dispatch(getHypervisorClustersForHypervisorManager(e.value.guid));
+  };
 
-  const onClusterChange = async (selectedClusterUuid) => {
-    const cluster = clusters.find(el => el.uuid === selectedClusterUuid);
-    dispatch(setFilteredHypervisorStoragesAction(
-      !!cluster ?
-        storages.filter(storage => {
-        return !!storage.clusters && !!storage.clusters.find(el => cluster.guid === el.guid)
-        }) :
-        []
-    ))
-  }
+  const onClusterChange = async (event) => {
+    const cluster = clusters.find((el) => el.uuid === event.value.uuid);
+    dispatch(
+      setFilteredHypervisorStoragesAction(
+        !!cluster
+          ? storages.filter((storage) => {
+              return (
+                !!storage.clusters &&
+                !!storage.clusters.find((el) => cluster.guid === el.guid)
+              );
+            })
+          : [],
+      ),
+    );
+  };
 
   if (useSelector(selectSaved)) {
-    formRef.current.handleSubmit()
+    formRef.current.handleSubmit();
   }
 
   return (
@@ -84,12 +97,12 @@ export const RestoreModal = ({virtualEnvironment}) => {
         enableReinitialize
         innerRef={formRef}
         initialValues={task}
-        onSubmit={(values, {setSubmitting}) => {
-          dispatch(submitTask(values))
-          setSubmitting(false)
+        onSubmit={(values, { setSubmitting }) => {
+          dispatch(submitTask(values));
+          setSubmitting(false);
         }}
       >
-        {({isSubmitting}) => (
+        {({ isSubmitting }) => (
           <Form>
             <Field
               name="backup"
@@ -110,20 +123,25 @@ export const RestoreModal = ({virtualEnvironment}) => {
             />
             <Field
               name="restoreClusterId"
-              component={SelectWithOther}
+              component={Select}
               change={onClusterChange}
               optionLabel="name"
-              label="Import to cluster"
+              required
+              label="Import to an availability zone"
               options={clusters}
             />
-            <Field
-              name="restoreStorageId"
-              component={SelectWithOther}
-              itemTemplate={storageDropdownTemplate}
-              optionLabel="name"
-              label="Import to storage"
-              options={filteredStorages}
-            />
+            {!!filteredStorages.length && (
+              <Field
+                name="restoreStorageId"
+                component={Select}
+                itemTemplate={storageDropdownTemplate}
+                optionLabel="name"
+                required
+                label="Import to storage"
+                options={filteredStorages}
+              />
+            )}
+
             <Field
               name="overwrite"
               component={Toggle}
@@ -147,6 +165,5 @@ export const RestoreModal = ({virtualEnvironment}) => {
         )}
       </Formik>
     </div>
-  )
-
-}
+  );
+};
