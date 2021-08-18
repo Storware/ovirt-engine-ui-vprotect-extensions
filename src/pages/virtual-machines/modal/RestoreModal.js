@@ -72,7 +72,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
   };
 
   const onClusterChange = async (event) => {
-    const cluster = clusters.find((el) => el.uuid === event.value.uuid);
+    const cluster = clusters.find((el) => el.uuid === event.value);
     dispatch(
       setFilteredHypervisorStoragesAction(
         !!cluster
