@@ -125,6 +125,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
               name="restoreClusterId"
               component={Select}
               change={onClusterChange}
+              valueProperty="uuid"
               optionLabel="name"
               required
               label="Import to an availability zone"
@@ -136,6 +137,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
                 component={Select}
                 itemTemplate={storageDropdownTemplate}
                 optionLabel="name"
+                valueProperty="uuid"
                 required
                 label="Import to storage"
                 options={filteredStorages}
