@@ -34,6 +34,7 @@ import { showModalAction } from 'store/modal/actions';
 import { MountBackupModal } from 'components/modal/MountBackupModal';
 import { nameTemplate } from '../../policies/PoliciesList';
 import { createBrowserHistory } from 'history';
+import { deleteVirtualMachine } from '../../../store/virtual-machines/actions';
 
 const filterFields = [
   {
@@ -356,6 +357,13 @@ const VirtualMachinesList = () => {
                       Restore
                     </MenuItem>
                   )}
+                  <MenuItem
+                    onClick={() => {
+                      dispatch(deleteVirtualMachine(rowData));
+                    }}
+                  >
+                    Delete
+                  </MenuItem>
                 </Table.DropdownKebab>
               </Table.Actions>,
             ];

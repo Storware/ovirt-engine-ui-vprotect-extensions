@@ -16,6 +16,10 @@ class TasksService {
   submitTaskRestoreAndImport(task) {
     return vprotectApiService.post(`/tasks/restore-and-import`, task);
   }
+
+  submitTaskDelete(entityGuid) {
+    return vprotectApiService.post('/tasks/delete', { value: entityGuid });
+  }
 }
 
 export const tasksService = new TasksService();
