@@ -9,6 +9,7 @@ import {
   getHypervisorManagersAvailableForBackup,
   getHypervisorStoragesForHypervisorManager,
   getRestorableBackups,
+  getProjectsForHypervisorManager,
   setFilteredHypervisorStoragesAction,
   submitTask,
 } from 'store/restore-modal/actions';
@@ -24,6 +25,7 @@ import BackupSelect from 'components/input/reactive/BackupSelect';
 import { selectSaved } from 'store/modal/selectors';
 import Toggle from 'components/input/reactive/Toggle';
 import ToggleText from 'components/input/reactive/ToggleText';
+import {selectProjectsForHypervisorManager} from "../../../store/restore-modal/selectors";
 
 const storageDropdownTemplate = (option) => {
   return (
@@ -54,6 +56,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
   let storages = useSelector(selectHypervisorStorages);
   let filteredStorages = useSelector(selectFilteredHypervisorStorages);
   let clusters = useSelector(selectHypervisorClusters);
+  let projectsForHypervisorManager = useSelector(selectProjectsForHypervisorManager);
   let task = new RestoreAndImportTask();
 
   const onBackupChange = (e) => {
@@ -69,6 +72,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
   const onHypervisorChange = async (e) => {
     await dispatch(getHypervisorStoragesForHypervisorManager(e.value.guid));
     await dispatch(getHypervisorClustersForHypervisorManager(e.value.guid));
+    await dispatch(getProjectsForHypervisorManager(e.value.guid));
   };
 
   const onClusterChange = async (event) => {
@@ -90,7 +94,6 @@ export const RestoreModal = ({ virtualEnvironment }) => {
   if (useSelector(selectSaved)) {
     formRef.current.handleSubmit();
   }
-
   return (
     <div className="form">
       <Formik
@@ -102,7 +105,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
           setSubmitting(false);
         }}
       >
-        {({ isSubmitting }) => (
+        {({ values, isSubmitting }) => (
           <Form>
             <Field
               name="backup"
@@ -163,6 +166,16 @@ export const RestoreModal = ({ virtualEnvironment }) => {
               required
               options={vprotectService.diskAllocationFormats}
             />
+            {!!values.hypervisorManager && ['KUBERNETES', 'OPENSHIFT', 'OPENSTACK'].includes(values.hypervisorManager.type.name) && (
+              <Field
+                name="restoreProject"
+                component={Select}
+                optionLabel="name"
+                label="Restored project name"
+                required
+                options={projectsForHypervisorManager}
+              />
+            )}
           </Form>
         )}
       </Formik>
