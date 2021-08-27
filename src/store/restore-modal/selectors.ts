@@ -12,3 +12,5 @@ export const selectFilteredHypervisorStorages = (store: RootState) =>
   store.restoreModal.filteredHypervisorStorages;
 export const selectHypervisorClusters = (store: RootState) =>
   store.restoreModal.hypervisorClusters;
+export const selectProjectsForHypervisorManager = (store: RootState) =>
+    store.restoreModal.projectsForHypervisorManager;

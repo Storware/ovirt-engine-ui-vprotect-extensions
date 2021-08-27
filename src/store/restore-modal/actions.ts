@@ -1,13 +1,19 @@
 import {
     BackupModalAction,
-    SET_BACKUPS, SET_FILTERED_HYPERVISOR_STORAGES, SET_HYPERVISOR_CLUSTERS,
-    SET_HYPERVISOR_MANAGERS, SET_HYPERVISOR_STORAGES, SET_TASK,
+    SET_BACKUPS,
+    SET_FILTERED_HYPERVISOR_STORAGES,
+    SET_HYPERVISOR_CLUSTERS,
+    SET_HYPERVISOR_MANAGERS,
+    SET_HYPERVISOR_STORAGES,
+    SET_PROJECTS_FOR_HYPERVISOR_MANAGER,
+    SET_TASK,
 } from './types';
 import {Dispatch} from 'redux';
 import {backupsService} from '../../services/backups-service';
 import {alertService} from '../../services/alert-service';
 import {tasksService} from '../../services/tasks-service';
 import {hypervisorsService} from '../../services/hypervisors-service';
+import {vprotectService} from '../../services/vprotect-service';
 import {hideModalAction, unsaveModalAction} from '../modal/actions';
 import {RestoreAndImportTask} from '../../model/tasks/restore-and-import-task';
 
@@ -49,6 +55,13 @@ export const setFilteredHypervisorStoragesAction = (payload: any[]): BackupModal
 export const setHypervisorClustersAction = (payload: any[]): BackupModalAction => {
     return {
         type: SET_HYPERVISOR_CLUSTERS,
+        payload,
+    };
+};
+
+export const setProjectsForHypervisorManager = (payload: any[]): BackupModalAction => {
+    return {
+        type: SET_PROJECTS_FOR_HYPERVISOR_MANAGER,
         payload,
     };
 };
@@ -95,6 +108,11 @@ export const getHypervisorClustersForHypervisorManager = (hypervisorManagerGuid:
     const hypervisorClusters = await hypervisorsService.getHypervisorClustersForHvm(hypervisorManagerGuid);
     await dispatch(setHypervisorClustersAction(hypervisorClusters));
 };
+
+export const getProjectsForHypervisorManager = (hypervisorManagerGuid: string) => async (dispatch: Dispatch) => {
+    const projectsForHypervisorManager = await vprotectService.getProjectsForHypervisorManager(hypervisorManagerGuid);
+    await dispatch(setProjectsForHypervisorManager(projectsForHypervisorManager));
+}
 
 export const submitTask = (task) => async (dispatch: Dispatch) => {
     try {
