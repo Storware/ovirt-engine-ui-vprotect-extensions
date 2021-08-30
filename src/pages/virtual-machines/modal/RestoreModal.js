@@ -58,6 +58,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
   let clusters = useSelector(selectHypervisorClusters);
   let projectsForHypervisorManager = useSelector(selectProjectsForHypervisorManager);
   let task = new RestoreAndImportTask();
+  let selectedBackup = backups[0];
 
   const onBackupChange = (e) => {
     dispatch(
@@ -67,6 +68,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
         task,
       ),
     );
+    selectedBackup = e;
   };
 
   const onHypervisorChange = async (e) => {
@@ -134,7 +136,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
               label="Import to an availability zone"
               options={clusters}
             />
-            {!!filteredStorages.length && (
+            {!!filteredStorages.length && !(selectedBackup.vmExportImportMode && selectedBackup.vmExportImportMode.name === "DISK_ATTACHMENT") && (
               <Field
                 name="restoreStorageId"
                 component={Select}
