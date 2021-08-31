@@ -1,4 +1,9 @@
 import { vprotectApiService } from './vprotect-api-service';
+import {
+  getElementsWithoutProjectUuidInName,
+  getElementWithoutProjectUuidInName,
+  getElementWithProjectUuidInName,
+} from '../utils/byProjectFilter';
 
 class PoliciesService {
   assignModes = [
@@ -7,20 +12,28 @@ class PoliciesService {
     { name: 'ASSIGN_AND_REMOVE', description: 'AssignAndRemove' },
   ];
 
-  getPolicies(type) {
-    return vprotectApiService.get(`/policies/${type}?extended=true`);
+  async getPolicies(type) {
+    const res = await vprotectApiService.get(`/policies/${type}?extended=true`);
+    return getElementsWithoutProjectUuidInName(res);
   }
 
-  getPolicy(type, guid) {
-    return vprotectApiService.get(`/policies/${type}/${guid}`);
+  async getPolicy(type, guid) {
+    const res = await vprotectApiService.get(`/policies/${type}/${guid}`);
+    return getElementWithoutProjectUuidInName(res);
   }
 
   updatePolicy(type, id, policy) {
-    return vprotectApiService.put(`/policies/${type}/${id}`, policy);
+    return vprotectApiService.put(
+      `/policies/${type}/${id}`,
+      getElementWithProjectUuidInName(policy),
+    );
   }
 
   createPolicy(type, policy) {
-    return vprotectApiService.post(`/policies/${type}`, policy);
+    return vprotectApiService.post(
+      `/policies/${type}`,
+      getElementWithProjectUuidInName(policy),
+    );
   }
 
   createRule(type, rule) {

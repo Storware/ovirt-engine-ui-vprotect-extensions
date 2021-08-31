@@ -1,6 +1,11 @@
 import { vprotectApiService } from './vprotect-api-service';
 import * as moment from 'moment-timezone';
 import { offset, sourceToViewShiftedDays } from './time';
+import {
+  getElementsWithoutProjectUuidInName,
+  getElementWithoutProjectUuidInName,
+  getElementWithProjectUuidInName,
+} from '../utils/byProjectFilter';
 
 class SchedulesService {
   backupTypes = [
@@ -14,8 +19,8 @@ class SchedulesService {
   ];
 
   async getAllTypeSchedules(type) {
-    let data = await vprotectApiService.get('/schedules?type=' + type);
-    return data.map((el) => {
+    const data = await vprotectApiService.get('/schedules?type=' + type);
+    return getElementsWithoutProjectUuidInName(data).map((el) => {
       return {
         ...el,
         daysOfWeek: sourceToViewShiftedDays(el.daysOfWeek, el.hour),
@@ -27,16 +32,23 @@ class SchedulesService {
     return vprotectApiService.delete('/schedules/' + id);
   }
 
-  getSchedule(id) {
-    return vprotectApiService.get('/schedules/' + id);
+  async getSchedule(id) {
+    const res = await vprotectApiService.get(`/schedules/${id}`);
+    return getElementWithoutProjectUuidInName(res);
   }
 
   createSchedule(schedule) {
-    return vprotectApiService.post('/schedules', schedule);
+    return vprotectApiService.post(
+      '/schedules',
+      getElementWithProjectUuidInName(schedule),
+    );
   }
 
   updateSchedule(id, schedule) {
-    return vprotectApiService.put('/schedules/' + id, schedule);
+    return vprotectApiService.put(
+      '/schedules/' + id,
+      getElementWithProjectUuidInName(schedule),
+    );
   }
 
   async getProtectedEntitySchedules(id) {
