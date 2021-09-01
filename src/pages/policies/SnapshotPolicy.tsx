@@ -70,6 +70,11 @@ const SnapshotPolicy = () => {
               <AccordionTab header="General">
                 <Field name="name" component={Text} label="Name" />
                 <Field
+                  name="active"
+                  component={Toggle}
+                  label="Scheduled backups enabled"
+                />
+                <Field
                   name="autoRemoveNonPresent"
                   component={Toggle}
                   label="Auto remove non-present Virtual Environments"

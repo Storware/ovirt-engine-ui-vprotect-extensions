@@ -129,6 +129,21 @@ class BackupPolicy extends React.Component {
                 onChange={this.handle('name')}
               />
             </div>
+            <div>
+              <h3>Scheduled backups enabled</h3>
+              <ToggleButton
+                checked={this.state.model.active}
+                onChange={(e) => {
+                  this.setState({
+                    ...this.state,
+                    model: {
+                      ...this.state.model,
+                      active: e.value,
+                    },
+                  });
+                }}
+              />
+            </div>
             <div className={'pt-2'}>
               <h3>Auto remove non-present Virtual Environments</h3>
               <ToggleButton
