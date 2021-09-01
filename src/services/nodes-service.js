@@ -1,8 +1,8 @@
 import { vprotectApiService } from './vprotect-api-service';
 
 class NodesService {
-  getAllNodes() {
-    return vprotectApiService.get('/nodes');
+  getAllNodeConfigurations() {
+    return vprotectApiService.get('/node-configs');
   }
 }
 

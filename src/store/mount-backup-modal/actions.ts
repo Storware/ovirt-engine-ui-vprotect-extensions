@@ -4,7 +4,7 @@ import {
   SET_ISCSI_MOUNTABLE,
   SET_MANUAL_MOUNT_FILESYSTEMS,
   SET_MOUNTABLE_BACKUPS,
-  SET_NODES,
+  SET_NODE_CONFIGURATIONS,
 } from './types';
 import { Dispatch } from 'redux';
 import { backupsService } from '../../services/backups-service';
@@ -16,6 +16,7 @@ import { hideModalAction, unsaveModalAction } from '../modal/actions';
 import { MountedFileSystemRequest } from '../../model/tasks/mounted-file-system-request';
 import moment from 'moment-timezone';
 import { BackupFile } from '../../model/backup-file';
+import { RestoreAndMountTask } from 'model/tasks/restore-and-mount-task';
 
 export const setMountableBackupsAction = (
   payload: any[],
@@ -28,7 +29,7 @@ export const setMountableBackupsAction = (
 
 export const setNodesAction = (payload: any[]): MountBackupModalAction => {
   return {
-    type: SET_NODES,
+    type: SET_NODE_CONFIGURATIONS,
     payload,
   };
 };
@@ -65,8 +66,8 @@ export const getMountedBackup = (guid: string) => async (
 ) => {
   const mountableBackups = await backupsService.getMountableBackups(guid);
   await dispatch(setMountableBackupsAction(mountableBackups));
-  const nodes = await nodesService.getAllNodes();
-  await dispatch(setNodesAction(nodes));
+  const nodeConfigurations = await nodesService.getAllNodeConfigurations();
+  await dispatch(setNodesAction(nodeConfigurations));
 };
 
 export const getBackupFilesystems = (backup: any) => async (
@@ -109,7 +110,9 @@ export const getBackupFiles = async (backup: any) => {
   );
 };
 
-export const submitTask = (task: BackupTask) => async (dispatch: Dispatch) => {
+export const submitTask = (task: RestoreAndMountTask) => async (
+  dispatch: Dispatch,
+) => {
   try {
     await tasksService.submitTaskRestoreAndMount(task);
     alertService.info('Restore and Mount task has been submitted');
