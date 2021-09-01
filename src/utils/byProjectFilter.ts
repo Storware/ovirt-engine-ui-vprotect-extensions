@@ -23,11 +23,4 @@ export const getElementWithProjectUuidInName = (policy) => {
 };
 
 export const getElementsWithoutProjectUuidInName = (elements: any[]) =>
-  elements
-    .filter((el) => {
-      return (
-        !hasProjectAssigned(el.name) ||
-        nameParts(el.name)[1] === getCookie('recent_project')
-      );
-    })
-    .map(getElementWithoutProjectUuidInName);
+  elements.map(getElementWithoutProjectUuidInName);
