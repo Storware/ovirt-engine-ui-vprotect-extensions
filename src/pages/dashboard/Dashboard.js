@@ -12,7 +12,7 @@ import {
 import { Filesize } from '../../components/convert/Filesize';
 import { TIMEZONES } from 'model/timezones';
 import { user } from '../../utils/user';
-import config from 'utils/config';
+import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 import Chargeback from './chargeback/Chargeback';
 import ActivityChart from './activity/ActivityChart';
 
@@ -51,7 +51,7 @@ export class Dashboard extends React.Component {
         <Toolbar>
           <div className={'d-flex flex-row justify-content-between'}>
             <div>Timezone: {fullTimeZoneName}</div>
-            {config.build !== 'OPENSTACK' && (
+            {isNotOpenstackBuild && (
               <div className={'form-group'}>
                 <Button
                   className={'btn btn-default'}
@@ -84,87 +84,87 @@ export class Dashboard extends React.Component {
                 </div>
               </div>
               {this.state.protection && (
-                  <div className="card-pf-body pie-chart-with-title-container">
-                    <h3 className={'text-center card-pf-title'}>
-                      VIRTUAL MACHINES
-                    </h3>
-                    <div>
-                      <DonutChart
-                          id="virtual-environments"
-                          data={{
-                            colors: {
-                              Protected: '#34bfa3',
-                              'Not Protected': '#f22d4e',
-                              'Not Scheduled': '#b2b2b2',
-                            },
-                            columns: [
-                              ['Protected', this.state.protection.vm.protectedNo],
-                              [
-                                'Not Protected',
-                                this.state.protection.vm.notProtected,
-                              ],
-                              [
-                                'Not Scheduled',
-                                this.state.protection.vm.noSchedule,
-                              ],
-                            ],
-                            groups: [
-                              ['Protected', 'Not Protected', 'Not Scheduled'],
-                            ],
-                            // type: 'pie'
-                          }}
-                          tooltip={{ show: true }}
-                          title={{ secondary: 'VMs' }}
-                      />
-                    </div>
+                <div className="card-pf-body pie-chart-with-title-container">
+                  <h3 className={'text-center card-pf-title'}>
+                    VIRTUAL MACHINES
+                  </h3>
+                  <div>
+                    <DonutChart
+                      id="virtual-environments"
+                      data={{
+                        colors: {
+                          Protected: '#34bfa3',
+                          'Not Protected': '#f22d4e',
+                          'Not Scheduled': '#b2b2b2',
+                        },
+                        columns: [
+                          ['Protected', this.state.protection.vm.protectedNo],
+                          [
+                            'Not Protected',
+                            this.state.protection.vm.notProtected,
+                          ],
+                          [
+                            'Not Scheduled',
+                            this.state.protection.vm.noSchedule,
+                          ],
+                        ],
+                        groups: [
+                          ['Protected', 'Not Protected', 'Not Scheduled'],
+                        ],
+                        // type: 'pie'
+                      }}
+                      tooltip={{ show: true }}
+                      title={{ secondary: 'VMs' }}
+                    />
                   </div>
+                </div>
               )}
-          </div>
+            </div>
 
             <div className="card-pf w-100 mx-3">
               {this.state.backupStats && (
-                  <div>
-                    <div className={'card-pf-heading'}>
-                      <div>
-                        <h3>Success Rate</h3>
-                      </div>
-                    </div>
-                    <div className={'d-flex flex-row justify-content-around'}>
-                      <div>
-                        <h3 className={'card-pf-title'}>LAST 24H</h3>
-                      </div>
-                      <div>
-                        <DonutChart
-                            id="donunt-chart-1"
-                            size={{ width: 210, height: 210 }}
-                            data={{
-                              colors: {
-                                Success: '#34bfa3',
-                                Failed: '#f22d4e',
-                                'In progress': '#b2b2b2',
-                              },
-                              columns: [
-                                ['Success', this.state.backupStats.successful],
-                                ['In progress', this.state.backupStats.inProgress],
-                                ['Failed', this.state.backupStats.failed],
-                              ],
-                              groups: [['Success', 'In progress', 'Failed']],
-                              order: null,
-                            }}
-                            tooltip={{ show: true }}
-                            title={{ secondary: 'tasks' }}
-                        />
-                      </div>
-                      <div className={'align-self-center'}>
-                        Total data protected: {this.state.backupStats.totalData}
-                      </div>
+                <div>
+                  <div className={'card-pf-heading'}>
+                    <div>
+                      <h3>Success Rate</h3>
                     </div>
                   </div>
+                  <div className={'d-flex flex-row justify-content-around'}>
+                    <div>
+                      <h3 className={'card-pf-title'}>LAST 24H</h3>
+                    </div>
+                    <div>
+                      <DonutChart
+                        id="donunt-chart-1"
+                        size={{ width: 210, height: 210 }}
+                        data={{
+                          colors: {
+                            Success: '#34bfa3',
+                            Failed: '#f22d4e',
+                            'In progress': '#b2b2b2',
+                          },
+                          columns: [
+                            ['Success', this.state.backupStats.successful],
+                            ['In progress', this.state.backupStats.inProgress],
+                            ['Failed', this.state.backupStats.failed],
+                          ],
+                          groups: [['Success', 'In progress', 'Failed']],
+                          order: null,
+                        }}
+                        tooltip={{ show: true }}
+                        title={{ secondary: 'tasks' }}
+                      />
+                    </div>
+                    <div className={'align-self-center'}>
+                      Total data protected: {this.state.backupStats.totalData}
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           </div>
 
-          {config.build !== 'OPENSTACK' && (
+          {isNotOpenstackBuild && (
             <div className={'col-md-6'}>
               <div className="card-pf">
                 <div>
@@ -217,7 +217,7 @@ export class Dashboard extends React.Component {
             </div>
           )}
 
-          {config.build !== 'OPENSTACK' && (
+          {isNotOpenstackBuild && (
             <div className={'col-md-6'}>
               <div className="card-pf">
                 <div>

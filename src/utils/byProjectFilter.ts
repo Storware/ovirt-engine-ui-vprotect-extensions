@@ -1,10 +1,10 @@
 import getCookie from 'utils/getCookie';
-import config from 'utils/config';
+import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 
 const nameParts = (name) => name.split('_');
 const hasProjectAssigned = (name) => name.includes('uuid_');
 export const getElementWithoutProjectUuidInName = (policy) => {
-  if (config.build !== 'OPENSTACK') {
+  if (isNotOpenstackBuild) {
     return policy;
   }
   if (!hasProjectAssigned(policy.name)) {
@@ -16,7 +16,7 @@ export const getElementWithoutProjectUuidInName = (policy) => {
 export const getElementWithProjectUuidInName = (policy) => {
   return {
     ...policy,
-    ...(config.build !== 'OPENSTACK'
+    ...(isNotOpenstackBuild
       ? {}
       : { name: `uuid_${getCookie('recent_project')}_${policy.name}` }),
   };

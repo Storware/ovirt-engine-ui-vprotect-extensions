@@ -75,10 +75,6 @@ class VprotectService {
     return vprotectApiService.get(`/backups?protected-entity=${id}`);
   }
 
-  getProjectsForHypervisorManager(hypervisorManagerGuid) {
-    return vprotectApiService.get(`/projects?hypervisor-manager=${hypervisorManagerGuid}`);
-  }
-
   getBackupTypes(vm, showIncremental = false) {
     let backupTypes = [{ name: 'FULL', description: 'Full' }];
     if (this.isIncrementalAvailable(vm) || showIncremental) {

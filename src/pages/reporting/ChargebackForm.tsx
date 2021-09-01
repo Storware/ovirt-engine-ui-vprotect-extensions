@@ -13,7 +13,7 @@ import {
 import InputListBox from 'components/input/reactive/InputListBox';
 import ChargebackChart from 'components/chart/ChargebackChart';
 import { getChargebackData } from 'store/chargeback-chart/actions';
-import config from '../../utils/config';
+import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 
 const groupByOptions = [
   {
@@ -36,7 +36,7 @@ const groupByOptions = [
     value: 'project',
     label: 'Project',
   },
-  ...(config.build !== 'OPENSTACK'
+  ...(isNotOpenstackBuild
     ? [
         {
           value: 'hypervisor-cluster',
@@ -68,7 +68,7 @@ const filterByFieldOptions = {
     label: 'Virtual Environment',
     optionsLabelProperty: 'name',
   },
-  ...(config.build !== 'OPENSTACK' && {
+  ...(isNotOpenstackBuild && {
     hypervisorClusterGuids: {
       label: 'Hypervisor Cluster',
       optionsLabelProperty: 'name',

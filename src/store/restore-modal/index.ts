@@ -5,10 +5,9 @@ import {
   SET_HYPERVISOR_CLUSTERS,
   SET_HYPERVISOR_MANAGERS,
   SET_HYPERVISOR_STORAGES,
-  SET_PROJECTS_FOR_HYPERVISOR_MANAGER,
   SET_TASK,
 } from './types';
-import {RestoreAndImportTask} from '../../model/tasks/restore-and-import-task';
+import { RestoreAndImportTask } from '../../model/tasks/restore-and-import-task';
 
 export type RestoreModalStore = {
   readonly task: any;
@@ -17,7 +16,6 @@ export type RestoreModalStore = {
   readonly hypervisorStorages: any[];
   readonly filteredHypervisorStorages: any[];
   readonly hypervisorClusters: any[];
-  readonly projectsForHypervisorManager: any[];
 };
 
 const initial: RestoreModalStore = {
@@ -27,7 +25,6 @@ const initial: RestoreModalStore = {
   hypervisorStorages: [],
   filteredHypervisorStorages: [],
   hypervisorClusters: [],
-  projectsForHypervisorManager: [],
 };
 
 export default (state = initial, action: BackupModalAction) => {
@@ -36,7 +33,8 @@ export default (state = initial, action: BackupModalAction) => {
       ...state,
       task: action.payload,
     };
-  }  if (action.type === SET_BACKUPS) {
+  }
+  if (action.type === SET_BACKUPS) {
     return {
       ...state,
       backups: action.payload,
@@ -65,12 +63,6 @@ export default (state = initial, action: BackupModalAction) => {
     return {
       ...state,
       hypervisorClusters: action.payload,
-    };
-  }
-  if (action.type === SET_PROJECTS_FOR_HYPERVISOR_MANAGER) {
-    return {
-      ...state,
-      projectsForHypervisorManager: action.payload,
     };
   }
   return state;
