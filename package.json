@@ -87,7 +87,7 @@
     "imports-loader": "^0.8.0",
     "inline-manifest-webpack-plugin": "^4.0.2",
     "intl-messageformat-parser": "^1.2.0",
-    "isomorphic-git": "^0.67.2",
+    "isomorphic-git": "^1.8.2",
     "jest": "^24.8.0",
     "json-stable-stringify": "^1.0.1",
     "mini-css-extract-plugin": "^0.8.0",
