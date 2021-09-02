@@ -72,20 +72,15 @@ export const getRestorableBackups = (virtualMachine: any) => async (
     virtualMachine.guid,
   );
   await dispatch(setBackupsAction(backups));
-};
-
-const hypervisorFromArray = (hypervisor, hypervisors) => {
-  return (
-    !!hypervisors &&
-    hypervisors.length > 0 &&
-    hypervisors.find((el) => el.guid === hypervisor.guid)
-  );
+  await getHypervisorManagersAvailableForBackup(
+    backups[0].guid,
+    virtualMachine,
+  )(dispatch);
 };
 
 export const getHypervisorManagersAvailableForBackup = (
   backupGuid: any,
   virtualMachine: any,
-  task: RestoreAndImportTask,
 ) => async (dispatch: Dispatch) => {
   const hypervisorManagers = await backupsService.getHypervisorManagersAvailableForBackup(
     backupGuid,
@@ -94,14 +89,13 @@ export const getHypervisorManagersAvailableForBackup = (
     return;
   }
   await dispatch(setHypervisoManagersAction(hypervisorManagers));
-  const hypervisorInArray = hypervisorFromArray(
-    virtualMachine.hvManager,
-    hypervisorManagers,
+  const hypervisorInArray = hypervisorManagers?.find(
+    (el) => el.guid === virtualMachine.hvManager.guid,
   );
   const hypervisorManager = hypervisorInArray || hypervisorManagers[0];
   await dispatch(
     setTaskAction({
-      ...task,
+      ...new RestoreAndImportTask(),
       hypervisorManager,
     }),
   );

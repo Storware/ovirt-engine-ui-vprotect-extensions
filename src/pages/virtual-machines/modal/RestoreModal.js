@@ -18,6 +18,7 @@ import {
   selectHypervisorClusters,
   selectHypervisorManagers,
   selectHypervisorStorages,
+  selectTask,
 } from 'store/restore-modal/selectors';
 import Select from 'components/input/reactive/Select';
 import BackupSelect from 'components/input/reactive/BackupSelect';
@@ -50,20 +51,16 @@ export const RestoreModal = ({ virtualEnvironment }) => {
     dispatch(getRestorableBackups(virtualEnvironment));
   }, []);
 
-  let backups = useSelector(selectBackups);
-  let hypervisorManagers = useSelector(selectHypervisorManagers);
-  let storages = useSelector(selectHypervisorStorages);
-  let filteredStorages = useSelector(selectFilteredHypervisorStorages);
-  let clusters = useSelector(selectHypervisorClusters);
-  let task = new RestoreAndImportTask();
+  const backups = useSelector(selectBackups);
+  const hypervisorManagers = useSelector(selectHypervisorManagers);
+  const storages = useSelector(selectHypervisorStorages);
+  const filteredStorages = useSelector(selectFilteredHypervisorStorages);
+  const clusters = useSelector(selectHypervisorClusters);
+  const task = useSelector(selectTask);
 
   const onBackupChange = (e) => {
     dispatch(
-      getHypervisorManagersAvailableForBackup(
-        e.value.guid,
-        virtualEnvironment,
-        task,
-      ),
+      getHypervisorManagersAvailableForBackup(e.value.guid, virtualEnvironment),
     );
   };
 
@@ -102,7 +99,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
           setSubmitting(false);
         }}
       >
-        {({ values, isSubmitting }) => (
+        {() => (
           <Form>
             <Field
               name="backup"
