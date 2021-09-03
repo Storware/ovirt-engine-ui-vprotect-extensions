@@ -63,7 +63,13 @@ const SnapshotSchedule = () => {
       >
         <Form>
           <Field name="name" component={Text} label="Name" />
-          <Field name="active" component={Toggle} label="Active" />
+          <Field
+            name="active"
+            component={Toggle}
+            label="Status"
+            onLabel="Active"
+            offLabel="Inactive"
+          />
           <Field
             name="executionType"
             component={Select}

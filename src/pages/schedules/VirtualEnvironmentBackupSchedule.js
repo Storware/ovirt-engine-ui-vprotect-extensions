@@ -18,6 +18,7 @@ import { ListBox } from 'primereact/listbox';
 import { dayOfWeekOccurrences, months } from '../../model/Occurrences';
 import { InputSchedulePolicies } from '../../components/input/InputSchedulePolicies';
 import { createBrowserHistory } from 'history';
+import { Field } from 'formik';
 
 const history = createBrowserHistory();
 
@@ -108,6 +109,8 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
           <h3>Active</h3>
           <ToggleButton
             checked={this.state.model.active}
+            onLabel="Active"
+            offLabel="Inactive"
             onChange={(e) => {
               this.setState({
                 ...this.state,
