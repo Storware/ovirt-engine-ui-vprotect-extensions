@@ -1,16 +1,12 @@
 import * as moment from 'moment-timezone';
 import { daysOfWeek } from '../model/Occurrences';
-import {user} from "../utils/user";
+import { user } from '../utils/user';
+import { MILLISECONDS_IN_MINUTE } from '../utils/milisecondsTimespan';
 
 export const timezone = user && user.uiTimeZone;
 
 export const offset =
-    timezone && (moment.tz
-    .zone(timezone)
-    .parse(Date.UTC(moment().year(), moment().month(), moment().date(), 0, 0)) +
-    60) *
-  60 *
-  1000;
+  timezone && moment.tz(timezone).utcOffset() * MILLISECONDS_IN_MINUTE * -1;
 
 export const shiftedDays = (value, shiftValue) => {
   return value.map((option) => {

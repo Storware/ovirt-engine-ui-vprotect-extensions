@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { offset } from '../../../services/time';
 import { Calendar } from 'primereact/calendar';
+import {
+  getHoursAndMinutesFromSource,
+  getSourceValueFromHoursAndMinutes,
+} from 'components/input/InputTime';
 
 const Time = ({ factor, field, form: { setFieldValue }, ...props }) => {
-  let value;
-  let setValue;
-  [value, setValue] = useState();
+  const [value, setValue] = useState(new Date());
 
   useEffect(() => {
     if (field.value !== undefined) {
-      const date = new Date((field.value - offset + 86400000) % 86400000);
-      setValue(date);
+      setValue(getHoursAndMinutesFromSource(field.value));
     }
   }, [field.value]);
 
@@ -26,12 +26,10 @@ const Time = ({ factor, field, form: { setFieldValue }, ...props }) => {
         hourFormat="24"
         onChange={(e: any) => {
           if (e.value instanceof Date) {
-            setFieldValue(
-              field.name,
-              (e.value.getTime() + offset + 86400000) % 86400000,
-            );
+            setFieldValue(field.name, getSourceValueFromHoursAndMinutes(e));
+          } else {
+            setValue(e.value);
           }
-          setValue(e.value);
         }}
       />
     </div>

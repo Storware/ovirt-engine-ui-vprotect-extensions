@@ -1,11 +1,12 @@
 import { vprotectApiService } from './vprotect-api-service';
 import * as moment from 'moment-timezone';
-import { offset, sourceToViewShiftedDays } from './time';
+import { sourceToViewShiftedDays, timezone } from './time';
 import {
   getElementsWithoutProjectUuidInName,
   getElementWithoutProjectUuidInName,
   getElementWithProjectUuidInName,
-} from '../utils/byProjectFilter';
+} from 'utils/byProjectFilter';
+import { getCurrentDayMidnight } from 'components/input/InputTime';
 
 class SchedulesService {
   backupTypes = [
@@ -66,8 +67,9 @@ class SchedulesService {
   getScheduleTimeOrIntervalLabel(schedule) {
     switch (schedule.executionType.name) {
       case 'TIME':
-        const scheduleTime = schedule.hour - offset;
-        return `At ${moment(scheduleTime).format('HH:mm')}`;
+        return `At ${moment
+          .tz(schedule.hour + getCurrentDayMidnight().valueOf(), timezone)
+          .format('HH:mm')}`;
       case 'INTERVAL':
         const frequency = Math.round(schedule.interval.frequency / 1000 / 60);
         return `Every ${frequency} minutes`;

@@ -1,39 +1,59 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { Calendar } from 'primereact/calendar';
-import { offset } from '../../services/time';
+import { offset } from 'services/time';
+import moment from 'moment';
+import { timezone } from 'services/time';
+import {
+  MILLISECONDS_IN_DAY,
+  MILLISECONDS_IN_HOUR,
+  MILLISECONDS_IN_MINUTE,
+} from 'utils/milisecondsTimespan';
 
-export class InputTime extends React.Component {
-  constructor(props) {
-    super(props);
+export const getCurrentDayMidnight = () => {
+  return moment().utc().hours(0).minutes(0).second(0).millisecond(0);
+};
 
-    this.state = {
-      value: null,
-    };
-  }
+export const getHoursAndMinutesFromSource = (value) => {
+  const momentDate = moment.tz(
+    getCurrentDayMidnight().valueOf() + value,
+    timezone,
+  );
+  const date = new Date();
+  date.setHours(momentDate.hour());
+  date.setMinutes(momentDate.minutes());
+  return date;
+};
 
-  static getDerivedStateFromProps(props) {
-    return {
-      value: new Date(props.value - offset),
-    };
-  }
+export const getSourceValueFromHoursAndMinutes = (e) => {
+  return (
+    (e.value.getHours() * MILLISECONDS_IN_HOUR +
+      e.value.getMinutes() * MILLISECONDS_IN_MINUTE +
+      offset +
+      MILLISECONDS_IN_DAY) %
+    MILLISECONDS_IN_DAY
+  );
+};
 
-  render() {
-    return (
-      <Calendar
-        value={this.state.value}
-        className="w-100"
-        timeOnly
-        hourFormat="24"
-        onChange={(e) => {
-          this.props.onChange(e.value.getTime() + offset);
-        }}
-      />
-    );
-  }
-}
+export const InputTime = ({ value, onChange }) => {
+  const [inputValue, setInputValue] = useState(new Date());
 
-InputTime.propTypes = {
-  value: PropTypes.any.isRequired,
-  onChange: PropTypes.func.isRequired,
+  useEffect(() => {
+    setInputValue(getHoursAndMinutesFromSource(value));
+  }, [value]);
+
+  return (
+    <Calendar
+      value={inputValue}
+      className="w-100"
+      timeOnly
+      hourFormat="24"
+      onChange={(e) => {
+        if (e.value instanceof Date) {
+          onChange(getSourceValueFromHoursAndMinutes(e));
+        } else {
+          setInputValue(e.value);
+        }
+      }}
+    />
+  );
 };
