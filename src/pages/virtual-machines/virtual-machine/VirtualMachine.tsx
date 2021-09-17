@@ -95,10 +95,11 @@ const VirtualMachine = () => {
               Last backup - <DateShow date={virtualMachine.lastBackup} />
             </p>
             <p>
-              Last backup size - <Filesize bytes={virtualMachine.lastBackup} />
+              Last backup size -{' '}
+              <Filesize bytes={virtualMachine.lastSuccessfulBackupSize} />
             </p>
             <p>
-              Last full backup size-{' '}
+              Last full backup size -{' '}
               <Filesize bytes={virtualMachine.lastSuccessfulFullBackupSize} />
             </p>
           </div>

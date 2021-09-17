@@ -18,7 +18,6 @@ import { ListBox } from 'primereact/listbox';
 import { dayOfWeekOccurrences, months } from '../../model/Occurrences';
 import { InputSchedulePolicies } from '../../components/input/InputSchedulePolicies';
 import { createBrowserHistory } from 'history';
-import { Field } from 'formik';
 
 const history = createBrowserHistory();
 

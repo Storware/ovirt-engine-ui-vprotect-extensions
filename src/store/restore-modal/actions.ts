@@ -9,9 +9,9 @@ import {
 } from './types';
 import { Dispatch } from 'redux';
 import { backupsService } from '../../services/backups-service';
-import { alertService } from '../../services/alert-service';
 import { tasksService } from '../../services/tasks-service';
 import { hypervisorsService } from '../../services/hypervisors-service';
+import { alertService } from 'services/alert-service';
 import { hideModalAction, unsaveModalAction } from '../modal/actions';
 import { RestoreAndImportTask } from '../../model/tasks/restore-and-import-task';
 
@@ -72,6 +72,14 @@ export const getRestorableBackups = (virtualMachine: any) => async (
     virtualMachine.guid,
   );
   await dispatch(setBackupsAction(backups));
+  if (!backups.length) {
+    alertService.error(
+      'There are no restorable backups for this virtual environment',
+    );
+    await dispatch(hideModalAction());
+    return;
+  }
+
   await getHypervisorManagersAvailableForBackup(
     backups[0].guid,
     virtualMachine,

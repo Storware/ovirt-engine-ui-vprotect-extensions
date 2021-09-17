@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { vprotectService } from '../../../services/vprotect-service';
 import { Filesize } from '../../../components/convert/Filesize';
-import { RestoreAndImportTask } from 'model/tasks/restore-and-import-task';
 import { Field, Form, Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import {
