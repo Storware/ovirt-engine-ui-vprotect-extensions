@@ -4,7 +4,7 @@ import {
   SET_ISCSI_MOUNTABLE,
   SET_MANUAL_MOUNT_FILESYSTEMS,
   SET_MOUNTABLE_BACKUPS,
-  SET_NODE_CONFIGURATIONS,
+  SET_NODES,
 } from './types';
 import { Dispatch } from 'redux';
 import { backupsService } from '../../services/backups-service';
@@ -29,7 +29,7 @@ export const setMountableBackupsAction = (
 
 export const setNodesAction = (payload: any[]): MountBackupModalAction => {
   return {
-    type: SET_NODE_CONFIGURATIONS,
+    type: SET_NODES,
     payload,
   };
 };
@@ -66,8 +66,8 @@ export const getMountedBackup = (guid: string) => async (
 ) => {
   const mountableBackups = await backupsService.getMountableBackups(guid);
   await dispatch(setMountableBackupsAction(mountableBackups));
-  const nodeConfigurations = await nodesService.getAllNodeConfigurations();
-  await dispatch(setNodesAction(nodeConfigurations));
+  const nodes = await nodesService.getAllNodes();
+  await dispatch(setNodesAction(nodes));
 };
 
 export const getBackupFilesystems = (backup: any) => async (

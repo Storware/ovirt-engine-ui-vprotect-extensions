@@ -4,13 +4,13 @@ import {
   SET_ISCSI_MOUNTABLE,
   SET_MANUAL_MOUNT_FILESYSTEMS,
   SET_MOUNTABLE_BACKUPS,
-  SET_NODE_CONFIGURATIONS,
+  SET_NODES,
 } from './types';
 import { MountedFileSystemRequest } from '../../model/tasks/mounted-file-system-request';
 import { BackupFile } from '../../model/backup-file';
 
 export type MountedBackupStore = {
-  readonly nodeConfigurations: any[];
+  readonly nodes: any[];
   readonly mountableBackups: any[];
   readonly manualMountFileSystems: MountedFileSystemRequest[];
   readonly iscsiMountable: boolean;
@@ -18,7 +18,7 @@ export type MountedBackupStore = {
 };
 
 const initial: MountedBackupStore = {
-  nodeConfigurations: [],
+  nodes: [],
   mountableBackups: [],
   manualMountFileSystems: [],
   iscsiMountable: false,
@@ -32,10 +32,10 @@ export default (state = initial, action: MountBackupModalAction) => {
       mountableBackups: action.payload,
     };
   }
-  if (action.type === SET_NODE_CONFIGURATIONS) {
+  if (action.type === SET_NODES) {
     return {
       ...state,
-      nodeConfigurations: action.payload,
+      nodes: action.payload,
     };
   }
   if (action.type === SET_MANUAL_MOUNT_FILESYSTEMS) {

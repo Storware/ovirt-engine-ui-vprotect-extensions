@@ -4,7 +4,7 @@ import { NameAndGuid } from '../dto/nameAndGuid';
 export class RestoreAndMountTask {
   backup: NameAndGuid | any;
   mode: any;
-  nodeConfig: NameAndGuid;
+  node: NameAndGuid;
   mountedFileSystems: MountedFileSystemRequest[] = [];
   mountedDisks: any[];
   allowedClients: string[] = [];

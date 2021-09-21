@@ -13,7 +13,7 @@ import {
   selectIscsiMountable,
   selectManualMountFilesystems,
   selectMountableBackups,
-  selectNodeConfigurations,
+  selectNodes,
 } from 'store/mount-backup-modal/selectors';
 import { BackupDropdown } from '../input/BackupDropdown';
 import Select from '../input/Select';
@@ -74,7 +74,7 @@ export const MountBackupModal = ({ guid }) => {
   }, []);
 
   const mountableBackups = useSelector(selectMountableBackups);
-  const nodeConfigurations = useSelector(selectNodeConfigurations);
+  const nodes = useSelector(selectNodes);
 
   let manualMountFileSystems = useSelector(selectManualMountFilesystems);
   let backupFiles = useSelector(selectBackupFiles);
@@ -125,15 +125,15 @@ export const MountBackupModal = ({ guid }) => {
         />
 
         <Select
-          label="Node configuration"
+          label="Choose node"
           optionLabel="name"
-          value={task.nodeConfig}
-          options={nodeConfigurations}
+          value={task.node}
+          options={nodes}
           required
           onChange={(event) =>
             setTask({
               ...task,
-              nodeConfig: event.value,
+              node: event.value,
             })
           }
         />

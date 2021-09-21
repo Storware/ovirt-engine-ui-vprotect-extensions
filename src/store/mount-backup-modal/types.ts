@@ -1,7 +1,7 @@
 import { BackupFile } from '../../model/backup-file';
 
 export const SET_MOUNTABLE_BACKUPS = 'SET_MOUNTABLE_BACKUPS';
-export const SET_NODE_CONFIGURATIONS = 'SET_NODE_CONFIGURATIONS';
+export const SET_NODES = 'SET_NODES';
 export const SET_MANUAL_MOUNT_FILESYSTEMS = 'SET_MANUAL_MOUNT_FILESYSTEMS';
 export const SET_ISCSI_MOUNTABLE = 'SET_ISCSI_MOUNTABLE';
 export const SET_BACKUP_FILES = 'SET_BACKUP_FILES';
@@ -12,7 +12,7 @@ export type SetMountableBackupsAction = {
 };
 
 export type SetNodesAction = {
-  type: typeof SET_NODE_CONFIGURATIONS;
+  type: typeof SET_NODES;
   payload?: any[];
 };
 
