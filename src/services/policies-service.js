@@ -48,12 +48,14 @@ class PoliciesService {
     return vprotectApiService.delete(`/policies/${type}/${id}`);
   }
 
-  getAllVmBackupPolicies() {
-    return vprotectApiService.get('/policies/vm-backup');
+  async getAllVmBackupPolicies() {
+    const res = await vprotectApiService.get(`/policies/vm-backup`);
+    return getElementsWithoutProjectUuidInName(res);
   }
 
-  getAllSnapshotMgmtPolicies() {
-    return vprotectApiService.get('/policies/vm-snapshot');
+  async getAllSnapshotMgmtPolicies() {
+    const res = await vprotectApiService.get(`/policies/vm-snapshot`);
+    return getElementsWithoutProjectUuidInName(res);
   }
 
   submitTaskSnapshot(task) {
