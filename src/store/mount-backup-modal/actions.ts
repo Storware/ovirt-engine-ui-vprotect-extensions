@@ -11,7 +11,6 @@ import { backupsService } from '../../services/backups-service';
 import { tasksService } from '../../services/tasks-service';
 import { alertService } from '../../services/alert-service';
 import { nodesService } from '../../services/nodes-service';
-import { BackupTask } from '../../model/tasks/backup-task';
 import { hideModalAction, unsaveModalAction } from '../modal/actions';
 import { MountedFileSystemRequest } from '../../model/tasks/mounted-file-system-request';
 import moment from 'moment-timezone';
@@ -65,6 +64,14 @@ export const getMountedBackup = (guid: string) => async (
   dispatch: Dispatch,
 ) => {
   const mountableBackups = await backupsService.getMountableBackups(guid);
+  if (!mountableBackups.length) {
+    alertService.error(
+      'There are no mountable backups for this virtual environment',
+    );
+    await dispatch(hideModalAction());
+    return;
+  }
+
   await dispatch(setMountableBackupsAction(mountableBackups));
   const nodes = await nodesService.getAllNodes();
   await dispatch(setNodesAction(nodes));
