@@ -200,6 +200,7 @@ class BackupPolicy extends React.Component {
                   <h4>Include TAG based rules</h4>
                   <Chips
                     value={this.state.model.autoAssignSettings.includeTags}
+                    separator=","
                     onChange={(e) => {
                       this.setState({
                         ...this.state,
@@ -213,11 +214,15 @@ class BackupPolicy extends React.Component {
                       });
                     }}
                   />
+                  <div>
+                    <small>Comma separated</small>
+                  </div>
                 </div>
                 <div className={'col'}>
                   <h4>Include Regex based rules</h4>
                   <Chips
                     value={this.state.model.autoAssignSettings.includeRegExps}
+                    separator=","
                     onChange={(e) => {
                       this.setState({
                         ...this.state,
@@ -231,6 +236,9 @@ class BackupPolicy extends React.Component {
                       });
                     }}
                   />
+                  <div>
+                    <small>Comma separated</small>
+                  </div>
                 </div>
               </div>
             </div>
@@ -241,6 +249,7 @@ class BackupPolicy extends React.Component {
                   <h4>Exclude TAG based rules</h4>
                   <Chips
                     value={this.state.model.autoAssignSettings.excludeTags}
+                    separator=","
                     onChange={(e) => {
                       this.setState({
                         ...this.state,
@@ -254,11 +263,15 @@ class BackupPolicy extends React.Component {
                       });
                     }}
                   />
+                  <div>
+                    <small>Comma separated</small>
+                  </div>
                 </div>
                 <div className={'col'}>
                   <h4>Exclude Regex based rules</h4>
                   <Chips
                     value={this.state.model.autoAssignSettings.excludeRegExps}
+                    separator=","
                     onChange={(e) => {
                       this.setState({
                         ...this.state,
@@ -272,6 +285,9 @@ class BackupPolicy extends React.Component {
                       });
                     }}
                   />
+                  <div>
+                    <small>Comma separated</small>
+                  </div>
                 </div>
               </div>
             </div>

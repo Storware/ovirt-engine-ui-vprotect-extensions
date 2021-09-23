@@ -64,7 +64,6 @@ export const setBackupFilesAction = (
 export const setTaskAction = (
   payload: RestoreAndMountTask,
 ): MountBackupModalAction => {
-  console.log(payload);
   return {
     type: SET_TASK,
     payload,

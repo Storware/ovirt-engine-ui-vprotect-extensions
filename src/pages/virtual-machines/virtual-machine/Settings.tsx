@@ -234,6 +234,7 @@ const Settings = () => {
                   </h4>
                   <Chips
                     value={model.preSnapCmdArgs}
+                    separator=","
                     onChange={(e) => {
                       setModel({
                         ...model,
@@ -241,6 +242,9 @@ const Settings = () => {
                       });
                     }}
                   />
+                  <div>
+                    <small>Comma separated</small>
+                  </div>
                 </div>
               </div>
             )}
@@ -299,6 +303,7 @@ const Settings = () => {
                   </h4>
                   <Chips
                     value={model.postSnapCmdArgs}
+                    separator=","
                     onChange={(e) => {
                       setModel({
                         ...model,
@@ -306,6 +311,9 @@ const Settings = () => {
                       });
                     }}
                   />
+                  <div>
+                    <small>Comma separated</small>
+                  </div>
                 </div>
               </div>
             )}

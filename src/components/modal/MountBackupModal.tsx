@@ -253,6 +253,7 @@ export const MountBackupModal = ({ guid }) => {
                 <h4>Provide list of allowed iSCSI initiators (IQNs)</h4>
                 <Chips
                   value={task.allowedClients}
+                  separator=","
                   onChange={(e) => {
                     dispatch(
                       setTaskAction({
@@ -262,6 +263,9 @@ export const MountBackupModal = ({ guid }) => {
                     );
                   }}
                 />
+                <div>
+                  <small>Comma separated</small>
+                </div>
               </div>
             </div>
           </div>
