@@ -6,6 +6,7 @@ import {
   checkIfIscsiMountable,
   getBackupFilesystems,
   getMountedBackup,
+  setTaskAction,
   submitTask,
 } from 'store/mount-backup-modal/actions';
 import {
@@ -14,13 +15,13 @@ import {
   selectManualMountFilesystems,
   selectMountableBackups,
   selectNodes,
+  selectTask,
 } from 'store/mount-backup-modal/selectors';
 import { BackupDropdown } from '../input/BackupDropdown';
 import Select from '../input/Select';
 import Text from '../input/Text';
 import Radio from '../input/Radio';
 import moment from 'moment-timezone';
-import { RestoreAndMountTask } from '../../model/tasks/restore-and-mount-task';
 import Check from '../input/Check';
 import { Filesize } from '../convert/Filesize';
 import { Column } from 'primereact/column';
@@ -65,20 +66,27 @@ let autoMountFileSystem = {
 
 export const MountBackupModal = ({ guid }) => {
   const dispatch = useDispatch();
-
-  const [task, setTask] = useState(new RestoreAndMountTask());
   const [iscsiDisks, setIscsiDisks] = useState([]);
 
   useEffect(() => {
     dispatch(getMountedBackup(guid));
   }, []);
 
-  const mountableBackups = useSelector(selectMountableBackups);
-  const nodes = useSelector(selectNodes);
-
-  let manualMountFileSystems = useSelector(selectManualMountFilesystems);
-  let backupFiles = useSelector(selectBackupFiles);
-  let iscsiMountable = useSelector(selectIscsiMountable);
+  const [
+    mountableBackups,
+    nodes,
+    task,
+    manualMountFileSystems,
+    backupFiles,
+    iscsiMountable,
+  ] = [
+    useSelector(selectMountableBackups),
+    useSelector(selectNodes),
+    useSelector(selectTask),
+    useSelector(selectManualMountFilesystems),
+    useSelector(selectBackupFiles),
+    useSelector(selectIscsiMountable),
+  ];
 
   let filteredModes = modes;
   if (manualMountFileSystems.length === 0) {
@@ -115,11 +123,12 @@ export const MountBackupModal = ({ guid }) => {
 
             dispatch(getBackupFilesystems(event));
             dispatch(checkIfIscsiMountable(event));
-
-            setTask({
-              ...task,
-              backup: event,
-            });
+            dispatch(
+              setTaskAction({
+                ...task,
+                backup: event,
+              }),
+            );
           }}
           options={mountableBackups}
         />
@@ -129,23 +138,28 @@ export const MountBackupModal = ({ guid }) => {
           optionLabel="name"
           value={task.node}
           options={nodes}
+          dataKey="guid"
           required
           onChange={(event) =>
-            setTask({
-              ...task,
-              node: event.value,
-            })
+            dispatch(
+              setTaskAction({
+                ...task,
+                node: event.value,
+              }),
+            )
           }
         />
         <Radio
           value={task.mode}
           options={filteredModes}
           onChange={(event) =>
-            setTask({
-              ...task,
-              mode: event.value,
-              mountedFileSystems: mountedFileSystems[event.value?.name],
-            })
+            dispatch(
+              setTaskAction({
+                ...task,
+                mode: event.value,
+                mountedFileSystems: mountedFileSystems[event.value?.name],
+              }),
+            )
           }
         />
 
@@ -154,14 +168,16 @@ export const MountBackupModal = ({ guid }) => {
             label="Mount point for backup"
             value={task.mountedFileSystems[0].mountPath}
             onChange={(e) =>
-              setTask({
-                ...task,
-                mountedFileSystems: [
-                  {
-                    mountPath: e.target.value,
-                  },
-                ],
-              })
+              dispatch(
+                setTaskAction({
+                  ...task,
+                  mountedFileSystems: [
+                    {
+                      mountPath: e.target.value,
+                    },
+                  ],
+                }),
+              )
             }
           />
         )}
@@ -176,12 +192,14 @@ export const MountBackupModal = ({ guid }) => {
                     label={manuallyMountParameterLabel(el)}
                     onChange={(e) => {
                       el.selected = e.checked;
-                      setTask({
-                        ...task,
-                        mountedFileSystems: mountedFileSystems['MANUAL'].filter(
-                          (el) => el.selected,
-                        ),
-                      });
+                      dispatch(
+                        setTaskAction({
+                          ...task,
+                          mountedFileSystems: mountedFileSystems[
+                            'MANUAL'
+                          ].filter((el) => el.selected),
+                        }),
+                      );
                     }}
                     checked={el.selected}
                   />
@@ -190,7 +208,7 @@ export const MountBackupModal = ({ guid }) => {
                     value={el.mountPath}
                     onChange={(e) => {
                       el.mountPath = e.target.value;
-                      setTask({ ...task });
+                      dispatch(setTaskAction({ ...task }));
                     }}
                   />
                 </div>
@@ -207,19 +225,21 @@ export const MountBackupModal = ({ guid }) => {
                 selection={iscsiDisks}
                 onSelectionChange={(e) => {
                   setIscsiDisks(e.value);
-                  setTask({
-                    ...task,
-                    mountedDisks: e.value.map((el) => {
-                      return {
-                        backupFile: {
-                          guid: el.guid,
-                          name: el.path.split('/')[
-                            el.path.split('/').length - 1
-                          ],
-                        },
-                      };
+                  dispatch(
+                    setTaskAction({
+                      ...task,
+                      mountedDisks: e.value.map((el) => {
+                        return {
+                          backupFile: {
+                            guid: el.guid,
+                            name: el.path.split('/')[
+                              el.path.split('/').length - 1
+                            ],
+                          },
+                        };
+                      }),
                     }),
-                  });
+                  );
                 }}
                 value={backupFiles}
               >
@@ -234,10 +254,12 @@ export const MountBackupModal = ({ guid }) => {
                 <Chips
                   value={task.allowedClients}
                   onChange={(e) => {
-                    setTask({
-                      ...task,
-                      allowedClients: e.value,
-                    });
+                    dispatch(
+                      setTaskAction({
+                        ...task,
+                        allowedClients: e.value,
+                      }),
+                    );
                   }}
                 />
               </div>

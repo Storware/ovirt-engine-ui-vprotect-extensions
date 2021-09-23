@@ -5,9 +5,11 @@ import {
   SET_MANUAL_MOUNT_FILESYSTEMS,
   SET_MOUNTABLE_BACKUPS,
   SET_NODES,
+  SET_TASK,
 } from './types';
 import { MountedFileSystemRequest } from '../../model/tasks/mounted-file-system-request';
 import { BackupFile } from '../../model/backup-file';
+import { RestoreAndMountTask } from 'model/tasks/restore-and-mount-task';
 
 export type MountedBackupStore = {
   readonly nodes: any[];
@@ -15,6 +17,7 @@ export type MountedBackupStore = {
   readonly manualMountFileSystems: MountedFileSystemRequest[];
   readonly iscsiMountable: boolean;
   readonly backupFiles: BackupFile[];
+  readonly task: RestoreAndMountTask;
 };
 
 const initial: MountedBackupStore = {
@@ -23,6 +26,7 @@ const initial: MountedBackupStore = {
   manualMountFileSystems: [],
   iscsiMountable: false,
   backupFiles: [],
+  task: new RestoreAndMountTask(),
 };
 
 export default (state = initial, action: MountBackupModalAction) => {
@@ -56,5 +60,12 @@ export default (state = initial, action: MountBackupModalAction) => {
       backupFiles: action.payload,
     };
   }
+  if (action.type === SET_TASK) {
+    return {
+      ...state,
+      task: action.payload,
+    };
+  }
+
   return state;
 };

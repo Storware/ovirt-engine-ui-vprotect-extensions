@@ -9,3 +9,4 @@ export const selectIscsiMountable = (store: RootState) =>
   store.mountBackupModal.iscsiMountable;
 export const selectBackupFiles = (store: RootState) =>
   store.mountBackupModal.backupFiles;
+export const selectTask = (store: RootState) => store.mountBackupModal.task;

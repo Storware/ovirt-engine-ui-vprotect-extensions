@@ -1,10 +1,12 @@
 import { BackupFile } from '../../model/backup-file';
+import { RestoreAndMountTask } from 'model/tasks/restore-and-mount-task';
 
 export const SET_MOUNTABLE_BACKUPS = 'SET_MOUNTABLE_BACKUPS';
 export const SET_NODES = 'SET_NODES';
 export const SET_MANUAL_MOUNT_FILESYSTEMS = 'SET_MANUAL_MOUNT_FILESYSTEMS';
 export const SET_ISCSI_MOUNTABLE = 'SET_ISCSI_MOUNTABLE';
 export const SET_BACKUP_FILES = 'SET_BACKUP_FILES';
+export const SET_TASK = 'SET_BACKUP_TASK';
 
 export type SetMountableBackupsAction = {
   type: typeof SET_MOUNTABLE_BACKUPS;
@@ -31,9 +33,15 @@ export type SetBackupFiles = {
   payload?: BackupFile[];
 };
 
+export type SetTask = {
+  type: typeof SET_TASK;
+  payload?: RestoreAndMountTask;
+};
+
 export type MountBackupModalAction =
   | SetMountableBackupsAction
   | SetNodesAction
   | SetManualMountFilesystemsAction
   | SetIscsiMountableAction
+  | SetTask
   | SetBackupFiles;

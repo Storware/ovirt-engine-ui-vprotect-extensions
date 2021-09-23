@@ -5,6 +5,7 @@ import {
   SET_MANUAL_MOUNT_FILESYSTEMS,
   SET_MOUNTABLE_BACKUPS,
   SET_NODES,
+  SET_TASK,
 } from './types';
 import { Dispatch } from 'redux';
 import { backupsService } from '../../services/backups-service';
@@ -60,9 +61,21 @@ export const setBackupFilesAction = (
   };
 };
 
+export const setTaskAction = (
+  payload: RestoreAndMountTask,
+): MountBackupModalAction => {
+  console.log(payload);
+  return {
+    type: SET_TASK,
+    payload,
+  };
+};
+
 export const getMountedBackup = (guid: string) => async (
   dispatch: Dispatch,
 ) => {
+  // await dispatch(setTaskAction(new RestoreAndMountTask()));
+
   const mountableBackups = await backupsService.getMountableBackups(guid);
   if (!mountableBackups.length) {
     alertService.error(
