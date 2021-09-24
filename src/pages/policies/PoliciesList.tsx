@@ -102,7 +102,7 @@ export const PoliciesList = () => {
         },
       },
       {
-        property: 'backupDestination',
+        property: 'backupDestinations',
         header: {
           label: 'Backup Destination',
           props: {
@@ -120,7 +120,7 @@ export const PoliciesList = () => {
           },
           formatters: [
             (value) => {
-              return <td>{value ? value.name : ''}</td>;
+              return <td>{value?.[0]?.name || ''}</td>;
             },
           ],
         },
