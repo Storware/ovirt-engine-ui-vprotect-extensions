@@ -166,35 +166,11 @@ export const PoliciesList = () => {
         },
       },
       {
-        property: 'vmBackupPolicy',
-        header: {
-          label: 'Policy',
-          props: {
-            index: 4,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 4,
-          },
-          formatters: [
-            (value) => {
-              return <td>{value ? value.name : ''}</td>;
-            },
-          ],
-        },
-      },
-      {
         property: 'averageBackupSize',
         header: {
           label: 'Average Backup Size',
           props: {
-            index: 5,
+            index: 4,
             rowSpan: 1,
             colSpan: 1,
           },
@@ -204,7 +180,7 @@ export const PoliciesList = () => {
         },
         cell: {
           props: {
-            index: 5,
+            index: 4,
           },
           formatters: [
             (value) => {
@@ -221,7 +197,7 @@ export const PoliciesList = () => {
         header: {
           label: 'Actions',
           props: {
-            index: 6,
+            index: 5,
             rowSpan: 1,
             colSpan: 1,
           },
@@ -229,7 +205,7 @@ export const PoliciesList = () => {
         },
         cell: {
           props: {
-            index: 6,
+            index: 5,
             rowSpan: 1,
             colSpan: 1,
           },

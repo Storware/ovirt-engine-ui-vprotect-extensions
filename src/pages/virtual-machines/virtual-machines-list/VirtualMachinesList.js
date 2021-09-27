@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   actionHeaderCellFormatter,
   sortableHeaderCellFormatter,
@@ -14,7 +14,6 @@ import { RestoreModal } from '../modal/RestoreModal';
 import { DateShow } from 'components/convert/Date';
 import { Filesize } from 'components/convert/Filesize';
 import { TableFilter } from 'components/table/TableFilter';
-import { Link, useRouteMatch } from 'react-router-dom';
 import {
   TableWithPagination,
   sortableTransform,
@@ -35,6 +34,7 @@ import { MountBackupModal } from 'components/modal/MountBackupModal';
 import { nameTemplate } from '../../policies/PoliciesList';
 import { createBrowserHistory } from 'history';
 import { deleteVirtualMachine } from '../../../store/virtual-machines/actions';
+import { getElementWithoutProjectUuidInName } from '../../../utils/byProjectFilter';
 
 const filterFields = [
   {
@@ -192,7 +192,9 @@ const VirtualMachinesList = () => {
         },
         formatters: [
           (value) => {
-            return <td>{value && value.name}</td>;
+            return (
+              <td>{value && getElementWithoutProjectUuidInName(value).name}</td>
+            );
           },
         ],
       },
