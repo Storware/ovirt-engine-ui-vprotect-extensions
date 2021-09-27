@@ -30,37 +30,33 @@ const inheritableBooleanValues = [
 ];
 
 const Settings = () => {
-  let model;
-  let setModel;
-  [model, setModel] = useState(useSelector(selectVirtualMachine));
-  let activeIndex;
-  let setActiveIndex;
-  [activeIndex, setActiveIndex] = useState({
+  const [model, setModel] = useState(useSelector(selectVirtualMachine));
+  const [activeIndex, setActiveIndex] = useState({
     first: [0],
     second: [],
   });
-
-  let sshPassword;
-  let setSshPassword;
-  [sshPassword, setSshPassword] = useState({
+  const [sshPassword, setSshPassword] = useState({
     first: '',
     second: '',
   });
 
-  let policies = useSelector(selectPolicies);
-  let snapshotPolicies = useSelector(selectSnapshotPolicies);
-
-  let modes = virtualMachinesService.getVirtualMachineExportImportModes(model);
-
+  const policies = useSelector(selectPolicies);
+  const snapshotPolicies = useSelector(selectSnapshotPolicies);
+  const modes = virtualMachinesService.getVirtualMachineExportImportModes(
+    model,
+  );
   const history = createBrowserHistory();
 
-  let save = async () => {
+  const save = async () => {
     await virtualMachinesService.updateVirtualMachineSettings(model);
     alertService.info('Virtual machine has been updated');
   };
 
-  let savePassword = async () => {
-    await virtualMachinesService.updateVmSshPassword(model.guid, sshPassword);
+  const savePassword = async () => {
+    await virtualMachinesService.updateVmSshPassword(
+      model.guid,
+      sshPassword.first,
+    );
     alertService.info('Password updated');
   };
 
@@ -72,6 +68,7 @@ const Settings = () => {
         onTabChange={(e) =>
           setActiveIndex({
             ...activeIndex,
+            // @ts-ignore
             first: e.index,
           })
         }
@@ -389,6 +386,7 @@ const Settings = () => {
         onTabChange={(e) =>
           setActiveIndex({
             ...activeIndex,
+            // @ts-ignore
             second: e.index,
           })
         }
