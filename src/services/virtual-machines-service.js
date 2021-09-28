@@ -42,6 +42,13 @@ class VirtualMachinesService {
     });
   }
 
+  updateVirtualMachineDiskSettings(vmDisk) {
+    return vprotectApiService.put(
+      '/virtual-machine-disks/' + vmDisk.guid + '/settings',
+      vmDisk,
+    );
+  }
+
   areSnapshotsFreezable(vm) {
     const hvFreezable = ['CITRIX', 'ESXI'];
     const hvmFreezable = [
