@@ -7,6 +7,7 @@ import {
   MenuItem,
   Grid,
   Toolbar,
+  Button,
 } from 'patternfly-react';
 
 import { BackupModal } from 'components/modal/BackupModal';
@@ -35,6 +36,8 @@ import { nameTemplate } from '../../policies/PoliciesList';
 import { createBrowserHistory } from 'history';
 import { deleteVirtualMachine } from '../../../store/virtual-machines/actions';
 import { getElementWithoutProjectUuidInName } from '../../../utils/byProjectFilter';
+import { virtualMachinesService } from '../../../services/virtual-machines-service';
+import { alertService } from '../../../services/alert-service';
 
 const filterFields = [
   {
@@ -73,6 +76,12 @@ const VirtualMachinesList = () => {
 
   let rows = useSelector(selectVirtualMachines);
   let filteredRows = useSelector(selectFilteredVirtualMachines);
+
+  const deleteNonPresent = async () => {
+    await virtualMachinesService.deleteAllNonPresentAndWithoutBackup();
+    dispatch(getVirtualMachinesPage);
+    alertService.info('Absent virtual machines have been deleted');
+  };
 
   const columns = [
     {
@@ -377,15 +386,29 @@ const VirtualMachinesList = () => {
 
   return (
     <div>
-      <Toolbar>
-        <TableFilter
-          fields={filterFields}
-          rows={rows}
-          change={(value) => {
-            dispatch(setFilteredVirtualMachines(value));
-          }}
-        />
-      </Toolbar>
+      <div className="d-flex justify-content-between pr-4">
+        <Toolbar>
+          <TableFilter
+            fields={filterFields}
+            rows={rows}
+            change={(value) => {
+              dispatch(setFilteredVirtualMachines(value));
+            }}
+          />
+        </Toolbar>
+
+        <div className="align-self-center">
+          <Button
+            className={'btn btn-default'}
+            onClick={() => {
+              deleteNonPresent();
+            }}
+          >
+            Delete Non-Present
+          </Button>
+        </div>
+      </div>
+
       <div className={'pt-4'}>
         <Grid fluid>
           <TableWithPagination

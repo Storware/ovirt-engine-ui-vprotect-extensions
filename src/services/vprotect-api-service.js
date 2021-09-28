@@ -46,8 +46,9 @@ class VprotectApiService {
       if (options && options.responseType === 'blob') {
         return response;
       }
-
-      return await response.json();
+      if (response.statusText !== 'No Content') {
+        return await response.json();
+      }
     });
   }
 

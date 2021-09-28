@@ -49,6 +49,10 @@ class VirtualMachinesService {
     );
   }
 
+  deleteAllNonPresentAndWithoutBackup() {
+    return vprotectApiService.delete('/virtual-machines/all-non-present');
+  }
+
   areSnapshotsFreezable(vm) {
     const hvFreezable = ['CITRIX', 'ESXI'];
     const hvmFreezable = [
