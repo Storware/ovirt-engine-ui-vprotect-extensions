@@ -124,19 +124,17 @@ export class Dashboard extends React.Component {
             <div className="card-pf w-100 mx-3">
               {this.state.backupStats && (
                 <div>
-                  <div className={'card-pf-heading'}>
+                  <div className="card-pf-heading my-0">
                     <div>
                       <h3>Success Rate</h3>
                     </div>
                   </div>
                   <div className={'d-flex flex-row justify-content-around'}>
-                    <div>
-                      <h3 className={'card-pf-title'}>LAST 24H</h3>
-                    </div>
-                    <div>
+                    <div className="d-flex flex-column">
+                      <h3 className={'text-center card-pf-title'}>LAST 24H</h3>
                       <DonutChart
                         id="donunt-chart-1"
-                        size={{ width: 210, height: 210 }}
+                        size={{ width: 210, height: 167 }}
                         data={{
                           colors: {
                             Success: '#34bfa3',
