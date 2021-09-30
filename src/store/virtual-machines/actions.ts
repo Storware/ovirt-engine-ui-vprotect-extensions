@@ -1,9 +1,5 @@
 import { Dispatch } from 'redux';
-import {
-  SET_FILTERED_VIRTUAL_MACHINES,
-  SET_VIRTUAL_MACHINES,
-  VirtualMachinesAction,
-} from './types';
+import { SET_VIRTUAL_MACHINES, VirtualMachinesAction } from './types';
 import { virtualMachinesService } from '../../services/virtual-machines-service';
 import { tasksService } from '../../services/tasks-service';
 import { alertService } from '../../services/alert-service';
@@ -11,15 +7,6 @@ import { alertService } from '../../services/alert-service';
 export const setVirtualMachines = (payload: any): VirtualMachinesAction => {
   return {
     type: SET_VIRTUAL_MACHINES,
-    payload,
-  };
-};
-
-export const setFilteredVirtualMachines = (
-  payload: any,
-): VirtualMachinesAction => {
-  return {
-    type: SET_FILTERED_VIRTUAL_MACHINES,
     payload,
   };
 };

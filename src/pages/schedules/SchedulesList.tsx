@@ -85,7 +85,7 @@ const SchedulesList = () => {
             index: 0,
           },
           formatters: [
-            (value, { rowData }) => nameTemplate(history, rowData, value),
+            (value, { rowData }) => nameTemplate(history)(rowData, value),
           ],
         },
       },
@@ -306,7 +306,7 @@ const SchedulesList = () => {
             index: 0,
           },
           formatters: [
-            (value, { rowData }) => nameTemplate(history, rowData, value),
+            (value, { rowData }) => nameTemplate(history)(rowData, value),
           ],
         },
       },

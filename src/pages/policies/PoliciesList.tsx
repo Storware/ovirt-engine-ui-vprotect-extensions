@@ -34,7 +34,6 @@ import { Filesize } from 'components/convert/Filesize';
 import { showModalAction } from 'store/modal/actions';
 import { BackupModal } from 'components/modal/BackupModal';
 import { createBrowserHistory } from 'history';
-import FileSystemModal from 'pages/mounted-backups/mounted-backup/FileSystemModal';
 
 const filterFields = [
   {
@@ -57,10 +56,12 @@ const filterFields = [
   },
 ];
 
-export const nameTemplate = (history, rowData, value) => {
+export const nameTemplate = (history) => (rowData, column) => {
   return (
     <td>
-      <Link to={`${history.location.pathname}/${rowData.guid}`}>{value}</Link>
+      <Link to={`${history.location.pathname}/${rowData.guid}`}>
+        {rowData[column.field]}
+      </Link>
     </td>
   );
 };
@@ -97,7 +98,7 @@ export const PoliciesList = () => {
             index: 0,
           },
           formatters: [
-            (value, { rowData }) => nameTemplate(history, rowData, value),
+            (value, { rowData }) => nameTemplate(history)(rowData, value),
           ],
         },
       },
@@ -270,7 +271,7 @@ export const PoliciesList = () => {
             index: 0,
           },
           formatters: [
-            (value, { rowData }) => nameTemplate(history, rowData, value),
+            (value, { rowData }) => nameTemplate(history)(rowData, value),
           ],
         },
       },

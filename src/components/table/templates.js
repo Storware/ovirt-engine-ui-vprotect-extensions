@@ -12,13 +12,12 @@ export const sizeTemplate = (rowData, column) => {
 };
 
 export const booleanTemplate = (rowData, column) => {
+  const classes = rowData[column.field]
+    ? 'fa-check text-success'
+    : 'fa-times text-danger';
   return (
-    <div className={'text-center'}>
-      {rowData[column.field] ? (
-        <span className="fa fa-check text-success" />
-      ) : (
-        ''
-      )}
+    <div className="text-center">
+      <span className={`fa ${classes}`} />
     </div>
   );
 };

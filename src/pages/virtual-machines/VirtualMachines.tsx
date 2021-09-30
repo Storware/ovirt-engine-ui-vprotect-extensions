@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
-import VirtualMachinesList from './virtual-machines-list/VirtualMachinesList';
 import VirtualMachine from './virtual-machine/VirtualMachine';
+import VirtualMachinesList from 'pages/virtual-machines/virtual-machines-list/VirtualMachinesList';
 
 const VirtualMachines = () => {
   let match = useRouteMatch();
