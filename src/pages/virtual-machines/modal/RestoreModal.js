@@ -133,7 +133,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
                 component={Select}
                 itemTemplate={storageDropdownTemplate}
                 optionLabel="name"
-                valueProperty="uuid"
+                valueProperty="guid"
                 required
                 label="Import to storage"
                 options={filteredStorages}
