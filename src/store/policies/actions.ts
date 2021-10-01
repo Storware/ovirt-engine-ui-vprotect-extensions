@@ -1,4 +1,4 @@
-import { PoliciesAction, SET_FILTERED_POLICIES, SET_POLICIES } from './types';
+import { PoliciesAction, SET_POLICIES } from './types';
 import { Dispatch } from 'redux';
 import { alertService } from '../../services/alert-service';
 import { policiesService } from '../../services/policies-service';
@@ -7,13 +7,6 @@ import { SnapshotTask } from '../../model/tasks/snapshot-task';
 export const setPolicies = (payload: any[]): PoliciesAction => {
   return {
     type: SET_POLICIES,
-    payload,
-  };
-};
-
-export const setFilteredPolicies = (payload: any[]): PoliciesAction => {
-  return {
-    type: SET_FILTERED_POLICIES,
     payload,
   };
 };

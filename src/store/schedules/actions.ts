@@ -1,4 +1,4 @@
-import { PoliciesAction, SET_FILTERED_SCHEDULES, SET_SCHEDULES } from './types';
+import { PoliciesAction, SET_SCHEDULES } from './types';
 import { Dispatch } from 'redux';
 import { alertService } from '../../services/alert-service';
 import { schedulesService } from '../../services/schedules-service';
@@ -6,13 +6,6 @@ import { schedulesService } from '../../services/schedules-service';
 export const setSchedules = (payload: any[]): PoliciesAction => {
   return {
     type: SET_SCHEDULES,
-    payload,
-  };
-};
-
-export const setFilteredSchedules = (payload: any[]): PoliciesAction => {
-  return {
-    type: SET_FILTERED_SCHEDULES,
     payload,
   };
 };

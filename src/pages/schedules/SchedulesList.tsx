@@ -1,52 +1,16 @@
-import React, { useEffect } from 'react';
-import {
-  sortableHeaderCellFormatter,
-  Grid,
-  Toolbar,
-  Button,
-  actionHeaderCellFormatter,
-  Table,
-  MenuItem,
-} from 'patternfly-react';
-import {
-  TableWithPagination,
-  sortableTransform,
-  sortingFormatter,
-  sortingColumns,
-} from 'components/table/TableWithPagination';
+import React, { useEffect, useState } from 'react';
 import { schedulesService } from 'services/schedules-service';
-import { TableFilter } from 'components/table/TableFilter';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilteredPolicies } from 'store/policies/actions';
 import { getSchedules, removeSchedule } from 'store/schedules/actions';
 import { Link, useParams } from 'react-router-dom';
-import {
-  selectFilteredSchedules,
-  selectSchedules,
-} from 'store/schedules/selectors';
+import { selectSchedules } from 'store/schedules/selectors';
 import { nameTemplate } from 'pages/policies/PoliciesList';
 import { createBrowserHistory } from 'history';
-
-let filterFields = [
-  {
-    property: 'name',
-    title: 'Name',
-    placeholder: 'Filter by Name',
-    filterType: 'text',
-  },
-  {
-    property: 'guid',
-    title: 'Guid',
-    placeholder: 'Filter by Guid',
-    filterType: 'text',
-  },
-  {
-    property: 'backupDestination.name',
-    title: 'Backup Destination',
-    placeholder: 'Filter by Backup Destination',
-    filterType: 'text',
-  },
-];
+import { InputText } from 'primereact/inputtext';
+import { Column } from 'primereact/column';
+import { booleanTemplate } from 'components/table/templates';
+import Table from 'components/table/primereactTable';
+import { Button } from 'primereact/button';
 
 const typeMap = {
   'vm-backup': 'VM_BACKUP',
@@ -57,467 +21,77 @@ const SchedulesList = () => {
   const dispatch = useDispatch();
   const { type } = useParams();
   const history = createBrowserHistory();
+  const [globalFilter, setGlobalFilter] = useState(null);
 
   useEffect(() => {
     dispatch(getSchedules(typeMap[type]));
   }, [type]);
 
-  let rows = useSelector(selectSchedules);
-  let filteredRows = useSelector(selectFilteredSchedules);
+  const rows = useSelector(selectSchedules);
 
-  let columns = {
-    'vm-backup': [
-      {
-        property: 'name',
-        header: {
-          label: 'Name',
-          props: {
-            index: 0,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 0,
-          },
-          formatters: [
-            (value, { rowData }) => nameTemplate(history)(rowData, value),
-          ],
-        },
-      },
-      {
-        property: 'active',
-        header: {
-          label: 'Active',
-          props: {
-            index: 1,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 1,
-          },
-          formatters: [
-            (value) => {
-              return (
-                <td className={'text-center'}>
-                  {value ? (
-                    <span className="fa fa-check text-success" />
-                  ) : (
-                    <span className="fa fa-times text-danger" />
-                  )}
-                </td>
-              );
-            },
-          ],
-        },
-      },
-      {
-        property: 'hour',
-        header: {
-          label: 'Schedule',
-          props: {
-            index: 2,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 2,
-          },
-          formatters: [
-            (value, { rowData }) => {
-              return (
-                <td>
-                  {schedulesService.getScheduleTimeOrIntervalLabel(rowData)}
-                </td>
-              );
-            },
-          ],
-        },
-      },
-      {
-        property: 'daysOfWeek',
-        header: {
-          label: 'Days',
-          props: {
-            index: 3,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 3,
-          },
-          formatters: [
-            (value) => {
-              return (
-                <td>
-                  {value.map((el) => {
-                    return <span>{el.name} </span>;
-                  })}
-                </td>
-              );
-            },
-          ],
-        },
-      },
-      {
-        property: 'backupType',
-        header: {
-          label: 'Backup Type',
-          props: {
-            index: 4,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 4,
-          },
-          formatters: [
-            (value) => {
-              return <td>{value ? value.description : ''}</td>;
-            },
-          ],
-        },
-      },
-      {
-        property: 'rules',
-        header: {
-          label: 'Policies',
-          props: {
-            index: 5,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 5,
-          },
-          formatters: [
-            (value) => {
-              return <td>{value.length}</td>;
-            },
-          ],
-        },
-      },
-      {
-        property: 'startWindowLength',
-        header: {
-          label: 'Start window [min]',
-          props: {
-            index: 6,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 6,
-          },
-          formatters: [
-            (value) => {
-              return <td>{value / 1000 / 60}</td>;
-            },
-          ],
-        },
-      },
-      {
-        header: {
-          label: 'Actions',
-          props: {
-            index: 7,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          formatters: [actionHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 7,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          formatters: [
-            (value, { rowData }) => {
-              return [
-                <Table.Actions key="0">
-                  <Table.DropdownKebab id="myKebab" pullRight>
-                    <MenuItem
-                      onClick={async () => {
-                        dispatch(removeSchedule(type, rowData.guid));
-                      }}
-                    >
-                      Remove
-                    </MenuItem>
-                  </Table.DropdownKebab>
-                </Table.Actions>,
-              ];
-            },
-          ],
-        },
-      },
-    ],
-    'vm-snapshot': [
-      {
-        property: 'name',
-        header: {
-          label: 'Name',
-          props: {
-            index: 0,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 0,
-          },
-          formatters: [
-            (value, { rowData }) => nameTemplate(history)(rowData, value),
-          ],
-        },
-      },
-      {
-        property: 'active',
-        header: {
-          label: 'Active',
-          props: {
-            index: 1,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 1,
-          },
-          formatters: [
-            (value) => {
-              return (
-                <td className={'text-center'}>
-                  {value ? (
-                    <span className="fa fa-check text-success" />
-                  ) : (
-                    <span className="fa fa-times text-danger" />
-                  )}
-                </td>
-              );
-            },
-          ],
-        },
-      },
-      {
-        property: 'hour',
-        header: {
-          label: 'Schedule',
-          props: {
-            index: 2,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 2,
-          },
-          formatters: [
-            (value, { rowData }) => {
-              return (
-                <td>
-                  {schedulesService.getScheduleTimeOrIntervalLabel(rowData)}
-                </td>
-              );
-            },
-          ],
-        },
-      },
-      {
-        property: 'daysOfWeek',
-        header: {
-          label: 'Days',
-          props: {
-            index: 3,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 3,
-          },
-          formatters: [
-            (value) => {
-              return (
-                <td>
-                  {value.map((el) => {
-                    return <span>{el.name} </span>;
-                  })}
-                </td>
-              );
-            },
-          ],
-        },
-      },
-      {
-        property: 'rules',
-        header: {
-          label: 'Policies',
-          props: {
-            index: 4,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 4,
-          },
-          formatters: [
-            (value) => {
-              return <td>{value.length}</td>;
-            },
-          ],
-        },
-      },
-      {
-        property: 'startWindowLength',
-        header: {
-          label: 'Start window [min]',
-          props: {
-            index: 5,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 5,
-          },
-          formatters: [
-            (value) => {
-              return <td>{value / 1000 / 60}</td>;
-            },
-          ],
-        },
-      },
-      {
-        header: {
-          label: 'Actions',
-          props: {
-            index: 6,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          formatters: [actionHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 6,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          formatters: [
-            (value, { rowData }) => {
-              return [
-                <Table.Actions key="0">
-                  <Table.DropdownKebab id="myKebab" pullRight>
-                    <MenuItem
-                      onClick={async () => {
-                        dispatch(removeSchedule(type, rowData.guid));
-                      }}
-                    >
-                      Remove
-                    </MenuItem>
-                  </Table.DropdownKebab>
-                </Table.Actions>,
-              ];
-            },
-          ],
-        },
-      },
-    ],
-  };
-
-  return (
-    <div>
-      <Toolbar>
-        <div className={'d-flex flex-row justify-content-between'}>
-          <div>
-            <TableFilter
-              fields={filterFields}
-              rows={rows}
-              change={(value) => {
-                dispatch(setFilteredPolicies(value));
-              }}
+  const header = () => {
+    return (
+      <div>
+        Policies
+        <div className="d-flex justify-content-between mt-2">
+          <div className="p-datatable-globalfilter-container">
+            <InputText
+              type="search"
+              // @ts-ignore
+              onInput={(e) => setGlobalFilter(e.target.value)}
+              placeholder="Global Search"
             />
           </div>
-          <div className={'form-group'}>
+          <div>
             <Link to={`${history.location.pathname}/create`}>
-              <Button className={'btn btn-default'}>Create</Button>
+              <Button label="Create" />
             </Link>
           </div>
         </div>
-      </Toolbar>
-      <div className={'pt-4'}>
-        <Grid fluid>
-          {type && (
-            <TableWithPagination
-              columns={columns[type]}
-              sortingColumns={sortingColumns}
-              rows={filteredRows}
-            />
-          )}
-        </Grid>
       </div>
-    </div>
+    );
+  };
+
+  return (
+    <Table value={rows} header={header()} globalFilter={globalFilter}>
+      <Column field="name" header="Name" body={nameTemplate(history)} />
+      <Column field="active" header="Active" body={booleanTemplate} />
+      <Column
+        field="hour"
+        header="Schedule"
+        body={(rowData) =>
+          schedulesService.getScheduleTimeOrIntervalLabel(rowData)
+        }
+      />
+      <Column
+        field="daysOfWeek"
+        header="Days"
+        body={(rowData) =>
+          rowData.daysOfWeek.map((el) => {
+            return <span>{el.name} </span>;
+          })
+        }
+      />
+      <Column field="backupType.description" header="Backup Type" />
+      <Column field="rules.length" header="Policies" />
+      <Column
+        field="startWindowLength"
+        header="Start window [min]"
+        body={(rowData) => <td>{rowData.startWindowLength / 1000 / 60}</td>}
+      />
+      <Column
+        field="action"
+        header="Action"
+        body={(rowData) => (
+          <Button
+            label="Remove"
+            onClick={() => {
+              dispatch(removeSchedule(type, rowData.guid));
+            }}
+          />
+        )}
+      />
+    </Table>
   );
 };
 

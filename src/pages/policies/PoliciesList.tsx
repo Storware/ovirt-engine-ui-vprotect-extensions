@@ -1,60 +1,22 @@
-import React, { useEffect } from 'react';
-import {
-  sortableHeaderCellFormatter,
-  tableCellFormatter,
-  Grid,
-  Toolbar,
-  Button,
-  actionHeaderCellFormatter,
-  Table,
-  MenuItem,
-} from 'patternfly-react';
-
+import React, { useEffect, useState } from 'react';
 import { policiesService } from 'services/policies-service';
-import { TableFilter } from 'components/table/TableFilter';
-import { Link, useParams, useRouteMatch } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getPolicies,
   removePolicy,
-  setFilteredPolicies,
   snapshotPolicy,
 } from 'store/policies/actions';
-import {
-  selectFilteredPolicies,
-  selectPolicies,
-} from 'store/policies/selectors';
-import {
-  TableWithPagination,
-  sortableTransform,
-  sortingFormatter,
-  sortingColumns,
-} from 'components/table/TableWithPagination';
-import { Filesize } from 'components/convert/Filesize';
+import { selectPolicies } from 'store/policies/selectors';
 import { showModalAction } from 'store/modal/actions';
 import { BackupModal } from 'components/modal/BackupModal';
 import { createBrowserHistory } from 'history';
-
-const filterFields = [
-  {
-    property: 'name',
-    title: 'Name',
-    placeholder: 'Filter by Name',
-    filterType: 'text',
-  },
-  {
-    property: 'guid',
-    title: 'Guid',
-    placeholder: 'Filter by Guid',
-    filterType: 'text',
-  },
-  {
-    property: 'backupDestination.name',
-    title: 'Backup Destination',
-    placeholder: 'Filter by Backup Destination',
-    filterType: 'text',
-  },
-];
+import { Column } from 'primereact/column';
+import { InputText } from 'primereact/inputtext';
+import { sizeTemplate } from 'components/table/templates';
+import { Menu } from 'primereact/menu';
+import { Button } from 'primereact/button';
+import Table from 'components/table/primereactTable';
 
 export const nameTemplate = (history) => (rowData, column) => {
   return (
@@ -70,348 +32,140 @@ export const PoliciesList = () => {
   const dispatch = useDispatch();
   const { type } = useParams();
   const history = createBrowserHistory();
+  const [globalFilter, setGlobalFilter] = useState(null);
+  const [actionsElement, setActionsElement] = useState(null);
 
   useEffect(() => {
     dispatch(getPolicies(type));
   }, [type]);
 
-  let rows = useSelector(selectPolicies);
-  let filteredRows = useSelector(selectFilteredPolicies);
+  const rows = useSelector(selectPolicies);
 
-  const columns = {
+  const removeAction = {
+    label: 'Remove',
+    command: () => {
+      dispatch(removePolicy(type, actionsElement.guid));
+    },
+  };
+
+  const actions = {
     'vm-backup': [
       {
-        property: 'name',
-        header: {
-          label: 'Name',
-          props: {
-            index: 0,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 0,
-          },
-          formatters: [
-            (value, { rowData }) => nameTemplate(history)(rowData, value),
-          ],
+        label: 'Backup',
+        command: async () => {
+          const policy = await policiesService.getPolicy(
+            'vm-backup',
+            actionsElement.guid,
+          );
+          dispatch(
+            showModalAction({
+              component: BackupModal,
+              props: {
+                virtualEnvironments: policy.vms,
+                showIncremental: true,
+              },
+              title: 'Backup',
+            }),
+          );
         },
       },
-      {
-        property: 'backupDestinations',
-        header: {
-          label: 'Backup Destination',
-          props: {
-            index: 1,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 1,
-          },
-          formatters: [
-            (value) => {
-              return <td>{value?.[0]?.name || ''}</td>;
-            },
-          ],
-        },
-      },
-      {
-        property: 'priority',
-        header: {
-          label: 'Priority',
-          props: {
-            index: 2,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 2,
-          },
-          formatters: [tableCellFormatter],
-        },
-      },
-      {
-        property: 'vmCount',
-        header: {
-          label: 'VM Count',
-          props: {
-            index: 3,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 3,
-          },
-          formatters: [tableCellFormatter],
-        },
-      },
-      {
-        property: 'averageBackupSize',
-        header: {
-          label: 'Average Backup Size',
-          props: {
-            index: 4,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 4,
-          },
-          formatters: [
-            (value) => {
-              return (
-                <td>
-                  <Filesize bytes={value} />
-                </td>
-              );
-            },
-          ],
-        },
-      },
-      {
-        header: {
-          label: 'Actions',
-          props: {
-            index: 5,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          formatters: [actionHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 5,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          formatters: [
-            (value, { rowData }) => {
-              return [
-                <Table.Actions key="0">
-                  <Table.DropdownKebab id="myKebab" pullRight>
-                    {rowData.vmCount > 0 && (
-                      <MenuItem
-                        onClick={async () => {
-                          const policy = await policiesService.getPolicy(
-                            'vm-backup',
-                            rowData.guid,
-                          );
-                          dispatch(
-                            showModalAction({
-                              component: BackupModal,
-                              props: {
-                                virtualEnvironments: policy.vms,
-                                showIncremental: true,
-                              },
-                              title: 'Backup',
-                            }),
-                          );
-                        }}
-                      >
-                        Backup
-                      </MenuItem>
-                    )}
-                    <MenuItem
-                      onClick={() => {
-                        dispatch(removePolicy(type, rowData.guid));
-                      }}
-                    >
-                      Remove
-                    </MenuItem>
-                  </Table.DropdownKebab>
-                </Table.Actions>,
-              ];
-            },
-          ],
-        },
-      },
+      removeAction,
     ],
     'vm-snapshot': [
       {
-        property: 'name',
-        header: {
-          label: 'Name',
-          props: {
-            index: 0,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 0,
-          },
-          formatters: [
-            (value, { rowData }) => nameTemplate(history)(rowData, value),
-          ],
+        label: 'Snapshot',
+        command: () => {
+          dispatch(snapshotPolicy(type, actionsElement));
         },
       },
-      {
-        property: 'priority',
-        header: {
-          label: 'Priority',
-          props: {
-            index: 1,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 1,
-          },
-          formatters: [tableCellFormatter],
-        },
-      },
-      {
-        property: 'ruleCount',
-        header: {
-          label: 'Rule Count',
-          props: {
-            index: 2,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 2,
-          },
-          formatters: [tableCellFormatter],
-        },
-      },
-      {
-        property: 'vmCount',
-        header: {
-          label: 'VM Count',
-          props: {
-            index: 3,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          transforms: [sortableTransform],
-          formatters: [sortingFormatter],
-          customFormatters: [sortableHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 3,
-          },
-          formatters: [tableCellFormatter],
-        },
-      },
-      {
-        header: {
-          label: 'Actions',
-          props: {
-            index: 4,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          formatters: [actionHeaderCellFormatter],
-        },
-        cell: {
-          props: {
-            index: 4,
-            rowSpan: 1,
-            colSpan: 1,
-          },
-          formatters: [
-            (value, { rowData }) => {
-              return [
-                <Table.Actions key="0">
-                  <Table.DropdownKebab id="myKebab" pullRight>
-                    <MenuItem
-                      onClick={() => {
-                        dispatch(snapshotPolicy(type, rowData));
-                      }}
-                    >
-                      Snapshot
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        dispatch(removePolicy(type, rowData.guid));
-                      }}
-                    >
-                      Remove
-                    </MenuItem>
-                  </Table.DropdownKebab>
-                </Table.Actions>,
-              ];
-            },
-          ],
-        },
-      },
+      removeAction,
     ],
   };
 
-  return (
-    <div>
-      <Toolbar>
-        <div className={'d-flex flex-row justify-content-between'}>
-          <div>
-            <TableFilter
-              fields={filterFields}
-              rows={rows}
-              change={(value) => {
-                dispatch(setFilteredPolicies(value));
-              }}
+  const header = () => {
+    return (
+      <div>
+        Policies
+        <div className="d-flex justify-content-between mt-2">
+          <div className="p-datatable-globalfilter-container">
+            <InputText
+              type="search"
+              // @ts-ignore
+              onInput={(e) => setGlobalFilter(e.target.value)}
+              placeholder="Global Search"
             />
           </div>
-          <div className={'form-group'}>
+          <div>
             <Link to={`${history.location.pathname}/create`}>
-              <Button className={'btn btn-default'}>Create</Button>
+              <Button label="Create" />
             </Link>
           </div>
         </div>
-      </Toolbar>
-      <div className={'pt-4'}>
-        <Grid fluid>
-          {type && (
-            <TableWithPagination
-              columns={columns[type]}
-              sortingColumns={sortingColumns}
-              rows={filteredRows}
-            />
-          )}
-        </Grid>
       </div>
-    </div>
+    );
+  };
+
+  return (
+    <>
+      <Menu
+        model={actions[type]}
+        popup
+        ref={(el) => (this.menu = el)}
+        id="popup_menu"
+      />
+      {type === 'vm-backup' ? (
+        <Table value={rows} header={header()} globalFilter={globalFilter}>
+          <Column field="name" header="Name" body={nameTemplate(history)} />
+          <Column
+            field="backupDestinations[0].name"
+            header="Backup Destiantion"
+          />
+          <Column field="priority" header="Priority" />
+          <Column field="vmCount" header="VM Count" />
+          <Column
+            field="averageBackupSize"
+            header="Average Backup Size"
+            body={sizeTemplate}
+          />
+          <Column
+            field="action"
+            header="Action"
+            body={(rowData) => (
+              <Button
+                icon="pi pi-bars"
+                onClick={(event) => {
+                  this.menu.toggle(event);
+                  setActionsElement(rowData);
+                }}
+                aria-controls="popup_menu"
+                aria-haspopup
+              />
+            )}
+          />
+        </Table>
+      ) : (
+        <Table value={rows} header={header()} globalFilter={globalFilter}>
+          <Column field="name" header="Name" body={nameTemplate(history)} />
+          <Column field="priority" header="Priority" />
+          <Column field="ruleCount" header="Rule Count" />
+          <Column
+            field="action"
+            header="Action"
+            body={(rowData) => (
+              <Button
+                icon="pi pi-bars"
+                onClick={(event) => {
+                  this.menu.toggle(event);
+                  setActionsElement(rowData);
+                }}
+                aria-controls="popup_menu"
+                aria-haspopup
+              />
+            )}
+          />
+        </Table>
+      )}
+    </>
   );
 };
 
