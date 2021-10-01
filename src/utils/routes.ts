@@ -1,9 +1,9 @@
 import { Dashboard } from 'pages/dashboard/Dashboard';
-import { TaskConsole } from 'pages/task-console/TaskConsole';
 import MountedBackups from 'pages/mounted-backups/MountedBackups';
 import VirtualMachines from 'pages/virtual-machines/VirtualMachines';
 import PoliciesAndSchedules from 'pages/policies-and-schedules/PoliciesAndSchedules';
 import Reporting from 'pages/reporting/Reporting';
+import TaskConsole from 'pages/task-console/TaskConsole';
 
 export default [
   { path: '/dashboard', component: Dashboard },
