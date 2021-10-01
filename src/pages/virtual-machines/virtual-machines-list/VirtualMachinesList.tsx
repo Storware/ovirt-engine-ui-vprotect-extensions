@@ -24,7 +24,7 @@ import { Button } from 'primereact/button';
 import { Menu } from 'primereact/menu';
 
 const VirtualMachinesList = () => {
-  let dispatch = useDispatch();
+  const dispatch = useDispatch();
   const history = createBrowserHistory();
   const [globalFilter, setGlobalFilter] = useState(null);
   const [actionsElement, setActionsElement] = useState(null);
@@ -33,7 +33,7 @@ const VirtualMachinesList = () => {
     dispatch(getVirtualMachinesPage);
   }, []);
 
-  let rows = useSelector(selectVirtualMachines);
+  const rows = useSelector(selectVirtualMachines);
 
   const deleteNonPresent = async () => {
     await virtualMachinesService.deleteAllNonPresentAndWithoutBackup();

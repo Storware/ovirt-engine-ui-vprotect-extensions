@@ -9,6 +9,7 @@ import {
 import { useSelector } from 'react-redux';
 import { selectSchedules } from '../../../store/virtual-machine/selectors';
 import Table from '../../../components/table/primereactTable';
+import { getElementWithoutProjectUuidInName } from 'utils/byProjectFilter';
 
 const SchedulesTable = () => {
   let schedules = useSelector(selectSchedules);
@@ -16,7 +17,11 @@ const SchedulesTable = () => {
   return (
     <div>
       <Table value={schedules}>
-        <Column field="name" header="Name" />
+        <Column
+          field="name"
+          header="Name"
+          body={(rowData) => getElementWithoutProjectUuidInName(rowData).name}
+        />
         <Column field="active" header="Active" body={booleanTemplate} />
         <Column header="Schedule" body={scheduleTimeTemplate} />
         <Column field="daysOfWeek" header="Days" body={scheduleDaysTemplate} />

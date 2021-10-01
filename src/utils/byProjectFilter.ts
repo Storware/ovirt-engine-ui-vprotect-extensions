@@ -3,14 +3,14 @@ import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 
 const nameParts = (name) => name.split('_');
 const hasProjectAssigned = (name) => name.includes('uuid_');
-export const getElementWithoutProjectUuidInName = (policy) => {
+export const getElementWithoutProjectUuidInName = (element) => {
   if (isNotOpenstackBuild) {
-    return policy;
+    return element;
   }
-  if (!hasProjectAssigned(policy.name)) {
-    return policy;
+  if (!hasProjectAssigned(element.name)) {
+    return element;
   }
-  return { ...policy, name: nameParts(policy.name).slice(2).join('') };
+  return { ...element, name: nameParts(element.name).slice(2).join('') };
 };
 
 export const getElementWithProjectUuidInName = (policy) => {
