@@ -119,7 +119,7 @@ export default () => {
             optionLabel="label"
             required
             label="Group by"
-            className="d-inline-block"
+            className="w-100"
           />
 
           <h3>Filter</h3>

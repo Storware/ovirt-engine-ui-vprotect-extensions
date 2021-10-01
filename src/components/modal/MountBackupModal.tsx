@@ -254,6 +254,7 @@ export const MountBackupModal = ({ guid }) => {
                 <Chips
                   value={task.allowedClients}
                   separator=","
+                  className="w-100"
                   onChange={(e) => {
                     dispatch(
                       setTaskAction({

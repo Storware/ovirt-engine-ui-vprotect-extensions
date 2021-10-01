@@ -201,6 +201,7 @@ class BackupPolicy extends React.Component {
                   <Chips
                     value={this.state.model.autoAssignSettings.includeTags}
                     separator=","
+                    className="w-100"
                     onChange={(e) => {
                       this.setState({
                         ...this.state,
@@ -223,6 +224,7 @@ class BackupPolicy extends React.Component {
                   <Chips
                     value={this.state.model.autoAssignSettings.includeRegExps}
                     separator=","
+                    className="w-100"
                     onChange={(e) => {
                       this.setState({
                         ...this.state,
@@ -250,6 +252,7 @@ class BackupPolicy extends React.Component {
                   <Chips
                     value={this.state.model.autoAssignSettings.excludeTags}
                     separator=","
+                    className="w-100"
                     onChange={(e) => {
                       this.setState({
                         ...this.state,
@@ -272,6 +275,7 @@ class BackupPolicy extends React.Component {
                   <Chips
                     value={this.state.model.autoAssignSettings.excludeRegExps}
                     separator=","
+                    className="w-100"
                     onChange={(e) => {
                       this.setState({
                         ...this.state,

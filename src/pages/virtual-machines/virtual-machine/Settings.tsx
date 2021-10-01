@@ -232,6 +232,7 @@ const Settings = () => {
                   <Chips
                     value={model.preSnapCmdArgs}
                     separator=","
+                    className="w-100"
                     onChange={(e) => {
                       setModel({
                         ...model,
@@ -301,6 +302,7 @@ const Settings = () => {
                   <Chips
                     value={model.postSnapCmdArgs}
                     separator=","
+                    className="w-100"
                     onChange={(e) => {
                       setModel({
                         ...model,
