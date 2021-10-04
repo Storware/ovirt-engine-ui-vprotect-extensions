@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectPolicies } from 'store/virtual-machine/selectors';
 import { Button } from 'primereact/button';
-import { Link } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
 import Text from 'components/input/reactive/Text';
 import Toggle from 'components/input/reactive/Toggle';
@@ -24,6 +23,7 @@ import { dayOfWeekOccurrences, months } from 'model/Occurrences';
 import SchedulePolicies from 'components/input/reactive/SchedulePolicies';
 import { Panel } from 'primereact/panel';
 import { createBrowserHistory } from 'history';
+import { BackButton } from 'utils/backButton';
 
 const SnapshotSchedule = () => {
   let dispatch = useDispatch();
@@ -157,7 +157,7 @@ const SnapshotSchedule = () => {
 
           <div className="d-flex justify-content-between mt-3">
             <div>
-              <Button type="button" label="Back" onClick={history.back} />
+              <BackButton />
             </div>
             <div>
               <Button type="submit" label="Save" className="p-button-success" />

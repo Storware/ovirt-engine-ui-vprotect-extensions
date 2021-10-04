@@ -22,6 +22,7 @@ import { useParams } from 'react-router-dom';
 import InputListBox from 'components/input/reactive/InputListBox';
 import { save } from 'store/policy/actions';
 import { createBrowserHistory } from 'history';
+import { BackButton } from 'utils/backButton';
 
 const SnapshotPolicy = () => {
   const dispatch = useDispatch();
@@ -181,7 +182,7 @@ const SnapshotPolicy = () => {
 
             <div className="d-flex justify-content-between mt-3">
               <div>
-                <Button type="button" label="Back" onClick={history.back} />
+                <BackButton />
               </div>
               <div>
                 <Button

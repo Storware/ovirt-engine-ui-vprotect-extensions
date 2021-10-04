@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { InputText } from 'primereact/inputtext';
 import { ToggleButton } from 'primereact/togglebutton';
@@ -17,6 +17,7 @@ import { schedulesService } from '../../services/schedules-service';
 import { alertService } from '../../services/alert-service';
 import { VirtualMachineBackupPolicy } from '../../model/VirtualMachineBackupPolicy';
 import { createBrowserHistory } from 'history';
+import { BackButton } from '../../utils/backButton';
 
 const history = createBrowserHistory();
 
@@ -489,7 +490,7 @@ class BackupPolicy extends React.Component {
         </Accordion>
         <div className="d-flex justify-content-between mt-3">
           <div>
-            <Button label="Back" onClick={history.back} />
+            <BackButton />
           </div>
           <div>
             <Button

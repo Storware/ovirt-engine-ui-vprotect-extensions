@@ -18,6 +18,7 @@ import { ListBox } from 'primereact/listbox';
 import { dayOfWeekOccurrences, months } from '../../model/Occurrences';
 import { InputSchedulePolicies } from '../../components/input/InputSchedulePolicies';
 import { createBrowserHistory } from 'history';
+import { BackButton } from '../../utils/backButton';
 
 const history = createBrowserHistory();
 
@@ -325,7 +326,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
         </div>
         <div className="d-flex justify-content-between mt-3">
           <div>
-            <Button label="Back" onClick={history.back} />
+            <BackButton />
           </div>
           <div>
             <Button
