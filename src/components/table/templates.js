@@ -8,6 +8,9 @@ export const dateTemplate = (rowData, column) => {
 };
 
 export const sizeTemplate = (rowData, column) => {
+  if (rowData[column.field] == null) {
+    return;
+  }
   return <Filesize bytes={rowData[column.field]} />;
 };
 
