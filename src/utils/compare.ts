@@ -14,11 +14,4 @@ const compare = (c1, c2) => {
   return c1 === c2;
 };
 
-export const compareWithValueProperty = (valueProperty, c1, c2) => {
-  if (!valueProperty) {
-    return compare(c1, c2);
-  }
-  return c1 === c2[valueProperty];
-};
-
 export default compare;

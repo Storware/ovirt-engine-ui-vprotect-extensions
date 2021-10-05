@@ -115,9 +115,7 @@ export default () => {
             name="groupBy"
             component={Select}
             options={groupByOptions}
-            valueProperty="value"
             optionLabel="label"
-            required
             label="Group by"
             className="w-100"
           />
