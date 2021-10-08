@@ -113,7 +113,6 @@ export const MountBackupModal = ({ guid }) => {
         <label>Select backup to mount</label>
         <BackupDropdown
           value={task.backup}
-          required
           onChange={(event) => {
             autoMountFileSystem.mountPath =
               '/mnt/vprotect/' +
@@ -187,7 +186,7 @@ export const MountBackupModal = ({ guid }) => {
             <label>PARAMETERS FOR MOUNTING FILESYSTEMS MANUALLY</label>
             {mountedFileSystems['MANUAL'].map((el) => {
               return (
-                <div>
+                <div key={el}>
                   <Check
                     label={manuallyMountParameterLabel(el)}
                     onChange={(e) => {
@@ -274,8 +273,4 @@ export const MountBackupModal = ({ guid }) => {
       </div>
     </div>
   );
-};
-
-MountBackupModal.propTypes = {
-  virtualEnvironments: PropTypes.any.isRequired,
 };

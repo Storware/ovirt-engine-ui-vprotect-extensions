@@ -20,11 +20,9 @@ import Table from 'components/table/primereactTable';
 
 export const nameTemplate = (history) => (rowData, column) => {
   return (
-    <td>
-      <Link to={`${history.location.pathname}/${rowData.guid}`}>
-        {rowData[column.field]}
-      </Link>
-    </td>
+    <Link to={`${history.location.pathname}/${rowData.guid}`}>
+      {rowData[column.field]}
+    </Link>
   );
 };
 

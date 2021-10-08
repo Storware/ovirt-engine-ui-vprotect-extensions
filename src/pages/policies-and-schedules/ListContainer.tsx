@@ -27,10 +27,8 @@ export const ListContainer = () => {
       <ul className="nav nav-tabs">
         {items.map((el) => {
           return (
-            <li className={path === el.type && 'active'}>
-              <Link to={`${pathWithoutTab}/${el.type}`}>
-                <a>{el.label}</a>
-              </Link>
+            <li className={(path === el.type && 'active') || ''} key={el.type}>
+              <Link to={`${pathWithoutTab}/${el.type}`}>{el.label}</Link>
             </li>
           );
         })}
