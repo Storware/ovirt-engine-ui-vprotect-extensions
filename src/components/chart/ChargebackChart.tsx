@@ -75,10 +75,10 @@ export default () => {
 
   return (
     <div>
-      <HorizontalBar
-        data={getPaginatedAndSortedData(chartData, sortBy, page)}
-        options={options}
-      />
+      {/*<HorizontalBar*/}
+      {/*  data={getPaginatedAndSortedData(chartData, sortBy, page)}*/}
+      {/*  options={options}*/}
+      {/*/>*/}
       <div className="d-flex justify-content-between cursor-pointer">
         <div className="d-flex w-25">
           <div className="pt-1 px-2">Sort by:</div>

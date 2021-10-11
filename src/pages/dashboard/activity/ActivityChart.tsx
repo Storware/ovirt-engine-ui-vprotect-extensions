@@ -23,7 +23,8 @@ export default () => {
     const res = await dashboardService.getDashboardVmBackupSizeStats();
     emptyChartData.labels = [...Array(15)]
       .map((item, index) => index)
-      .map((el) => moment().subtract(el, 'days').format('DD MMM')).reverse();
+      .map((el) => moment().subtract(el, 'days').format('DD MMM'))
+      .reverse();
     emptyChartData.datasets[0].data = Object.values(
       res.backupSizeStatsResponses,
     );
@@ -54,9 +55,5 @@ export default () => {
     },
   };
 
-  return (
-    <div>
-      <Bar data={chartData} options={options} />
-    </div>
-  );
+  return <div>{/*<Bar data={chartData} options={options} />*/}</div>;
 };

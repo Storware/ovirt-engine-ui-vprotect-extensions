@@ -2,7 +2,6 @@ import React from 'react';
 import { vprotectService } from '../../services/vprotect-service';
 import { hypervisorsService } from '../../services/hypervisors-service';
 import {
-  Button,
   DonutChart,
   ListView,
   ListViewItem,
@@ -54,7 +53,7 @@ export class Dashboard extends React.Component {
             {isNotOpenstackBuild && (
               <div className={'form-group'}>
                 <Button
-                  className={'btn btn-default'}
+                  label="Synchronize inventory"
                   onClick={() => {
                     hypervisorsService
                       .getAllHypervisorManagers()
@@ -68,9 +67,7 @@ export class Dashboard extends React.Component {
                         });
                       });
                   }}
-                >
-                  Synchronize inventory
-                </Button>
+                />
               </div>
             )}
           </div>
