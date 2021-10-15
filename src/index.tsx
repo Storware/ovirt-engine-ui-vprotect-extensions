@@ -6,13 +6,9 @@ import appInit from 'integrations/app-init';
 import './theme/theme.scss';
 
 import 'bootstrap/dist/css/bootstrap-grid.css';
-import './App.scss';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import 'primeflex/primeflex.css';
-import 'prismjs/themes/prism-coy.css';
-import './layout/flags/flags.css';
-import './layout/layout.scss';
+import 'primereact/resources/themes/md-light-indigo/theme.css';
 
 import App from './App';
 import { store } from './store';

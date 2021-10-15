@@ -83,7 +83,6 @@ export const PoliciesList = () => {
   const header = () => {
     return (
       <div>
-        Policies
         <div className="d-flex justify-content-between mt-2">
           <div className="p-datatable-globalfilter-container">
             <InputText

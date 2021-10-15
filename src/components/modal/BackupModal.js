@@ -14,8 +14,9 @@ import {
 import { selectSaved } from 'store/modal/selectors';
 import { BackupTask } from 'model/tasks/backup-task';
 import Select from '../input/Select';
+import { InputText } from 'primereact/inputtext';
 
-export const BackupModal = ({ virtualEnvironments, ...props}) => {
+export const BackupModal = ({ virtualEnvironments, ...props }) => {
   const dispatch = useDispatch();
 
   let task;
@@ -27,7 +28,12 @@ export const BackupModal = ({ virtualEnvironments, ...props}) => {
       ...task,
       protectedEntities: virtualEnvironments,
     });
-    dispatch(getBackupDestinationsAndBackupTypes(virtualEnvironments, props.showIncremental));
+    dispatch(
+      getBackupDestinationsAndBackupTypes(
+        virtualEnvironments,
+        props.showIncremental,
+      ),
+    );
   }, []);
 
   const backupDestinations = useSelector(selectBackupDestinations);
@@ -36,7 +42,7 @@ export const BackupModal = ({ virtualEnvironments, ...props}) => {
   const setPriority = (value) => {
     setTask({
       ...task,
-      priority: JSON.parse(value),
+      priority: value.target.value,
     });
   };
 
@@ -50,7 +56,7 @@ export const BackupModal = ({ virtualEnvironments, ...props}) => {
         <Select
           label="Backup type"
           required
-          dataKey='name'
+          dataKey="name"
           optionLabel="name"
           value={task.backupType}
           options={backupTypes}
@@ -66,7 +72,7 @@ export const BackupModal = ({ virtualEnvironments, ...props}) => {
           label="Backup destination"
           required
           optionLabel="name"
-          dataKey='guid'
+          dataKey="guid"
           value={task.backupDestination}
           options={backupDestinations}
           onChange={(event) =>
@@ -79,14 +85,7 @@ export const BackupModal = ({ virtualEnvironments, ...props}) => {
 
         <div>
           <label>Priority</label>
-          <Slider
-            id="slider-one"
-            showBoundaries
-            value={task.priority}
-            tooltip="show"
-            input
-            onSlide={setPriority}
-          />
+          <InputText value={task.priority} onChange={setPriority} />
         </div>
         <div>
           <label>Window start</label>

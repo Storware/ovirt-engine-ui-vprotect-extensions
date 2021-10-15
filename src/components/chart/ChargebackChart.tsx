@@ -6,7 +6,7 @@ import {
   selectSortBy,
 } from 'store/chargeback-chart/selectors';
 import { setPage, setSortBy } from 'store/chargeback-chart/actions';
-import { HorizontalBar } from 'react-chartjs-2';
+// import { HorizontalBar } from 'react-chartjs-2';
 import getPaginatedAndSortedData from 'pages/dashboard/chargeback/getPaginatedAndSortedData';
 import {
   commonOptions,

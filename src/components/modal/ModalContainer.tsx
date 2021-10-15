@@ -1,53 +1,49 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Icon } from 'patternfly-react';
-import { selectModal } from 'store/modal/selectors';
+import { selectModal, selectShow } from 'store/modal/selectors';
 import { hideModalAction, saveModalAction } from 'store/modal/actions';
 import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
 
 const ModalContainer = () => {
   const dispatch = useDispatch();
   const modal = useSelector(selectModal);
-
+  const show = useSelector(selectShow);
   const Component = modal.component;
 
+  const renderFooter = () => {
+    return (
+      <div>
+        <Button
+          label="Cancel"
+          icon="pi pi-times"
+          onClick={() => dispatch(hideModalAction())}
+          className="p-button-text"
+        />
+        <Button
+          label="Save"
+          icon="pi pi-check"
+          onClick={() => dispatch(saveModalAction())}
+          autoFocus
+        />
+      </div>
+    );
+  };
+
   return (
-    <Modal show>
-      <Modal.Header>
-        <button
-          className="close"
-          aria-hidden="true"
-          aria-label="Close"
-          onClick={() => {
-            dispatch(hideModalAction());
-          }}
+    <div className="dialog-demo">
+      <div className="card">
+        <Dialog
+          header={modal.title}
+          visible={show}
+          style={{ width: '50vw' }}
+          footer={renderFooter()}
+          onHide={() => dispatch(hideModalAction())}
         >
-          <Icon type="pf" name="close" />
-        </button>
-        <Modal.Title>{modal.title}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Component {...modal.props} />
-      </Modal.Body>
-      <Modal.Footer>
-        <div className="d-flex justify-content-between">
-          <Button
-            className="p-button-danger"
-            onClick={() => {
-              dispatch(hideModalAction());
-            }}
-            label="Cancel"
-          />
-          <Button
-            className="p-button-success"
-            onClick={() => {
-              dispatch(saveModalAction());
-            }}
-            label="Save"
-          />
-        </div>
-      </Modal.Footer>
-    </Modal>
+          <Component {...modal.props} />
+        </Dialog>
+      </div>
+    </div>
   );
 };
 
