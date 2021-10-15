@@ -13,8 +13,8 @@ const App = () => {
   const modalShow = useSelector(selectShow);
   const loading = useSelector(selectLoading);
   const href = window.parent.location.href;
-  const start = href.indexOf('/dashboard/vprotect');
-  const startOfPath = href.substring(start + 20);
+  const start = href.indexOf('/vprotect');
+  const startOfPath = href.substring(start + 10);
   const path = startOfPath.length ? startOfPath.slice(0, -1) : 'dashboard';
   return (
     <div>
