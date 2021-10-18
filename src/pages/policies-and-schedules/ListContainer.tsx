@@ -15,6 +15,11 @@ const items = [
   { label: 'Schedules', type: 'schedules' },
 ];
 
+const inkStyle = {
+  policies: { width: '105px', left: '0px' },
+  schedules: { width: '122px', left: '105px' },
+};
+
 export const ListContainer = () => {
   const match = useRouteMatch();
   const location = useLocation();
@@ -24,15 +29,27 @@ export const ListContainer = () => {
 
   return (
     <div>
-      <ul className="nav nav-tabs">
-        {items.map((el) => {
-          return (
-            <li className={(path === el.type && 'active') || ''} key={el.type}>
-              <Link to={`${pathWithoutTab}/${el.type}`}>{el.label}</Link>
-            </li>
-          );
-        })}
-      </ul>
+      <div className="p-tabmenu p-component">
+        <ul className="p-tabmenu-nav p-reset">
+          {items.map((el) => {
+            return (
+              <Link to={`${pathWithoutTab}/${el.type}`}>
+                <li
+                  className={`p-tabmenuitem ${
+                    (path === el.type && 'p-highlight') || ''
+                  } `}
+                  key={el.type}
+                >
+                  <a className="p-menuitem-link">
+                    <span className="p-menuitem-text">{el.label}</span>
+                  </a>
+                </li>
+              </Link>
+            );
+          })}
+          <li className="p-tabmenu-ink-bar" style={inkStyle[path]} />
+        </ul>
+      </div>
 
       <Switch>
         <Route path={`${match.path}/policies`}>
