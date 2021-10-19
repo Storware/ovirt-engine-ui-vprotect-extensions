@@ -14,6 +14,7 @@ import { user } from '../../utils/user';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 import Chargeback from './chargeback/Chargeback';
 import ActivityChart from './activity/ActivityChart';
+import { Card } from 'primereact/card';
 
 const fullTimeZoneName =
   user &&
@@ -73,13 +74,8 @@ export class Dashboard extends React.Component {
           </div>
         </Toolbar>
         <div className={'container-fluid pt-4'}>
-          <div className="d-flex align-items-stretch">
-            <div className="card-pf w-100 mx-3">
-              <div className={'card-pf-heading'}>
-                <div>
-                  <h3>Protection stats</h3>
-                </div>
-              </div>
+          <div className="d-flex w-100">
+            <Card title="Protection stats" className="w-100 mr-2">
               {this.state.protection && (
                 <div className="card-pf-body pie-chart-with-title-container">
                   <h3 className={'text-center card-pf-title'}>
@@ -116,47 +112,39 @@ export class Dashboard extends React.Component {
                   </div>
                 </div>
               )}
-            </div>
-
-            <div className="card-pf w-100 mx-3">
+            </Card>
+            <Card title="Success Rate" className="w-100 ml-2">
               {this.state.backupStats && (
-                <div>
-                  <div className="card-pf-heading my-0">
-                    <div>
-                      <h3>Success Rate</h3>
-                    </div>
+                <div className={'d-flex flex-row justify-content-around'}>
+                  <div className="d-flex flex-column">
+                    <h3 className={'text-center card-pf-title'}>LAST 24H</h3>
+                    <DonutChart
+                      id="donunt-chart-1"
+                      size={{ width: 210, height: 167 }}
+                      data={{
+                        colors: {
+                          Success: '#34bfa3',
+                          Failed: '#f22d4e',
+                          'In progress': '#b2b2b2',
+                        },
+                        columns: [
+                          ['Success', this.state.backupStats.successful],
+                          ['In progress', this.state.backupStats.inProgress],
+                          ['Failed', this.state.backupStats.failed],
+                        ],
+                        groups: [['Success', 'In progress', 'Failed']],
+                        order: null,
+                      }}
+                      tooltip={{ show: true }}
+                      title={{ secondary: 'tasks' }}
+                    />
                   </div>
-                  <div className={'d-flex flex-row justify-content-around'}>
-                    <div className="d-flex flex-column">
-                      <h3 className={'text-center card-pf-title'}>LAST 24H</h3>
-                      <DonutChart
-                        id="donunt-chart-1"
-                        size={{ width: 210, height: 167 }}
-                        data={{
-                          colors: {
-                            Success: '#34bfa3',
-                            Failed: '#f22d4e',
-                            'In progress': '#b2b2b2',
-                          },
-                          columns: [
-                            ['Success', this.state.backupStats.successful],
-                            ['In progress', this.state.backupStats.inProgress],
-                            ['Failed', this.state.backupStats.failed],
-                          ],
-                          groups: [['Success', 'In progress', 'Failed']],
-                          order: null,
-                        }}
-                        tooltip={{ show: true }}
-                        title={{ secondary: 'tasks' }}
-                      />
-                    </div>
-                    <div className={'align-self-center'}>
-                      Total data protected: {this.state.backupStats.totalData}
-                    </div>
+                  <div className={'align-self-center'}>
+                    Total data protected: {this.state.backupStats.totalData}
                   </div>
                 </div>
               )}
-            </div>
+            </Card>
           </div>
 
           {isNotOpenstackBuild && (

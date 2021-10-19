@@ -11,8 +11,8 @@ import SchedulesList from 'pages/schedules/SchedulesList';
 import PoliciesList from 'pages/policies/PoliciesList';
 
 const items = [
-  { label: 'Policies', type: 'policies' },
-  { label: 'Schedules', type: 'schedules' },
+  { label: 'Policies', path: 'policies' },
+  { label: 'Schedules', path: 'schedules' },
 ];
 
 const inkStyle = {
@@ -33,12 +33,12 @@ export const ListContainer = () => {
         <ul className="p-tabmenu-nav p-reset">
           {items.map((el) => {
             return (
-              <Link to={`${pathWithoutTab}/${el.type}`}>
+              <Link to={`${pathWithoutTab}/${el.path}`}>
                 <li
                   className={`p-tabmenuitem ${
-                    (path === el.type && 'p-highlight') || ''
+                    (path === el.path && 'p-highlight') || ''
                   } `}
-                  key={el.type}
+                  key={el.path}
                 >
                   <a className="p-menuitem-link">
                     <span className="p-menuitem-text">{el.label}</span>

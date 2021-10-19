@@ -9,16 +9,26 @@ export default ({ items }: { items: TabList }) => {
   const pathWithoutTab = location.pathname.split('/').slice(0, -1).join('/');
 
   return (
-    <ul className="nav nav-tabs">
-      {items.map((el) => {
-        return (
-          <li className={path === el.path && 'active'}>
+    <div className="p-tabmenu p-component">
+      <ul className="p-tabmenu-nav p-reset">
+        {items.tabs.map((el) => {
+          return (
             <Link to={`${pathWithoutTab}/${el.path}`}>
-              <a>{el.label}</a>
+              <li
+                className={`p-tabmenuitem ${
+                  (path === el.path && 'p-highlight') || ''
+                } `}
+                key={el.path}
+              >
+                <a className="p-menuitem-link">
+                  <span className="p-menuitem-text">{el.label}</span>
+                </a>
+              </li>
             </Link>
-          </li>
-        );
-      })}
-    </ul>
+          );
+        })}
+        <li className="p-tabmenu-ink-bar" style={items.inkStyle[path]} />
+      </ul>
+    </div>
   );
 };

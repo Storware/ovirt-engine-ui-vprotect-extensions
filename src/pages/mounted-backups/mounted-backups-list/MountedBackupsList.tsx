@@ -9,10 +9,11 @@ import { alertService } from '../../../services/alert-service';
 import { UnmountTask } from '../../../model/tasks/unmount-task';
 import { Menu } from 'primereact/menu';
 import { Column } from 'primereact/column';
-import { createBrowserHistory } from 'history';
 import { InputText } from 'primereact/inputtext';
 import Table from 'components/table/primereactTable';
 import { dateTemplate } from 'components/table/templates';
+import { Button } from 'primereact/button';
+import { Redirect, useRouteMatch } from 'react-router-dom';
 
 export const MountedBackupsList = () => {
   const dispatch = useDispatch();
@@ -22,16 +23,17 @@ export const MountedBackupsList = () => {
   }, [dispatch]);
 
   const rows = useSelector(selectMountedBackups);
-  const history = createBrowserHistory();
   const [globalFilter, setGlobalFilter] = useState(null);
   const [actionsElement, setActionsElement] = useState(null);
+  const [detailsRedirect, setDetailsRedirect] = useState(false);
+  const match = useRouteMatch();
 
   const actions = [
     ...((actionsElement?.backup && [
       {
-        label: 'Backup',
+        label: 'Details',
         command: () => {
-          history.push(actionsElement.guid);
+          setDetailsRedirect(true);
         },
       },
     ]) ||
@@ -85,8 +87,10 @@ export const MountedBackupsList = () => {
             field="protectedEntity"
             header="Virtual Machine"
             body={(rowData) => (
-              <Link to={`virtual_environments/${rowData.protectedEntity.guid}`}>
-                {rowData.protectedEntity.name}
+              <Link
+                to={`virtual_environments/${rowData.backup?.protectedEntity?.guid}`}
+              >
+                {rowData.backup?.protectedEntity?.name}
               </Link>
             )}
           />
@@ -112,8 +116,30 @@ export const MountedBackupsList = () => {
               )
             }
           />
+          <Column
+            field="action"
+            header="Action"
+            body={(rowData) => (
+              <Button
+                icon="pi pi-bars"
+                onClick={(event) => {
+                  this.menu.toggle(event);
+                  setActionsElement(rowData);
+                }}
+                aria-controls="popup_menu"
+                aria-haspopup
+              />
+            )}
+          />
         </Table>
       </div>
+      {detailsRedirect && (
+        <Redirect
+          to={{
+            pathname: `${match.path}/${actionsElement.guid}`,
+          }}
+        />
+      )}
     </div>
   );
 };
