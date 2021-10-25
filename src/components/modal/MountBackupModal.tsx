@@ -132,22 +132,25 @@ export const MountBackupModal = ({ guid }) => {
           options={mountableBackups}
         />
 
-        <Select
-          label="Choose node"
-          optionLabel="name"
-          value={task.node}
-          options={nodes}
-          dataKey="guid"
-          required
-          onChange={(event) =>
-            dispatch(
-              setTaskAction({
-                ...task,
-                node: event.value,
-              }),
-            )
-          }
-        />
+        <div className='mt-2'>
+          <Select
+              label="Choose node"
+              optionLabel="name"
+              value={task.node}
+              options={nodes}
+              dataKey="guid"
+              required
+              onChange={(event) =>
+                  dispatch(
+                      setTaskAction({
+                        ...task,
+                        node: event.value,
+                      }),
+                  )
+              }
+          />
+        </div>
+
         <Radio
           value={task.mode}
           options={filteredModes}
