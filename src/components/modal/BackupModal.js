@@ -66,6 +66,7 @@ export const BackupModal = ({ virtualEnvironments, ...props }) => {
               backupType: event.value,
             })
           }
+          className="mb-3"
         />
 
         <Select
@@ -83,12 +84,12 @@ export const BackupModal = ({ virtualEnvironments, ...props }) => {
           }
         />
 
-        <div>
+        <div className="mt-3">
           <label>Priority</label>
           <InputText value={task.priority} onChange={setPriority} />
         </div>
-        <div>
-          <label>Window start</label>
+        <div className="mt-3">
+          <label className={"mr-2"}>Window start</label>
           <InputDate
             value={task.windowStart}
             onChange={(e) =>

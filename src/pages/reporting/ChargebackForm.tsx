@@ -120,14 +120,15 @@ export default () => {
             className="w-100"
           />
 
-          <h3>Filter</h3>
+          <h3 className="mt-3">Filter</h3>
 
           {Object.keys(filterByFieldOptions).map((el) => {
             const [show, setShow] = useState(false);
             return (
-              <div>
+              <div className='mt-2' key={el}>
                 <label>{filterByFieldOptions[el].label}</label>
                 <ToggleButton
+                    className='ml-2'
                   checked={show}
                   onChange={({ value }) => {
                     setShow(value);

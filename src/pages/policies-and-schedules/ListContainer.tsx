@@ -33,7 +33,7 @@ export const ListContainer = () => {
         <ul className="p-tabmenu-nav p-reset">
           {items.map((el) => {
             return (
-              <Link to={`${pathWithoutTab}/${el.path}`}>
+              <Link to={`${pathWithoutTab}/${el.path}`} key={el.path}>
                 <li
                   className={`p-tabmenuitem ${
                     (path === el.path && 'p-highlight') || ''

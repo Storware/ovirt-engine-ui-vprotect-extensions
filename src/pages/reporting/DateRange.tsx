@@ -20,24 +20,27 @@ export default () => {
         }}
       >
         <Form className="mb-4">
-          <Field
-            name="from"
-            component={Calendar}
-            label="From"
-            className="d-inline-block"
-          />
-          <Field
-            name="to"
-            component={Calendar}
-            label="To"
-            className="d-inline-block ml-4"
-          />
+            <div className='d-flex align-items-center'>
+                <Field
+                    name="from"
+                    component={Calendar}
+                    label="From"
+                    className="d-inline-block"
+                />
+                <Field
+                    name="to"
+                    component={Calendar}
+                    label="To"
+                    className="d-inline-block ml-4"
+                />
 
-          <Button
-            type="submit"
-            label="Apply"
-            className="p-button-success ml-4"
-          />
+                <Button
+                    type="submit"
+                    label="Apply"
+                    className="p-button-success ml-4"
+                />
+            </div>
+
         </Form>
       </Formik>
     </div>
