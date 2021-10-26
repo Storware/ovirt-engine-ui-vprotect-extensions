@@ -68,7 +68,7 @@ export default () => {
   if (chartData.labels.length === 0) {
     return (
       <div className="text-center">
-        <h2 className="text-muted">No data</h2>
+        <h6 className="text-muted font-weight-lighter">No data</h6>
       </div>
     );
   }
