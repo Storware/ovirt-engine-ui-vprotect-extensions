@@ -39,21 +39,9 @@ export default () => {
   }, []);
 
   const options = {
-    ...commonOptions('yLabel'),
-    scales: {
-      xAxes: [
-        {
-          barPercentage: 0.4,
-        },
-      ],
-      yAxes: [
-        tickOptions([
-          ...chartData.datasets[0].data,
-          ...chartData.datasets[1].data,
-        ]),
-      ],
-    },
+    ...commonOptions('yLabel')
   };
 
-  return <div>{/*<Bar data={chartData} options={options} />*/}</div>;
+  // Restore options https://github.com/reactchartjs/react-chartjs-2
+  return <div><Bar data={chartData} options={options}/></div>;
 };
