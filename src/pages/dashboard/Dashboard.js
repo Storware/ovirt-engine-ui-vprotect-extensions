@@ -15,6 +15,7 @@ import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 import Chargeback from './chargeback/Chargeback';
 import ActivityChart from './activity/ActivityChart';
 import { Card } from 'primereact/card';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const fullTimeZoneName =
   user &&
@@ -75,12 +76,17 @@ export class Dashboard extends React.Component {
         </Toolbar>
         <div className={'container-fluid pt-4'}>
           <div className="d-flex w-100">
-            <Card title="Protection stats" className="w-100 mr-2">
+            <Card className="w-100 mr-2">
+              <div className={'card-pf-heading'}>
+                <h5 className={'font-weight-light'}>Protection stats</h5>
+              </div>
+              <hr/>
               {this.state.protection && (
-                <div className="card-pf-body pie-chart-with-title-container">
-                  <h3 className={'text-center card-pf-title'}>
+                <div className="card-pf-body pie-chart-with-title-container text-center">
+                  <h6 className={'text-center font-weight-light card-pf-title'}>
                     VIRTUAL MACHINES
-                  </h3>
+                  </h6>
+
                   <div>
                     <DonutChart
                       id="virtual-environments"
@@ -113,11 +119,15 @@ export class Dashboard extends React.Component {
                 </div>
               )}
             </Card>
-            <Card title="Success Rate" className="w-100 ml-2">
+            <Card className="w-100 ml-2">
+              <div className={'card-pf-heading'}>
+                <h5 className={'font-weight-light'}>Success Rate</h5>
+              </div>
+              <hr/>
               {this.state.backupStats && (
                 <div className={'d-flex flex-row justify-content-around'}>
                   <div className="d-flex flex-column">
-                    <h3 className={'text-center card-pf-title'}>LAST 24H</h3>
+                    <h6 className={'text-center card-pf-title'}>LAST 24H</h6>
                     <DonutChart
                       id="donunt-chart-1"
                       size={{ width: 210, height: 167 }}
@@ -153,12 +163,12 @@ export class Dashboard extends React.Component {
                 <div>
                   <div className={'card-pf-heading'}>
                     <div>
-                      <h3>Staging Space</h3>
+                      <h5>Staging Space</h5>
                     </div>
                     <div>
-                      <h3 className={'card-pf-title'}>
+                      <h6 className={'card-pf-title'}>
                         STAGING UTILIZATION PER NODE
-                      </h3>
+                      </h6>
                     </div>
                   </div>
                   <ListView>
@@ -205,7 +215,7 @@ export class Dashboard extends React.Component {
               <div className="card-pf">
                 <div>
                   <div className={'card-pf-heading'}>
-                    <h3>Backup Destinations</h3>
+                    <h6>Backup Destinations</h6>
                   </div>
                   {this.state.backupDestinationStats && (
                     <div>
@@ -415,22 +425,30 @@ export class Dashboard extends React.Component {
           )}
 
           <div className="d-flex align-items-stretch">
-            <div className="card-pf w-100 mx-3">
+          <Card className="w-100 mr-3 mt-3">
+
+          <div>
               <div className={'card-pf-heading'}>
-                <h3>Backup Size</h3>
+                <h5 className={'font-weight-light'}>Backup Size</h5>
               </div>
+              <hr/>
               <div>
                 <Chargeback />
               </div>
             </div>
-            <div className="card-pf w-100 mx-3">
+          </Card>
+            <Card className="w-100 mt-3">
+
+            <div>
               <div className={'card-pf-heading'}>
-                <h3>Activity</h3>
+                <h5 className={'font-weight-light'}>Activity</h5>
               </div>
+              <hr/>
               <div>
                 <ActivityChart />
               </div>
             </div>
+            </Card>
           </div>
         </div>
       </div>
