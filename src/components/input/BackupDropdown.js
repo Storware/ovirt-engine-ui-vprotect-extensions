@@ -40,7 +40,7 @@ export class BackupDropdown extends React.Component {
       <Dropdown
         optionLabel="time"
         value={this.state.value}
-        required={this.props.required}
+        required
         options={this.state.options}
         onChange={(event) => {
           this.props.onChange(
@@ -56,5 +56,4 @@ BackupDropdown.propTypes = {
   value: PropTypes.any,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.array.isRequired,
-  required: PropTypes.boolean,
 };

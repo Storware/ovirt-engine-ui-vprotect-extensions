@@ -22,7 +22,7 @@ const Radio = ({ value, ...props }) => {
       {!!props.label && <label>{props.label}</label>}
       {props.options.map((el) => {
         return (
-          <div className="col d-flex my-2">
+          <div className="col d-flex my-2" key={el.name}>
             <RadioButton
               value={el.value}
               inputId={el.name}

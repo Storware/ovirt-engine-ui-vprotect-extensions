@@ -23,7 +23,6 @@ export default () => {
   const header = () => {
     return (
       <div>
-        Task Console
         <div className="d-flex justify-content-between mt-2">
           <div className="p-datatable-globalfilter-container">
             <InputText

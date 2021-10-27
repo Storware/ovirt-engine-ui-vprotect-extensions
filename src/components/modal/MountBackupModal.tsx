@@ -113,7 +113,6 @@ export const MountBackupModal = ({ guid }) => {
         <label>Select backup to mount</label>
         <BackupDropdown
           value={task.backup}
-          required
           onChange={(event) => {
             autoMountFileSystem.mountPath =
               '/mnt/vprotect/' +
@@ -133,22 +132,25 @@ export const MountBackupModal = ({ guid }) => {
           options={mountableBackups}
         />
 
-        <Select
-          label="Choose node"
-          optionLabel="name"
-          value={task.node}
-          options={nodes}
-          dataKey="guid"
-          required
-          onChange={(event) =>
-            dispatch(
-              setTaskAction({
-                ...task,
-                node: event.value,
-              }),
-            )
-          }
-        />
+        <div className='mt-2'>
+          <Select
+              label="Choose node"
+              optionLabel="name"
+              value={task.node}
+              options={nodes}
+              dataKey="guid"
+              required
+              onChange={(event) =>
+                  dispatch(
+                      setTaskAction({
+                        ...task,
+                        node: event.value,
+                      }),
+                  )
+              }
+          />
+        </div>
+
         <Radio
           value={task.mode}
           options={filteredModes}
@@ -187,7 +189,7 @@ export const MountBackupModal = ({ guid }) => {
             <label>PARAMETERS FOR MOUNTING FILESYSTEMS MANUALLY</label>
             {mountedFileSystems['MANUAL'].map((el) => {
               return (
-                <div>
+                <div key={el}>
                   <Check
                     label={manuallyMountParameterLabel(el)}
                     onChange={(e) => {
@@ -274,8 +276,4 @@ export const MountBackupModal = ({ guid }) => {
       </div>
     </div>
   );
-};
-
-MountBackupModal.propTypes = {
-  virtualEnvironments: PropTypes.any.isRequired,
 };

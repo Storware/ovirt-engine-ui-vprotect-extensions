@@ -2,7 +2,6 @@ import React from 'react';
 import { vprotectService } from '../../services/vprotect-service';
 import { hypervisorsService } from '../../services/hypervisors-service';
 import {
-  Button,
   DonutChart,
   ListView,
   ListViewItem,
@@ -15,6 +14,8 @@ import { user } from '../../utils/user';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 import Chargeback from './chargeback/Chargeback';
 import ActivityChart from './activity/ActivityChart';
+import { Card } from 'primereact/card';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const fullTimeZoneName =
   user &&
@@ -54,7 +55,7 @@ export class Dashboard extends React.Component {
             {isNotOpenstackBuild && (
               <div className={'form-group'}>
                 <Button
-                  className={'btn btn-default'}
+                  label="Synchronize inventory"
                   onClick={() => {
                     hypervisorsService
                       .getAllHypervisorManagers()
@@ -68,26 +69,24 @@ export class Dashboard extends React.Component {
                         });
                       });
                   }}
-                >
-                  Synchronize inventory
-                </Button>
+                />
               </div>
             )}
           </div>
         </Toolbar>
         <div className={'container-fluid pt-4'}>
-          <div className="d-flex align-items-stretch">
-            <div className="card-pf w-100 mx-3">
+          <div className="d-flex w-100">
+            <Card className="w-100 mr-2">
               <div className={'card-pf-heading'}>
-                <div>
-                  <h3>Protection stats</h3>
-                </div>
+                <h5 className={'font-weight-light'}>Protection stats</h5>
               </div>
+              <hr/>
               {this.state.protection && (
-                <div className="card-pf-body pie-chart-with-title-container">
-                  <h3 className={'text-center card-pf-title'}>
+                <div className="card-pf-body pie-chart-with-title-container text-center">
+                  <h6 className={'text-center font-weight-light card-pf-title'}>
                     VIRTUAL MACHINES
-                  </h3>
+                  </h6>
+
                   <div>
                     <DonutChart
                       id="virtual-environments"
@@ -119,47 +118,43 @@ export class Dashboard extends React.Component {
                   </div>
                 </div>
               )}
-            </div>
-
-            <div className="card-pf w-100 mx-3">
+            </Card>
+            <Card className="w-100 ml-2">
+              <div className={'card-pf-heading'}>
+                <h5 className={'font-weight-light'}>Success Rate</h5>
+              </div>
+              <hr/>
               {this.state.backupStats && (
-                <div>
-                  <div className="card-pf-heading my-0">
-                    <div>
-                      <h3>Success Rate</h3>
-                    </div>
+                <div className={'d-flex flex-row justify-content-around'}>
+                  <div className="d-flex flex-column">
+                    <h6 className={'text-center card-pf-title'}>LAST 24H</h6>
+                    <DonutChart
+                      id="donunt-chart-1"
+                      size={{ width: 210, height: 167 }}
+                      data={{
+                        colors: {
+                          Success: '#34bfa3',
+                          Failed: '#f22d4e',
+                          'In progress': '#b2b2b2',
+                        },
+                        columns: [
+                          ['Success', this.state.backupStats.successful],
+                          ['In progress', this.state.backupStats.inProgress],
+                          ['Failed', this.state.backupStats.failed],
+                        ],
+                        groups: [['Success', 'In progress', 'Failed']],
+                        order: null,
+                      }}
+                      tooltip={{ show: true }}
+                      title={{ secondary: 'tasks' }}
+                    />
                   </div>
-                  <div className={'d-flex flex-row justify-content-around'}>
-                    <div className="d-flex flex-column">
-                      <h3 className={'text-center card-pf-title'}>LAST 24H</h3>
-                      <DonutChart
-                        id="donunt-chart-1"
-                        size={{ width: 210, height: 167 }}
-                        data={{
-                          colors: {
-                            Success: '#34bfa3',
-                            Failed: '#f22d4e',
-                            'In progress': '#b2b2b2',
-                          },
-                          columns: [
-                            ['Success', this.state.backupStats.successful],
-                            ['In progress', this.state.backupStats.inProgress],
-                            ['Failed', this.state.backupStats.failed],
-                          ],
-                          groups: [['Success', 'In progress', 'Failed']],
-                          order: null,
-                        }}
-                        tooltip={{ show: true }}
-                        title={{ secondary: 'tasks' }}
-                      />
-                    </div>
-                    <div className={'align-self-center'}>
-                      Total data protected: {this.state.backupStats.totalData}
-                    </div>
+                  <div className={'align-self-center'}>
+                    Total data protected: {this.state.backupStats.totalData}
                   </div>
                 </div>
               )}
-            </div>
+            </Card>
           </div>
 
           {isNotOpenstackBuild && (
@@ -168,12 +163,12 @@ export class Dashboard extends React.Component {
                 <div>
                   <div className={'card-pf-heading'}>
                     <div>
-                      <h3>Staging Space</h3>
+                      <h5>Staging Space</h5>
                     </div>
                     <div>
-                      <h3 className={'card-pf-title'}>
+                      <h6 className={'card-pf-title'}>
                         STAGING UTILIZATION PER NODE
-                      </h3>
+                      </h6>
                     </div>
                   </div>
                   <ListView>
@@ -220,7 +215,7 @@ export class Dashboard extends React.Component {
               <div className="card-pf">
                 <div>
                   <div className={'card-pf-heading'}>
-                    <h3>Backup Destinations</h3>
+                    <h6>Backup Destinations</h6>
                   </div>
                   {this.state.backupDestinationStats && (
                     <div>
@@ -430,22 +425,30 @@ export class Dashboard extends React.Component {
           )}
 
           <div className="d-flex align-items-stretch">
-            <div className="card-pf w-100 mx-3">
+          <Card className="w-100 mr-3 mt-3">
+
+          <div>
               <div className={'card-pf-heading'}>
-                <h3>Backup Size</h3>
+                <h5 className={'font-weight-light'}>Backup Size</h5>
               </div>
+              <hr/>
               <div>
                 <Chargeback />
               </div>
             </div>
-            <div className="card-pf w-100 mx-3">
+          </Card>
+            <Card className="w-100 mt-3">
+
+            <div>
               <div className={'card-pf-heading'}>
-                <h3>Activity</h3>
+                <h5 className={'font-weight-light'}>Activity</h5>
               </div>
+              <hr/>
               <div>
                 <ActivityChart />
               </div>
             </div>
+            </Card>
           </div>
         </div>
       </div>

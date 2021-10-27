@@ -32,7 +32,6 @@ const SchedulesList = () => {
   const header = () => {
     return (
       <div>
-        Policies
         <div className="d-flex justify-content-between mt-2">
           <div className="p-datatable-globalfilter-container">
             <InputText
@@ -77,7 +76,7 @@ const SchedulesList = () => {
       <Column
         field="startWindowLength"
         header="Start window [min]"
-        body={(rowData) => <td>{rowData.startWindowLength / 1000 / 60}</td>}
+        body={(rowData) => rowData.startWindowLength / 1000 / 60}
       />
       <Column
         field="action"

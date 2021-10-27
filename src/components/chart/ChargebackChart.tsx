@@ -6,7 +6,7 @@ import {
   selectSortBy,
 } from 'store/chargeback-chart/selectors';
 import { setPage, setSortBy } from 'store/chargeback-chart/actions';
-import { HorizontalBar } from 'react-chartjs-2';
+// import { HorizontalBar } from 'react-chartjs-2';
 import getPaginatedAndSortedData from 'pages/dashboard/chargeback/getPaginatedAndSortedData';
 import {
   commonOptions,
@@ -68,17 +68,17 @@ export default () => {
   if (chartData.labels.length === 0) {
     return (
       <div className="text-center">
-        <h2 className="text-muted">No data</h2>
+        <h6 className="text-muted font-weight-lighter">No data</h6>
       </div>
     );
   }
 
   return (
     <div>
-      <HorizontalBar
-        data={getPaginatedAndSortedData(chartData, sortBy, page)}
-        options={options}
-      />
+      {/*<HorizontalBar*/}
+      {/*  data={getPaginatedAndSortedData(chartData, sortBy, page)}*/}
+      {/*  options={options}*/}
+      {/*/>*/}
       <div className="d-flex justify-content-between cursor-pointer">
         <div className="d-flex w-25">
           <div className="pt-1 px-2">Sort by:</div>

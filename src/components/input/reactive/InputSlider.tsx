@@ -7,13 +7,13 @@ const InputSlider = ({ field, form: { setFieldValue }, ...props }) => {
     <div className="pt-3">
       {!!props.label && <label>{props.label}</label>}
       <InputText {...field} {...props} type="number" />
-      <Slider
-        {...field}
-        {...props}
-        onChange={(e) => {
-          setFieldValue(field.name, e.value);
-        }}
-      />
+      {/*<Slider*/}
+      {/*  {...field}*/}
+      {/*  {...props}*/}
+      {/*  onChange={(e) => {*/}
+      {/*    setFieldValue(field.name, e.value);*/}
+      {/*  }}*/}
+      {/*/>*/}
     </div>
   );
 };

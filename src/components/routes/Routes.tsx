@@ -21,6 +21,7 @@ export default ({
         const Component = route.component;
         return (
           <Route
+            key={route.path}
             path={`${absolutePathPart ? absolutePathPart + '/' : ''}${
               route.path
             }`}

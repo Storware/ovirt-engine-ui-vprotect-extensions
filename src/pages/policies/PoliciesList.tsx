@@ -20,11 +20,9 @@ import Table from 'components/table/primereactTable';
 
 export const nameTemplate = (history) => (rowData, column) => {
   return (
-    <td>
-      <Link to={`${history.location.pathname}/${rowData.guid}`}>
-        {rowData[column.field]}
-      </Link>
-    </td>
+    <Link to={`${history.location.pathname}/${rowData.guid}`}>
+      {rowData[column.field]}
+    </Link>
   );
 };
 
@@ -85,7 +83,6 @@ export const PoliciesList = () => {
   const header = () => {
     return (
       <div>
-        Policies
         <div className="d-flex justify-content-between mt-2">
           <div className="p-datatable-globalfilter-container">
             <InputText

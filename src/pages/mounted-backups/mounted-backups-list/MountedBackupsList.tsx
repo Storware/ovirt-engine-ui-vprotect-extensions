@@ -1,21 +1,4 @@
-import React, { useEffect } from 'react';
-import {
-  actionHeaderCellFormatter,
-  sortableHeaderCellFormatter,
-  tableCellFormatter,
-  Table,
-  MenuItem,
-  Grid,
-  Toolbar,
-} from 'patternfly-react';
-
-import { DateShow } from '../../../components/convert/Date';
-import {
-  TableWithPagination,
-  sortableTransform,
-  sortingFormatter,
-  sortingColumns,
-} from '../../../components/table/TableWithPagination';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMountedBackupsListPage } from '../../../store/mounted-backups/actions';
@@ -24,245 +7,139 @@ import { MountTask } from '../../../model/tasks/mount-task';
 import { tasksService } from '../../../services/tasks-service';
 import { alertService } from '../../../services/alert-service';
 import { UnmountTask } from '../../../model/tasks/unmount-task';
-import getRelativePath from 'utils/getRelativePath';
-
-const columns = [
-  {
-    property: 'backup',
-    header: {
-      label: 'Virtual Machine',
-      props: {
-        index: 0,
-        rowSpan: 1,
-        colSpan: 1,
-      },
-      transforms: [sortableTransform],
-      formatters: [sortingFormatter],
-      customFormatters: [sortableHeaderCellFormatter],
-    },
-    cell: {
-      props: {
-        index: 0,
-      },
-      formatters: [
-        (value) => {
-          return (
-            <td>
-              {value && (
-                <Link to={`virtual_environments/${value.protectedEntity.guid}`}>
-                  {value.protectedEntity.name}
-                </Link>
-              )}
-            </td>
-          );
-        },
-      ],
-    },
-  },
-  {
-    property: 'mode',
-    header: {
-      label: 'Mode',
-      props: {
-        index: 1,
-        rowSpan: 1,
-        colSpan: 1,
-      },
-      transforms: [sortableTransform],
-      formatters: [sortingFormatter],
-      customFormatters: [sortableHeaderCellFormatter],
-    },
-    cell: {
-      props: {
-        index: 1,
-      },
-      formatters: [
-        (value) => {
-          return <td>{value && value.description}</td>;
-        },
-      ],
-    },
-  },
-  {
-    property: 'node',
-    header: {
-      label: 'Node',
-      props: {
-        index: 2,
-        rowSpan: 1,
-        colSpan: 1,
-      },
-      transforms: [sortableTransform],
-      formatters: [sortingFormatter],
-      customFormatters: [sortableHeaderCellFormatter],
-    },
-    cell: {
-      props: {
-        index: 2,
-      },
-      formatters: [
-        (value) => {
-          return <td>{value && value.name}</td>;
-        },
-      ],
-    },
-  },
-  {
-    property: 'backup',
-    header: {
-      label: 'Snapshot Date',
-      props: {
-        index: 3,
-        rowSpan: 1,
-        colSpan: 1,
-      },
-      transforms: [sortableTransform],
-      formatters: [sortingFormatter],
-      customFormatters: [sortableHeaderCellFormatter],
-    },
-    cell: {
-      props: {
-        index: 3,
-      },
-      formatters: [
-        (value) => {
-          return <td>{value && <DateShow date={value.snapshotTime} />}</td>;
-        },
-      ],
-    },
-  },
-  {
-    property: 'mountedFileSystemCount',
-    header: {
-      label: 'File systems',
-      props: {
-        index: 4,
-        rowSpan: 1,
-        colSpan: 1,
-      },
-      transforms: [sortableTransform],
-      formatters: [sortingFormatter],
-      customFormatters: [sortableHeaderCellFormatter],
-    },
-    cell: {
-      props: {
-        index: 4,
-      },
-      formatters: [tableCellFormatter],
-    },
-  },
-  {
-    property: 'mountedFileCount',
-    header: {
-      label: 'Files',
-      props: {
-        index: 5,
-        rowSpan: 1,
-        colSpan: 1,
-      },
-      transforms: [sortableTransform],
-      formatters: [sortingFormatter],
-      customFormatters: [sortableHeaderCellFormatter],
-    },
-    cell: {
-      props: {
-        index: 5,
-      },
-      formatters: [
-        (value) => {
-          return (
-            <td>
-              {value ? (
-                <span className="text-success">Backup up to date</span>
-              ) : typeof value === 'undefined' ? (
-                <span>No schedule defined</span>
-              ) : (
-                <span className="text-danger">Backup outdated</span>
-              )}
-            </td>
-          );
-        },
-      ],
-    },
-  },
-  {
-    header: {
-      label: 'Actions',
-      props: {
-        index: 6,
-        rowSpan: 1,
-        colSpan: 1,
-      },
-      formatters: [actionHeaderCellFormatter],
-    },
-    cell: {
-      props: {
-        index: 8,
-        rowSpan: 1,
-        colSpan: 1,
-      },
-      formatters: [
-        (value, { rowData }) => {
-          return [
-            <Table.Actions key="0">
-              <Table.DropdownKebab id="myKebab" pullRight>
-                {rowData.backup && (
-                  <MenuItem>
-                    <Link to={getRelativePath(rowData.guid)}>
-                      <div>Details</div>
-                    </Link>
-                  </MenuItem>
-                )}
-                <MenuItem
-                  onClick={async () => {
-                    let task = new MountTask();
-                    task.mountedBackup = { guid: rowData.guid, name: '' };
-                    await tasksService.submitTaskMount(task);
-                    alertService.info('Mount task has been submitted');
-                  }}
-                >
-                  Remount
-                </MenuItem>
-                <MenuItem
-                  onClick={async () => {
-                    let task = new UnmountTask();
-                    task.mountedBackup = { guid: rowData.guid, name: '' };
-                    await tasksService.submitTaskUnmount(task);
-                    alertService.info('Unmount task has been submitted');
-                  }}
-                >
-                  Unmount
-                </MenuItem>
-              </Table.DropdownKebab>
-            </Table.Actions>,
-          ];
-        },
-      ],
-    },
-  },
-];
+import { Menu } from 'primereact/menu';
+import { Column } from 'primereact/column';
+import { InputText } from 'primereact/inputtext';
+import Table from 'components/table/primereactTable';
+import { dateTemplate } from 'components/table/templates';
+import { Button } from 'primereact/button';
+import { Redirect, useRouteMatch } from 'react-router-dom';
 
 export const MountedBackupsList = () => {
-  let dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getMountedBackupsListPage);
   }, [dispatch]);
 
-  let rows = useSelector(selectMountedBackups);
+  const rows = useSelector(selectMountedBackups);
+  const [globalFilter, setGlobalFilter] = useState(null);
+  const [actionsElement, setActionsElement] = useState(null);
+  const [detailsRedirect, setDetailsRedirect] = useState(false);
+  const match = useRouteMatch();
+
+  const actions = [
+    ...((actionsElement?.backup && [
+      {
+        label: 'Details',
+        command: () => {
+          setDetailsRedirect(true);
+        },
+      },
+    ]) ||
+      []),
+    {
+      label: 'Mount',
+      command: async () => {
+        const task = new MountTask();
+        task.mountedBackup = { guid: actionsElement.guid, name: '' };
+        await tasksService.submitTaskMount(task);
+        alertService.info('Mount task has been submitted');
+      },
+    },
+    {
+      label: 'Unmount',
+      command: async () => {
+        let task = new UnmountTask();
+        task.mountedBackup = { guid: actionsElement.guid, name: '' };
+        await tasksService.submitTaskUnmount(task);
+        alertService.info('Unmount task has been submitted');
+      },
+    },
+  ];
+
+  const header = () => {
+    return (
+      <div className="d-flex justify-content-between">
+        <div className="p-datatable-globalfilter-container">
+          <InputText
+            type="search"
+            // @ts-ignore
+            onInput={(e) => setGlobalFilter(e.target.value)}
+            placeholder="Global Search"
+          />
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div>
-      <Toolbar></Toolbar>
-      <div className={'pt-4'}>
-        <Grid fluid>
-          <TableWithPagination
-            columns={columns}
-            sortingColumns={sortingColumns}
-            rows={rows}
+      <div>
+        <Menu
+          model={actions}
+          popup
+          ref={(el) => (this.menu = el)}
+          id="popup_menu"
+        />
+        <Table value={rows} header={header()} globalFilter={globalFilter}>
+          <Column
+            field="protectedEntity"
+            header="Virtual Machine"
+            body={(rowData) => (
+              <Link
+                to={`virtual_environments/${rowData.backup?.protectedEntity?.guid}`}
+              >
+                {rowData.backup?.protectedEntity?.name}
+              </Link>
+            )}
           />
-        </Grid>
+          <Column field="mode.description" header="Mode" />
+          <Column field="node.name" header="Node" />
+          <Column
+            field="snapshotTime"
+            header="Snapshot Date"
+            body={dateTemplate}
+          />
+          <Column field="mountedFileSystemCount" header="File systems" />
+
+          <Column
+            field="mountedFileCount"
+            header="Backup status"
+            body={(rowData) =>
+              rowData.mountedFileCount ? (
+                <span className="text-success">Backup up to date</span>
+              ) : typeof rowData.mountedFileCount === 'undefined' ? (
+                <span>No schedule defined</span>
+              ) : (
+                <span className="text-danger">Backup outdated</span>
+              )
+            }
+          />
+          <Column
+            field="action"
+            header="Action"
+            body={(rowData) => (
+              <Button
+                icon="pi pi-bars"
+                onClick={(event) => {
+                  this.menu.toggle(event);
+                  setActionsElement(rowData);
+                }}
+                aria-controls="popup_menu"
+                aria-haspopup
+              />
+            )}
+          />
+        </Table>
       </div>
+      {detailsRedirect && (
+        <Redirect
+          to={{
+            pathname: `${match.path}/${actionsElement.guid}`,
+          }}
+        />
+      )}
     </div>
   );
 };

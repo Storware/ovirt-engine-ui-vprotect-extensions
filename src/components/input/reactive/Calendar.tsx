@@ -12,8 +12,8 @@ export default ({ field, form: { setFieldValue }, ...props }) => {
   }, [field]);
 
   return (
-    <div className={props.className}>
-      {props.label && <label>{props.label}</label>}
+    <div className={props.className} >
+      {props.label && <label className={"mr-2"}>{props.label}</label>}
       <Calendar
         showTime
         hourFormat="24"

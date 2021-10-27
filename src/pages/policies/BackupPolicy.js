@@ -167,10 +167,6 @@ class BackupPolicy extends React.Component {
                 type="number"
                 onChange={this.handle('priority')}
               />
-              <Slider
-                value={this.state.model.priority}
-                onChange={this.handle('priority')}
-              />
             </div>
           </AccordionTab>
           <AccordionTab header="Auto-assigment">
@@ -431,14 +427,6 @@ class BackupPolicy extends React.Component {
                       'failRemainingBackupTasksExportThreshold',
                     )}
                   />
-                  <Slider
-                    value={
-                      this.state.model.failRemainingBackupTasksExportThreshold
-                    }
-                    onChange={this.handle(
-                      'failRemainingBackupTasksExportThreshold',
-                    )}
-                  />
                 </div>
               )}
             </div>
@@ -471,14 +459,6 @@ class BackupPolicy extends React.Component {
                       this.state.model.failRemainingBackupTasksStoreThreshold
                     }
                     type="number"
-                    onChange={this.handle(
-                      'failRemainingBackupTasksStoreThreshold',
-                    )}
-                  />
-                  <Slider
-                    value={
-                      this.state.model.failRemainingBackupTasksStoreThreshold
-                    }
                     onChange={this.handle(
                       'failRemainingBackupTasksStoreThreshold',
                     )}

@@ -44,7 +44,6 @@ const VirtualMachinesList = () => {
   const header = () => {
     return (
       <div>
-        Virtual Machines
         <div className="d-flex justify-content-between">
           <div className="p-datatable-globalfilter-container">
             <InputText

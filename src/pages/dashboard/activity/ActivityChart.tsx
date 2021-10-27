@@ -23,7 +23,8 @@ export default () => {
     const res = await dashboardService.getDashboardVmBackupSizeStats();
     emptyChartData.labels = [...Array(15)]
       .map((item, index) => index)
-      .map((el) => moment().subtract(el, 'days').format('DD MMM')).reverse();
+      .map((el) => moment().subtract(el, 'days').format('DD MMM'))
+      .reverse();
     emptyChartData.datasets[0].data = Object.values(
       res.backupSizeStatsResponses,
     );
@@ -38,25 +39,9 @@ export default () => {
   }, []);
 
   const options = {
-    ...commonOptions('yLabel'),
-    scales: {
-      xAxes: [
-        {
-          barPercentage: 0.4,
-        },
-      ],
-      yAxes: [
-        tickOptions([
-          ...chartData.datasets[0].data,
-          ...chartData.datasets[1].data,
-        ]),
-      ],
-    },
+    ...commonOptions('yLabel')
   };
 
-  return (
-    <div>
-      <Bar data={chartData} options={options} />
-    </div>
-  );
+  // Restore options https://github.com/reactchartjs/react-chartjs-2
+  return <div><Bar data={chartData} options={options}/></div>;
 };
