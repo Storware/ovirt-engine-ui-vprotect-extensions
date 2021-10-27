@@ -38,10 +38,10 @@ export default () => {
     getChartData();
   }, []);
 
-  const options = {
-    ...commonOptions('yLabel')
-  };
-
   // Restore options https://github.com/reactchartjs/react-chartjs-2
-  return <div><Bar data={chartData} options={options}/></div>;
+  return (
+    <div>
+      <Bar data={chartData} options={commonOptions('y')} />
+    </div>
+  );
 };

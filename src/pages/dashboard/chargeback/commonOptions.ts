@@ -5,10 +5,12 @@ export const commonOptions = (tooltipProperty) => {
     scaleShowVerticalLines: false,
     responsive: true,
     maintainAspectRatio: true,
-    tooltips: {
-      callbacks: {
-        label: (tooltipItem) => {
-          return `Size: ${getFileSize(tooltipItem[tooltipProperty])}`;
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (tooltipItem) => {
+            return `Size: ${getFileSize(tooltipItem.parsed[tooltipProperty])}`;
+          },
         },
       },
     },
