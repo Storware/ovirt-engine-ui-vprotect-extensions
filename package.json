@@ -41,7 +41,7 @@
     "primeicons": "^4.1.0",
     "primeflex": "3.0.0",
     "primereact": "^6.6.0",
-    "prismjs": "1.9.0",
+    "prismjs": "1.25.0",
     "prop-types": "^15.6.0",
     "react": "~16.8.0",
     "chart.js": "3.3.2",
