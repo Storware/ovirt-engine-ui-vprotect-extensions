@@ -24,7 +24,6 @@ const ModalContainer = () => {
           label="Save"
           icon="pi pi-check"
           onClick={() => dispatch(saveModalAction())}
-          autoFocus
         />
       </div>
     );

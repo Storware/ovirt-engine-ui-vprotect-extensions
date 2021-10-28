@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Slider } from 'patternfly-react';
 import PropTypes from 'prop-types';
 import { InputDate } from '../input/InputDate';
 import { useDispatch, useSelector } from 'react-redux';
@@ -89,7 +88,7 @@ export const BackupModal = ({ virtualEnvironments, ...props }) => {
           <InputText value={task.priority} onChange={setPriority} />
         </div>
         <div className="mt-3">
-          <label className={"mr-2"}>Window start</label>
+          <label className={'mr-2'}>Window start</label>
           <InputDate
             value={task.windowStart}
             onChange={(e) =>

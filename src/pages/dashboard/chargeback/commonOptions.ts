@@ -1,6 +1,7 @@
 import getFileSize from 'utils/getFileSize';
 
 export const commonOptions = (tooltipProperty) => {
+  console.log(tooltipProperty);
   return {
     scaleShowVerticalLines: false,
     responsive: true,

@@ -7,7 +7,6 @@ import { DateShow } from '../../../components/convert/Date';
 import { Filesize } from '../../../components/convert/Filesize';
 import { BackupModal } from '../../../components/modal/BackupModal';
 import { RestoreModal } from '../modal/RestoreModal';
-import BarChartContainer from '../../../components/chart/BarChartContainer';
 import { TabView, TabPanel } from 'primereact/tabview';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -26,6 +25,7 @@ import SchedulesTable from './SchedulesTable';
 import Settings from './Settings';
 import { showModalAction } from '../../../store/modal/actions';
 import { createBrowserHistory } from 'history';
+import BarChartContainer from 'components/chart/BarChartContainer';
 
 const VirtualMachine = () => {
   let dispatch = useDispatch();
@@ -90,7 +90,7 @@ const VirtualMachine = () => {
       >
         <div className={'row'}>
           <div className={'col'}>
-            <h3>BACKUP DETAILS</h3>
+            <h5>BACKUP DETAILS</h5>
             <p>
               Last backup - <DateShow date={virtualMachine.lastBackup} />
             </p>
@@ -107,7 +107,7 @@ const VirtualMachine = () => {
           <div className={'col'}>
             {virtualMachine.tags && (
               <div>
-                <h3>HYPERVISOR TAGS</h3>
+                <h5>HYPERVISOR TAGS</h5>
                 {virtualMachine.tags.map((el, index, arr) => {
                   return (
                     <span>
@@ -120,19 +120,19 @@ const VirtualMachine = () => {
             )}
             {hypervisor && hypervisor.node && (
               <div>
-                <h3>NODE</h3>
+                <h5>NODE</h5>
                 <span>{hypervisor.node.name}</span>
               </div>
             )}
             {virtualMachine.vmBackupPolicy && (
               <div>
-                <h3>Backup Policy</h3>
+                <h5>Backup Policy</h5>
                 <span>{virtualMachine.vmBackupPolicy.name}</span>
               </div>
             )}
             {virtualMachine.snapshotMgmtPolicy && (
               <div>
-                <h3>Snapshot Management Policy</h3>
+                <h5>Snapshot Management Policy</h5>
                 <span>{virtualMachine.snapshotMgmtPolicy.name}</span>
               </div>
             )}
@@ -141,13 +141,13 @@ const VirtualMachine = () => {
           <div className={'col'}>
             {virtualMachine.hvManager && (
               <div>
-                <h3>HYPERVISOR MANAGER</h3>
+                <h5>HYPERVISOR MANAGER</h5>
                 <span>{virtualMachine.hvManager.name}</span>
               </div>
             )}
             {hypervisor && (
               <div>
-                <h3>HYPERVISOR</h3>
+                <h5>HYPERVISOR</h5>
                 <span>{hypervisor.name}</span>
               </div>
             )}

@@ -1,31 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 import BarChart from './BarChart';
 import { ChartData } from '../../model/ChartData';
 import { Button } from 'primereact/button';
+import { commonOptions } from '../../pages/dashboard/chargeback/commonOptions';
 
-const stackedOptions = {
-  tooltips: {
-    mode: 'index',
-    intersect: false,
-  },
-  responsive: true,
-  scales: {
-    xAxes: [
-      {
-        stacked: true,
-      },
-    ],
-    yAxes: [
-      {
-        stacked: true,
-      },
-    ],
-  },
-};
-
-const prepareChartDataDays = (props, state) => {
+const prepareChartDataDays = (datasets, state) => {
   let limit = 30;
   let chartData = new ChartData(2);
 
@@ -42,7 +22,7 @@ const prepareChartDataDays = (props, state) => {
     chartData.datasets[1].data.push(0);
   }
 
-  props.datasets.backupsHistory.forEach((element) => {
+  datasets.backupsHistory.forEach((element) => {
     let time = moment(element.snapshotTime).format('DD-MM-YYYY');
     let size = element.size;
     let index = chartData.labels.indexOf(time);
@@ -53,7 +33,7 @@ const prepareChartDataDays = (props, state) => {
     }
   });
 
-  props.datasets.restoresHistory.forEach((element) => {
+  datasets.restoresHistory.forEach((element) => {
     let time = moment(element.restoreTime).format('DD-MM-YYYY');
     let size = element.backup.size;
     let index = chartData.labels.indexOf(time);
@@ -67,23 +47,20 @@ const prepareChartDataDays = (props, state) => {
   return {
     ...state,
     chartData: chartData,
-    options: stackedOptions,
+    options: commonOptions('y'),
   };
 };
 
-const prepareChartDataBackups = (props, state) => {
+const prepareChartDataBackups = (datasets, state) => {
   let limit = 20;
   let chartData = new ChartData(1);
   chartData.datasets[0].label = 'Backup';
 
-  if (
-    !props.datasets.backupsHistory ||
-    props.datasets.backupsHistory.length === 0
-  ) {
+  if (!datasets.backupsHistory || datasets.backupsHistory.length === 0) {
     return state;
   }
 
-  let backups = props.datasets.backupsHistory.filter((value) => {
+  let backups = datasets.backupsHistory.filter((value) => {
     return (
       value.status.name === 'SUCCESS_REMOVED' || value.status.name === 'SUCCESS'
     );
@@ -114,7 +91,7 @@ const prepareChartDataBackups = (props, state) => {
   };
 };
 
-const prepareChartDataTime = (props, state) => {
+const prepareChartDataTime = (datasets, state) => {
   let limit = 20;
   let chartData = new ChartData(4);
 
@@ -123,9 +100,9 @@ const prepareChartDataTime = (props, state) => {
   chartData.datasets[2].label = 'Store (queued) duration';
   chartData.datasets[3].label = 'Store duration';
 
-  let backups = props.datasets.backupsHistory;
+  let backups = datasets.backupsHistory;
 
-  const backupsLength = props.datasets.backupsHistory.length;
+  const backupsLength = datasets.backupsHistory.length;
 
   let shiftChart = state.shiftChart;
   let enablePrevious = state.enablePrevious;
@@ -163,7 +140,7 @@ const prepareChartDataTime = (props, state) => {
   };
 };
 
-const prepareChartDataRestoreTime = (props, state) => {
+const prepareChartDataRestoreTime = (datasets, state) => {
   let limit = 20;
   let chartData = new ChartData(6);
 
@@ -174,9 +151,9 @@ const prepareChartDataRestoreTime = (props, state) => {
   chartData.datasets[4].label = 'Mount (queued) duration';
   chartData.datasets[5].label = 'Mount duration';
 
-  let restores = props.datasets.restoresHistory;
+  let restores = datasets.restoresHistory;
 
-  const backupsLength = props.datasets.restoresHistory.length;
+  const backupsLength = datasets.restoresHistory.length;
 
   let shiftChart = state.shiftChart;
   let enablePrevious = state.enablePrevious;
@@ -238,86 +215,74 @@ const type = {
   restoreTime: 'time',
 };
 
-export class BarChartContainer extends React.Component {
-  constructor(props) {
-    super(props);
+export default (datasets) => {
+  const [state, setState] = useState({
+    chartData: new ChartData(),
+    enablePrevious: true,
+    shiftChart: 0,
+    option: 'days',
+    type: 'size',
+    options: {},
+  });
 
-    this.state = {
-      chartData: new ChartData(),
-      enablePrevious: true,
-      shiftChart: 0,
-      option: 'days',
-      type: 'size',
-    };
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    return {
-      ...prepareData[state.option](props, state),
+  useEffect(() => {
+    setState({
+      ...prepareData[state.option](datasets, state),
       type: type[state.option],
-    };
-  }
+    });
+  }, []);
 
-  render() {
-    return (
-      <div>
-        <div className="d-flex justify-content-end mt-3">
-          <div>
-            <Button
-              className="mx-2"
-              label="Daily activity"
-              onClick={() => {
-                this.setState({
-                  ...this.state,
-                  option: 'days',
-                });
-              }}
-            />
-            <Button
-              className="mx-2"
-              label="Backup size"
-              onClick={() => {
-                this.setState({
-                  ...this.state,
-                  option: 'backups',
-                });
-              }}
-            />
-            <Button
-              className="mx-2"
-              label="Backup time"
-              onClick={() => {
-                this.setState({
-                  ...this.state,
-                  option: 'time',
-                });
-              }}
-            />
-            <Button
-              className="mx-2"
-              label="Restore time"
-              onClick={() => {
-                this.setState({
-                  ...this.state,
-                  option: 'restoreTime',
-                });
-              }}
-            />
-          </div>
+  return (
+    <div>
+      <div className="d-flex justify-content-end mt-3">
+        <div>
+          <Button
+            className="mx-2"
+            label="Daily activity"
+            onClick={() => {
+              setState({
+                ...state,
+                option: 'days',
+              });
+            }}
+          />
+          <Button
+            className="mx-2"
+            label="Backup size"
+            onClick={() => {
+              setState({
+                ...state,
+                option: 'backups',
+              });
+            }}
+          />
+          <Button
+            className="mx-2"
+            label="Backup time"
+            onClick={() => {
+              setState({
+                ...state,
+                option: 'time',
+              });
+            }}
+          />
+          <Button
+            className="mx-2"
+            label="Restore time"
+            onClick={() => {
+              setState({
+                ...state,
+                option: 'restoreTime',
+              });
+            }}
+          />
         </div>
-        <BarChart
-          data={this.state.chartData}
-          options={this.state.options}
-          chartType={this.state.type}
-        />
       </div>
-    );
-  }
-}
-
-export default BarChartContainer;
-
-BarChartContainer.propTypes = {
-  // eslint-disable-next-line react/no-unused-prop-types
-  datasets: PropTypes.any.isRequired,
+      <BarChart
+        data={state.chartData}
+        options={state.options}
+        chartType={state.type}
+      />
+    </div>
+  );
 };
