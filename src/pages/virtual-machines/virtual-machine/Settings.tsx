@@ -75,7 +75,7 @@ const Settings = () => {
       >
         <AccordionTab header="General">
           <div>
-            <h3>Backup policy</h3>
+            <h6>Backup policy</h6>
             <Dropdown
               value={model.vmBackupPolicy}
               optionLabel="name"
