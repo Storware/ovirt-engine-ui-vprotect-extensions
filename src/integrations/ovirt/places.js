@@ -61,7 +61,7 @@ function addVprotectPlace() {
     primaryMenuId,
     'Snapshot SLAs',
     'vprotect-policies-and-schedules-snapshot',
-    `${pluginBasePath}/index.html;policies_and_schedules/vm-snapshot`,
+    `${pluginBasePath}/index.html;policies_and_schedules;vm-snapshot`,
     {
       priority: 14,
     },
