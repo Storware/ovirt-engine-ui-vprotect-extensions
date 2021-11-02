@@ -9,9 +9,9 @@ import { setPage, setSortBy } from 'store/chargeback-chart/actions';
 import getPaginatedAndSortedData from 'pages/dashboard/chargeback/getPaginatedAndSortedData';
 import { Chart } from 'primereact/chart';
 import {
-  commonOptions,
-  tickOptions,
-} from 'pages/dashboard/chargeback/commonOptions';
+  commonSizeOptions,
+  tickSizeOptions,
+} from 'pages/dashboard/chargeback/commonSizeOptions';
 
 export default () => {
   const dispatch = useDispatch();
@@ -69,9 +69,9 @@ export default () => {
         position: 'right',
       },
     },
-    ...commonOptions('x'),
+    ...commonSizeOptions('x'),
     scales: {
-      x: tickOptions(chartData.datasets[0].data),
+      x: tickSizeOptions(chartData.datasets[0].data),
     },
   };
 

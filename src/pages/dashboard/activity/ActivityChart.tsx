@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
-  commonOptions,
-  tickOptions,
-} from 'pages/dashboard/chargeback/commonOptions';
+  commonSizeOptions,
+  tickSizeOptions,
+} from 'pages/dashboard/chargeback/commonSizeOptions';
 import moment from 'moment-timezone';
 import dashboardService from 'services/dashboard-service';
 import { colors } from 'pages/dashboard/chargeback/colors';
@@ -41,7 +41,15 @@ export default () => {
   // Restore options https://github.com/reactchartjs/react-chartjs-2
   return (
     <div>
-      <Bar data={chartData} options={commonOptions('y')} />
+      <Bar
+        data={chartData}
+        options={{
+          ...commonSizeOptions('y'),
+          scales: {
+            y: tickSizeOptions(chartData.datasets[0].data),
+          },
+        }}
+      />
     </div>
   );
 };

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import BarChart from './BarChart';
-import { ChartData } from '../../model/ChartData';
 import { Button } from 'primereact/button';
-import { commonOptions } from '../../pages/dashboard/chargeback/commonOptions';
+import { commonSizeOptions } from 'pages/dashboard/chargeback/commonSizeOptions';
+import BarChart from 'components/chart/BarChart';
+import { ChartData } from 'model/ChartData';
 
 const prepareChartDataDays = (datasets, state) => {
   let limit = 30;
@@ -47,7 +47,7 @@ const prepareChartDataDays = (datasets, state) => {
   return {
     ...state,
     chartData: chartData,
-    options: commonOptions('y'),
+    options: commonSizeOptions('y'),
   };
 };
 
@@ -201,7 +201,7 @@ const prepareChartDataRestoreTime = (datasets, state) => {
   };
 };
 
-const prepareData = {
+export const prepareData = {
   days: prepareChartDataDays,
   backups: prepareChartDataBackups,
   time: prepareChartDataTime,
@@ -215,9 +215,9 @@ const type = {
   restoreTime: 'time',
 };
 
-export default (datasets) => {
+export default ({ datasets }) => {
   const [state, setState] = useState({
-    chartData: new ChartData(),
+    chartData: new ChartData(4),
     enablePrevious: true,
     shiftChart: 0,
     option: 'days',
@@ -230,7 +230,7 @@ export default (datasets) => {
       ...prepareData[state.option](datasets, state),
       type: type[state.option],
     });
-  }, []);
+  }, [state.option, datasets]);
 
   return (
     <div>
@@ -278,11 +278,7 @@ export default (datasets) => {
           />
         </div>
       </div>
-      <BarChart
-        data={state.chartData}
-        options={state.options}
-        chartType={state.type}
-      />
+      <BarChart data={state.chartData} chartType={state.type} />
     </div>
   );
 };
