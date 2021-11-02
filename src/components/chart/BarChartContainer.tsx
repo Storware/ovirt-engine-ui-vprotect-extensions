@@ -13,11 +13,10 @@ const prepareChartDataDays = (datasets, state) => {
   chartData.datasets[1].label = 'Restore';
 
   for (let i = limit - 1; i >= 0; i--) {
-    chartData.labels.push(
-      moment()
-        .subtract(i + state.shiftChart, 'days')
-        .format('DD-MM-YYYY'),
-    );
+    chartData.labels = [...Array(30)]
+      .map((item, index) => index)
+      .map((el) => moment().subtract(el, 'days').format('DD-MM-YYYY'))
+      .reverse();
     chartData.datasets[0].data.push(0);
     chartData.datasets[1].data.push(0);
   }
