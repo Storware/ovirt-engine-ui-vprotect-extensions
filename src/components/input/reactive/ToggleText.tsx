@@ -11,7 +11,7 @@ const ToggleText= ({ field, form: { setFieldValue }, ...props }) => {
     return (
         <div className="pt-3">
             {!!props.label && <label>{props.label}</label>}
-            <ToggleButton checked={toggleValue}
+            <ToggleButton className="ml-2" checked={toggleValue}
                           onChange={(e) => {
                               setValue(e.value)
                               if(!e.value) {

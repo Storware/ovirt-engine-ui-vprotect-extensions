@@ -97,7 +97,7 @@ const SnapshotPolicy = () => {
                   label="Auto-assign Mode"
                 />
 
-                <h3>Include rules</h3>
+                <h5 className={'mt-3'}>Include rules</h5>
                 <div className={'row'}>
                   <div className={'col'}>
                     <Field
@@ -115,7 +115,7 @@ const SnapshotPolicy = () => {
                   </div>
                 </div>
 
-                <h3>Exclude rules</h3>
+                <h5 className={'mt-3'}>Exclude rules</h5>
                 <div className={'row'}>
                   <div className={'col'}>
                     <Field

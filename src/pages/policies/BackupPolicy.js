@@ -124,14 +124,14 @@ class BackupPolicy extends React.Component {
         >
           <AccordionTab header="General">
             <div>
-              <h3>Name</h3>
+              <h5>Name</h5>
               <InputText
                 value={this.state.model.name}
                 onChange={this.handle('name')}
               />
             </div>
-            <div>
-              <h3>Scheduled backups enabled</h3>
+            <div className={'pt-2'}>
+              <h5>Scheduled backups enabled</h5>
               <ToggleButton
                 checked={this.state.model.active}
                 onChange={(e) => {
@@ -146,7 +146,7 @@ class BackupPolicy extends React.Component {
               />
             </div>
             <div className={'pt-2'}>
-              <h3>Auto remove non-present Virtual Environments</h3>
+              <h5>Auto remove non-present Virtual Environments</h5>
               <ToggleButton
                 checked={this.state.model.autoRemoveNonPresent}
                 onChange={(e) => {
@@ -161,7 +161,7 @@ class BackupPolicy extends React.Component {
               />
             </div>
             <div className={'pt-2'}>
-              <h3>Priority</h3>
+              <h5>Priority</h5>
               <InputText
                 value={this.state.model.priority}
                 type="number"
@@ -170,7 +170,7 @@ class BackupPolicy extends React.Component {
             </div>
           </AccordionTab>
           <AccordionTab header="Auto-assigment">
-            <h3>Auto-assign Mode</h3>
+            <h5>Auto-assign Mode</h5>
             <Dropdown
               value={this.state.model.autoAssignSettings.mode}
               optionLabel="description"
@@ -190,11 +190,11 @@ class BackupPolicy extends React.Component {
               }}
             />
 
-            <div>
-              <h3>Include rules</h3>
+            <div className={'mt-3'}>
+              <h5>Include rules</h5>
               <div className={'d-flex'}>
                 <div className={'col'}>
-                  <h4>Include TAG based rules</h4>
+                  <h6>Include TAG based rules</h6>
                   <Chips
                     value={this.state.model.autoAssignSettings.includeTags}
                     separator=","
@@ -217,7 +217,7 @@ class BackupPolicy extends React.Component {
                   </div>
                 </div>
                 <div className={'col'}>
-                  <h4>Include Regex based rules</h4>
+                  <h6>Include Regex based rules</h6>
                   <Chips
                     value={this.state.model.autoAssignSettings.includeRegExps}
                     separator=","
@@ -241,11 +241,11 @@ class BackupPolicy extends React.Component {
                 </div>
               </div>
             </div>
-            <div>
-              <h3>Exclude rules</h3>
+            <div className={'mt-3'}>
+              <h5>Exclude rules</h5>
               <div className={'d-flex'}>
                 <div className={'col'}>
-                  <h4>Exclude TAG based rules</h4>
+                  <h6>Exclude TAG based rules</h6>
                   <Chips
                     value={this.state.model.autoAssignSettings.excludeTags}
                     separator=","
@@ -268,7 +268,7 @@ class BackupPolicy extends React.Component {
                   </div>
                 </div>
                 <div className={'col'}>
-                  <h4>Exclude Regex based rules</h4>
+                  <h6>Exclude Regex based rules</h6>
                   <Chips
                     value={this.state.model.autoAssignSettings.excludeRegExps}
                     separator=","
@@ -293,11 +293,11 @@ class BackupPolicy extends React.Component {
               </div>
             </div>
 
-            <div>
-              <h3>
+            <div className={'mt-2'}>
+              <h5>
                 Auto-assign Virtual Environments only if they belong to the
                 following clusters (optional)
-              </h3>
+              </h5>
               <ListBox
                 multiple
                 optionLabel="name"
@@ -322,7 +322,7 @@ class BackupPolicy extends React.Component {
           </AccordionTab>
           <AccordionTab header="Virtual Environments">
             <div>
-              <h3>Choose Virtual Environments</h3>
+              <h5>Choose Virtual Environments</h5>
               <ListBox
                 multiple
                 filter
@@ -345,7 +345,7 @@ class BackupPolicy extends React.Component {
           </AccordionTab>
           <AccordionTab header="Rule">
             <div>
-              <h3>Select Backup Destination</h3>
+              <h5>Select Backup Destination</h5>
               <Dropdown
                 value={this.state.model.rules[0].backupDestinations[0]}
                 optionLabel="name"
@@ -367,8 +367,8 @@ class BackupPolicy extends React.Component {
                 }}
               />
             </div>
-            <div>
-              <h3>Choose schedules</h3>
+            <div className={'mt-3'}>
+              <h5>Choose schedules</h5>
               <ListBox
                 multiple
                 optionLabel="name"
@@ -395,10 +395,10 @@ class BackupPolicy extends React.Component {
           </AccordionTab>
           <AccordionTab header="Other">
             <div>
-              <h3>
+              <h5>
                 Fail rest of the backup tasks if more than X % of EXPORT tasks
                 already failed
-              </h3>
+              </h5>
               <ToggleButton
                 checked={
                   !!this.state.model.failRemainingBackupTasksExportThreshold
@@ -430,11 +430,11 @@ class BackupPolicy extends React.Component {
                 </div>
               )}
             </div>
-            <div>
-              <h3>
+            <div className={'mt-3'}>
+              <h5>
                 Fail rest of the backup tasks if more than X % of STORE tasks
                 already failed
-              </h3>
+              </h5>
               <ToggleButton
                 checked={
                   !!this.state.model.failRemainingBackupTasksStoreThreshold

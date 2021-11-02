@@ -41,17 +41,17 @@ export default ({ report, type }) => {
   };
 
   return (
-    <div style={{ height: '220px', position: 'relative' }}>
+    <div style={{ height: '220px', position: 'relative' }} className={'mt-3'}>
       <h3 className="text-center">{data.datasets[0].label}</h3>
       {!!data.datasets[0].total && (
-        <h1 className="text-jumbotron">
+        <h3 className="text-jumbotron">
           {(
             (data.datasets[0].data[0] / data.datasets[0].total) *
             100
           ).toFixed()}
           %
           <small className="d-block">Success</small>
-        </h1>
+        </h3>
       )}
 
       {!data.datasets[0].total && (
