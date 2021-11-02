@@ -90,8 +90,8 @@ const Settings = () => {
             />
           </div>
           {policiesService.isSnapshotManagementAvailable(model) && (
-            <div>
-              <h3>Snapshot management policy</h3>
+            <div className={'mt-2'}>
+              <h6>Snapshot management policy</h6>
               <Dropdown
                 value={model.snapshotMgmtPolicy}
                 optionLabel="name"
@@ -107,8 +107,8 @@ const Settings = () => {
             </div>
           )}
           {virtualMachinesService.areSnapshotsFreezable(model) && (
-            <div>
-              <h3>Quiesce/freeze before snapshot</h3>
+            <div className={'mt-2'}>
+              <h6>Quiesce/freeze before snapshot</h6>
               <ToggleButton
                 checked={model.quiesceBeforeSnapshot}
                 onChange={(e) => {
@@ -181,7 +181,7 @@ const Settings = () => {
         {virtualMachinesService.arePrePostSnapActionsAvailable(model) && (
           <AccordionTab header="Pre snapshot command execution">
             <div>
-              <h3>Execute command before creating a VM snapshot</h3>
+              <h6>Execute command before creating a VM snapshot</h6>
               <ToggleButton
                 checked={model.preSnapCmdExecEnabled}
                 onChange={(e) => {
@@ -251,7 +251,7 @@ const Settings = () => {
         {virtualMachinesService.arePrePostSnapActionsAvailable(model) && (
           <AccordionTab header="Post snapshot command execution">
             <div>
-              <h3>Execute command after creating a VM snapshot</h3>
+              <h6>Execute command after creating a VM snapshot</h6>
               <ToggleButton
                 checked={model.postSnapCmdExecEnabled}
                 onChange={(e) => {
@@ -320,7 +320,7 @@ const Settings = () => {
         )}
         <AccordionTab header="SSH access (for pre/post snapshot command execution)">
           <div>
-            <h3>SSH host</h3>
+            <h6>SSH host</h6>
             <InputText
               value={model.sshHost}
               type="text"
@@ -332,8 +332,8 @@ const Settings = () => {
               }}
             />
           </div>
-          <div>
-            <h3>SSH port</h3>
+          <div className={'mt-2'}>
+            <h6>SSH port</h6>
             <InputText
               value={model.sshPort}
               type="text"
@@ -345,8 +345,8 @@ const Settings = () => {
               }}
             />
           </div>
-          <div>
-            <h3>SSH user</h3>
+          <div className={'mt-2'}>
+            <h6>SSH user</h6>
             <InputText
               value={model.sshUser}
               type="text"
@@ -358,8 +358,8 @@ const Settings = () => {
               }}
             />
           </div>
-          <div>
-            <h3>SSH key path</h3>
+          <div className={'mt-2'}>
+            <h6>SSH key path</h6>
             <InputText
               value={model.sshKeyPath}
               type="text"
@@ -395,7 +395,7 @@ const Settings = () => {
       >
         <AccordionTab header="Configure SSH password (for pre/post snapshot command execution)">
           <div>
-            <h3>SSH password</h3>
+            <h6>SSH password</h6>
             <InputText
               value={sshPassword.first}
               type="password"
@@ -407,8 +407,8 @@ const Settings = () => {
               }}
             />
           </div>
-          <div>
-            <h3>Retype SSH password</h3>
+          <div className={'mt-2'}>
+            <h6>Retype SSH password</h6>
             <InputText
               value={sshPassword.second}
               type="password"
