@@ -53,12 +53,12 @@ const MountedBackup = () => {
             <div className="col">
               {mountedBackup && mountedBackup.node && (
                 <div>
-                  <h3>NODE</h3>
+                  <h5>NODE</h5>
                   <span>{mountedBackup.node.name}</span>
                 </div>
               )}
-              <div>
-                <h3>MODE</h3>
+              <div className="mt-2">
+                <h5>MODE</h5>
                 <span>{mountedBackup.mode.description}</span>
               </div>
             </div>

@@ -20,10 +20,10 @@ import { fileSaverService } from '../../../../services/file-saver-service';
 import { backupsService } from '../../../../services/backups-service';
 
 const icon = {
-  DIRECTORY: 'fa-folder-o',
-  REGULAR_FILE: 'fa-file-text-o',
-  SYMLINK: 'fa-link',
-  BROKEN_SYMLINK: 'fa-unlink',
+  DIRECTORY: 'pi-folder',
+  REGULAR_FILE: 'pi-file',
+  SYMLINK: 'pi-link',
+  BROKEN_SYMLINK: 'pi-file-excel',
 };
 
 const FileSystemModal = ({ guid }) => {
@@ -111,6 +111,7 @@ const FileSystemModal = ({ guid }) => {
         selection={selection}
         onSelectionChange={(e) => setSelection(e.value)}
         value={data}
+        selectionMode="checkbox"
       >
         <Column selectionMode="multiple" style={{ width: '3em' }} />
         <Column
@@ -119,7 +120,7 @@ const FileSystemModal = ({ guid }) => {
           body={(rowData, column) => {
             return (
               <div>
-                <i className={'mr-2 fa ' + icon[rowData.fileType.name]} />
+                <i className={'mr-2 pi ' + icon[rowData.fileType.name]} />
                 <span
                   className="cursor-pointer"
                   onClick={() => {
