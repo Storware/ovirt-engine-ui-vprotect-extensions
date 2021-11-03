@@ -33,7 +33,7 @@ export default () => {
     <div>
       <div className="row mt-5">
         <div className="col">
-          <div style={{ height: 265 }}>
+          <div style={{ height: 370 }}>
             <ProtectionDoughnut report={report} type="backups" />
           </div>
           <div>
@@ -48,8 +48,12 @@ export default () => {
                   {Object.keys(labels['backups']).map((property) => {
                     return (
                       <tr key={property}>
-                        <td className="text-left py-4 pr-4">{labels[type][property]}</td>
-                        <td className="text-left py-4 pl-4">{report[type][property]}</td>
+                        <td className="text-left py-4 pr-4">
+                          {labels[type][property]}
+                        </td>
+                        <td className="text-left py-4 pl-4">
+                          {report[type][property]}
+                        </td>
                       </tr>
                     );
                   })}

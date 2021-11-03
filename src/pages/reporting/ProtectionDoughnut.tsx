@@ -5,14 +5,14 @@ const options = {
   responsive: true,
   maintainAspectRatio: false,
   cutout: '75%',
-  plugins:{
+  plugins: {
     legend: {
-      display: false
+      display: false,
     },
     tooltips: {
-      enabled: true
-    }
-  }
+      enabled: true,
+    },
+  },
 };
 
 const backgroundColor = ['#0f9d58', '#38689E', '#c70015'];
@@ -42,22 +42,21 @@ export default ({ report, type }) => {
 
   return (
     <div style={{ height: '220px', position: 'relative' }} className={'mt-3'}>
-      <h3 className="text-center">{data.datasets[0].label}</h3>
+      <h5 className="text-center">{data.datasets[0].label}</h5>
       {!!data.datasets[0].total && (
         <h3 className="text-jumbotron">
           {(
             (data.datasets[0].data[0] / data.datasets[0].total) *
             100
           ).toFixed()}
-          %
-          <small className="d-block">Success</small>
+          %<small className="d-block">Success</small>
         </h3>
       )}
 
       {!data.datasets[0].total && (
-        <h2 className="text-jumbotron">
+        <h3 className="text-jumbotron">
           <span>No data</span>
-        </h2>
+        </h3>
       )}
       <Doughnut data={data} options={options} />
     </div>
