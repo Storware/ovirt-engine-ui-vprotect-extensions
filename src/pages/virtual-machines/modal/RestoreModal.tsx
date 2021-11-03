@@ -48,7 +48,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
 
   useEffect(() => {
     dispatch(getRestorableBackups(virtualEnvironment));
-  }, []);
+  }, [virtualEnvironment]);
 
   const backups = useSelector(selectBackups);
   const hypervisorManagers = useSelector(selectHypervisorManagers);
@@ -85,12 +85,14 @@ export const RestoreModal = ({ virtualEnvironment }) => {
   };
 
   if (useSelector(selectSaved)) {
+    // @ts-ignore
     formRef.current.handleSubmit();
   }
   return (
     <div className="form">
       <Formik
         enableReinitialize
+        // @ts-ignore
         innerRef={formRef}
         initialValues={task}
         onSubmit={(values, { setSubmitting }) => {

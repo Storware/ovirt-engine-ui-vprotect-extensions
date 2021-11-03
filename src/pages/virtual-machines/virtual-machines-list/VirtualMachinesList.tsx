@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { BackupModal } from 'components/modal/BackupModal';
-import { RestoreModal } from '../modal/RestoreModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVirtualMachinesPage } from 'store/virtual-machines/actions';
 import { selectVirtualMachines } from 'store/virtual-machines/selectors';
@@ -22,6 +21,7 @@ import {
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Menu } from 'primereact/menu';
+import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 
 const VirtualMachinesList = () => {
   const dispatch = useDispatch();

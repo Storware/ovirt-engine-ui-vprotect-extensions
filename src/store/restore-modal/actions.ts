@@ -79,7 +79,6 @@ export const getRestorableBackups = (virtualMachine: any) => async (
     await dispatch(hideModalAction());
     return;
   }
-
   await getHypervisorManagersAvailableForBackup(
     backups[0].guid,
     virtualMachine,

@@ -6,7 +6,6 @@ import { Button } from 'primereact/button';
 import { DateShow } from '../../../components/convert/Date';
 import { Filesize } from '../../../components/convert/Filesize';
 import { BackupModal } from '../../../components/modal/BackupModal';
-import { RestoreModal } from '../modal/RestoreModal';
 import { TabView, TabPanel } from 'primereact/tabview';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -26,6 +25,7 @@ import Settings from './Settings';
 import { showModalAction } from '../../../store/modal/actions';
 import { createBrowserHistory } from 'history';
 import BarChartContainer from 'components/chart/BarChartContainer';
+import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 
 const VirtualMachine = () => {
   let dispatch = useDispatch();
