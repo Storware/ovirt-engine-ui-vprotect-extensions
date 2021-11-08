@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Dropdown } from 'primereact/dropdown';
-import compare from 'utils/compare';
+import { compareWithValueProperty } from 'utils/compare';
+
+const getValue = (value, valueProperty?) => {
+  return valueProperty ? value[valueProperty] : value;
+};
 
 const Select = ({ field, form: { setFieldValue }, ...props }) => {
   const [value, setValue] = useState();
 
   const setFieldValueAndEmitChangeEvent = (value) => {
     setValue(value);
-    setFieldValue(field.name, value);
+    const propertyValue = getValue(value, props.valueProperty);
+    setFieldValue(field.name, propertyValue);
     if (props.change) {
       props.change({
-        value: value,
+        value: propertyValue,
       });
     }
   };
@@ -19,8 +24,12 @@ const Select = ({ field, form: { setFieldValue }, ...props }) => {
     if (!props.options[0]) {
       return;
     }
+
     const option =
-      field.value && props.options.find((el) => compare(field.value, el));
+      field.value &&
+      props.options.find((el) =>
+        compareWithValueProperty(props.valueProperty, field.value, el),
+      );
 
     if (option) {
       setValue(option);
