@@ -12,7 +12,6 @@ import { hypervisorsService } from '../../services/hypervisors-service';
 import { virtualMachinesService } from '../../services/virtual-machines-service';
 import { backupDestinationsService } from '../../services/backup-destinations-service';
 import { schedulesService } from '../../services/schedules-service';
-import { alertService } from '../../services/alert-service';
 
 export const setPolicyAction = (payload: any): PolicyAction => {
   return {
@@ -66,24 +65,22 @@ export const getPolicyPage = (type: string, guid: string) => async (
   await dispatch(setSchedules(schedueles));
 };
 
-export const save = async (model) => {
+export const save = async (model, type) => {
   if (model.guid) {
-    await policiesService.updatePolicy('vm-snapshot', model.guid, model);
+    await policiesService.updatePolicy(type, model.guid, model);
     await policiesService.updateRule(
-      'vm-snapshot',
+      type,
       model.rules[0].guid,
       model.rules[0],
     );
-    alertService.info('Policy updated');
   } else {
-    const policy = await policiesService.createPolicy('vm-snapshot', model);
-    await policiesService.createRule('vm-snapshot', {
+    const policy = await policiesService.createPolicy(type, model);
+    await policiesService.createRule(type, {
       ...model.rules[0],
       name: 'Default',
       policy: {
         guid: policy.guid,
       },
     });
-    alertService.info('Policy created');
   }
 };

@@ -2,7 +2,6 @@ import { Dispatch } from 'redux';
 import { SET_POLICIES, SET_SCHEDULE, PolicyAction } from './types';
 import { policiesService } from '../../services/policies-service';
 import { schedulesService } from '../../services/schedules-service';
-import { alertService } from '../../services/alert-service';
 import { Schedule } from '../../model/schedule';
 
 export const setScheduleAction = (payload: any): PolicyAction => {
@@ -39,9 +38,7 @@ export const getSchedulePage = (type: string, guid: string) => async (
 export const save = async (model: any) => {
   if (model.guid) {
     await schedulesService.updateSchedule(model.guid, model);
-    alertService.info('Schedule updated');
   } else {
     await schedulesService.createSchedule(model);
-    alertService.info('Schedule created');
   }
 };
