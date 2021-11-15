@@ -81,6 +81,12 @@ const SnapshotPolicy = () => {
                   label="Auto remove non-present Virtual Environments"
                 />
                 <Field
+                  name="backupRetryCount"
+                  component={Text}
+                  label="Retry Count"
+                  required
+                />
+                <Field
                   name="priority"
                   component={InputSlider}
                   label="Priority"
