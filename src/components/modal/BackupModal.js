@@ -87,6 +87,20 @@ export const BackupModal = ({ virtualEnvironments, ...props }) => {
           <label>Priority</label>
           <InputText value={task.priority} onChange={setPriority} />
         </div>
+
+        <div className="mt-3">
+          <label>Retry Count</label>
+          <InputText
+            type="number"
+            value={task.retryCount}
+            onChange={(e) =>
+              setTask({
+                ...task,
+                retryCount: e.target.value,
+              })
+          } />
+        </div>
+
         <div className="mt-3">
           <label className={'mr-2'}>Window start</label>
           <InputDate

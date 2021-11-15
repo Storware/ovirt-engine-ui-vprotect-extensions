@@ -161,6 +161,23 @@ class BackupPolicy extends React.Component {
               />
             </div>
             <div className={'pt-2'}>
+              <h5>Retry Count</h5>
+              <InputText
+                  type="number"
+                  value={this.state.model.backupRetryCount}
+                  onChange={(e) => {
+                    this.setState({
+                      ...this.state,
+                      model: {
+                        ...this.state.model,
+                        backupRetryCount: e.target.value,
+                      },
+                    });
+                  }}
+              />
+            </div>
+
+            <div className={'pt-2'}>
               <h5>Priority</h5>
               <InputText
                 value={this.state.model.priority}
