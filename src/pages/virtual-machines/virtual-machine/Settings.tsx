@@ -160,9 +160,9 @@ const Settings = () => {
               />
             </div>
           )}
-          {!!modes && model.length > 0 && (
-            <div>
-              <h3>Export/Import mode</h3>
+          {!!modes && modes.length > 0 && (
+            <div className={'mt-2'}>
+              <h6>Export/Import mode</h6>
               <Dropdown
                 value={model.vmExportImportMode}
                 optionLabel="name"
