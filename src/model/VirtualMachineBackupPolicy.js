@@ -16,4 +16,5 @@ export class VirtualMachineBackupPolicy {
       backupDestinations: [],
     },
   ];
+  backupRetryCount = 0;
 }

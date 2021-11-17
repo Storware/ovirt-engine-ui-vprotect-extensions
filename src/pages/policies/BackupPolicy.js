@@ -148,6 +148,11 @@ class BackupPolicy extends React.Component {
                           label="Auto remove non-present Virtual Environments"
                       />
                       <Field
+                          name="backupRetryCount"
+                          component={InputSlider}
+                          label="Retry Count"
+                      />
+                      <Field
                           name="priority"
                           component={InputSlider}
                           label="Priority"
