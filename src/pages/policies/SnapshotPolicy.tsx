@@ -51,7 +51,7 @@ const SnapshotPolicy = () => {
         enableReinitialize
         initialValues={model}
         onSubmit={async (values) => {
-          await save(values);
+          await save(values, 'vm-snapshot');
           history.back();
         }}
       >

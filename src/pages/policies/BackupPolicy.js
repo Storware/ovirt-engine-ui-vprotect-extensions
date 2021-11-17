@@ -1,13 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { InputText } from 'primereact/inputtext';
-import { ToggleButton } from 'primereact/togglebutton';
-import { Slider } from 'primereact/slider';
-import { Dropdown } from 'primereact/dropdown';
-import { Chips } from 'primereact/chips';
 import { Button } from 'primereact/button';
-import { ListBox } from 'primereact/listbox';
 import { Accordion, AccordionTab } from 'primereact/accordion';
 import { policiesService } from '../../services/policies-service';
 import { hypervisorsService } from '../../services/hypervisors-service';
@@ -18,6 +12,15 @@ import { alertService } from '../../services/alert-service';
 import { VirtualMachineBackupPolicy } from '../../model/VirtualMachineBackupPolicy';
 import { createBrowserHistory } from 'history';
 import { BackButton } from '../../utils/backButton';
+import { Field, Form, Formik } from 'formik';
+import Toggle from 'components/input/reactive/Toggle';
+import Text from 'components/input/reactive/Text';
+import InputSlider from 'components/input/reactive/InputSlider';
+import Select from "components/input/reactive/Select";
+import InputChips from "components/input/reactive/InputChips";
+import InputListBox from "components/input/reactive/InputListBox";
+import { save } from 'store/policy/actions';
+
 
 const history = createBrowserHistory();
 
@@ -116,388 +119,206 @@ class BackupPolicy extends React.Component {
 
   render() {
     return (
-      <div className={'form'}>
-        <Accordion
-          multiple
-          activeIndex={this.state.activeIndex}
-          onTabChange={(e) => this.setState({ activeIndex: e.index })}
-        >
-          <AccordionTab header="General">
-            <div>
-              <h5>Name</h5>
-              <InputText
-                value={this.state.model.name}
-                onChange={this.handle('name')}
-              />
-            </div>
-            <div className={'pt-2'}>
-              <h5>Scheduled backups enabled</h5>
-              <ToggleButton
-                checked={this.state.model.active}
-                onChange={(e) => {
-                  this.setState({
-                    ...this.state,
-                    model: {
-                      ...this.state.model,
-                      active: e.value,
-                    },
-                  });
-                }}
-              />
-            </div>
-            <div className={'pt-2'}>
-              <h5>Auto remove non-present Virtual Environments</h5>
-              <ToggleButton
-                checked={this.state.model.autoRemoveNonPresent}
-                onChange={(e) => {
-                  this.setState({
-                    ...this.state,
-                    model: {
-                      ...this.state.model,
-                      autoRemoveNonPresent: e.value,
-                    },
-                  });
-                }}
-              />
-            </div>
-            <div className={'pt-2'}>
-              <h5>Retry Count</h5>
-              <InputText
-                  type="number"
-                  value={this.state.model.backupRetryCount}
-                  onChange={(e) => {
-                    this.setState({
-                      ...this.state,
-                      model: {
-                        ...this.state.model,
-                        backupRetryCount: e.target.value,
-                      },
-                    });
-                  }}
-              />
-            </div>
-
-            <div className={'pt-2'}>
-              <h5>Priority</h5>
-              <InputText
-                value={this.state.model.priority}
-                type="number"
-                onChange={this.handle('priority')}
-              />
-            </div>
-          </AccordionTab>
-          <AccordionTab header="Auto-assigment">
-            <h5>Auto-assign Mode</h5>
-            <Dropdown
-              value={this.state.model.autoAssignSettings.mode}
-              optionLabel="description"
-              dataKey="name"
-              options={policiesService.assignModes}
-              onChange={(e) => {
-                this.setState({
-                  ...this.state,
-                  model: {
-                    ...this.state.model,
-                    autoAssignSettings: {
-                      ...this.state.model.autoAssignSettings,
-                      mode: e.value,
-                    },
-                  },
-                });
+        <div className={'form'}>
+          <Formik
+              enableReinitialize
+              initialValues={this.state.model}
+              onSubmit={async (values) => {
+                await save(values, 'vm-backup');
+                history.back();
               }}
-            />
+          >
+            {() => (
+                <Form>
+                  <Accordion
+                    multiple
+                    activeIndex={this.state.activeIndex}
+                    onTabChange={(e) => this.setState({ activeIndex: e.index })}
+                   >
+                    <AccordionTab header="General">
+                      <Field name="name" component={Text} label="Name" />
+                      <Field
+                          name="active"
+                          component={Toggle}
+                          label="Scheduled backups enabled"
+                      />
+                      <Field
+                          name="autoRemoveNonPresent"
+                          component={Toggle}
+                          label="Auto remove non-present Virtual Environments"
+                      />
+                      <Field
+                          name="backupRetryCount"
+                          component={InputSlider}
+                          label="Retry Count"
+                      />
+                      <Field
+                          name="priority"
+                          component={InputSlider}
+                          label="Priority"
+                      />
+                    </AccordionTab>
 
-            <div className={'mt-3'}>
-              <h5>Include rules</h5>
-              <div className={'d-flex'}>
-                <div className={'col'}>
-                  <h6>Include TAG based rules</h6>
-                  <Chips
-                    value={this.state.model.autoAssignSettings.includeTags}
-                    separator=","
-                    className="w-100"
-                    onChange={(e) => {
-                      this.setState({
-                        ...this.state,
-                        model: {
-                          ...this.state.model,
-                          autoAssignSettings: {
-                            ...this.state.model.autoAssignSettings,
-                            includeTags: e.value,
-                          },
-                        },
-                      });
-                    }}
-                  />
-                  <div>
-                    <small>Comma separated</small>
-                  </div>
-                </div>
-                <div className={'col'}>
-                  <h6>Include Regex based rules</h6>
-                  <Chips
-                    value={this.state.model.autoAssignSettings.includeRegExps}
-                    separator=","
-                    className="w-100"
-                    onChange={(e) => {
-                      this.setState({
-                        ...this.state,
-                        model: {
-                          ...this.state.model,
-                          autoAssignSettings: {
-                            ...this.state.model.autoAssignSettings,
-                            includeRegExps: e.value,
-                          },
-                        },
-                      });
-                    }}
-                  />
-                  <div>
-                    <small>Comma separated</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className={'mt-3'}>
-              <h5>Exclude rules</h5>
-              <div className={'d-flex'}>
-                <div className={'col'}>
-                  <h6>Exclude TAG based rules</h6>
-                  <Chips
-                    value={this.state.model.autoAssignSettings.excludeTags}
-                    separator=","
-                    className="w-100"
-                    onChange={(e) => {
-                      this.setState({
-                        ...this.state,
-                        model: {
-                          ...this.state.model,
-                          autoAssignSettings: {
-                            ...this.state.model.autoAssignSettings,
-                            excludeTags: e.value,
-                          },
-                        },
-                      });
-                    }}
-                  />
-                  <div>
-                    <small>Comma separated</small>
-                  </div>
-                </div>
-                <div className={'col'}>
-                  <h6>Exclude Regex based rules</h6>
-                  <Chips
-                    value={this.state.model.autoAssignSettings.excludeRegExps}
-                    separator=","
-                    className="w-100"
-                    onChange={(e) => {
-                      this.setState({
-                        ...this.state,
-                        model: {
-                          ...this.state.model,
-                          autoAssignSettings: {
-                            ...this.state.model.autoAssignSettings,
-                            excludeRegExps: e.value,
-                          },
-                        },
-                      });
-                    }}
-                  />
-                  <div>
-                    <small>Comma separated</small>
-                  </div>
-                </div>
-              </div>
-            </div>
+                    <AccordionTab header="Auto-assigment">
+                      <Field
+                          name="autoAssignSettings.mode"
+                          options={policiesService.assignModes}
+                          component={Select}
+                          optionLabel="description"
+                          dataKey="name"
+                          required
+                          label="Auto-assign Mode"
+                      />
 
-            <div className={'mt-2'}>
-              <h5>
-                Auto-assign Virtual Environments only if they belong to the
-                following clusters (optional)
-              </h5>
-              <ListBox
-                multiple
-                optionLabel="name"
-                dataKey="guid"
-                value={this.state.model.autoAssignSettings.hvClusters}
-                options={this.state.hypervisorClusters}
-                className={'w-100'}
-                onChange={(e) => {
-                  this.setState({
-                    ...this.state,
-                    model: {
-                      ...this.state.model,
-                      autoAssignSettings: {
-                        ...this.state.model.autoAssignSettings,
-                        hvClusters: e.value,
-                      },
-                    },
-                  });
-                }}
-              />
-            </div>
-          </AccordionTab>
-          <AccordionTab header="Virtual Environments">
-            <div>
-              <h5>Choose Virtual Environments</h5>
-              <ListBox
-                multiple
-                filter
-                dataKey="guid"
-                optionLabel="name"
-                value={this.state.model.vms}
-                className={'w-100'}
-                options={this.state.virtualMachines}
-                onChange={(e) => {
-                  this.setState({
-                    ...this.state,
-                    model: {
-                      ...this.state.model,
-                      vms: e.value,
-                    },
-                  });
-                }}
-              />
-            </div>
-          </AccordionTab>
-          <AccordionTab header="Rule">
-            <div>
-              <h5>Select Backup Destination</h5>
-              <Dropdown
-                value={this.state.model.rules[0].backupDestinations[0]}
-                optionLabel="name"
-                dataKey="guid"
-                options={this.state.backupDestinations}
-                onChange={(e) => {
-                  this.setState({
-                    ...this.state,
-                    model: {
-                      ...this.state.model,
-                      rules: [
-                        {
-                          ...this.state.model.rules[0],
-                          backupDestinations: [e.value],
-                        },
-                      ],
-                    },
-                  });
-                }}
-              />
-            </div>
-            <div className={'mt-3'}>
-              <h5>Choose schedules</h5>
-              <ListBox
-                multiple
-                optionLabel="name"
-                dataKey="guid"
-                value={this.state.model.rules[0].schedules}
-                className={'w-100'}
-                options={this.state.schedules}
-                onChange={(e) => {
-                  this.setState({
-                    ...this.state,
-                    model: {
-                      ...this.state.model,
-                      rules: [
-                        {
-                          ...this.state.model.rules[0],
-                          schedules: e.value,
-                        },
-                      ],
-                    },
-                  });
-                }}
-              />
-            </div>
-          </AccordionTab>
-          <AccordionTab header="Other">
-            <div>
-              <h5>
-                Fail rest of the backup tasks if more than X % of EXPORT tasks
-                already failed
-              </h5>
-              <ToggleButton
-                checked={
-                  !!this.state.model.failRemainingBackupTasksExportThreshold
-                }
-                onChange={(e) => {
-                  this.setState({
-                    ...this.state,
-                    model: {
-                      ...this.state.model,
-                      failRemainingBackupTasksExportThreshold: e.value
-                        ? 50
-                        : null,
-                    },
-                  });
-                }}
-              />
-              {!!this.state.model.failRemainingBackupTasksExportThreshold && (
-                <div>
-                  <h3>Percent of already failed EXPORT tasks</h3>
-                  <InputText
-                    value={
-                      this.state.model.failRemainingBackupTasksExportThreshold
-                    }
-                    type="number"
-                    onChange={this.handle(
-                      'failRemainingBackupTasksExportThreshold',
-                    )}
-                  />
-                </div>
-              )}
-            </div>
-            <div className={'mt-3'}>
-              <h5>
-                Fail rest of the backup tasks if more than X % of STORE tasks
-                already failed
-              </h5>
-              <ToggleButton
-                checked={
-                  !!this.state.model.failRemainingBackupTasksStoreThreshold
-                }
-                onChange={(e) => {
-                  this.setState({
-                    ...this.state,
-                    model: {
-                      ...this.state.model,
-                      failRemainingBackupTasksStoreThreshold: e.value
-                        ? 50
-                        : null,
-                    },
-                  });
-                }}
-              />
-              {!!this.state.model.failRemainingBackupTasksStoreThreshold && (
-                <div>
-                  <h3>Percent of already failed STORE tasks</h3>
-                  <InputText
-                    value={
-                      this.state.model.failRemainingBackupTasksStoreThreshold
-                    }
-                    type="number"
-                    onChange={this.handle(
-                      'failRemainingBackupTasksStoreThreshold',
-                    )}
-                  />
-                </div>
-              )}
-            </div>
-          </AccordionTab>
-        </Accordion>
-        <div className="d-flex justify-content-between mt-3">
-          <div>
-            <BackButton />
-          </div>
-          <div>
-            <Button
-              label="Save"
-              className="p-button-success"
-              onClick={this.save}
-            />
-          </div>
+                      <h5 className={'mt-3'}>Include rules</h5>
+                      <div className={'row'}>
+                        <div className={'col'}>
+                          <Field
+                              name="autoAssignSettings.includeTags"
+                              component={InputChips}
+                              label="Include TAG based rules"
+                          />
+                        </div>
+                        <div className={'col'}>
+                          <Field
+                              name="autoAssignSettings.includeRegExps"
+                              component={InputChips}
+                              label="Include Regex based rules"
+                          />
+                        </div>
+                      </div>
+
+                      <h5 className={'mt-3'}>Exclude rules</h5>
+                      <div className={'row'}>
+                        <div className={'col'}>
+                          <Field
+                              name="autoAssignSettings.excludeTags"
+                              component={InputChips}
+                              label="Exclude TAG based rules"
+                          />
+                        </div>
+                        <div className={'col'}>
+                          <Field
+                              name="autoAssignSettings.excludeRegExps"
+                              component={InputChips}
+                              label="Exclude Regex based rules"
+                          />
+                        </div>
+                      </div>
+
+                      <Field
+                          name="autoAssignSettings.hvClusters"
+                          options={this.state.hypervisorClusters}
+                          component={InputListBox}
+                          optionLabel="name"
+                          multiple
+                          dataKey="guid"
+                          label="Auto-assign Virtual Environments only if they belong to the following clusters (optional)"
+                      />
+                    </AccordionTab>
+
+                    <AccordionTab header="Virtual Environments">
+                      <Field
+                          name="vms"
+                          options={this.state.virtualMachines}
+                          component={InputListBox}
+                          optionLabel="name"
+                          multiple
+                          dataKey="guid"
+                          label="Choose Virtual Environments"
+                      />
+                    </AccordionTab>
+
+                    <AccordionTab header="Rule">
+                      <Field
+                          name="this.state.model.rules[0].backupDestinations[0]"
+                          options={this.state.backupDestinations}
+                          component={InputListBox}
+                          optionLabel="name"
+                          multiple
+                          dataKey="guid"
+                          label="Select Backup Destination"
+                      />
+
+                      <Field
+                          name="this.state.model.rules[0].schedules"
+                          options={this.state.schedules}
+                          component={InputListBox}
+                          optionLabel="name"
+                          multiple
+                          dataKey="guid"
+                          label="Choose schedules"
+                      />
+                    </AccordionTab>
+
+                    <AccordionTab header="Other">
+                      <Field
+                          name="failRemainingBackupTasksExportThreshold"
+                          component={Toggle}
+                          label="Fail rest of the backup tasks if more than X % of EXPORT tasks already failed"
+                          onChange={(e) => {
+                            this.setState({
+                              ...this.state,
+                              model: {
+                                ...this.state.model,
+                                failRemainingBackupTasksExportThreshold: e.value
+                                    ? 50
+                                    : null,
+                              },
+                            });
+                          }}
+                      />
+                      {!!this.state.model.failRemainingBackupTasksExportThreshold && (
+                          <Field
+                              name="failRemainingBackupTasksExportThreshold"
+                              component={InputSlider}
+                              label="Percent of already failed EXPORT tasks"
+                          />
+                      )}
+
+                      <Field
+                          name="failRemainingBackupTasksStoreThreshold"
+                          component={Toggle}
+                          label="Fail rest of the backup tasks if more than X % of STORE tasks already failed"
+                          onChange={(e) => {
+                            this.setState({
+                              ...this.state,
+                              model: {
+                                ...this.state.model,
+                                failRemainingBackupTasksStoreThreshold: e.value
+                                    ? 50
+                                    : null,
+                              },
+                            });
+                          }}
+                      />
+                      {!!this.state.model.failRemainingBackupTasksStoreThreshold && (
+                          <Field
+                              name="failRemainingBackupTasksStoreThreshold"
+                              component={InputSlider}
+                              label="Percent of already failed STORE tasks"
+                          />
+                      )}
+                    </AccordionTab>
+                  </Accordion>
+
+                  <div className="d-flex justify-content-between mt-3">
+                    <div>
+                      <BackButton />
+                    </div>
+                    <div>
+                      <Button
+                          type="submit"
+                          label="Save"
+                          className="p-button-success"
+                      />
+                    </div>
+                  </div>
+                </Form>
+            )}
+
+          </Formik>
         </div>
-      </div>
     );
   }
 }
