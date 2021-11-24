@@ -32,10 +32,6 @@ const groupByOptions = [
     value: 'virtual-machine',
     label: 'Virtual Machine',
   },
-  {
-    value: 'project',
-    label: 'Project',
-  },
   ...(isNotOpenstackBuild
     ? [
         {
