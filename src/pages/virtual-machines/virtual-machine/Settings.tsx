@@ -18,6 +18,7 @@ import { InputText } from 'primereact/inputtext';
 import { Chips } from 'primereact/chips';
 import { Button } from 'primereact/button';
 import { createBrowserHistory } from 'history';
+import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 
 const isBaseImageConfigAvailable = (model) => {
   return model.hvmType != null && model.hvmType.name === 'AWS';
@@ -178,146 +179,148 @@ const Settings = () => {
             </div>
           )}
         </AccordionTab>
-        {virtualMachinesService.arePrePostSnapActionsAvailable(model) && (
-          <AccordionTab header="Pre snapshot command execution">
-            <div>
-              <h6>Execute command before creating a VM snapshot</h6>
-              <ToggleButton
-                checked={model.preSnapCmdExecEnabled}
-                onChange={(e) => {
-                  setModel({
-                    ...model,
-                    preSnapCmdExecEnabled: e.value,
-                    preSnapCmdArgs: [],
-                  });
-                }}
-              />
-            </div>
-            {model.preSnapCmdExecEnabled && (
+        {virtualMachinesService.arePrePostSnapActionsAvailable(model) &&
+          isNotOpenstackBuild && (
+            <AccordionTab header="Pre snapshot command execution">
               <div>
+                <h6>Execute command before creating a VM snapshot</h6>
+                <ToggleButton
+                  checked={model.preSnapCmdExecEnabled}
+                  onChange={(e) => {
+                    setModel({
+                      ...model,
+                      preSnapCmdExecEnabled: e.value,
+                      preSnapCmdArgs: [],
+                    });
+                  }}
+                />
+              </div>
+              {model.preSnapCmdExecEnabled && (
                 <div>
-                  <h3>Pre snapshot standard error output stream handling</h3>
-                  <Dropdown
-                    value={model.preSnapStdErrorHandling}
-                    optionLabel="name"
-                    dataKey="name"
-                    options={preAndPostSnapStdErrorHandlingOptions}
-                    onChange={(e) => {
-                      setModel({
-                        ...model,
-                        preSnapStdErrorHandling: e.value,
-                      });
-                    }}
-                  />
-                </div>
-                <div>
-                  <h3>Pre snapshot ignored exit codes</h3>
-                  <InputText
-                    value={model.preSnapIgnoredExitCodes}
-                    type="number"
-                    onChange={(e: any) => {
-                      setModel({
-                        ...model,
-                        preSnapIgnoredExitCodes: e.target.value,
-                      });
-                    }}
-                  />
-                </div>
-                <div>
-                  <h4>
-                    Pre-snapshot command arguments (all space-separated
-                    arguments should be provided as separate arguments, first
-                    argument is the executable)
-                  </h4>
-                  <Chips
-                    value={model.preSnapCmdArgs}
-                    separator=","
-                    className="w-100"
-                    onChange={(e) => {
-                      setModel({
-                        ...model,
-                        preSnapCmdArgs: e.value,
-                      });
-                    }}
-                  />
                   <div>
-                    <small>Comma separated</small>
+                    <h6>Pre snapshot standard error output stream handling</h6>
+                    <Dropdown
+                      value={model.preSnapStdErrorHandling}
+                      optionLabel="name"
+                      dataKey="name"
+                      options={preAndPostSnapStdErrorHandlingOptions}
+                      onChange={(e) => {
+                        setModel({
+                          ...model,
+                          preSnapStdErrorHandling: e.value,
+                        });
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <h6>Pre snapshot ignored exit codes</h6>
+                    <InputText
+                      value={model.preSnapIgnoredExitCodes}
+                      type="number"
+                      onChange={(e: any) => {
+                        setModel({
+                          ...model,
+                          preSnapIgnoredExitCodes: e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <h6>
+                      Pre-snapshot command arguments (all space-separated
+                      arguments should be provided as separate arguments, first
+                      argument is the executable)
+                    </h6>
+                    <Chips
+                      value={model.preSnapCmdArgs}
+                      separator=","
+                      className="w-100"
+                      onChange={(e) => {
+                        setModel({
+                          ...model,
+                          preSnapCmdArgs: e.value,
+                        });
+                      }}
+                    />
+                    <div>
+                      <small>Comma separated</small>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </AccordionTab>
-        )}
-        {virtualMachinesService.arePrePostSnapActionsAvailable(model) && (
-          <AccordionTab header="Post snapshot command execution">
-            <div>
-              <h6>Execute command after creating a VM snapshot</h6>
-              <ToggleButton
-                checked={model.postSnapCmdExecEnabled}
-                onChange={(e) => {
-                  setModel({
-                    ...model,
-                    postSnapCmdExecEnabled: e.value,
-                    postSnapCmdArgs: [],
-                  });
-                }}
-              />
-            </div>
-            {model.postSnapCmdExecEnabled && (
+              )}
+            </AccordionTab>
+          )}
+        {virtualMachinesService.arePrePostSnapActionsAvailable(model) &&
+          isNotOpenstackBuild && (
+            <AccordionTab header="Post snapshot command execution">
               <div>
+                <h6>Execute command after creating a VM snapshot</h6>
+                <ToggleButton
+                  checked={model.postSnapCmdExecEnabled}
+                  onChange={(e) => {
+                    setModel({
+                      ...model,
+                      postSnapCmdExecEnabled: e.value,
+                      postSnapCmdArgs: [],
+                    });
+                  }}
+                />
+              </div>
+              {model.postSnapCmdExecEnabled && (
                 <div>
-                  <h3>Post snapshot standard error output stream handling</h3>
-                  <Dropdown
-                    value={model.postSnapStdErrorHandling}
-                    optionLabel="name"
-                    dataKey="name"
-                    options={preAndPostSnapStdErrorHandlingOptions}
-                    onChange={(e) => {
-                      setModel({
-                        ...model,
-                        postSnapStdErrorHandling: e.value,
-                      });
-                    }}
-                  />
-                </div>
-                <div>
-                  <h3>Post snapshot ignored exit codes</h3>
-                  <InputText
-                    value={model.postSnapIgnoredExitCodes}
-                    type="number"
-                    onChange={(e: any) => {
-                      setModel({
-                        ...model,
-                        postSnapIgnoredExitCodes: e.target.value,
-                      });
-                    }}
-                  />
-                </div>
-                <div>
-                  <h4>
-                    Post-snapshot command arguments (all space-separated
-                    arguments should be provided as separate arguments, first
-                    argument is the executable)
-                  </h4>
-                  <Chips
-                    value={model.postSnapCmdArgs}
-                    separator=","
-                    className="w-100"
-                    onChange={(e) => {
-                      setModel({
-                        ...model,
-                        postSnapCmdArgs: e.value,
-                      });
-                    }}
-                  />
                   <div>
-                    <small>Comma separated</small>
+                    <h6>Post snapshot standard error output stream handling</h6>
+                    <Dropdown
+                      value={model.postSnapStdErrorHandling}
+                      optionLabel="name"
+                      dataKey="name"
+                      options={preAndPostSnapStdErrorHandlingOptions}
+                      onChange={(e) => {
+                        setModel({
+                          ...model,
+                          postSnapStdErrorHandling: e.value,
+                        });
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <h6>Post snapshot ignored exit codes</h6>
+                    <InputText
+                      value={model.postSnapIgnoredExitCodes}
+                      type="number"
+                      onChange={(e: any) => {
+                        setModel({
+                          ...model,
+                          postSnapIgnoredExitCodes: e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <h6>
+                      Post-snapshot command arguments (all space-separated
+                      arguments should be provided as separate arguments, first
+                      argument is the executable)
+                    </h6>
+                    <Chips
+                      value={model.postSnapCmdArgs}
+                      separator=","
+                      className="w-100"
+                      onChange={(e) => {
+                        setModel({
+                          ...model,
+                          postSnapCmdArgs: e.value,
+                        });
+                      }}
+                    />
+                    <div>
+                      <small>Comma separated</small>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </AccordionTab>
-        )}
+              )}
+            </AccordionTab>
+          )}
         <AccordionTab header="SSH access (for pre/post snapshot command execution)">
           <div>
             <h6>SSH host</h6>
