@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import moment from 'moment';
 import { Button } from 'primereact/button';
 import { commonSizeOptions } from 'pages/dashboard/chargeback/commonSizeOptions';
 import BarChart from 'components/chart/BarChart';
 import { ChartData } from 'model/ChartData';
+import {Menu} from 'primereact/menu';
 
 const prepareChartDataDays = (datasets, state) => {
   let limit = 30;
@@ -231,6 +232,19 @@ export default ({ datasets }) => {
     });
   }, [state.option, datasets]);
 
+  const menu = useRef(null);
+
+  const backupChartMenu = [
+    { label: 'Backup Size', command: () => {setState({
+        ...state,
+        option: 'backups',
+      })}},
+    { label: 'Backup Time', command: () => { setState({
+        ...state,
+        option: 'time',
+      })}}
+  ]
+
   return (
     <div>
       <div className="d-flex justify-content-end mt-3">
@@ -245,26 +259,8 @@ export default ({ datasets }) => {
               });
             }}
           />
-          <Button
-            className="mx-2"
-            label="Backup size"
-            onClick={() => {
-              setState({
-                ...state,
-                option: 'backups',
-              });
-            }}
-          />
-          <Button
-            className="mx-2"
-            label="Backup time"
-            onClick={() => {
-              setState({
-                ...state,
-                option: 'time',
-              });
-            }}
-          />
+          <Menu model={backupChartMenu} popup ref={menu} id="popup_menu" />
+          <Button label='Backup Statistics' onClick={(event) => menu.current.toggle(event)} aria-controls="popup_menu" aria-haspopup />
           <Button
             className="mx-2"
             label="Restore time"
