@@ -321,60 +321,63 @@ const Settings = () => {
               )}
             </AccordionTab>
           )}
-        <AccordionTab header="SSH access (for pre/post snapshot command execution)">
-          <div>
-            <h6>SSH host</h6>
-            <InputText
-              value={model.sshHost}
-              type="text"
-              onChange={(e: any) => {
-                setModel({
-                  ...model,
-                  sshHost: e.target.value,
-                });
-              }}
-            />
-          </div>
-          <div className={'mt-2'}>
-            <h6>SSH port</h6>
-            <InputText
-              value={model.sshPort}
-              type="text"
-              onChange={(e: any) => {
-                setModel({
-                  ...model,
-                  sshPort: e.target.value,
-                });
-              }}
-            />
-          </div>
-          <div className={'mt-2'}>
-            <h6>SSH user</h6>
-            <InputText
-              value={model.sshUser}
-              type="text"
-              onChange={(e: any) => {
-                setModel({
-                  ...model,
-                  sshUser: e.target.value,
-                });
-              }}
-            />
-          </div>
-          <div className={'mt-2'}>
-            <h6>SSH key path</h6>
-            <InputText
-              value={model.sshKeyPath}
-              type="text"
-              onChange={(e: any) => {
-                setModel({
-                  ...model,
-                  sshKeyPath: e.target.value,
-                });
-              }}
-            />
-          </div>
-        </AccordionTab>
+        {virtualMachinesService.arePrePostSnapActionsAvailable(model) &&
+          isNotOpenstackBuild && (
+            <AccordionTab header="SSH access (for pre/post snapshot command execution)">
+              <div>
+                <h6>SSH host</h6>
+                <InputText
+                    value={model.sshHost}
+                    type="text"
+                    onChange={(e: any) => {
+                      setModel({
+                        ...model,
+                        sshHost: e.target.value,
+                      });
+                    }}
+                />
+              </div>
+              <div className={'mt-2'}>
+                <h6>SSH port</h6>
+                <InputText
+                    value={model.sshPort}
+                    type="text"
+                    onChange={(e: any) => {
+                      setModel({
+                        ...model,
+                        sshPort: e.target.value,
+                      });
+                    }}
+                />
+              </div>
+              <div className={'mt-2'}>
+                <h6>SSH user</h6>
+                <InputText
+                    value={model.sshUser}
+                    type="text"
+                    onChange={(e: any) => {
+                      setModel({
+                        ...model,
+                        sshUser: e.target.value,
+                      });
+                    }}
+                />
+              </div>
+              <div className={'mt-2'}>
+                <h6>SSH key path</h6>
+                <InputText
+                    value={model.sshKeyPath}
+                    type="text"
+                    onChange={(e: any) => {
+                      setModel({
+                        ...model,
+                        sshKeyPath: e.target.value,
+                      });
+                    }}
+                />
+              </div>
+            </AccordionTab>
+        )}
       </Accordion>
       <div className="d-flex justify-content-between mt-3">
         <div>
@@ -396,46 +399,49 @@ const Settings = () => {
           })
         }
       >
-        <AccordionTab header="Configure SSH password (for pre/post snapshot command execution)">
-          <div>
-            <h6>SSH password</h6>
-            <InputText
-              value={sshPassword.first}
-              type="password"
-              onChange={(e: any) => {
-                setSshPassword({
-                  ...sshPassword,
-                  first: e.target.value,
-                });
-              }}
-            />
-          </div>
-          <div className={'mt-2'}>
-            <h6>Retype SSH password</h6>
-            <InputText
-              value={sshPassword.second}
-              type="password"
-              onChange={(e: any) => {
-                setSshPassword({
-                  ...sshPassword,
-                  second: e.target.value,
-                });
-              }}
-            />
-          </div>
-          <div className="d-flex justify-content-end mt-3">
-            <div>
-              <Button
-                label="Save"
-                className="p-button-success"
-                disabled={
-                  !sshPassword.first || sshPassword.first !== sshPassword.second
-                }
-                onClick={savePassword}
-              />
-            </div>
-          </div>
-        </AccordionTab>
+          {virtualMachinesService.arePrePostSnapActionsAvailable(model) &&
+            isNotOpenstackBuild && (
+              <AccordionTab header="Configure SSH password (for pre/post snapshot command execution)">
+                  <div>
+                      <h6>SSH password</h6>
+                      <InputText
+                          value={sshPassword.first}
+                          type="password"
+                          onChange={(e: any) => {
+                              setSshPassword({
+                                  ...sshPassword,
+                                  first: e.target.value,
+                              });
+                          }}
+                      />
+                  </div>
+                  <div className={'mt-2'}>
+                      <h6>Retype SSH password</h6>
+                      <InputText
+                          value={sshPassword.second}
+                          type="password"
+                          onChange={(e: any) => {
+                              setSshPassword({
+                                  ...sshPassword,
+                                  second: e.target.value,
+                              });
+                          }}
+                      />
+                  </div>
+                  <div className="d-flex justify-content-end mt-3">
+                      <div>
+                          <Button
+                              label="Save"
+                              className="p-button-success"
+                              disabled={
+                                  !sshPassword.first || sshPassword.first !== sshPassword.second
+                              }
+                              onClick={savePassword}
+                          />
+                      </div>
+                  </div>
+              </AccordionTab>
+          )}
       </Accordion>
     </div>
   );
