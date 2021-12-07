@@ -16,6 +16,7 @@ import Chargeback from './chargeback/Chargeback';
 import ActivityChart from './activity/ActivityChart';
 import { Card } from 'primereact/card';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { version } from '../../../package.json';
 
 const fullTimeZoneName =
   user &&
@@ -52,6 +53,7 @@ export class Dashboard extends React.Component {
         <Toolbar>
           <div className={'d-flex flex-row justify-content-between'}>
             <div>Timezone: {fullTimeZoneName}</div>
+            <div>Plugin version: {version}</div>
             {isNotOpenstackBuild && (
               <div className={'form-group'}>
                 <Button
