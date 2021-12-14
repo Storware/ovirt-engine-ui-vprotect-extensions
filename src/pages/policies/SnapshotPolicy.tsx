@@ -51,7 +51,7 @@ const SnapshotPolicy = () => {
         enableReinitialize
         initialValues={model}
         onSubmit={async (values) => {
-          await save(values);
+          await save(values, 'vm-snapshot');
           history.back();
         }}
       >
@@ -79,6 +79,12 @@ const SnapshotPolicy = () => {
                   name="autoRemoveNonPresent"
                   component={Toggle}
                   label="Auto remove non-present Virtual Environments"
+                />
+                <Field
+                  name="backupRetryCount"
+                  component={Text}
+                  label="Retry Count"
+                  required
                 />
                 <Field
                   name="priority"
