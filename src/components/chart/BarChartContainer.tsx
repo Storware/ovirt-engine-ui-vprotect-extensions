@@ -232,7 +232,16 @@ export default ({ datasets }) => {
     });
   }, [state.option, datasets]);
 
-  const menu = useRef(null);
+  const menuDailyActivity = useRef(null);
+  const menuBackup = useRef(null);
+  const menuRestore = useRef(null);
+
+  const dailyActivityMenu = [
+    { label: 'Daily Activity', command: () => {setState({
+        ...state,
+        option: 'days'
+      })}}
+  ]
 
   const backupChartMenu = [
     { label: 'Backup Size', command: () => {setState({
@@ -245,32 +254,25 @@ export default ({ datasets }) => {
       })}}
   ]
 
+  const restoreChartMenu = [
+    { label: 'Restore Time', command: () => {setState({
+        ...state,
+        option: 'restoreTime'
+      })}}
+  ]
+
   return (
     <div>
       <div className="d-flex justify-content-end mt-3">
         <div>
-          <Button
-            className="mx-2"
-            label="Daily activity"
-            onClick={() => {
-              setState({
-                ...state,
-                option: 'days',
-              });
-            }}
-          />
-          <Menu model={backupChartMenu} popup ref={menu} id="popup_menu" />
-          <Button label='Backup Statistics' onClick={(event) => menu.current.toggle(event)} aria-controls="popup_menu" aria-haspopup />
-          <Button
-            className="mx-2"
-            label="Restore time"
-            onClick={() => {
-              setState({
-                ...state,
-                option: 'restoreTime',
-              });
-            }}
-          />
+          <Menu model={dailyActivityMenu} popup ref={menuDailyActivity} id="popup_menu" />
+          <Button label='Daily Activity' onClick={(event) => menuDailyActivity.current.toggle(event)} aria-controls="popup_menu" aria-haspopup className="mx-2"/>
+
+          <Menu model={backupChartMenu} popup ref={menuBackup} id="popup_menu" />
+          <Button label='Backup Statistics' onClick={(event) => menuBackup.current.toggle(event)} aria-controls="popup_menu" aria-haspopup />
+
+          <Menu model={restoreChartMenu} popup ref={menuRestore} id="popup_menu" />
+          <Button label='Restore Statistics' onClick={(event) => menuRestore.current.toggle(event)} aria-controls="popup_menu" aria-haspopup className="mx-2"/>
         </div>
       </div>
       <BarChart data={state.chartData} chartType={state.type} />
