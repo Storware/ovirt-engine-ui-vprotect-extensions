@@ -39,15 +39,6 @@ export const MountedBackupsList = () => {
     ]) ||
       []),
     {
-      label: 'Mount',
-      command: async () => {
-        const task = new MountTask();
-        task.mountedBackup = { guid: actionsElement.guid, name: '' };
-        await tasksService.submitTaskMount(task);
-        alertService.info('Mount task has been submitted');
-      },
-    },
-    {
       label: 'Unmount',
       command: async () => {
         let task = new UnmountTask();
