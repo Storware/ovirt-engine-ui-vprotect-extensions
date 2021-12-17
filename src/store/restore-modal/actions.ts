@@ -1,6 +1,6 @@
 import {
   BackupModalAction,
-  SET_BACKUPS,
+  SET_BACKUP_LOCATIONS,
   SET_FILTERED_HYPERVISOR_STORAGES,
   SET_HYPERVISOR_CLUSTERS,
   SET_HYPERVISOR_MANAGERS,
@@ -22,9 +22,9 @@ export const setTaskAction = (payload: any): BackupModalAction => {
   };
 };
 
-export const setBackupsAction = (payload: any[]): BackupModalAction => {
+export const setBackupLocationsAction = (payload: any[]): BackupModalAction => {
   return {
-    type: SET_BACKUPS,
+    type: SET_BACKUP_LOCATIONS,
     payload,
   };
 };
@@ -65,33 +65,39 @@ export const setHypervisorClustersAction = (
   };
 };
 
-export const getRestorableBackups = (virtualMachine: any) => async (
+export const getBackupLocations = (virtualMachine: any) => async (
   dispatch: Dispatch,
 ) => {
-  const backups = await backupsService.getRestorableBackups(
+  const backupLocations = await backupsService.getBackupLocations(
     virtualMachine.guid,
   );
-  await dispatch(setBackupsAction(backups));
-  if (!backups.length) {
+
+  await dispatch(setBackupLocationsAction(backupLocations));
+  if (!backupLocations.length) {
     alertService.error(
       'There are no restorable backups for this virtual environment',
     );
     await dispatch(hideModalAction());
     return;
   }
-  await getHypervisorManagersAvailableForBackup(
-    backups[0].guid,
+  await getHypervisorManagersAvailableForBackupBackupLocation(
+    backupLocations[0],
     virtualMachine,
   )(dispatch);
 };
 
-export const getHypervisorManagersAvailableForBackup = (
-  backupGuid: any,
+export const getHypervisorManagersAvailableForBackupBackupLocation = (
+  backupLocation: any,
   virtualMachine: any,
 ) => async (dispatch: Dispatch) => {
-  const hypervisorManagers = await backupsService.getHypervisorManagersAvailableForBackup(
-    backupGuid,
+  const backupDetails = await backupsService.getBackup(
+    backupLocation?.backup?.guid,
   );
+
+  const hypervisorManagers = await backupsService.getHypervisorManagersAvailableForBackup(
+    backupDetails.guid,
+  );
+
   if (hypervisorManagers.length === 0) {
     return;
   }

@@ -4,7 +4,10 @@ import { Filesize } from '../convert/Filesize';
 import { schedulesService } from '../../services/schedules-service';
 
 export const dateTemplate = (rowData, column) => {
-  return <DateShow date={rowData[column.field]} />;
+  const path = column.field.split('.');
+  return <DateShow date={path.length > 1 ? path.reduce((prev, curr) => {
+    return prev ? prev[curr] : null
+  }, rowData || self) : rowData[column.field]} />;
 };
 
 export const sizeTemplate = (rowData, column) => {
@@ -16,11 +19,11 @@ export const sizeTemplate = (rowData, column) => {
 
 export const booleanTemplate = (rowData, column) => {
   const classes = rowData[column.field]
-    ? 'fa-check text-success'
-    : 'fa-times text-danger';
+    ? 'pi-check text-success'
+    : 'pi-times text-danger';
   return (
-    <div className="text-center">
-      <span className={`fa ${classes}`} />
+    <div className="ml-1">
+      <span className={`pi ${classes}`} />
     </div>
   );
 };
