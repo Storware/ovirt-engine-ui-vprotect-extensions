@@ -4,7 +4,6 @@ import VirtualMachines from 'pages/virtual-machines/VirtualMachines';
 import PoliciesAndSchedules from 'pages/policies-and-schedules/PoliciesAndSchedules';
 import Reporting from 'pages/reporting/Reporting';
 import TaskConsole from 'pages/task-console/TaskConsole';
-import Settings from 'pages/settings/Settings';
 
 export default [
   { path: '/dashboard', component: Dashboard },
@@ -13,5 +12,4 @@ export default [
   { path: '/policies_and_schedules', component: PoliciesAndSchedules },
   { path: '/mounted_backups', component: MountedBackups },
   { path: '/reporting', component: Reporting },
-  { path: '/settings', component: Settings },
 ];
