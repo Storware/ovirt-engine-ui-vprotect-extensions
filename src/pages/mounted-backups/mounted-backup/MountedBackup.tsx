@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import { getMountedBackup } from '../../../store/mounted-backups/actions';
 import { selectMountedBackup } from '../../../store/mounted-backups/selectors';
 import { Button } from 'primereact/button';
@@ -26,9 +26,9 @@ const MountedBackup = () => {
   return (
     <Panel header="Mounted Backup">
       <div className="d-flex mt-3">
-        <div>
-          <Button label="Back" onClick={history.back} />
-        </div>
+        <Link to="/mounted_backups">
+          <Button label="Back" />
+        </Link>
       </div>
       {mountedBackup.backup && (
         <Card

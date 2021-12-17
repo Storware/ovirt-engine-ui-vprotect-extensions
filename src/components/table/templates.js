@@ -4,7 +4,10 @@ import { Filesize } from '../convert/Filesize';
 import { schedulesService } from '../../services/schedules-service';
 
 export const dateTemplate = (rowData, column) => {
-  return <DateShow date={rowData[column.field]} />;
+  const path = column.field.split('.');
+  return <DateShow date={path.length > 1 ? path.reduce((prev, curr) => {
+    return prev ? prev[curr] : null
+  }, rowData || self) : rowData[column.field]} />;
 };
 
 export const sizeTemplate = (rowData, column) => {
