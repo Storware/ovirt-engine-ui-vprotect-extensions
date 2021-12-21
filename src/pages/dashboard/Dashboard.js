@@ -431,7 +431,7 @@ export class Dashboard extends React.Component {
 
           <div>
               <div className={'card-pf-heading'}>
-                <h5 className={'font-weight-light'}>Backup Size</h5>
+                <h5 className={'font-weight-light'}>Last 24h backup size</h5>
               </div>
               <hr/>
               <div>
