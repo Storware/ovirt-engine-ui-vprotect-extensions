@@ -117,6 +117,7 @@ export default () => {
                     optionLabel="label"
                     label="Group by"
                     className="w-100"
+                    placeholder='Choose an option'
                 />
 
                 <h3 className="mt-3">Filter</h3>
