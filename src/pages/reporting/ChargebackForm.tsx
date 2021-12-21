@@ -14,6 +14,7 @@ import InputListBox from 'components/input/reactive/InputListBox';
 import ChargebackChart from 'components/chart/ChargebackChart';
 import { getChargebackData } from 'store/chargeback-chart/actions';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
+import {selectRange} from 'store/reporting/selectors';
 
 const groupByOptions = [
   {
@@ -94,6 +95,10 @@ export default () => {
   const propertyOptions = useSelector(selectPropertyOptions);
   const dispatch = useDispatch();
   const chargeBackRequest = new ChargebackRequest();
+  const range = useSelector(selectRange);
+  console.log(range);
+
+
 
   return (
     <div>
@@ -102,7 +107,7 @@ export default () => {
         initialValues={chargeBackRequest}
         onSubmit={(values) => {
           dispatch(
-            getChargebackData(mapPropertiesObjectListToStringOfGuids(values)),
+            getChargebackData(range, mapPropertiesObjectListToStringOfGuids(values)),
           );
         }}
         >
