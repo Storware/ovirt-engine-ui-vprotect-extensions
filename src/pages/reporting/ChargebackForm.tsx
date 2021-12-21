@@ -96,9 +96,6 @@ export default () => {
   const dispatch = useDispatch();
   const chargeBackRequest = new ChargebackRequest();
   const range = useSelector(selectRange);
-  console.log(range);
-
-
 
   return (
     <div>
@@ -120,6 +117,7 @@ export default () => {
                     optionLabel="label"
                     label="Group by"
                     className="w-100"
+                    placeholder='Choose an option'
                 />
 
                 <h3 className="mt-3">Filter</h3>
