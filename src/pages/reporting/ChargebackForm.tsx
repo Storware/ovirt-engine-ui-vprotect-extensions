@@ -96,9 +96,6 @@ export default () => {
   const dispatch = useDispatch();
   const chargeBackRequest = new ChargebackRequest();
   const range = useSelector(selectRange);
-  console.log(range);
-
-
 
   return (
     <div>
