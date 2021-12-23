@@ -5,14 +5,14 @@ import { Field, Form, Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getHypervisorClustersForHypervisorManager,
-  getHypervisorManagersAvailableForBackupBackupLocation,
+  getHypervisorManagersAvailableForBackup,
   getHypervisorStoragesForHypervisorManager,
-  getBackupLocations,
+  getRestorableBackups,
   setFilteredHypervisorStoragesAction,
   submitTask,
 } from 'store/restore-modal/actions';
 import {
-  selectBackupLocations,
+  selectBackups,
   selectFilteredHypervisorStorages,
   selectHypervisorClusters,
   selectHypervisorManagers,
@@ -20,6 +20,7 @@ import {
   selectTask,
 } from 'store/restore-modal/selectors';
 import Select from 'components/input/reactive/Select';
+import BackupSelect from 'components/input/reactive/BackupSelect';
 import { selectSaved } from 'store/modal/selectors';
 import Toggle from 'components/input/reactive/Toggle';
 import ToggleText from 'components/input/reactive/ToggleText';
@@ -46,22 +47,19 @@ export const RestoreModal = ({ virtualEnvironment }) => {
   const formRef = useRef();
 
   useEffect(() => {
-    dispatch(getBackupLocations(virtualEnvironment));
+    dispatch(getRestorableBackups(virtualEnvironment));
   }, [virtualEnvironment]);
 
-  const backupLocations = useSelector(selectBackupLocations);
+  const backups = useSelector(selectBackups);
   const hypervisorManagers = useSelector(selectHypervisorManagers);
   const storages = useSelector(selectHypervisorStorages);
   const filteredStorages = useSelector(selectFilteredHypervisorStorages);
   const clusters = useSelector(selectHypervisorClusters);
   const task = useSelector(selectTask);
 
-  const onBackupLocationChange = (e) => {
+  const onBackupChange = (e) => {
     dispatch(
-      getHypervisorManagersAvailableForBackupBackupLocation(
-        e.value,
-        virtualEnvironment,
-      ),
+      getHypervisorManagersAvailableForBackup(e.value.guid, virtualEnvironment),
     );
   };
 
@@ -105,13 +103,12 @@ export const RestoreModal = ({ virtualEnvironment }) => {
         {() => (
           <Form>
             <Field
-              name="backupLocation"
-              component={Select}
-              label="Backup location to restore"
-              optionLabel="name"
-              change={onBackupLocationChange}
+              name="backup"
+              component={BackupSelect}
+              label="Backup"
+              change={onBackupChange}
               required
-              options={backupLocations}
+              options={backups}
             />
             <Field
               name="hypervisorManager"
