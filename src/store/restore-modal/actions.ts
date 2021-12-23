@@ -1,6 +1,6 @@
 import {
   BackupModalAction,
-  SET_BACKUP_LOCATIONS,
+  SET_BACKUPS,
   SET_FILTERED_HYPERVISOR_STORAGES,
   SET_HYPERVISOR_CLUSTERS,
   SET_HYPERVISOR_MANAGERS,
@@ -22,9 +22,9 @@ export const setTaskAction = (payload: any): BackupModalAction => {
   };
 };
 
-export const setBackupLocationsAction = (payload: any[]): BackupModalAction => {
+export const setBackupsAction = (payload: any[]): BackupModalAction => {
   return {
-    type: SET_BACKUP_LOCATIONS,
+    type: SET_BACKUPS,
     payload,
   };
 };
@@ -65,39 +65,33 @@ export const setHypervisorClustersAction = (
   };
 };
 
-export const getBackupLocations = (virtualMachine: any) => async (
+export const getRestorableBackups = (virtualMachine: any) => async (
   dispatch: Dispatch,
 ) => {
-  const backupLocations = await backupsService.getBackupLocations(
+  const backups = await backupsService.getRestorableBackups(
     virtualMachine.guid,
   );
-
-  await dispatch(setBackupLocationsAction(backupLocations));
-  if (!backupLocations.length) {
+  await dispatch(setBackupsAction(backups));
+  if (!backups.length) {
     alertService.error(
       'There are no restorable backups for this virtual environment',
     );
     await dispatch(hideModalAction());
     return;
   }
-  await getHypervisorManagersAvailableForBackupBackupLocation(
-    backupLocations[0],
+  await getHypervisorManagersAvailableForBackup(
+    backups[0].guid,
     virtualMachine,
   )(dispatch);
 };
 
-export const getHypervisorManagersAvailableForBackupBackupLocation = (
-  backupLocation: any,
+export const getHypervisorManagersAvailableForBackup = (
+  backupGuid: any,
   virtualMachine: any,
 ) => async (dispatch: Dispatch) => {
-  const backupDetails = await backupsService.getBackup(
-    backupLocation?.backup?.guid,
-  );
-
   const hypervisorManagers = await backupsService.getHypervisorManagersAvailableForBackup(
-    backupDetails.guid,
+    backupGuid,
   );
-
   if (hypervisorManagers.length === 0) {
     return;
   }

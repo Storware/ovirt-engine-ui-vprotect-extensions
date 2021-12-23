@@ -67,27 +67,11 @@ class BackupsService {
   }
 
   getRestorableBackups(virtualMachineGuid) {
-    return vprotectApiService.get(
-      `/backups?protected-entity=${virtualMachineGuid}&status=SUCCESS`,
-    );
-  }
-
-  async getBackupLocations(id) {
-    const backupLocations = await vprotectApiService.get('/backup-locations', {
-      params: { 'protected-entity': id, 'backup-status': 'SUCCESS' },
-    });
-    return backupLocations.map((backupLocation) => {
-      return {
-        ...backupLocation,
-        name: `${backupLocation.backup.name} (${backupLocation.backupDestination.name})`,
-      };
-    });
+    return vprotectApiService.get(`/backups?protected-entity=${virtualMachineGuid}&status=SUCCESS`);
   }
 
   getHypervisorManagersAvailableForBackup(id) {
-    return vprotectApiService.get(
-      `/hypervisor-managers/?backup-to-be-restored=${id}`,
-    );
+    return vprotectApiService.get(`/hypervisor-managers/?backup-to-be-restored=${id}`);
   }
 }
 

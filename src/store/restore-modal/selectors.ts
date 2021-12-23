@@ -1,8 +1,7 @@
 import { RootState } from '../index';
 
 export const selectTask = (store: RootState) => store.restoreModal.task;
-export const selectBackupLocations = (store: RootState) =>
-  store.restoreModal.backupLocations;
+export const selectBackups = (store: RootState) => store.restoreModal.backups;
 export const selectHypervisorManagers = (store: RootState) =>
   store.restoreModal.hypervisorManagers;
 export const selectHypervisorStorages = (store: RootState) =>

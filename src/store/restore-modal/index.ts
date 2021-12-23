@@ -1,6 +1,6 @@
 import {
   BackupModalAction,
-  SET_BACKUP_LOCATIONS,
+  SET_BACKUPS,
   SET_FILTERED_HYPERVISOR_STORAGES,
   SET_HYPERVISOR_CLUSTERS,
   SET_HYPERVISOR_MANAGERS,
@@ -11,7 +11,7 @@ import { RestoreAndImportTask } from '../../model/tasks/restore-and-import-task'
 
 export type RestoreModalStore = {
   readonly task: any;
-  readonly backupLocations: any[];
+  readonly backups: any[];
   readonly hypervisorManagers: any[];
   readonly hypervisorStorages: any[];
   readonly filteredHypervisorStorages: any[];
@@ -20,7 +20,7 @@ export type RestoreModalStore = {
 
 const initial: RestoreModalStore = {
   task: new RestoreAndImportTask(),
-  backupLocations: [],
+  backups: [],
   hypervisorManagers: [],
   hypervisorStorages: [],
   filteredHypervisorStorages: [],
@@ -34,10 +34,10 @@ export default (state = initial, action: BackupModalAction) => {
       task: action.payload,
     };
   }
-  if (action.type === SET_BACKUP_LOCATIONS) {
+  if (action.type === SET_BACKUPS) {
     return {
       ...state,
-      backupLocations: action.payload,
+      backups: action.payload,
     };
   }
   if (action.type === SET_HYPERVISOR_MANAGERS) {
