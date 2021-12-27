@@ -5,15 +5,15 @@ import {
   dateTemplate,
 } from '../../../components/table/templates';
 import { useSelector } from 'react-redux';
-import { selectBackupsHistory } from '../../../store/virtual-machine/selectors';
+import { selectBackups } from '../../../store/virtual-machine/selectors';
 import Table from 'components/table/primereactTable';
 
 const BackupsTable = () => {
-  let backupsHistory = useSelector(selectBackupsHistory);
+  let backups = useSelector(selectBackups);
 
   return (
     <div>
-      <Table value={backupsHistory}>
+      <Table value={backups}>
         <Column
           field="snapshotTime"
           header="Snapshot time"

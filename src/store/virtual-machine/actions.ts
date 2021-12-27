@@ -10,6 +10,7 @@ import { Dispatch } from 'redux';
 import {
   SET_RESTORES_HISTORY,
   SET_BACKUPS_HISTORY,
+  SET_BACKUPS,
   SET_HYPERVISOR,
   SET_VIRTUAL_MACHINE,
 } from './types';
@@ -36,6 +37,13 @@ export const setHypervisor = (payload: any): VirtualMachineAction => {
 export const setBackupsHistory = (payload: any[]): VirtualMachineAction => {
   return {
     type: SET_BACKUPS_HISTORY,
+    payload,
+  };
+};
+
+export const setBackups = (payload: any[]): VirtualMachineAction => {
+  return {
+    type: SET_BACKUPS,
     payload,
   };
 };
@@ -96,6 +104,10 @@ export const getVirtualMachinePage = (guid) => async (dispatch: Dispatch) => {
   }
   const backupsHistory = await backupsService.getProtectedEntityBackups(guid);
   await dispatch(setBackupsHistory(backupsHistory));
+
+  const backups = await backupsService.getProtectedEntityBackupsByStatus(guid, 'SUCCESS');
+  await dispatch(setBackups(backups));
+
   const restoresHistory = await backupsService.getProtectedEntityRestoreJobs(
     guid,
   );
