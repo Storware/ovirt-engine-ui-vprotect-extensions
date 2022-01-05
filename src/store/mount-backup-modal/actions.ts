@@ -1,5 +1,5 @@
 import {
-  MountBackupModalAction,
+  MountBackupModalAction, RESET_TASK,
   SET_BACKUP_FILES,
   SET_ISCSI_MOUNTABLE,
   SET_MANUAL_MOUNT_FILESYSTEMS,
@@ -61,6 +61,13 @@ export const setBackupFilesAction = (
   };
 };
 
+export const resetTaskAction = (
+): MountBackupModalAction => {
+  return {
+    type: RESET_TASK,
+  };
+};
+
 export const setTaskAction = (
   payload: RestoreAndMountTask,
 ): MountBackupModalAction => {
@@ -70,20 +77,9 @@ export const setTaskAction = (
   };
 };
 
-export const getMountedBackup = (guid: string) => async (
+export const setMountedBackup = (guid: string, mountableBackups) => async (
   dispatch: Dispatch,
 ) => {
-  // await dispatch(setTaskAction(new RestoreAndMountTask()));
-
-  const mountableBackups = await backupsService.getMountableBackups(guid);
-  if (!mountableBackups.length) {
-    alertService.error(
-      'There are no mountable backups for this virtual environment',
-    );
-    await dispatch(hideModalAction());
-    return;
-  }
-
   await dispatch(setMountableBackupsAction(mountableBackups));
   const nodes = await nodesService.getAllNodes();
   await dispatch(setNodesAction(nodes));
