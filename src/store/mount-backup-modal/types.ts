@@ -8,6 +8,8 @@ export const SET_ISCSI_MOUNTABLE = 'SET_ISCSI_MOUNTABLE';
 export const SET_BACKUP_FILES = 'SET_BACKUP_FILES';
 export const SET_TASK = 'SET_BACKUP_TASK';
 
+export const RESET_TASK = 'RESET_TASK';
+
 export type SetMountableBackupsAction = {
   type: typeof SET_MOUNTABLE_BACKUPS;
   payload?: any[];
@@ -38,10 +40,16 @@ export type SetTask = {
   payload?: RestoreAndMountTask;
 };
 
+
+export type ResetTask = {
+  type: typeof RESET_TASK;
+};
+
 export type MountBackupModalAction =
   | SetMountableBackupsAction
   | SetNodesAction
   | SetManualMountFilesystemsAction
   | SetIscsiMountableAction
   | SetTask
+  | ResetTask
   | SetBackupFiles;

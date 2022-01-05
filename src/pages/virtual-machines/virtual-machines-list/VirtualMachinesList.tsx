@@ -22,6 +22,8 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Menu } from 'primereact/menu';
 import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
+import { backupsService } from '../../../services/backups-service';
+import {resetTaskAction} from "../../../store/mount-backup-modal/actions";
 
 const VirtualMachinesList = () => {
   const dispatch = useDispatch();
@@ -82,16 +84,26 @@ const VirtualMachinesList = () => {
     },
     {
       label: 'Mount',
-      command: () => {
-        dispatch(
-          showModalAction({
-            component: MountBackupModal,
-            props: {
-              guid: actionsElement.guid,
-            },
-            title: 'Mount Backup',
-          }),
-        );
+      command: async () => {
+          dispatch(resetTaskAction())
+          const mountableBackups = await backupsService.getMountableBackups(actionsElement.guid);
+          if (!mountableBackups.length) {
+            alertService.error(
+              'There are no mountable backups for this virtual environment',
+            );
+            return;
+          }
+
+          dispatch(
+              showModalAction({
+                  component: MountBackupModal,
+                  props: {
+                      guid: actionsElement.guid,
+                      backups: mountableBackups
+                  },
+                  title: 'Mount Backup',
+              }),
+          );
       },
     },
     {

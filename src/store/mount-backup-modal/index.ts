@@ -1,5 +1,6 @@
 import {
   MountBackupModalAction,
+  RESET_TASK,
   SET_BACKUP_FILES,
   SET_ISCSI_MOUNTABLE,
   SET_MANUAL_MOUNT_FILESYSTEMS,
@@ -7,9 +8,9 @@ import {
   SET_NODES,
   SET_TASK,
 } from './types';
-import { MountedFileSystemRequest } from '../../model/tasks/mounted-file-system-request';
-import { BackupFile } from '../../model/backup-file';
-import { RestoreAndMountTask } from 'model/tasks/restore-and-mount-task';
+import {MountedFileSystemRequest} from '../../model/tasks/mounted-file-system-request';
+import {BackupFile} from '../../model/backup-file';
+import {RestoreAndMountTask} from 'model/tasks/restore-and-mount-task';
 
 export type MountedBackupStore = {
   readonly nodes: any[];
@@ -65,6 +66,10 @@ export default (state = initial, action: MountBackupModalAction) => {
       ...state,
       task: action.payload,
     };
+  }
+
+  if (action.type === RESET_TASK) {
+    return initial;
   }
 
   return state;
