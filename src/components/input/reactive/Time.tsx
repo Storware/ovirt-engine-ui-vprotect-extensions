@@ -8,6 +8,23 @@ import {
 const Time = ({ factor, field, form: { setFieldValue }, ...props }) => {
   const [value, setValue] = useState(new Date());
 
+  const setFieldValueAndEmitChangeEvent = (e) => {
+    let selectedValue;
+    if (e.value instanceof Date) {
+      setFieldValue(field.name, getSourceValueFromHoursAndMinutes(e));
+      selectedValue = getSourceValueFromHoursAndMinutes(e);
+    } else {
+      setValue(e.value);
+      selectedValue = e.value;
+    }
+
+    if (props.change) {
+      props.change({
+        value: selectedValue,
+      });
+    }
+  };
+
   useEffect(() => {
     if (field.value !== undefined) {
       setValue(getHoursAndMinutesFromSource(field.value));
@@ -25,11 +42,7 @@ const Time = ({ factor, field, form: { setFieldValue }, ...props }) => {
         timeOnly
         hourFormat="24"
         onChange={(e: any) => {
-          if (e.value instanceof Date) {
-            setFieldValue(field.name, getSourceValueFromHoursAndMinutes(e));
-          } else {
-            setValue(e.value);
-          }
+          setFieldValueAndEmitChangeEvent(e)
         }}
       />
     </div>

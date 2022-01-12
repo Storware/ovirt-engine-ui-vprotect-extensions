@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectModal, selectShow } from 'store/modal/selectors';
+import {hideFooter, selectModal, selectShow} from 'store/modal/selectors';
 import { hideModalAction, saveModalAction } from 'store/modal/actions';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
@@ -9,6 +9,7 @@ const ModalContainer = () => {
   const dispatch = useDispatch();
   const modal = useSelector(selectModal);
   const show = useSelector(selectShow);
+  const hideButtonActions = useSelector(hideFooter);
   const Component = modal.component;
 
   const renderFooter = () => {
@@ -36,7 +37,7 @@ const ModalContainer = () => {
           header={modal.title}
           visible={show}
           style={{ width: '50vw' }}
-          footer={renderFooter()}
+          footer={!hideButtonActions && renderFooter()}
           onHide={() => dispatch(hideModalAction())}
         >
           <Component {...modal.props} />

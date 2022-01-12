@@ -6,6 +6,16 @@ const Convert = ({ factor, field, form: { setFieldValue }, ...props }) => {
   let setValue;
   [value, setValue] = useState();
 
+  const setFieldValueAndEmitChangeEvent = (value) => {
+    setValue(value);
+    setFieldValue(field.name, value);
+    if (props.change) {
+      props.change({
+        value,
+      });
+    }
+  };
+
   useEffect(() => {
     setValue(field.value / factor);
   }, [field]);
@@ -18,7 +28,7 @@ const Convert = ({ factor, field, form: { setFieldValue }, ...props }) => {
         {...props}
         value={value}
         onChange={(e: any) => {
-          setFieldValue(field.name, e.target.value * factor);
+          setFieldValueAndEmitChangeEvent(e.target.value * factor);
         }}
       />
     </div>
