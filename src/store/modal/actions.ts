@@ -1,10 +1,4 @@
-import {
-  HIDE_MODAL,
-  ModalAction,
-  SAVE_MODAL,
-  SHOW_MODAL,
-  UNSAVE_MODAL,
-} from './types';
+import {HIDE_FOOTER, HIDE_MODAL, ModalAction, SAVE_MODAL, SHOW_MODAL, UNSAVE_MODAL,} from './types';
 
 export const showModalAction = (payload: any): ModalAction => {
   return {
@@ -16,6 +10,12 @@ export const showModalAction = (payload: any): ModalAction => {
 export const hideModalAction = (): ModalAction => {
   return {
     type: HIDE_MODAL,
+  };
+};
+
+export const hideFooterAction = (): ModalAction => {
+  return {
+    type: HIDE_FOOTER,
   };
 };
 

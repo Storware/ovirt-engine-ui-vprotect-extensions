@@ -1,5 +1,6 @@
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
+export const HIDE_FOOTER = 'HIDE_FOOTER';
 export const SAVE_MODAL = 'SAVE_MODAL';
 export const UNSAVE_MODAL = 'UNSAVE_MODAL';
 
@@ -10,6 +11,10 @@ export type ShowModalAction = {
 
 export type HideModalAction = {
   type: typeof HIDE_MODAL;
+};
+
+export type HideFooterAction = {
+  type: typeof HIDE_FOOTER;
 };
 
 export type SaveModalAction = {
@@ -23,5 +28,6 @@ export type UnsaveModalAction = {
 export type ModalAction =
   | ShowModalAction
   | HideModalAction
+  | HideFooterAction
   | SaveModalAction
   | UnsaveModalAction;
