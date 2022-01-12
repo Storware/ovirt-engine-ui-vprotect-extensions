@@ -11,6 +11,16 @@ const Days = ({ field, form: { setFieldValue }, ...props }) => {
   let setValue;
   [value, setValue] = useState([]);
 
+  const setFieldValueAndEmitChangeEvent = (value) => {
+    setValue(value);
+    setFieldValue(field.name, viewToSourceShiftedDays(value, props.hour));
+    if (props.change) {
+      props.change({
+        value: viewToSourceShiftedDays(value, props.hour),
+      });
+    }
+  };
+
   useEffect(() => {
     setValue(
       value !== field.value
@@ -32,11 +42,7 @@ const Days = ({ field, form: { setFieldValue }, ...props }) => {
         dataKey="name"
         className={'col'}
         onChange={(event) => {
-          setFieldValue(
-            field.name,
-            viewToSourceShiftedDays(event.value, props.hour),
-          );
-          setValue(event.value);
+          setFieldValueAndEmitChangeEvent(event.value);
         }}
       />
     </div>
