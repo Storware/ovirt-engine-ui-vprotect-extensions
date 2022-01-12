@@ -70,6 +70,21 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
     history.back();
   };
 
+  handle = (name) => {
+    return (e) => {
+      this.setState({
+        ...this.state,
+        model: {
+          ...this.state.model,
+          [name]:
+            e.target && e.target.nodeName === 'INPUT'
+              ? e.target.value
+              : e.value,
+        },
+      });
+    };
+  };
+
   onExecutionTypeChange(value) {
     this.setState({
       ...this.state,
@@ -104,7 +119,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
                 }}
             >
                 <Form>
-                    <Field name="name" component={Text} label="Name" />
+                    <Field name="name" component={Text} label="Name" onChange={this.handle('name')} />
                     <Field
                         name="active"
                         component={Toggle}
@@ -225,7 +240,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
                             <BackButton />
                         </div>
                         <div>
-                            <Button type="submit" label="Save" className="p-button-success" />
+                            <Button type="submit" label="Save" className="p-button-success" disabled={!this.state.model.name} />
                         </div>
                     </div>
                 </Form>

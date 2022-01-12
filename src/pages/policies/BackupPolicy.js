@@ -136,7 +136,7 @@ class BackupPolicy extends React.Component {
                     onTabChange={(e) => this.setState({ activeIndex: e.index })}
                    >
                     <AccordionTab header="General">
-                      <Field name="name" component={Text} label="Name" />
+                      <Field name="name" component={Text} label="Name" onChange={this.handle('name')} />
                       <Field
                           name="active"
                           component={Toggle}
@@ -311,6 +311,7 @@ class BackupPolicy extends React.Component {
                           type="submit"
                           label="Save"
                           className="p-button-success"
+                          disabled={!this.state.model.name}
                       />
                     </div>
                   </div>
