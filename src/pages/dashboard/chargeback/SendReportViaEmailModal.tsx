@@ -21,8 +21,8 @@ export default () => {
   };
 
   const sendEmail = async (email: StringDTO) => {
-    await globalSettingsService.sendDashboardInfoEmail(email, range);
     dispatch(hideModalAction());
+    await globalSettingsService.sendDashboardInfoEmail(email, range);
   };
 
   useEffect(() => {

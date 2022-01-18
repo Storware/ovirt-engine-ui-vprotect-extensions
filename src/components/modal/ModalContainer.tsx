@@ -22,7 +22,7 @@ const ModalContainer = () => {
           className="p-button-text"
         />
         <Button
-          label="Save"
+          label={modal.buttonLabel ? modal.buttonLabel : 'Save'}
           icon="pi pi-check"
           onClick={() => dispatch(saveModalAction())}
         />

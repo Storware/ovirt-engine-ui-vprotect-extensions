@@ -8,7 +8,7 @@ import {
 } from './types';
 
 export type ModalStore = {
-  readonly modal: { component: () => JSX.Element; props; title: string };
+  readonly modal: { component: () => JSX.Element; props; title: string, buttonLabel: string };
   readonly show: boolean;
   readonly hideFooter: boolean;
   readonly saved: boolean;

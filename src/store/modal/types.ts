@@ -6,7 +6,7 @@ export const UNSAVE_MODAL = 'UNSAVE_MODAL';
 
 export type ShowModalAction = {
   type: typeof SHOW_MODAL;
-  payload: { component: any; props: any; title: string };
+  payload: { component: any; props: any; title: string, buttonLabel: string };
 };
 
 export type HideModalAction = {
