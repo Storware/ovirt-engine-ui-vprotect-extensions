@@ -141,21 +141,25 @@ class BackupPolicy extends React.Component {
                     name="active"
                     component={Toggle}
                     label="Scheduled backups enabled"
+                    onChange={this.handle('active')}
                   />
                   <Field
                     name="autoRemoveNonPresent"
                     component={Toggle}
                     label="Auto remove non-present Virtual Environments"
+                    onChange={this.handle('autoRemoveNonPresent')}
                   />
                   <Field
                     name="backupRetryCount"
                     component={InputSlider}
                     label="Retry Count"
+                    onChange={this.handle('backupRetryCount')}
                   />
                   <Field
                     name="priority"
                     component={InputSlider}
                     label="Priority"
+                    onChange={this.handle('priority')}
                   />
                 </AccordionTab>
 
@@ -168,6 +172,18 @@ class BackupPolicy extends React.Component {
                     dataKey="name"
                     required
                     label="Auto-assign Mode"
+                    change={(e) => {
+                      this.setState({
+                        ...this.state,
+                        model: {
+                          ...this.state.model,
+                          autoAssignSettings: {
+                            ...this.state.model.autoAssignSettings,
+                            mode: e.value,
+                          }
+                        },
+                      });
+                    }}
                   />
 
                   <h5 className={'mt-3'}>Include rules</h5>
@@ -177,6 +193,7 @@ class BackupPolicy extends React.Component {
                         name="autoAssignSettings.includeTags"
                         component={InputChips}
                         label="Include TAG based rules"
+                        value={this.state.model.autoAssignSettings.includeTags}
                       />
                     </div>
                     <div className={'col'}>
@@ -184,6 +201,7 @@ class BackupPolicy extends React.Component {
                         name="autoAssignSettings.includeRegExps"
                         component={InputChips}
                         label="Include Regex based rules"
+                        value={this.state.model.autoAssignSettings.includeRegExps}
                       />
                     </div>
                   </div>
@@ -195,6 +213,7 @@ class BackupPolicy extends React.Component {
                         name="autoAssignSettings.excludeTags"
                         component={InputChips}
                         label="Exclude TAG based rules"
+                        value={this.state.model.autoAssignSettings.excludeTags}
                       />
                     </div>
                     <div className={'col'}>
@@ -202,6 +221,7 @@ class BackupPolicy extends React.Component {
                         name="autoAssignSettings.excludeRegExps"
                         component={InputChips}
                         label="Exclude Regex based rules"
+                        value={this.state.model.autoAssignSettings.excludeRegExps}
                       />
                     </div>
                   </div>
@@ -213,6 +233,20 @@ class BackupPolicy extends React.Component {
                     optionLabel="name"
                     multiple
                     dataKey="guid"
+                    onChange={(e) => {
+                      this.setState({
+                        ...this.state,
+                        model: {
+                          ...this.state.model,
+                          autoAssignSettings: {
+                            ...this.state.model.autoAssignSettings,
+                            hvClusters: e.target && e.target.nodeName === 'INPUT'
+                              ? e.target.value
+                              : e.value,
+                          }
+                        },
+                      });
+                    }}
                     label="Auto-assign Virtual Environments only if they belong to the following clusters (optional)"
                   />
                 </AccordionTab>
@@ -226,6 +260,7 @@ class BackupPolicy extends React.Component {
                     multiple
                     dataKey="guid"
                     label="Choose Virtual Environments"
+                    onChange={this.handle('vms')}
                   />
                 </AccordionTab>
 
@@ -273,6 +308,7 @@ class BackupPolicy extends React.Component {
                       name="failRemainingBackupTasksExportThreshold"
                       component={InputSlider}
                       label="Percent of already failed EXPORT tasks"
+                      onChange={this.handle('failRemainingBackupTasksExportThreshold')}
                     />
                   )}
 
@@ -297,6 +333,7 @@ class BackupPolicy extends React.Component {
                       name="failRemainingBackupTasksStoreThreshold"
                       component={InputSlider}
                       label="Percent of already failed STORE tasks"
+                      onChange={this.handle('failRemainingBackupTasksStoreThreshold')}
                     />
                   )}
                 </AccordionTab>
