@@ -54,6 +54,7 @@ export default () => {
               showModalAction({
                 component: SendReportViaEmailModal,
                 title: 'Send report via e-mail',
+                buttonLabel: 'Send'
               }),
             );
           }}
