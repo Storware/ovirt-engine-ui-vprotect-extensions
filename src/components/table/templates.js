@@ -2,6 +2,13 @@ import React from 'react';
 import { DateShow } from '../convert/Date';
 import { Filesize } from '../convert/Filesize';
 import { schedulesService } from '../../services/schedules-service';
+import {convertMilisecondsToHours} from "../../utils/convertMilisecondsToHours";
+
+export const durationTemplate = (rowData) => {
+  return (
+    <span>{convertMilisecondsToHours(rowData.state.name !== 'RUNNING' ? (rowData.finishTime || 0) : +new Date() - rowData.startTime)}</span>
+  );
+};
 
 export const dateTemplate = (rowData, column) => {
   const path = column.field.split('.');
