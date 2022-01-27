@@ -6,7 +6,7 @@ import {convertMilisecondsToHours} from "../../utils/convertMilisecondsToHours";
 
 export const durationTemplate = (rowData) => {
   return (
-    <span>{convertMilisecondsToHours(rowData.state.name !== 'RUNNING' ? (rowData.finishTime || 0) : +new Date() - rowData.startTime)}</span>
+    <span>{ rowData.state.name !== 'QUEUED' && convertMilisecondsToHours(rowData.state.name !== 'RUNNING' ? (rowData.finishTime || 0) : +new Date() - rowData.startTime)}</span>
   );
 };
 
