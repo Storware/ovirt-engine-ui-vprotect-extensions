@@ -16,6 +16,7 @@ const labels = {
   restores: {
     successful: 'Successful restores',
     inProgress: 'Restores in progress',
+    queued: 'Restores in queued',
     failed: 'Failed restores',
     total: 'Total restores',
     totalData: 'Total data restored',
