@@ -19,6 +19,7 @@ import BackupsHistoryTable from './BackupsHistoryTable';
 import BackupsTable from './BackupsTable';
 import RestoresHistoryTable from './RestoresHistoryTable';
 import SnapshotsTable from './SnapshotsTable';
+import SnapshotsHistoryTable from './SnapshotsHistoryTable';
 import DisksTable from './DisksTable';
 import SchedulesTable from './SchedulesTable';
 import Settings from './Settings';
@@ -28,29 +29,29 @@ import BarChartContainer from 'components/chart/BarChartContainer';
 import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 
 const VirtualMachine = () => {
-  let dispatch = useDispatch();
-  let { guid } = useParams();
+  const dispatch = useDispatch();
+  const { guid } = useParams();
   const history = createBrowserHistory();
 
   useEffect(() => {
     dispatch(getVirtualMachinePage(guid));
   }, [dispatch]);
 
-  let virtualMachine = useSelector(selectVirtualMachine);
-  let backupsHistory = useSelector(selectBackupsHistory);
-  let restoresHistory = useSelector(selectRestoresHistory);
-  let hypervisor = useSelector(selectHypervisor);
+  const virtualMachine = useSelector(selectVirtualMachine);
+  const backupsHistory = useSelector(selectBackupsHistory);
+  const restoresHistory = useSelector(selectRestoresHistory);
+  const hypervisor = useSelector(selectHypervisor);
 
   return (
-    <Panel header="Virtual Machine">
-      <div className="d-flex justify-content-between mt-3">
+    <Panel header='Virtual Machine'>
+      <div className='d-flex justify-content-between mt-3'>
         <div>
-          <Button label="Back" onClick={history.back} />
+          <Button label='Back' onClick={history.back} />
         </div>
         <div>
           <Button
-            className="mx-2"
-            label="Backup"
+            className='mx-2'
+            label='Backup'
             onClick={() => {
               dispatch(
                 showModalAction({
@@ -65,8 +66,8 @@ const VirtualMachine = () => {
           />
           {virtualMachine.lastSuccessfulBackupSize > 0 && (
             <Button
-              className="mx-2"
-              label="Restore"
+              className='mx-2'
+              label='Restore'
               onClick={() => {
                 dispatch(
                   showModalAction({
@@ -80,13 +81,13 @@ const VirtualMachine = () => {
               }}
             />
           )}
-          <Button className="ml-2" label="Refresh" onClick={this.getData} />
+          <Button className='ml-2' label='Refresh' onClick={this.getData} />
         </div>
       </div>
       <Card
         title={virtualMachine.name}
         subTitle={virtualMachine.uuid}
-        className="mt-4"
+        className='mt-4'
       >
         <div className={'row'}>
           <div className={'col'}>
@@ -155,36 +156,39 @@ const VirtualMachine = () => {
         </div>
       </Card>
 
-      <Card className="mt-4" title="Backup/Restore Statistics">
+      <Card className='mt-4' title='Backup/Restore Statistics'>
         <BarChartContainer
           datasets={{
-            backupsHistory: backupsHistory,
-            restoresHistory: restoresHistory,
+            backupsHistory,
+            restoresHistory,
           }}
         />
       </Card>
 
-      <Card className="mt-4" title="Backup/Restore Statistics">
+      <Card className='mt-4' title='Backup/Restore Statistics'>
         <TabView>
-          <TabPanel header="Backup">
+          <TabPanel header='Backup'>
             <BackupsTable />
           </TabPanel>
-          <TabPanel header="Backup History">
+          <TabPanel header='Backup History'>
             <BackupsHistoryTable />
           </TabPanel>
-          <TabPanel header="Restore History">
+          <TabPanel header='Restore History'>
             <RestoresHistoryTable />
           </TabPanel>
-          <TabPanel header="Snapshots">
+          <TabPanel header='Snapshots'>
             <SnapshotsTable />
           </TabPanel>
-          <TabPanel header="Disks">
+          <TabPanel header='Snapshots History'>
+            <SnapshotsHistoryTable />
+          </TabPanel>
+          <TabPanel header='Disks'>
             <DisksTable />
           </TabPanel>
-          <TabPanel header="Schedules">
+          <TabPanel header='Schedules'>
             <SchedulesTable />
           </TabPanel>
-          <TabPanel header="Settings">
+          <TabPanel header='Settings'>
             <Settings />
           </TabPanel>
         </TabView>

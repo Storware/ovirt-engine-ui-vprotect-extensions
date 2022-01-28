@@ -19,8 +19,12 @@ class VirtualMachinesService {
     return vprotectApiService.get('/virtual-machines/' + id);
   }
 
-  getVirtualMachineSnapshots(id) {
-    return vprotectApiService.get('/snapshots?protected-entity=' + id);
+  getVirtualMachineSnapshots(id, standAlone) {
+    return vprotectApiService.get('/snapshots', {
+      params: {
+        "protected-entity": id,
+        ...standAlone ? {"stand-alone": standAlone.toString()} : null,
+      }});
   }
 
   getVirtualMachineDisks(id) {
