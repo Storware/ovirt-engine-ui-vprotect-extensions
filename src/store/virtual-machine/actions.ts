@@ -3,7 +3,7 @@ import {
   SET_POLICIES,
   SET_SCHEDULES,
   SET_SNAPSHOT_POLICIES,
-  SET_SNAPSHOTS,
+  SET_SNAPSHOTS, SET_SNAPSHOTS_HISTORY,
   VirtualMachineAction,
 } from './types';
 import { Dispatch } from 'redux';
@@ -50,6 +50,13 @@ export const setRestoresHistory = (payload: any[]): VirtualMachineAction => {
 export const setSnapshots = (payload: any[]): VirtualMachineAction => {
   return {
     type: SET_SNAPSHOTS,
+    payload,
+  };
+};
+
+export const setSnapshotsHistory = (payload: any[]): VirtualMachineAction => {
+  return {
+    type: SET_SNAPSHOTS_HISTORY,
     payload,
   };
 };
@@ -103,6 +110,8 @@ export const getVirtualMachinePage = (guid) => async (dispatch: Dispatch) => {
   let snapshots = await virtualMachinesService.getVirtualMachineSnapshots(guid);
   snapshots = setCurrentForIncrementalBackup(virtualMachine, snapshots);
   await dispatch(setSnapshots(snapshots));
+  const snapshotsHistory = await virtualMachinesService.getVirtualMachineSnapshots(guid, true);
+  await dispatch(setSnapshotsHistory(snapshotsHistory));
   const disks = await virtualMachinesService.getVirtualMachineDisks(guid);
   await dispatch(setDisks(disks));
   const schedules = await schedulesService.getProtectedEntitySchedules(guid);

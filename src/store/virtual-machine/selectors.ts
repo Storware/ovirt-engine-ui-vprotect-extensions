@@ -10,6 +10,8 @@ export const selectRestoresHistory = (store: RootState) =>
   store.virtualMachine.restoresHistory;
 export const selectSnapshots = (store: RootState) =>
   store.virtualMachine.snapshots;
+export const selectSnapshotsHistory = (store: RootState) =>
+  store.virtualMachine.snapshotsHistory;
 export const selectDisks = (store: RootState) => store.virtualMachine.disks;
 export const selectSchedules = (store: RootState) =>
   store.virtualMachine.schedules;

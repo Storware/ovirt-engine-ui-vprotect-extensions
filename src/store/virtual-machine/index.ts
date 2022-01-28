@@ -17,6 +17,7 @@ export type VirtualMachineStore = {
   readonly backupsHistory: any[];
   readonly restoresHistory: any[];
   readonly snapshots: any[];
+  readonly snapshotsHistory: any[];
   readonly disks: any[];
   readonly schedules: any[];
   readonly policies: any[];
@@ -29,6 +30,7 @@ const initial: VirtualMachineStore = {
   backupsHistory: [],
   restoresHistory: [],
   snapshots: [],
+  snapshotsHistory: [],
   disks: [],
   schedules: [],
   policies: [],
