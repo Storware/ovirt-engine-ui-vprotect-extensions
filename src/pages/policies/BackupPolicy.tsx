@@ -71,12 +71,19 @@ export const BackupPolicy = () => {
 
   const addAnotherRule = () => {
     setModel({
-      ...this.state.model,
+      ...model,
       rules: [
-        ...this.state.model.rules,
-        {...new Rule(`Rule ${this.state.model.rules.length}`), position: this.state.model.rules.length},
+        ...model.rules,
+        {...new Rule(`Rule ${model.rules.length}`), position: model.rules.length},
       ],
     });
+  }
+
+  const deleteRule = (index) => {
+    model.rules.splice(index, 1);
+    model.rules = [...model.rules.map((rule, i) => ({...rule, position: i}))];
+    setModel(model)
+    handleChangeBackupDestination();
   }
 
   const handle = (name) => {
@@ -92,37 +99,53 @@ export const BackupPolicy = () => {
   };
 
   const saveBackupPolicy = async () => {
+    const mappedModel = {
+      ...model, rules: model.rules.map(rule => {
+        return {
+          ...rule, ruleBackupDestinations: [rule.ruleBackupDestinations.primaryBackupDestination,
+            rule.ruleBackupDestinations.secondaryBackupDestination]
+        }
+      })
+    };
+
     if (model.guid) {
-      await policiesService.updatePolicy('vm-backup', model.guid, model);
+      await policiesService.updatePolicy('vm-backup', model.guid, mappedModel);
       alertService.info('Policy updated');
     } else {
-      await policiesService.createPolicy('vm-backup', model);
+      await policiesService.createPolicy('vm-backup', mappedModel);
       alertService.info('Policy created');
     }
     history.back();
   };
 
-  const handleChangeBackupDestination = (childData) => {
+  const handleChangeBackupDestination = () => {
     if (!model.rules.length) {
       return;
     }
 
     const _ruleBackupDestinations = model.rules.map(({ruleBackupDestinations}) =>
-      ruleBackupDestinations.map((el) => el?.backupDestination?.guid)
+      [ruleBackupDestinations.primaryBackupDestination.backupDestination?.guid,
+        ruleBackupDestinations.secondaryBackupDestination.backupDestination?.guid],
     );
 
     setFilteredBackupDestinations(backupDestinations.filter(
       ({guid}) =>
         !_ruleBackupDestinations.some(([primaryGuid, secondaryGuid]) => guid === primaryGuid || guid === secondaryGuid)
     ));
+
+    return;
   }
+
+  useEffect(() => {
+    handleChangeBackupDestination();
+  }, [model.rules]);
 
   return (
     <div className={'form'}>
       <Formik
         enableReinitialize
         initialValues={model}
-        onSubmit={async () => await saveBackupPolicy}
+        onSubmit={saveBackupPolicy}
       >
         {() => (
           <Form>
@@ -271,7 +294,8 @@ export const BackupPolicy = () => {
                   <AccordionTab key={rule.name} header={'Rule (' + rule.name + ')'}>
                     <RulesContainer
                       rule={rule}
-                      backupDestinations={filteredBackupDestinations}
+                      removeRule={() => deleteRule(i)}
+                      filteredBackupDestinations={filteredBackupDestinations}
                       updateFilteredBackupDestinations={handleChangeBackupDestination}/>
                   </AccordionTab>)
               })}
@@ -324,7 +348,11 @@ export const BackupPolicy = () => {
             </Accordion>
 
             <div className='mt-3'>
-              <Button type='button' label='Add another rule' onClick={addAnotherRule}/>
+              <Button
+                type='button'
+                disabled={filteredBackupDestinations.length === 0}
+                label='Add another rule'
+                onClick={addAnotherRule}/>
             </div>
 
             <div className='d-flex justify-content-between mt-3'>
