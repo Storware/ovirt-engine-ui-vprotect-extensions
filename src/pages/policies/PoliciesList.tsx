@@ -116,6 +116,7 @@ export const PoliciesList = () => {
           <Column
             field="backupDestinations[0].name"
             header="Backup Destiantion"
+            body={(e) => e.backupDestinations[0].name}
           />
           <Column field="priority" header="Priority" />
           <Column field="vmCount" header="VM Count" />
