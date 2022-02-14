@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {Field, Form, Formik, useFormikContext} from 'formik';
+import {Field, Form, Formik} from 'formik';
 import { Button } from 'primereact/button';
 import Select from 'components/input/reactive/Select';
 import { ChargebackRequest } from 'model/chargeback/vm-chargeback-request';
@@ -96,6 +96,10 @@ export default () => {
   const dispatch = useDispatch();
   const chargeBackRequest = new ChargebackRequest();
   const range = useSelector(selectRange);
+
+  useEffect(() => {
+    dispatch(getChargebackData(range, mapPropertiesObjectListToStringOfGuids(chargeBackRequest)));
+  }, [range]);
 
   return (
     <div>
