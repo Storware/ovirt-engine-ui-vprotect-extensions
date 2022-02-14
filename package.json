@@ -60,7 +60,7 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "@types/prop-types": "^15.7.3",
-    "ajv": "^6.10.2",
+    "ajv": "^6.12.3",
     "autoprefixer": "^9.6.1",
     "awesome-typescript-loader": "^5.2.1",
     "babel-jest": "^24.8.0",
