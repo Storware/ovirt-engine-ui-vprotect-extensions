@@ -7,7 +7,7 @@ const getValue = (value, valueProperty?) => {
 };
 
 const Select = ({ field, form: { setFieldValue }, ...props }) => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState(field.value);
 
   const setFieldValueAndEmitChangeEvent = (value) => {
     setValue(value);
