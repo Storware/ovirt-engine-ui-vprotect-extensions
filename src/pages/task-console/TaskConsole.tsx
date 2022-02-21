@@ -85,6 +85,7 @@ export default () => {
               />
             )}
           />
+          <Column field="backupType.description" header="" className="text-center" />
           <Column field="type.description" header="Type" />
           <Column field="hypervisorManager.name" header="Hypervisor" />
           <Column field="protectedEntity.name" header="Virtual Machine" />

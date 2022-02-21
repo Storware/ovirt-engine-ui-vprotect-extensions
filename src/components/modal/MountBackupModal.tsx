@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSaved } from 'store/modal/selectors';
+import {selectSaved} from 'store/modal/selectors';
 import {
   checkIfIscsiMountable,
   getBackupFilesystems,
-  getMountedBackup,
+  setMountedBackup,
   setTaskAction,
   submitTask,
 } from 'store/mount-backup-modal/actions';
@@ -64,12 +63,12 @@ let autoMountFileSystem = {
   mountPath: null,
 };
 
-export const MountBackupModal = ({ guid }) => {
+export const MountBackupModal = ({ guid, backups }) => {
   const dispatch = useDispatch();
   const [iscsiDisks, setIscsiDisks] = useState([]);
 
   useEffect(() => {
-    dispatch(getMountedBackup(guid));
+    dispatch(setMountedBackup(guid, backups));
   }, []);
 
   const [
@@ -112,13 +111,13 @@ export const MountBackupModal = ({ guid }) => {
       <div className="form">
         <label>Select backup to mount</label>
         <BackupDropdown
+          options={mountableBackups}
           value={task.backup}
           onChange={(event) => {
-            autoMountFileSystem.mountPath =
-              '/mnt/vprotect/' +
-              event.protectedEntity.name +
-              '/' +
-              moment(event.snapshotTime).format('YYYYMMDD_HHmmss');
+            autoMountFileSystem = {...autoMountFileSystem, mountPath: '/mnt/vprotect/' +
+                  event.protectedEntity.name +
+                  '/' +
+                  moment(event.snapshotTime).format('YYYYMMDD_HHmmss')}
 
             dispatch(getBackupFilesystems(event));
             dispatch(checkIfIscsiMountable(event));
@@ -129,7 +128,6 @@ export const MountBackupModal = ({ guid }) => {
               }),
             );
           }}
-          options={mountableBackups}
         />
 
         <div className='mt-2'>
@@ -209,7 +207,7 @@ export const MountBackupModal = ({ guid }) => {
                     label="Mount point"
                     value={el.mountPath}
                     onChange={(e) => {
-                      el.mountPath = e.target.value;
+                      el = {...el, mountPath: e.target.value}
                       dispatch(setTaskAction({ ...task }));
                     }}
                   />

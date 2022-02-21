@@ -70,6 +70,36 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
     history.back();
   };
 
+  handle = (name) => {
+    return (e) => {
+      this.setState({
+        ...this.state,
+        model: {
+          ...this.state.model,
+          [name]:
+            e.target && e.target.nodeName === 'INPUT'
+              ? e.target.value
+              : e.value,
+        },
+      });
+    };
+  };
+
+  handleIntervalValue = (name) => {
+    return (e) => {
+      this.setState({
+        ...this.state,
+        model: {
+          ...this.state.model,
+          interval: {
+            ...this.state.model.interval,
+            [name]: e.value
+          }
+        },
+      });
+    };
+  };
+
   onExecutionTypeChange(value) {
     this.setState({
       ...this.state,
@@ -104,13 +134,14 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
                 }}
             >
                 <Form>
-                    <Field name="name" component={Text} label="Name" />
+                    <Field name="name" component={Text} label="Name" onChange={this.handle('name')} />
                     <Field
                         name="active"
                         component={Toggle}
                         label="Status"
                         onLabel="Active"
                         offLabel="Inactive"
+                        onChange={this.handle('active')}
                     />
                     <Field
                         name="backupType"
@@ -119,15 +150,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
                         optionLabel="description"
                         dataKey="name"
                         options={schedulesService.backupTypes}
-                        change={(e) => {
-                            this.setState({
-                                ...this.state,
-                                model: {
-                                    ...this.state.model,
-                                    backupType: e.value,
-                                },
-                            });
-                        }}
+                        change={this.handle('backupType')}
                     />
                     {this.state.model.backupType.name === 'INCREMENTAL' && (
                       <div>
@@ -151,11 +174,13 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
                                 component={Convert}
                                 label="Start Window Length [min]"
                                 factor={1000 * 60}
+                                change={this.handle('startWindowLength')}
                             />
                             <Field
                                 name="hour"
                                 component={Time}
                                 label="Choose time of day for backup"
+                                change={this.handle('hour')}
                             />
                         </div>
                     )}
@@ -166,16 +191,19 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
                                 component={Convert}
                                 label="Frequency [min]"
                                 factor={1000 * 60}
+                                change={this.handleIntervalValue('frequency')}
                             />
                             <Field
                                 name="interval.startHour"
                                 component={Time}
                                 label="Choose time of interval start"
+                                change={this.handleIntervalValue('startHour')}
                             />
                             <Field
                                 name="interval.endHour"
                                 component={Time}
                                 label="Choose time of interval end"
+                                change={this.handleIntervalValue('endHour')}
                             />
                         </div>
                     )}
@@ -187,6 +215,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
                                 component={Days}
                                 hour={this.state.model.hour}
                                 label="Choose days (required)"
+                                change={this.handle('daysOfWeek')}
                             />
                         </div>
                         <div className="col">
@@ -198,6 +227,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
                                 optionLabel="name"
                                 options={dayOfWeekOccurrences}
                                 dataKey="name"
+                                onChange={this.handle('dayOfWeekOccurrences')}
                             />
                         </div>
                         <div className="col">
@@ -209,6 +239,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
                                 optionLabel="name"
                                 options={months}
                                 dataKey="name"
+                                onChange={this.handle('months')}
                             />
                         </div>
                     </div>
@@ -218,6 +249,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
                         component={SchedulePolicies}
                         label="Choose Virtual Environment policies"
                         options={this.state.policies}
+                        change={this.handle('rules')}
                     />
 
                     <div className="d-flex justify-content-between mt-3">
@@ -225,7 +257,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
                             <BackButton />
                         </div>
                         <div>
-                            <Button type="submit" label="Save" className="p-button-success" />
+                            <Button type="submit" label="Save" className="p-button-success" disabled={!this.state.model.name} />
                         </div>
                     </div>
                 </Form>
