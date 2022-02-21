@@ -8,6 +8,7 @@ import {hypervisorsService} from '../../services/hypervisors-service';
 import {virtualMachinesService} from '../../services/virtual-machines-service';
 import {backupDestinationsService} from '../../services/backup-destinations-service';
 import {schedulesService} from '../../services/schedules-service';
+import {mailingService} from "../../services/mailing-list.service";
 import {alertService} from '../../services/alert-service';
 import {VirtualMachineBackupPolicy} from '../../model/VirtualMachineBackupPolicy';
 import {createBrowserHistory} from 'history';
@@ -71,6 +72,14 @@ class BackupPolicy extends React.Component {
         schedules: result,
       });
     });
+
+    mailingService.getMailingLists().then((result) => {
+      this.setState({
+        ...this.state,
+        availableMailingLists: result,
+      });
+    });
+
   }
 
   handle = (name) => {
@@ -149,6 +158,33 @@ class BackupPolicy extends React.Component {
                     label="Auto remove non-present Virtual Environments"
                     onChange={this.handle('autoRemoveNonPresent')}
                   />
+                  <Field
+                    name="mailingList"
+                    component={Toggle}
+                    label="Send daily backup/restore report for VMs assigned to this policy "
+                    onChange={(e) => {
+                      this.setState({
+                        ...this.state,
+                        model: {
+                          ...this.state.model,
+                          mailingList: e.value
+                        },
+                      });
+                    }}
+                  />
+                  {this.state.model.mailingList &&
+                  (
+                    <Field
+                      name="mailingList"
+                      options={this.state.availableMailingLists}
+                      component={Select}
+                      optionLabel="name"
+                      dataKey="name"
+                      required
+                      label="Select Mailing List"
+                    />
+                  )
+                  }
                   <Field
                     name="backupRetryCount"
                     component={InputSlider}
