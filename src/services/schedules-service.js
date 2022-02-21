@@ -10,8 +10,9 @@ import { getCurrentDayMidnight } from 'components/input/InputTime';
 
 class SchedulesService {
   backupTypes = [
-    { name: 'FULL', description: 'Full' },
-    { name: 'INCREMENTAL', description: 'Incremental' },
+    { name: 'FULL', description: 'Full backup' },
+    { name: 'INCREMENTAL', description: 'Incremental Backup' },
+    { name: "SYNCHRONIZATION", description: "Backup synchronization (primary to secondary backup destination)" }
   ];
 
   executionTypes = [
