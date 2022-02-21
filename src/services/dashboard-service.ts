@@ -38,6 +38,22 @@ class DashboardService {
       to: to.getTime(),
     });
   }
+
+  getDashboardInfoPdf(params = {}) {
+    return vprotectApiService.get(`/dashboard/report-pdf`, {
+      responseType: 'blob',
+      observe: 'response',
+      params: {...params, protectedEntityType: 'VM'},
+    });
+  }
+
+  getDashboardInfoHtml(params = {}) {
+    return vprotectApiService.get(`/dashboard/report-html`, {
+      responseType: 'blob',
+      observe: 'response',
+      params: {...params, protectedEntityType: 'VM'},
+    });
+  }
 }
 
 export default new DashboardService();

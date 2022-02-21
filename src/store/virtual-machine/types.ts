@@ -4,6 +4,7 @@ export const SET_BACKUPS = 'SET_BACKUPS';
 export const SET_BACKUPS_HISTORY = 'SET_BACKUPS_HISTORY';
 export const SET_RESTORES_HISTORY = 'SET_RESTORES_HISTORY';
 export const SET_SNAPSHOTS = 'SET_SNAPSHOTS';
+export const SET_SNAPSHOTS_HISTORY = 'SET_SNAPSHOTS_HISTORY';
 export const SET_DISKS = 'SET_DISKS';
 export const SET_SCHEDULES = 'SET_SCHEDULES';
 export const SET_POLICIES = 'SET_POLICIES';
@@ -39,6 +40,11 @@ export type SetSnapshotsAction = {
   payload?: any;
 };
 
+export type SetSnapshotsHistoryAction = {
+  type: typeof SET_SNAPSHOTS_HISTORY;
+  payload?: any;
+};
+
 export type SetDisksAction = {
   type: typeof SET_DISKS;
   payload?: any;
@@ -66,6 +72,7 @@ export type VirtualMachineAction =
   | SetBackupsAction
   | SetRestoresHistoryAction
   | SetSnapshotsAction
+  | SetSnapshotsHistoryAction
   | SetDisksAction
   | SetSchedulesAction
   | SetPoliciesAction
