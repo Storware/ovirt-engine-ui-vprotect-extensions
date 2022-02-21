@@ -1,9 +1,9 @@
 export class CredentialModel {
-  guid: string;
-  name: string;
-  password: string;
-  secretKey: string;
+  guid?: string;
+  name = '';
+  password = '';
+  secretKey = '';
   sshKey?: string;
-  sshKeyPath: string;
-  user: string;
+  sshKeyPath = '';
+  user = '';
 }

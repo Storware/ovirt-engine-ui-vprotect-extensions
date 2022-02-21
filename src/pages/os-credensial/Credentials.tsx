@@ -1,17 +1,17 @@
 import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
-import CredentialsList from './components/CredentialsList';
-import CredentialForm from './components/CredentialForm';
+import CredentialsList from './CredentialsList';
+import Credential from './Credential';
 
 export default () => {
   const match = useRouteMatch();
   return (
     <Switch>
       <Route path={`${match.path}/create`}>
-        <CredentialForm header="Create Credential" />
+        <Credential type="Create" />
       </Route>
       <Route path={`${match.path}/:guid`}>
-        <CredentialForm header="Edit Credential" />
+        <Credential type="Edit" />
       </Route>
       <Route path={`${match.path}`}>
         <CredentialsList />

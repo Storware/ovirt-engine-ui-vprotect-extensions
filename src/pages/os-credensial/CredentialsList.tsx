@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import Table from '../../../components/table/primereactTable';
+import Table from '../../components/table/primereactTable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCredentials } from '../../../store/credentials/selectors';
-import { CredentialModel } from '../../../model';
-import { getCredentials } from '../../../store/credentials/actions';
-import { credentialsService } from '../../../services/credensial-service';
-import Header from './Header';
+import { selectCredentials } from '../../store/credentials/selectors';
+import { CredentialModel } from '../../model';
+import { getCredentials } from '../../store/credentials/actions';
+import { credentialsService } from '../../services/credensial-service';
+import Header from './components/Header';
 import { Link, useHistory } from 'react-router-dom';
 
 const CredentialsList = () => {

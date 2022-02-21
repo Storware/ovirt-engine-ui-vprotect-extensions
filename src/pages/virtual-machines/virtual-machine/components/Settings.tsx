@@ -4,21 +4,22 @@ import {
   selectPolicies,
   selectSnapshotPolicies,
   selectVirtualMachine,
-} from '../../../store/virtual-machine/selectors';
+} from '../../../../store/virtual-machine/selectors';
 import { Accordion, AccordionTab } from 'primereact/accordion';
 import { Dropdown } from 'primereact/dropdown';
-import { policiesService } from '../../../services/policies-service';
-import { alertService } from '../../../services/alert-service';
+import { policiesService } from '../../../../services/policies-service';
+import { alertService } from '../../../../services/alert-service';
 import {
   virtualMachinesService,
   preAndPostSnapStdErrorHandlingOptions,
-} from '../../../services/virtual-machines-service';
+} from '../../../../services/virtual-machines-service';
 import { ToggleButton } from 'primereact/togglebutton';
 import { InputText } from 'primereact/inputtext';
 import { Chips } from 'primereact/chips';
 import { Button } from 'primereact/button';
 import { createBrowserHistory } from 'history';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
+import { OsCredentials } from './settings';
 
 const isBaseImageConfigAvailable = (model) => {
   return model.hvmType != null && model.hvmType.name === 'AWS';
@@ -327,57 +328,62 @@ const Settings = () => {
               <div>
                 <h6>SSH host</h6>
                 <InputText
-                    value={model.sshHost}
-                    type="text"
-                    onChange={(e: any) => {
-                      setModel({
-                        ...model,
-                        sshHost: e.target.value,
-                      });
-                    }}
+                  value={model.sshHost}
+                  type="text"
+                  onChange={(e: any) => {
+                    setModel({
+                      ...model,
+                      sshHost: e.target.value,
+                    });
+                  }}
                 />
               </div>
               <div className={'mt-2'}>
                 <h6>SSH port</h6>
                 <InputText
-                    value={model.sshPort}
-                    type="text"
-                    onChange={(e: any) => {
-                      setModel({
-                        ...model,
-                        sshPort: e.target.value,
-                      });
-                    }}
+                  value={model.sshPort}
+                  type="text"
+                  onChange={(e: any) => {
+                    setModel({
+                      ...model,
+                      sshPort: e.target.value,
+                    });
+                  }}
                 />
               </div>
               <div className={'mt-2'}>
                 <h6>SSH user</h6>
                 <InputText
-                    value={model.sshUser}
-                    type="text"
-                    onChange={(e: any) => {
-                      setModel({
-                        ...model,
-                        sshUser: e.target.value,
-                      });
-                    }}
+                  value={model.sshUser}
+                  type="text"
+                  onChange={(e: any) => {
+                    setModel({
+                      ...model,
+                      sshUser: e.target.value,
+                    });
+                  }}
                 />
               </div>
               <div className={'mt-2'}>
                 <h6>SSH key path</h6>
                 <InputText
-                    value={model.sshKeyPath}
-                    type="text"
-                    onChange={(e: any) => {
-                      setModel({
-                        ...model,
-                        sshKeyPath: e.target.value,
-                      });
-                    }}
+                  value={model.sshKeyPath}
+                  type="text"
+                  onChange={(e: any) => {
+                    setModel({
+                      ...model,
+                      sshKeyPath: e.target.value,
+                    });
+                  }}
                 />
               </div>
             </AccordionTab>
-        )}
+          )}
+        <AccordionTab header="Os Credentials">
+          <OsCredentials
+            onChange={(credential) => setModel({ ...model, credential })}
+          />
+        </AccordionTab>
       </Accordion>
       <div className="d-flex justify-content-between mt-3">
         <div>
@@ -399,48 +405,49 @@ const Settings = () => {
           })
         }
       >
-          {virtualMachinesService.arePrePostSnapActionsAvailable(model) &&
-            isNotOpenstackBuild && (
-              <AccordionTab header="Configure SSH password (for pre/post snapshot command execution)">
-                  <div>
-                      <h6>SSH password</h6>
-                      <InputText
-                          value={sshPassword.first}
-                          type="password"
-                          onChange={(e: any) => {
-                              setSshPassword({
-                                  ...sshPassword,
-                                  first: e.target.value,
-                              });
-                          }}
-                      />
-                  </div>
-                  <div className={'mt-2'}>
-                      <h6>Retype SSH password</h6>
-                      <InputText
-                          value={sshPassword.second}
-                          type="password"
-                          onChange={(e: any) => {
-                              setSshPassword({
-                                  ...sshPassword,
-                                  second: e.target.value,
-                              });
-                          }}
-                      />
-                  </div>
-                  <div className="d-flex justify-content-end mt-3">
-                      <div>
-                          <Button
-                              label="Save"
-                              className="p-button-success"
-                              disabled={
-                                  !sshPassword.first || sshPassword.first !== sshPassword.second
-                              }
-                              onClick={savePassword}
-                          />
-                      </div>
-                  </div>
-              </AccordionTab>
+        {virtualMachinesService.arePrePostSnapActionsAvailable(model) &&
+          isNotOpenstackBuild && (
+            <AccordionTab header="Configure SSH password (for pre/post snapshot command execution)">
+              <div>
+                <h6>SSH password</h6>
+                <InputText
+                  value={sshPassword.first}
+                  type="password"
+                  onChange={(e: any) => {
+                    setSshPassword({
+                      ...sshPassword,
+                      first: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className={'mt-2'}>
+                <h6>Retype SSH password</h6>
+                <InputText
+                  value={sshPassword.second}
+                  type="password"
+                  onChange={(e: any) => {
+                    setSshPassword({
+                      ...sshPassword,
+                      second: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="d-flex justify-content-end mt-3">
+                <div>
+                  <Button
+                    label="Save"
+                    className="p-button-success"
+                    disabled={
+                      !sshPassword.first ||
+                      sshPassword.first !== sshPassword.second
+                    }
+                    onClick={savePassword}
+                  />
+                </div>
+              </div>
+            </AccordionTab>
           )}
       </Accordion>
     </div>
