@@ -22,6 +22,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Menu } from 'primereact/menu';
 import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
+import HeaderTable from '../../../components/table/HeaderTable';
 import { backupsService } from '../../../services/backups-service';
 import {resetTaskAction} from "../../../store/mount-backup-modal/actions";
 
@@ -45,25 +46,24 @@ const VirtualMachinesList = () => {
 
   const header = () => {
     return (
-      <div>
-        <div className="d-flex justify-content-between">
-          <div className="p-datatable-globalfilter-container">
-            <InputText
-              type="search"
-              // @ts-ignore
-              onInput={(e) => setGlobalFilter(e.target.value)}
-              placeholder="Global Search"
-            />
-          </div>
-          <Button
-            className="p-button-danger"
-            label="Delete Non-Present"
-            onClick={() => {
-              deleteNonPresent();
-            }}
+      <HeaderTable>
+        <div className="p-datatable-globalfilter-container">
+          <InputText
+            type="search"
+            onInput={({ target }) =>
+              setGlobalFilter((target as HTMLInputElement).value)
+            }
+            placeholder="Global Search"
           />
         </div>
-      </div>
+        <Button
+          className="p-button-danger"
+          label="Delete Non-Present"
+          onClick={() => {
+            deleteNonPresent();
+          }}
+        />
+      </HeaderTable>
     );
   };
 
