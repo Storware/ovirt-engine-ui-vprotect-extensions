@@ -19,7 +19,7 @@ import { Chips } from 'primereact/chips';
 import { Button } from 'primereact/button';
 import { createBrowserHistory } from 'history';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
-import { OsCredentials } from './settings';
+import { OsCredentials, SshAccess } from './settings';
 
 const isBaseImageConfigAvailable = (model) => {
   return model.hvmType != null && model.hvmType.name === 'AWS';
@@ -325,64 +325,11 @@ const Settings = () => {
         {virtualMachinesService.arePrePostSnapActionsAvailable(model) &&
           isNotOpenstackBuild && (
             <AccordionTab header="SSH access (for pre/post snapshot command execution)">
-              <div>
-                <h6>SSH host</h6>
-                <InputText
-                  value={model.sshHost}
-                  type="text"
-                  onChange={(e: any) => {
-                    setModel({
-                      ...model,
-                      sshHost: e.target.value,
-                    });
-                  }}
-                />
-              </div>
-              <div className={'mt-2'}>
-                <h6>SSH port</h6>
-                <InputText
-                  value={model.sshPort}
-                  type="text"
-                  onChange={(e: any) => {
-                    setModel({
-                      ...model,
-                      sshPort: e.target.value,
-                    });
-                  }}
-                />
-              </div>
-              <div className={'mt-2'}>
-                <h6>SSH user</h6>
-                <InputText
-                  value={model.sshUser}
-                  type="text"
-                  onChange={(e: any) => {
-                    setModel({
-                      ...model,
-                      sshUser: e.target.value,
-                    });
-                  }}
-                />
-              </div>
-              <div className={'mt-2'}>
-                <h6>SSH key path</h6>
-                <InputText
-                  value={model.sshKeyPath}
-                  type="text"
-                  onChange={(e: any) => {
-                    setModel({
-                      ...model,
-                      sshKeyPath: e.target.value,
-                    });
-                  }}
-                />
-              </div>
+              <SshAccess model={model} setModel={setModel} />
             </AccordionTab>
           )}
         <AccordionTab header="Os Credentials">
-          <OsCredentials
-            onChange={(credential) => setModel({ ...model, credential })}
-          />
+          <OsCredentials model={model} setModel={setModel} />
         </AccordionTab>
       </Accordion>
       <div className="d-flex justify-content-between mt-3">
