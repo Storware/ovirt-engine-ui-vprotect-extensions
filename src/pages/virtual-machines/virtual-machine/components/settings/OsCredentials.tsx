@@ -16,13 +16,8 @@ import {
 } from '../../../../../store/credentials/actions';
 import Select from '../../../../../components/input/Select';
 import { selectCredentials } from '../../../../../store/credentials/selectors';
-import { CredentialModel } from '../../../../../model';
 
-export const OsCredentials = ({
-  onChange,
-}: {
-  onChange?: (credential: CredentialModel) => void;
-}) => {
+export const OsCredentials = ({ model, setModel }) => {
   const [credential, setCredential] = useState();
   const dispatch = useDispatch();
   const data = useSelector(selectCredentials);
@@ -55,7 +50,7 @@ export const OsCredentials = ({
         dataKey="guid"
         onChange={({ value }) => {
           setCredential(value);
-          onChange(value);
+          setModel({ ...model, credential: value });
         }}
         placeholder=""
       />
