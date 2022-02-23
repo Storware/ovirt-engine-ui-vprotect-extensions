@@ -49,7 +49,7 @@ const Credential = ({ type }: Props) => {
       isInitialValid={false}
     >
       {(props) => (
-        <Form>
+        <Form className="form">
           <Panel header={`${type} Credential`}>
             <CredentialForm {...props} />
           </Panel>

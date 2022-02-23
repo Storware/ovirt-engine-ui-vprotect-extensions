@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'primereact/button';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -18,7 +18,6 @@ import Select from '../../../../../components/input/Select';
 import { selectCredentials } from '../../../../../store/credentials/selectors';
 
 export const OsCredentials = ({ model, setModel }) => {
-  const [credential, setCredential] = useState();
   const dispatch = useDispatch();
   const data = useSelector(selectCredentials);
 
@@ -43,13 +42,12 @@ export const OsCredentials = ({ model, setModel }) => {
         />
       </div>
       <Select
-        value={credential}
+        value={model.credential}
         options={[{ name: '' }, ...data]}
         label="Credentials"
         optionLabel="name"
         dataKey="guid"
         onChange={({ value }) => {
-          setCredential(value);
           setModel({ ...model, credential: value });
         }}
         placeholder=""
@@ -79,8 +77,8 @@ const Credential = () => {
       isInitialValid={false}
     >
       {(props) => (
-        <Form>
-          <CredentialForm {...props} />
+        <Form className="form">
+          <CredentialForm {...props} hideSecretKey={true} />
           <div className="d-flex justify-content-between mt-3">
             <Button
               type="button"
@@ -101,4 +99,3 @@ const Credential = () => {
     </Formik>
   );
 };
-export default Credential;

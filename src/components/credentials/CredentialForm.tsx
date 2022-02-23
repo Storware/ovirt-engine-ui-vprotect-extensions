@@ -13,25 +13,30 @@ export const initialValues = {
   filename: '',
 };
 
-const CredentialForm = ({ values, setFieldValue }) => {
+const CredentialForm = ({ values, setFieldValue, hideSecretKey = false }) => {
   return (
     <>
       <Field name="name" label="Name *" component={Text} required />
-      <Field
-        name="secretKey"
-        label="Secret key"
-        type={values.showSecretKey ? 'text' : 'password'}
-        component={Text}
-      />
-      <div className="pt-3">
-        <InputSwitch
-          checked={values.showSecretKey}
-          onChange={({ value }) => setFieldValue('showSecretKey', value)}
-        />
-        <label className="pl-2 p-checkbox-label">Show Secret key</label>
-      </div>
 
-      <h6>REMOTE ACCESS</h6>
+      {!hideSecretKey && (
+        <>
+          <Field
+            name="secretKey"
+            label="Secret key"
+            type={values.showSecretKey ? 'text' : 'password'}
+            component={Text}
+          />
+          <div className="pt-3">
+            <InputSwitch
+              checked={values.showSecretKey}
+              onChange={({ value }) => setFieldValue('showSecretKey', value)}
+            />
+            <label className="pl-2 p-checkbox-label">Show Secret key</label>
+          </div>
+        </>
+      )}
+
+      <h6 className="mt-4">REMOTE ACCESS</h6>
       <Field name="user" label="SSH user *" component={Text} required />
 
       <Field
@@ -56,7 +61,9 @@ const CredentialForm = ({ values, setFieldValue }) => {
             setFieldValue('showAdditionalSettings', value)
           }
         />
-        <label className="pl-2 p-checkbox-label">Show Secret key</label>
+        <label className="pl-2 p-checkbox-label">
+          Show additional options for remote SSH
+        </label>
       </div>
 
       <div hidden={!values.showAdditionalSettings}>
