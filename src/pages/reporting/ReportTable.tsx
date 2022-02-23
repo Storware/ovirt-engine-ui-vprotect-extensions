@@ -69,7 +69,6 @@ export default () => {
             style={{ width: '15%' }}
             field="snapshotTime"
             header="Snapshot Time"
-            body={dateTemplate}
           />
         )}
         {type === 'restores' && (

@@ -4,18 +4,12 @@ import { ChargebackRequest } from 'model/chargeback/vm-chargeback-request';
 const nameParts = (name) => name.split('_');
 
 class DashboardService {
-  getChargebackReport( params = {}, data: ChargebackRequest) {
+  getChargebackReport(data: ChargebackRequest) {
     return vprotectApiService
-      .post(`/chargeback-reporting/backup-size/vm`, data, {
-        params: {
-          ...params
-        }
-      })
+      .post(`/chargeback-reporting/backup-size/vm`, data)
       .then((res) => {
         return res.map((el) => {
-          const nameWithoutUuid = nameParts(el.name)[0] === 'uuid' ?  nameParts(el.name).slice(2).join('') : el.name
-          return { ...el, name: nameWithoutUuid
-          };
+          return { ...el, name: nameParts(el.name).slice(2).join('') || el.name };
         });
       });
   }
