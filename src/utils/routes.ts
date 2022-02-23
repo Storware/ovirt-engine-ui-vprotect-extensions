@@ -5,6 +5,7 @@ import PoliciesAndSchedules from 'pages/policies-and-schedules/PoliciesAndSchedu
 import Reporting from 'pages/reporting/Reporting';
 import TaskConsole from 'pages/task-console/TaskConsole';
 import Settings from 'pages/settings/Settings';
+import Credentials from 'pages/os-credensial/Credentials';
 
 export default [
   { path: '/dashboard', component: Dashboard },
@@ -14,4 +15,5 @@ export default [
   { path: '/mounted_backups', component: MountedBackups },
   { path: '/reporting', component: Reporting },
   { path: '/settings', component: Settings },
+  { path: '/os-credentials', component: Credentials },
 ];

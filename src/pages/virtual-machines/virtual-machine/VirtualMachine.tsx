@@ -22,7 +22,7 @@ import SnapshotsTable from './SnapshotsTable';
 import SnapshotsHistoryTable from './SnapshotsHistoryTable';
 import DisksTable from './DisksTable';
 import SchedulesTable from './SchedulesTable';
-import Settings from './Settings';
+import Settings from './components/Settings';
 import { showModalAction } from '../../../store/modal/actions';
 import { createBrowserHistory } from 'history';
 import BarChartContainer from 'components/chart/BarChartContainer';
@@ -43,15 +43,15 @@ const VirtualMachine = () => {
   const hypervisor = useSelector(selectHypervisor);
 
   return (
-    <Panel header='Virtual Machine'>
-      <div className='d-flex justify-content-between mt-3'>
+    <Panel header="Virtual Machine">
+      <div className="d-flex justify-content-between mt-3">
         <div>
-          <Button label='Back' onClick={history.back} />
+          <Button label="Back" onClick={history.back} />
         </div>
         <div>
           <Button
-            className='mx-2'
-            label='Backup'
+            className="mx-2"
+            label="Backup"
             onClick={() => {
               dispatch(
                 showModalAction({
@@ -66,8 +66,8 @@ const VirtualMachine = () => {
           />
           {virtualMachine.lastSuccessfulBackupSize > 0 && (
             <Button
-              className='mx-2'
-              label='Restore'
+              className="mx-2"
+              label="Restore"
               onClick={() => {
                 dispatch(
                   showModalAction({
@@ -81,13 +81,13 @@ const VirtualMachine = () => {
               }}
             />
           )}
-          <Button className='ml-2' label='Refresh' onClick={this.getData} />
+          <Button className="ml-2" label="Refresh" onClick={this.getData} />
         </div>
       </div>
       <Card
         title={virtualMachine.name}
         subTitle={virtualMachine.uuid}
-        className='mt-4'
+        className="mt-4"
       >
         <div className={'row'}>
           <div className={'col'}>
@@ -156,7 +156,7 @@ const VirtualMachine = () => {
         </div>
       </Card>
 
-      <Card className='mt-4' title='Backup/Restore Statistics'>
+      <Card className="mt-4" title="Backup/Restore Statistics">
         <BarChartContainer
           datasets={{
             backupsHistory,
@@ -165,30 +165,30 @@ const VirtualMachine = () => {
         />
       </Card>
 
-      <Card className='mt-4' title='Backup/Restore Statistics'>
+      <Card className="mt-4" title="Backup/Restore Statistics">
         <TabView>
-          <TabPanel header='Backup'>
+          <TabPanel header="Backup">
             <BackupsTable />
           </TabPanel>
-          <TabPanel header='Backup History'>
+          <TabPanel header="Backup History">
             <BackupsHistoryTable />
           </TabPanel>
-          <TabPanel header='Restore History'>
+          <TabPanel header="Restore History">
             <RestoresHistoryTable />
           </TabPanel>
-          <TabPanel header='Snapshots'>
+          <TabPanel header="Snapshots">
             <SnapshotsTable />
           </TabPanel>
-          <TabPanel header='Snapshots History'>
+          <TabPanel header="Snapshots History">
             <SnapshotsHistoryTable />
           </TabPanel>
-          <TabPanel header='Disks'>
+          <TabPanel header="Disks">
             <DisksTable />
           </TabPanel>
-          <TabPanel header='Schedules'>
+          <TabPanel header="Schedules">
             <SchedulesTable />
           </TabPanel>
-          <TabPanel header='Settings'>
+          <TabPanel header="Settings">
             <Settings />
           </TabPanel>
         </TabView>
