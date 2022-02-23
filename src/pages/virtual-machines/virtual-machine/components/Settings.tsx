@@ -9,17 +9,18 @@ import { Accordion, AccordionTab } from 'primereact/accordion';
 import { Dropdown } from 'primereact/dropdown';
 import { policiesService } from '../../../../services/policies-service';
 import { alertService } from '../../../../services/alert-service';
-import {
-  virtualMachinesService,
-  preAndPostSnapStdErrorHandlingOptions,
-} from '../../../../services/virtual-machines-service';
+import { virtualMachinesService } from '../../../../services/virtual-machines-service';
 import { ToggleButton } from 'primereact/togglebutton';
 import { InputText } from 'primereact/inputtext';
-import { Chips } from 'primereact/chips';
 import { Button } from 'primereact/button';
 import { createBrowserHistory } from 'history';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
-import { OsCredentials, SshAccess } from './settings';
+import {
+  OsCredentials,
+  PostSnapCommandExecution,
+  PreSnapCommandExecution,
+  SshAccess,
+} from './settings';
 
 const isBaseImageConfigAvailable = (model) => {
   return model.hvmType != null && model.hvmType.name === 'AWS';
@@ -61,6 +62,10 @@ const Settings = () => {
     );
     alertService.info('Password updated');
   };
+
+  const arePreProSnapTabAvailable = (vmModel) =>
+    virtualMachinesService.arePrePostSnapActionsAvailable(vmModel) &&
+    isNotOpenstackBuild;
 
   return (
     <div className="form">
@@ -180,154 +185,21 @@ const Settings = () => {
             </div>
           )}
         </AccordionTab>
-        {virtualMachinesService.arePrePostSnapActionsAvailable(model) &&
-          isNotOpenstackBuild && (
-            <AccordionTab header="Pre snapshot command execution">
-              <div>
-                <h6>Execute command before creating a VM snapshot</h6>
-                <ToggleButton
-                  checked={model.preSnapCmdExecEnabled}
-                  onChange={(e) => {
-                    setModel({
-                      ...model,
-                      preSnapCmdExecEnabled: e.value,
-                      preSnapCmdArgs: [],
-                    });
-                  }}
-                />
-              </div>
-              {model.preSnapCmdExecEnabled && (
-                <div>
-                  <div>
-                    <h6>Pre snapshot standard error output stream handling</h6>
-                    <Dropdown
-                      value={model.preSnapStdErrorHandling}
-                      optionLabel="name"
-                      dataKey="name"
-                      options={preAndPostSnapStdErrorHandlingOptions}
-                      onChange={(e) => {
-                        setModel({
-                          ...model,
-                          preSnapStdErrorHandling: e.value,
-                        });
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <h6>Pre snapshot ignored exit codes</h6>
-                    <InputText
-                      value={model.preSnapIgnoredExitCodes}
-                      type="number"
-                      onChange={(e: any) => {
-                        setModel({
-                          ...model,
-                          preSnapIgnoredExitCodes: e.target.value,
-                        });
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <h6>
-                      Pre-snapshot command arguments (all space-separated
-                      arguments should be provided as separate arguments, first
-                      argument is the executable)
-                    </h6>
-                    <Chips
-                      value={model.preSnapCmdArgs}
-                      separator=","
-                      className="w-100"
-                      onChange={(e) => {
-                        setModel({
-                          ...model,
-                          preSnapCmdArgs: e.value,
-                        });
-                      }}
-                    />
-                    <div>
-                      <small>Comma separated</small>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </AccordionTab>
-          )}
-        {virtualMachinesService.arePrePostSnapActionsAvailable(model) &&
-          isNotOpenstackBuild && (
-            <AccordionTab header="Post snapshot command execution">
-              <div>
-                <h6>Execute command after creating a VM snapshot</h6>
-                <ToggleButton
-                  checked={model.postSnapCmdExecEnabled}
-                  onChange={(e) => {
-                    setModel({
-                      ...model,
-                      postSnapCmdExecEnabled: e.value,
-                      postSnapCmdArgs: [],
-                    });
-                  }}
-                />
-              </div>
-              {model.postSnapCmdExecEnabled && (
-                <div>
-                  <div>
-                    <h6>Post snapshot standard error output stream handling</h6>
-                    <Dropdown
-                      value={model.postSnapStdErrorHandling}
-                      optionLabel="name"
-                      dataKey="name"
-                      options={preAndPostSnapStdErrorHandlingOptions}
-                      onChange={(e) => {
-                        setModel({
-                          ...model,
-                          postSnapStdErrorHandling: e.value,
-                        });
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <h6>Post snapshot ignored exit codes</h6>
-                    <InputText
-                      value={model.postSnapIgnoredExitCodes}
-                      type="number"
-                      onChange={(e: any) => {
-                        setModel({
-                          ...model,
-                          postSnapIgnoredExitCodes: e.target.value,
-                        });
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <h6>
-                      Post-snapshot command arguments (all space-separated
-                      arguments should be provided as separate arguments, first
-                      argument is the executable)
-                    </h6>
-                    <Chips
-                      value={model.postSnapCmdArgs}
-                      separator=","
-                      className="w-100"
-                      onChange={(e) => {
-                        setModel({
-                          ...model,
-                          postSnapCmdArgs: e.value,
-                        });
-                      }}
-                    />
-                    <div>
-                      <small>Comma separated</small>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </AccordionTab>
-          )}
-        {virtualMachinesService.arePrePostSnapActionsAvailable(model) &&
-          isNotOpenstackBuild && (
-            <AccordionTab header="SSH access (for pre/post snapshot command execution)">
-              <SshAccess model={model} setModel={setModel} />
-            </AccordionTab>
-          )}
+        {arePreProSnapTabAvailable(model) && (
+          <AccordionTab header="Pre snapshot command execution">
+            <PreSnapCommandExecution model={model} setModel={setModel} />
+          </AccordionTab>
+        )}
+        {arePreProSnapTabAvailable(model) && (
+          <AccordionTab header="Post snapshot command execution">
+            <PostSnapCommandExecution model={model} setModel={setModel} />
+          </AccordionTab>
+        )}
+        {arePreProSnapTabAvailable(model) && (
+          <AccordionTab header="SSH access (for pre/post snapshot command execution)">
+            <SshAccess model={model} setModel={setModel} />
+          </AccordionTab>
+        )}
         <AccordionTab header="Os Credentials">
           <OsCredentials model={model} setModel={setModel} />
         </AccordionTab>
@@ -352,50 +224,49 @@ const Settings = () => {
           })
         }
       >
-        {virtualMachinesService.arePrePostSnapActionsAvailable(model) &&
-          isNotOpenstackBuild && (
-            <AccordionTab header="Configure SSH password (for pre/post snapshot command execution)">
+        {arePreProSnapTabAvailable(model) && (
+          <AccordionTab header="Configure SSH password (for pre/post snapshot command execution)">
+            <div>
+              <h6>SSH password</h6>
+              <InputText
+                value={sshPassword.first}
+                type="password"
+                onChange={(e: any) => {
+                  setSshPassword({
+                    ...sshPassword,
+                    first: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div className={'mt-2'}>
+              <h6>Retype SSH password</h6>
+              <InputText
+                value={sshPassword.second}
+                type="password"
+                onChange={(e: any) => {
+                  setSshPassword({
+                    ...sshPassword,
+                    second: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div className="d-flex justify-content-end mt-3">
               <div>
-                <h6>SSH password</h6>
-                <InputText
-                  value={sshPassword.first}
-                  type="password"
-                  onChange={(e: any) => {
-                    setSshPassword({
-                      ...sshPassword,
-                      first: e.target.value,
-                    });
-                  }}
+                <Button
+                  label="Save"
+                  className="p-button-success"
+                  disabled={
+                    !sshPassword.first ||
+                    sshPassword.first !== sshPassword.second
+                  }
+                  onClick={savePassword}
                 />
               </div>
-              <div className={'mt-2'}>
-                <h6>Retype SSH password</h6>
-                <InputText
-                  value={sshPassword.second}
-                  type="password"
-                  onChange={(e: any) => {
-                    setSshPassword({
-                      ...sshPassword,
-                      second: e.target.value,
-                    });
-                  }}
-                />
-              </div>
-              <div className="d-flex justify-content-end mt-3">
-                <div>
-                  <Button
-                    label="Save"
-                    className="p-button-success"
-                    disabled={
-                      !sshPassword.first ||
-                      sshPassword.first !== sshPassword.second
-                    }
-                    onClick={savePassword}
-                  />
-                </div>
-              </div>
-            </AccordionTab>
-          )}
+            </div>
+          </AccordionTab>
+        )}
       </Accordion>
     </div>
   );
