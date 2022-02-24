@@ -87,7 +87,8 @@ export default () => {
           <Column field="backupType.description" header="" className="text-center" />
           <Column field="type.description" header="Type" />
           <Column field="hypervisorManager.name" header="Hypervisor" />
-          <Column field="protectedEntity.name" header="Virtual Machine" />
+          <Column field="protectedEntity.name" header="Virtual Machine"
+                  body={(res) => res.protectedEntity ? res.protectedEntity.name : res.protectedEntityDisplayName} />
           <Column field="node.name" header="Node" />
           <Column field="backupDestination.name" header="Backup destination" />
           <Column field="priority" header="Priority" />
