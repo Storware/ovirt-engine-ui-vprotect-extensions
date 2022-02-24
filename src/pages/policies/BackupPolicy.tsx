@@ -1,26 +1,26 @@
-import React, {useEffect, useState} from 'react';
-import {useRouteMatch} from 'react-router-dom';
-import {Button} from 'primereact/button';
-import {Accordion, AccordionTab} from 'primereact/accordion';
-import {policiesService} from '../../services/policies-service';
-import {hypervisorsService} from '../../services/hypervisors-service';
-import {virtualMachinesService} from '../../services/virtual-machines-service';
-import {mailingService} from '../../services/mailing-list.service';
-import {alertService} from '../../services/alert-service';
-import {VirtualMachineBackupPolicy} from '../../model/VirtualMachineBackupPolicy';
-import {createBrowserHistory} from 'history';
-import {BackButton} from '../../utils/backButton';
-import {Field, Form, Formik} from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useRouteMatch } from 'react-router-dom';
+import { Button } from 'primereact/button';
+import { Accordion, AccordionTab } from 'primereact/accordion';
+import { policiesService } from '../../services/policies-service';
+import { hypervisorsService } from '../../services/hypervisors-service';
+import { virtualMachinesService } from '../../services/virtual-machines-service';
+import { mailingService } from '../../services/mailing-list.service';
+import { alertService } from '../../services/alert-service';
+import { VirtualMachineBackupPolicy } from '../../model/VirtualMachineBackupPolicy';
+import { createBrowserHistory } from 'history';
+import { BackButton } from '../../utils/backButton';
+import { Field, Form, Formik } from 'formik';
 import Toggle from 'components/input/reactive/Toggle';
 import Text from 'components/input/reactive/Text';
 import InputSlider from 'components/input/reactive/InputSlider';
 import Select from 'components/input/reactive/Select';
 import InputChips from 'components/input/reactive/InputChips';
 import InputListBox from 'components/input/reactive/InputListBox';
-import {RulesContainer} from './rules/RulesContainer';
-import {Rule} from '../../model/backup-destination/rule';
-import {backupDestinationsService} from '../../services/backup-destinations-service';
-import {BackupDestinationRule} from '../../model/backup-destination/backup-destination-rule';
+import { RulesContainer } from './rules/RulesContainer';
+import { Rule } from '../../model/backup-destination/rule';
+import { backupDestinationsService } from '../../services/backup-destinations-service';
+import { BackupDestinationRule } from '../../model/backup-destination/backup-destination-rule';
 
 export const BackupPolicy = () => {
   const history = createBrowserHistory();
@@ -30,23 +30,32 @@ export const BackupPolicy = () => {
   const [hypervisorClusters, setHypervisorClusters] = useState([]);
   const [availableMailingLists, setAvailableMailingLists] = useState([]);
   const [backupDestinations, setBackupDestinations] = useState([]);
-  const [filteredBackupDestinations, setFilteredBackupDestinations] = useState([]);
+  const [filteredBackupDestinations, setFilteredBackupDestinations] = useState(
+    [],
+  );
 
   useEffect(() => {
     if (match.params.guid !== 'create') {
-      policiesService.getPolicy('vm-backup', match.params.guid)
+      policiesService
+        .getPolicy('vm-backup', match.params.guid)
         .then((result) => {
           setModel({
-            ...result, rules: result.rules.map(rule => {
+            ...result,
+            rules: result.rules.map((rule) => {
               return {
-                ...rule, ruleBackupDestinations: {
-                  primaryBackupDestination: rule.ruleBackupDestinations.find(el => el.roleType.name === 'PRIMARY')
-                    || new BackupDestinationRule('PRIMARY'),
-                  secondaryBackupDestination: rule.ruleBackupDestinations.find(el => el.roleType.name === 'SECONDARY')
-                    || new BackupDestinationRule('SECONDARY'),
-                }
-              }
-            })
+                ...rule,
+                ruleBackupDestinations: {
+                  primaryBackupDestination:
+                    rule.ruleBackupDestinations.find(
+                      (el) => el.roleType.name === 'PRIMARY',
+                    ) || new BackupDestinationRule('PRIMARY'),
+                  secondaryBackupDestination:
+                    rule.ruleBackupDestinations.find(
+                      (el) => el.roleType.name === 'SECONDARY',
+                    ) || new BackupDestinationRule('SECONDARY'),
+                },
+              };
+            }),
           });
         });
     }
@@ -65,7 +74,7 @@ export const BackupPolicy = () => {
     });
 
     mailingService.getMailingLists().then((result) => {
-      setAvailableMailingLists(result)
+      setAvailableMailingLists(result);
     });
   }, []);
 
@@ -74,38 +83,43 @@ export const BackupPolicy = () => {
       ...model,
       rules: [
         ...model.rules,
-        {...new Rule(`Rule ${model.rules.length}`), position: model.rules.length},
+        {
+          ...new Rule(`Rule ${model.rules.length}`),
+          position: model.rules.length,
+        },
       ],
     });
-  }
+  };
 
   const deleteRule = (index) => {
     model.rules.splice(index, 1);
-    model.rules = [...model.rules.map((rule, i) => ({...rule, position: i}))];
-    setModel(model)
+    model.rules = [...model.rules.map((rule, i) => ({ ...rule, position: i }))];
+    setModel(model);
     handleChangeBackupDestination();
-  }
+  };
 
   const handle = (name) => {
     return (e) => {
       setModel({
         ...model,
         [name]:
-          e.target && e.target.nodeName === 'INPUT'
-            ? e.target.value
-            : e.value,
+          e.target?.nodeName === 'INPUT' ? e.target.value : e.value,
       });
     };
   };
 
   const saveBackupPolicy = async () => {
     const mappedModel = {
-      ...model, rules: model.rules.map(rule => {
+      ...model,
+      rules: model.rules.map((rule) => {
         return {
-          ...rule, ruleBackupDestinations: [rule.ruleBackupDestinations.primaryBackupDestination,
-            rule.ruleBackupDestinations.secondaryBackupDestination]
-        }
-      })
+          ...rule,
+          ruleBackupDestinations: [
+            rule.ruleBackupDestinations.primaryBackupDestination,
+            rule.ruleBackupDestinations.secondaryBackupDestination,
+          ],
+        };
+      }),
     };
 
     if (model.guid) {
@@ -123,25 +137,31 @@ export const BackupPolicy = () => {
       return;
     }
 
-    const _ruleBackupDestinations = model.rules.map(({ruleBackupDestinations}) =>
-      [ruleBackupDestinations.primaryBackupDestination.backupDestination?.guid,
-        ruleBackupDestinations.secondaryBackupDestination.backupDestination?.guid],
+    const _ruleBackupDestinations = model.rules.map(
+      ({ ruleBackupDestinations }) => [
+        ruleBackupDestinations.primaryBackupDestination.backupDestination?.guid,
+        ruleBackupDestinations.secondaryBackupDestination.backupDestination
+          ?.guid,
+      ],
     );
 
-    setFilteredBackupDestinations(backupDestinations.filter(
-      ({guid}) =>
-        !_ruleBackupDestinations.some(([primaryGuid, secondaryGuid]) => guid === primaryGuid || guid === secondaryGuid)
-    ));
-
-    return;
-  }
+    setFilteredBackupDestinations(
+      backupDestinations.filter(
+        ({ guid }) =>
+          !_ruleBackupDestinations.some(
+            ([primaryGuid, secondaryGuid]) =>
+              guid === primaryGuid || guid === secondaryGuid,
+          ),
+      ),
+    );
+  };
 
   useEffect(() => {
     handleChangeBackupDestination();
   }, [model.rules]);
 
   return (
-    <div className={'form'}>
+    <div className="form">
       <Formik
         enableReinitialize
         initialValues={model}
@@ -149,68 +169,68 @@ export const BackupPolicy = () => {
       >
         {() => (
           <Form>
-            <Accordion
-              multiple
-              activeIndex={[0]}
-            >
-              <AccordionTab header='General'>
-                <Field name='name' component={Text} label='Name' onChange={handle('name')}/>
+            <Accordion multiple activeIndex={[0]}>
+              <AccordionTab header="General">
                 <Field
-                  name='active'
+                  name="name"
+                  component={Text}
+                  label="Name"
+                  onChange={handle('name')}
+                />
+                <Field
+                  name="active"
                   component={Toggle}
-                  label='Scheduled backups enabled'
+                  label="Scheduled backups enabled"
                   onChange={handle('active')}
                 />
                 <Field
-                  name='mailingList'
+                  name="mailingList"
                   component={Toggle}
-                  label='Send daily backup/restore report for VMs assigned to this policy '
+                  label="Send daily backup/restore report for VMs assigned to this policy "
                   onChange={handle('mailingList')}
                 />
-                {model.mailingList &&
-                (
+                {model.mailingList && (
                   <Field
-                    name='mailingList'
+                    name="mailingList"
                     options={availableMailingLists}
                     component={Select}
-                    optionLabel='name'
-                    dataKey='name'
+                    optionLabel="name"
+                    dataKey="name"
                     required
-                    label='Select Mailing List'
+                    label="Select Mailing List"
                   />
-                )
-                }
+                )}
                 <Field
-                  name='backupRetryCount'
+                  name="backupRetryCount"
                   component={InputSlider}
-                  label='Retry Count'
+                  label="Retry Count"
                   onChange={handle('backupRetryCount')}
                 />
                 <Field
-                  name='priority'
+                  name="priority"
                   component={InputSlider}
-                  label='Priority'
+                  label="Priority"
                   onChange={handle('priority')}
                 />
               </AccordionTab>
 
-              <AccordionTab header='Auto-assigment'>
+              <AccordionTab header="Auto-assigment">
                 <Field
-                  name='autoAssignSettings.mode'
+                  name="autoAssignSettings.mode"
                   options={policiesService.assignModes}
                   component={Select}
-                  optionLabel='description'
-                  dataKey='name'
+                  optionLabel="description"
+                  dataKey="name"
                   required
-                  label='Auto-assign Mode'
-                  change={(e) => {
+                  label="Auto-assign Mode"
+                  change={({ value }) => {
                     setModel({
                       ...model,
                       autoAssignSettings: {
                         ...model.autoAssignSettings,
-                        mode: e.value,
-                      }
-                    })
+                        mode: value,
+                      },
+                    });
                   }}
                 />
 
@@ -218,17 +238,17 @@ export const BackupPolicy = () => {
                 <div className={'row'}>
                   <div className={'col'}>
                     <Field
-                      name='autoAssignSettings.includeTags'
+                      name="autoAssignSettings.includeTags"
                       component={InputChips}
-                      label='Include TAG based rules'
+                      label="Include TAG based rules"
                       value={model.autoAssignSettings.includeTags}
                     />
                   </div>
                   <div className={'col'}>
                     <Field
-                      name='autoAssignSettings.includeRegExps'
+                      name="autoAssignSettings.includeRegExps"
                       component={InputChips}
-                      label='Include Regex based rules'
+                      label="Include Regex based rules"
                       value={model.autoAssignSettings.includeRegExps}
                     />
                   </div>
@@ -238,77 +258,85 @@ export const BackupPolicy = () => {
                 <div className={'row'}>
                   <div className={'col'}>
                     <Field
-                      name='autoAssignSettings.excludeTags'
+                      name="autoAssignSettings.excludeTags"
                       component={InputChips}
-                      label='Exclude TAG based rules'
+                      label="Exclude TAG based rules"
                       value={model.autoAssignSettings.excludeTags}
                     />
                   </div>
                   <div className={'col'}>
                     <Field
-                      name='autoAssignSettings.excludeRegExps'
+                      name="autoAssignSettings.excludeRegExps"
                       component={InputChips}
-                      label='Exclude Regex based rules'
+                      label="Exclude Regex based rules"
                       value={model.autoAssignSettings.excludeRegExps}
                     />
                   </div>
                 </div>
 
                 <Field
-                  name='autoAssignSettings.hvClusters'
+                  name="autoAssignSettings.hvClusters"
                   options={hypervisorClusters}
                   component={InputListBox}
-                  optionLabel='name'
+                  optionLabel="name"
                   multiple
-                  dataKey='guid'
+                  dataKey="guid"
                   onChange={(e) => {
                     setModel({
                       ...model,
                       autoAssignSettings: {
                         ...model.autoAssignSettings,
-                        hvClusters: e.target && e.target.nodeName === 'INPUT'
-                          ? e.target.value
-                          : e.value,
-                      }
+                        hvClusters:
+                          e.target?.nodeName === 'INPUT'
+                            ? e.target.value
+                            : e.value,
+                      },
                     });
                   }}
-                  label='Auto-assign Virtual Environments only if they belong to the following clusters (optional)'
+                  label="Auto-assign Virtual Environments only if they belong to the following clusters (optional)"
                 />
               </AccordionTab>
 
-              <AccordionTab header='Virtual Environments'>
+              <AccordionTab header="Virtual Environments">
                 <Field
-                  name='vms'
+                  name="vms"
                   options={virtualMachines}
                   component={InputListBox}
-                  optionLabel='name'
+                  optionLabel="name"
                   multiple
-                  dataKey='guid'
-                  label='Choose Virtual Environments'
+                  dataKey="guid"
+                  label="Choose Virtual Environments"
                   onChange={handle('vms')}
                 />
               </AccordionTab>
 
               {model.rules.map((rule, i) => {
                 return (
-                  <AccordionTab key={rule.name} header={'Rule (' + rule.name + ')'}>
+                  <AccordionTab
+                    key={rule.name}
+                    header={'Rule (' + rule.name + ')'}
+                  >
                     <RulesContainer
                       rule={rule}
                       removeRule={() => deleteRule(i)}
                       filteredBackupDestinations={filteredBackupDestinations}
-                      updateFilteredBackupDestinations={handleChangeBackupDestination}/>
-                  </AccordionTab>)
+                      updateFilteredBackupDestinations={
+                        handleChangeBackupDestination
+                      }
+                    />
+                  </AccordionTab>
+                );
               })}
 
-              <AccordionTab header='Other'>
+              <AccordionTab header="Other">
                 <Field
-                  name='failRemainingBackupTasksExportThreshold'
+                  name="failRemainingBackupTasksExportThreshold"
                   component={Toggle}
-                  label='Fail rest of the backup tasks if more than X % of EXPORT tasks already failed'
-                  onChange={(e) => {
+                  label="Fail rest of the backup tasks if more than X % of EXPORT tasks already failed"
+                  onChange={({ value }) => {
                     setModel({
                       ...model,
-                      failRemainingBackupTasksExportThreshold: e.value
+                      failRemainingBackupTasksExportThreshold: value
                         ? 50
                         : null,
                     });
@@ -316,62 +344,60 @@ export const BackupPolicy = () => {
                 />
                 {!!model.failRemainingBackupTasksExportThreshold && (
                   <Field
-                    name='failRemainingBackupTasksExportThreshold'
+                    name="failRemainingBackupTasksExportThreshold"
                     component={InputSlider}
-                    label='Percent of already failed EXPORT tasks'
+                    label="Percent of already failed EXPORT tasks"
                     onChange={handle('failRemainingBackupTasksExportThreshold')}
                   />
                 )}
 
                 <Field
-                  name='failRemainingBackupTasksStoreThreshold'
+                  name="failRemainingBackupTasksStoreThreshold"
                   component={Toggle}
-                  label='Fail rest of the backup tasks if more than X % of STORE tasks already failed'
-                  onChange={(e) => {
+                  label="Fail rest of the backup tasks if more than X % of STORE tasks already failed"
+                  onChange={({ value }) => {
                     setModel({
                       ...model,
-                      failRemainingBackupTasksStoreThreshold: e.value
-                        ? 50
-                        : null,
+                      failRemainingBackupTasksStoreThreshold: value ? 50 : null,
                     });
                   }}
                 />
                 {!!model.failRemainingBackupTasksStoreThreshold && (
                   <Field
-                    name='failRemainingBackupTasksStoreThreshold'
+                    name="failRemainingBackupTasksStoreThreshold"
                     component={InputSlider}
-                    label='Percent of already failed STORE tasks'
+                    label="Percent of already failed STORE tasks"
                     onChange={handle('failRemainingBackupTasksStoreThreshold')}
                   />
                 )}
               </AccordionTab>
             </Accordion>
 
-            <div className='mt-3'>
+            <div className="mt-3">
               <Button
-                type='button'
+                type="button"
                 disabled={filteredBackupDestinations.length === 0}
-                label='Add another rule'
-                onClick={addAnotherRule}/>
+                label="Add another rule"
+                onClick={addAnotherRule}
+              />
             </div>
 
-            <div className='d-flex justify-content-between mt-3'>
+            <div className="d-flex justify-content-between mt-3">
               <div>
-                <BackButton/>
+                <BackButton />
               </div>
               <div>
                 <Button
-                  type='submit'
-                  label='Save'
-                  className='p-button-success'
+                  type="submit"
+                  label="Save"
+                  className="p-button-success"
                   disabled={!model.name}
                 />
               </div>
             </div>
           </Form>
         )}
-
       </Formik>
     </div>
   );
-}
+};
