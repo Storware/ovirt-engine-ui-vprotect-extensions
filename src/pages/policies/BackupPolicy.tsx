@@ -49,10 +49,13 @@ export const BackupPolicy = () => {
                     rule.ruleBackupDestinations.find(
                       (el) => el.roleType.name === 'PRIMARY',
                     ) || new BackupDestinationRule('PRIMARY'),
-                  secondaryBackupDestination:
-                    rule.ruleBackupDestinations.find(
-                      (el) => el.roleType.name === 'SECONDARY',
-                    ) || new BackupDestinationRule('SECONDARY'),
+                  ...(rule.ruleBackupDestinations.find(
+                    ({ roleType: { name } }) => name === 'SECONDARY',
+                  ) && {
+                    secondaryBackupDestination: rule.ruleBackupDestinations.find(
+                      ({ roleType: { name } }) => name === 'SECONDARY',
+                    ),
+                  }),
                 },
               };
             }),
@@ -102,8 +105,7 @@ export const BackupPolicy = () => {
     return (e) => {
       setModel({
         ...model,
-        [name]:
-          e.target?.nodeName === 'INPUT' ? e.target.value : e.value,
+        [name]: e.target?.nodeName === 'INPUT' ? e.target.value : e.value,
       });
     };
   };
@@ -116,7 +118,9 @@ export const BackupPolicy = () => {
           ...rule,
           ruleBackupDestinations: [
             rule.ruleBackupDestinations.primaryBackupDestination,
-            rule.ruleBackupDestinations.secondaryBackupDestination,
+            ...(rule.ruleBackupDestinations.secondaryBackupDestination
+              ? [rule.ruleBackupDestinations.secondaryBackupDestination]
+              : []),
           ],
         };
       }),
@@ -140,8 +144,13 @@ export const BackupPolicy = () => {
     const _ruleBackupDestinations = model.rules.map(
       ({ ruleBackupDestinations }) => [
         ruleBackupDestinations.primaryBackupDestination.backupDestination?.guid,
-        ruleBackupDestinations.secondaryBackupDestination.backupDestination
-          ?.guid,
+        ...(!!ruleBackupDestinations.secondaryBackupDestination
+          ?.backupDestination?.guid
+          ? [
+              ruleBackupDestinations.secondaryBackupDestination
+                .backupDestination?.guid,
+            ]
+          : []),
       ],
     );
 

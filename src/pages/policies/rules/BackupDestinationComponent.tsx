@@ -22,7 +22,7 @@ export const BackupDestinationComponent = ({
       <h6 className="mt-4">{title}</h6>
 
       <Select
-        label="Select Primary Backup Destination"
+        label="Select Backup Destination"
         optionLabel="name"
         dataKey="guid"
         required={true}

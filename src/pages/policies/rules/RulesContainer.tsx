@@ -8,6 +8,7 @@ import { BackupDestination } from '../../../model/backup-destination/backup-dest
 import { NameAndGuid } from '../../../model/dto/nameAndGuid';
 import { BackupDestinationRetentionFactory } from '../../../model/backup-destination/backup-destination-retention-factory';
 import { BackupDestinationComponent } from './BackupDestinationComponent';
+import { BackupDestinationRule } from '../../../model/backup-destination/backup-destination-rule';
 
 export const RulesContainer = ({
   rule,
@@ -19,7 +20,7 @@ export const RulesContainer = ({
   const [
     secondaryBackupDestinationToggle,
     setSecondaryBackupDestinationToggle,
-  ] = useState(false);
+  ] = useState(!!rule.ruleBackupDestinations.secondaryBackupDestination);
   const [
     primaryBackupDestinationOptions,
     setPrimaryBackupDestinationOptions,
@@ -54,31 +55,21 @@ export const RulesContainer = ({
   };
 
   const setBackupDestinationOptions = () => {
-    if (
-      rule.ruleBackupDestinations.primaryBackupDestination?.backupDestination
-        ?.guid
-    ) {
+    if (!!rule.ruleBackupDestinations.primaryBackupDestination) {
       setPrimaryBackupDestinationOptions([
         rule.ruleBackupDestinations.primaryBackupDestination.backupDestination,
         ...filteredBackupDestinations,
       ]);
-
-      setSecondaryBackupDestinationOptions([...filteredBackupDestinations]);
-    } else {
-      setPrimaryBackupDestinationOptions([...filteredBackupDestinations]);
-      setSecondaryBackupDestinationOptions([...filteredBackupDestinations]);
     }
-
-    if (
-      rule.ruleBackupDestinations.secondaryBackupDestination?.backupDestination
-        ?.guid
-    ) {
-      setSecondaryBackupDestinationOptions([
-        rule.ruleBackupDestinations.secondaryBackupDestination
-          .backupDestination,
-        ...filteredBackupDestinations,
-      ]);
-    }
+    setTimeout(() => {
+      if (!!rule.ruleBackupDestinations.secondaryBackupDestination) {
+        setSecondaryBackupDestinationOptions([
+          rule.ruleBackupDestinations.secondaryBackupDestination
+            .backupDestination,
+          ...filteredBackupDestinations,
+        ]);
+      }
+    });
   };
 
   const setBackupRetentionSettings = () => {
@@ -110,12 +101,14 @@ export const RulesContainer = ({
         backupDestinationType
       ](),
     };
-    rule.ruleBackupDestinations.secondaryBackupDestination = {
-      ...rule.ruleBackupDestinations.secondaryBackupDestination,
-      backupRetentionSettings: new BackupDestinationRetentionFactory[
-        backupDestinationType
-      ](),
-    };
+    if (!!rule.ruleBackupDestinations.secondaryBackupDestination) {
+      rule.ruleBackupDestinations.secondaryBackupDestination = {
+        ...rule.ruleBackupDestinations.secondaryBackupDestination,
+        backupRetentionSettings: new BackupDestinationRetentionFactory[
+          backupDestinationType
+        ](),
+      };
+    }
   };
 
   const setType = (
@@ -205,11 +198,17 @@ export const RulesContainer = ({
         }}
       />
 
-      {/*TODO: fix toggle secondary backup*/}
       <div className="my-2">
         <ToggleButton
           checked={secondaryBackupDestinationToggle}
           onChange={({ value }) => {
+            delete rule.ruleBackupDestinations.secondaryBackupDestination;
+            if (value) {
+              rule.ruleBackupDestinations.secondaryBackupDestination = new BackupDestinationRule(
+                'SECONDARY',
+              );
+            }
+            setBackupDestinationOptions();
             setSecondaryBackupDestinationToggle(value);
           }}
         />
@@ -257,13 +256,14 @@ export const RulesContainer = ({
 
       <label>Choose schedules</label>
       <ListBox
-        value={rule.ruleBackupDestinations.schedules}
+        value={rule.schedules}
         options={schedules}
         optionLabel="name"
         multiple
         dataKey="guid"
         onChange={({ value }) => {
-          rule.ruleBackupDestinations.schedules = value;
+          rule.schedules = value;
+          updateBackupDestination();
         }}
       />
     </>
