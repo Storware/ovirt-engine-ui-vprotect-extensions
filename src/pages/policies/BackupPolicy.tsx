@@ -140,28 +140,39 @@ export const BackupPolicy = () => {
     if (!model.rules.length) {
       return;
     }
+    setTimeout(() => {
+      const _checked = model.rules.flatMap(
+        ({
+          ruleBackupDestinations: {
+            primaryBackupDestination: { backupDestination: pbd },
+            secondaryBackupDestination: { backupDestination: sbd } = {
+              backupDestination: null,
+            },
+          },
+        }) => [
+          ...(pbd?.guid ? [pbd?.guid] : []),
+          ...(sbd?.guid ? [sbd?.guid] : []),
+        ],
+      );
 
-    const _ruleBackupDestinations = model.rules.map(
-      ({ ruleBackupDestinations }) => [
-        ruleBackupDestinations.primaryBackupDestination.backupDestination?.guid,
-        ...(!!ruleBackupDestinations.secondaryBackupDestination
-          ?.backupDestination?.guid
-          ? [
-              ruleBackupDestinations.secondaryBackupDestination
-                .backupDestination?.guid,
-            ]
-          : []),
-      ],
-    );
+      const _filteredOptions = backupDestinations.filter(
+        ({ guid }) => !_checked.includes(guid),
+      );
 
-    setFilteredBackupDestinations(
-      backupDestinations.filter(
-        ({ guid }) =>
-          !_ruleBackupDestinations.some(
-            ([primaryGuid, secondaryGuid]) =>
-              guid === primaryGuid || guid === secondaryGuid,
-          ),
-      ),
+      setFilteredBackupDestinations(_filteredOptions);
+    });
+  };
+
+  const possibleAddRule = () => {
+    return model.rules.some(
+      ({
+        ruleBackupDestinations: {
+          primaryBackupDestination: { backupDestination: pbd },
+          secondaryBackupDestination: { backupDestination: sbd } = {
+            backupDestination: null,
+          },
+        },
+      }) => !!pbd === !!pbd?.guid && !!sbd === !!sbd?.guid,
     );
   };
 
@@ -385,7 +396,7 @@ export const BackupPolicy = () => {
             <div className="mt-3">
               <Button
                 type="button"
-                disabled={filteredBackupDestinations.length === 0}
+                disabled={!possibleAddRule()}
                 label="Add another rule"
                 onClick={addAnotherRule}
               />

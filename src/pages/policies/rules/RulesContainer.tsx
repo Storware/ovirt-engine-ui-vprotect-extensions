@@ -37,6 +37,7 @@ export const RulesContainer = ({
     schedulesService.getAllTypeSchedules('VM_BACKUP').then((result) => {
       setSchedules(result);
     });
+    updateFilteredBackupDestinations();
   }, []);
 
   useEffect(() => {
@@ -55,13 +56,15 @@ export const RulesContainer = ({
   };
 
   const setBackupDestinationOptions = () => {
-    if (!!rule.ruleBackupDestinations.primaryBackupDestination) {
-      setPrimaryBackupDestinationOptions([
-        rule.ruleBackupDestinations.primaryBackupDestination.backupDestination,
-        ...filteredBackupDestinations,
-      ]);
-    }
     setTimeout(() => {
+      if (!!rule.ruleBackupDestinations.primaryBackupDestination) {
+        setPrimaryBackupDestinationOptions([
+          rule.ruleBackupDestinations.primaryBackupDestination
+            .backupDestination,
+          ...filteredBackupDestinations,
+        ]);
+      }
+
       if (!!rule.ruleBackupDestinations.secondaryBackupDestination) {
         setSecondaryBackupDestinationOptions([
           rule.ruleBackupDestinations.secondaryBackupDestination
@@ -208,6 +211,7 @@ export const RulesContainer = ({
                 'SECONDARY',
               );
             }
+            updateFilteredBackupDestinations();
             setBackupDestinationOptions();
             setSecondaryBackupDestinationToggle(value);
           }}
