@@ -1,4 +1,4 @@
-export class NameAndDescription {
-  name: string;
+export class NameAndDescription<T> {
+  name: T;
   description: string;
 }

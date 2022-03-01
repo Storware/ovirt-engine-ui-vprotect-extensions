@@ -12,7 +12,7 @@ export const ExportAs = () => {
   const dispatch = useDispatch();
   const range = useSelector(selectRange);
   const [selectedExportType] = useState(null);
-  const exportTypes: NameAndDescription[] = [
+  const exportTypes: NameAndDescription<string>[] = [
     { description: 'Send report via e-mail', name: 'sendReportViaEmail' },
     { description: 'Export as PDF', name: 'exportAsPdf' },
     { description: 'Export as HTML', name: 'exportAsHtml' }

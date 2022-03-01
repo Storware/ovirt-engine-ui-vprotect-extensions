@@ -13,7 +13,7 @@ export class RestoreAndImportTask {
   taskFiles: any[] = [];
   baseImage = new BaseImage();
   dataCenter: DataCenter;
-  restoredDiskAllocationFormat: NameAndDescription = {
+  restoredDiskAllocationFormat: NameAndDescription<string> = {
     name: 'PREALLOCATED',
     description: 'Preallocated',
   };

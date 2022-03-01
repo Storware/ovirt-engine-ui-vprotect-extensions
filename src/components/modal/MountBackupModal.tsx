@@ -108,7 +108,7 @@ export const MountBackupModal = ({ guid, backups }) => {
 
   return (
     <div>
-      <div className="form">
+      <div className='form'>
         <label>Select backup to mount</label>
         <BackupDropdown
           options={mountableBackups}
@@ -132,11 +132,11 @@ export const MountBackupModal = ({ guid, backups }) => {
 
         <div className='mt-2'>
           <Select
-              label="Choose node"
-              optionLabel="name"
+              label='Choose node'
+              optionLabel='name'
               value={task.node}
               options={nodes}
-              dataKey="guid"
+              dataKey='guid'
               required
               onChange={(event) =>
                   dispatch(
@@ -165,8 +165,8 @@ export const MountBackupModal = ({ guid, backups }) => {
 
         {task.mode?.name === 'AUTO' && (
           <Text
-            label="Mount point for backup"
-            value={task.mountedFileSystems[0].mountPath}
+            label='Mount point for backup'
+            inputValue={task.mountedFileSystems[0].mountPath}
             onChange={(e) =>
               dispatch(
                 setTaskAction({
@@ -204,8 +204,8 @@ export const MountBackupModal = ({ guid, backups }) => {
                     checked={el.selected}
                   />
                   <Text
-                    label="Mount point"
-                    value={el.mountPath}
+                    label='Mount point'
+                    inputValue={el.mountPath}
                     onChange={(e) => {
                       el = {...el, mountPath: e.target.value}
                       dispatch(setTaskAction({ ...task }));
@@ -243,9 +243,9 @@ export const MountBackupModal = ({ guid, backups }) => {
                 }}
                 value={backupFiles}
               >
-                <Column selectionMode="multiple" style={{ width: '3em' }} />
-                <Column field="name" header="Name" body={nameTemplate} />
-                <Column field="size" header="Size" body={sizeTemplate} />
+                <Column selectionMode='multiple' style={{ width: '3em' }} />
+                <Column field='name' header='Name' body={nameTemplate} />
+                <Column field='size' header='Size' body={sizeTemplate} />
               </Table>
             </div>
             <div>
@@ -253,8 +253,8 @@ export const MountBackupModal = ({ guid, backups }) => {
                 <h4>Provide list of allowed iSCSI initiators (IQNs)</h4>
                 <Chips
                   value={task.allowedClients}
-                  separator=","
-                  className="w-100"
+                  separator=','
+                  className='w-100'
                   onChange={(e) => {
                     dispatch(
                       setTaskAction({
