@@ -9,7 +9,7 @@ import {
 } from 'store/policies/actions';
 import { selectPolicies } from 'store/policies/selectors';
 import { showModalAction } from 'store/modal/actions';
-import { BackupModal } from 'components/modal/BackupModal';
+import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { createBrowserHistory } from 'history';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';

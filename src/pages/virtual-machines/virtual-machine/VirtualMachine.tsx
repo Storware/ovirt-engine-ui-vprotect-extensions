@@ -5,7 +5,7 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { DateShow } from '../../../components/convert/Date';
 import { Filesize } from '../../../components/convert/Filesize';
-import { BackupModal } from '../../../components/modal/BackupModal';
+import { BackupModal } from '../../../components/modal/BackupModal/BackupModal';
 import { TabView, TabPanel } from 'primereact/tabview';
 import { useDispatch, useSelector } from 'react-redux';
 import {

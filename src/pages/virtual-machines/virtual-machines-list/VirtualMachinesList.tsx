@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BackupModal } from 'components/modal/BackupModal';
+import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVirtualMachinesPage } from 'store/virtual-machines/actions';
 import { selectVirtualMachines } from 'store/virtual-machines/selectors';
@@ -24,7 +24,7 @@ import { Menu } from 'primereact/menu';
 import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 import HeaderTable from '../../../components/table/HeaderTable';
 import { backupsService } from '../../../services/backups-service';
-import {resetTaskAction} from "../../../store/mount-backup-modal/actions";
+import { resetTaskAction } from '../../../store/mount-backup-modal/actions';
 
 const VirtualMachinesList = () => {
   const dispatch = useDispatch();
@@ -85,25 +85,27 @@ const VirtualMachinesList = () => {
     {
       label: 'Mount',
       command: async () => {
-          dispatch(resetTaskAction())
-          const mountableBackups = await backupsService.getMountableBackups(actionsElement.guid);
-          if (!mountableBackups.length) {
-            alertService.error(
-              'There are no mountable backups for this virtual environment',
-            );
-            return;
-          }
-
-          dispatch(
-              showModalAction({
-                  component: MountBackupModal,
-                  props: {
-                      guid: actionsElement.guid,
-                      backups: mountableBackups
-                  },
-                  title: 'Mount Backup',
-              }),
+        dispatch(resetTaskAction());
+        const mountableBackups = await backupsService.getMountableBackups(
+          actionsElement.guid,
+        );
+        if (!mountableBackups.length) {
+          alertService.error(
+            'There are no mountable backups for this virtual environment',
           );
+          return;
+        }
+
+        dispatch(
+          showModalAction({
+            component: MountBackupModal,
+            props: {
+              guid: actionsElement.guid,
+              backups: mountableBackups,
+            },
+            title: 'Mount Backup',
+          }),
+        );
       },
     },
     {
