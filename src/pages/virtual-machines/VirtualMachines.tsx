@@ -4,7 +4,7 @@ import VirtualMachine from './virtual-machine/VirtualMachine';
 import VirtualMachinesList from 'pages/virtual-machines/virtual-machines-list/VirtualMachinesList';
 
 const VirtualMachines = () => {
-  let match = useRouteMatch();
+  const match = useRouteMatch();
 
   return (
     <Switch>

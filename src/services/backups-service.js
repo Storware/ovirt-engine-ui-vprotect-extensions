@@ -1,4 +1,5 @@
 import { vprotectApiService } from './vprotect-api-service';
+import { getDateLabel } from './time';
 
 class BackupsService {
   getBackup(id) {
@@ -74,12 +75,15 @@ class BackupsService {
 
   async getBackupLocations(id) {
     const backupLocations = await vprotectApiService.get('/backup-locations', {
-      params: { 'protected-entity': id, 'backup-status': 'SUCCESS' },
+      params: { 'protected-entity': id, 'location-status': 'PRESENT' },
     });
     return backupLocations.map((backupLocation) => {
       return {
         ...backupLocation,
-        name: `${backupLocation.backup.name} (${backupLocation.backupDestination.name})`,
+        name: `${getDateLabel(
+          backupLocation.snapshotTime,
+          'YYYY-MM-DD HH:mm:ss',
+        )} (${backupLocation.backupDestination.name})`,
       };
     });
   }
