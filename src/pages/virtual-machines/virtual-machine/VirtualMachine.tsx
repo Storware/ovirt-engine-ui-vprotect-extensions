@@ -15,7 +15,7 @@ import {
   selectVirtualMachine,
 } from '../../../store/virtual-machine/selectors';
 import { getVirtualMachinePage } from '../../../store/virtual-machine/actions';
-import BackupsHistoryTable from './BackupsHistoryTable';
+import BackupsHistoryTable from './components/BackupsHistoryTable';
 import BackupsTable from './BackupsTable';
 import RestoresHistoryTable from './RestoresHistoryTable';
 import SnapshotsTable from './SnapshotsTable';
@@ -34,8 +34,10 @@ const VirtualMachine = () => {
   const history = createBrowserHistory();
 
   useEffect(() => {
-    dispatch(getVirtualMachinePage(guid));
+    loadPage();
   }, [dispatch]);
+
+  const loadPage = () => dispatch(getVirtualMachinePage(guid));
 
   const virtualMachine = useSelector(selectVirtualMachine);
   const backupsHistory = useSelector(selectBackupsHistory);
@@ -171,7 +173,7 @@ const VirtualMachine = () => {
             <BackupsTable />
           </TabPanel>
           <TabPanel header="Backup History">
-            <BackupsHistoryTable />
+            <BackupsHistoryTable onRefresh={() => loadPage()} />
           </TabPanel>
           <TabPanel header="Restore History">
             <RestoresHistoryTable />

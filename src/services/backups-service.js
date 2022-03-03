@@ -93,6 +93,12 @@ class BackupsService {
       `/hypervisor-managers/?backup-to-be-restored=${id}`,
     );
   }
+
+  markBackupWarningsAsKnowledged(id) {
+    return vprotectApiService.put(`/backups/${id}/warnings-acknowledged`, {
+      value: true,
+    });
+  }
 }
 
 export const backupsService = new BackupsService();
