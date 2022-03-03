@@ -8,7 +8,6 @@ export const Backup = ({
   task,
   setTask,
   backupTypes,
-  backupDestinations,
   setPriority,
   selectView,
 }) => {
@@ -25,22 +24,6 @@ export const Backup = ({
           setTask({
             ...task,
             backupType: event.value,
-          })
-        }
-        className="mb-3"
-      />
-
-      <Select
-        label="Backup destination"
-        required
-        optionLabel="name"
-        dataKey="guid"
-        value={task.backupDestination}
-        options={backupDestinations}
-        onChange={(event) =>
-          setTask({
-            ...task,
-            backupDestination: event.value,
           })
         }
       />

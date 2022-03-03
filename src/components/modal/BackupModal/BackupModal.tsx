@@ -5,10 +5,7 @@ import {
   getBackupDestinationsAndBackupTypes,
   submitTask,
 } from 'store/backup-modal/actions';
-import {
-  selectBackupDestinations,
-  selectBackupTypes,
-} from 'store/backup-modal/selectors';
+import { selectBackupTypes } from 'store/backup-modal/selectors';
 import { selectSaved } from 'store/modal/selectors';
 import { BackupTask } from 'model/tasks/backup-task';
 import { SelectRules } from './SelectRules';
@@ -16,7 +13,7 @@ import { Backup } from './Backup';
 import { hideFooterAction, showFooterAction } from 'store/modal/actions';
 
 const enum View {
-  'BackupDestination',
+  'Backup',
   'Rules',
 }
 
@@ -24,7 +21,7 @@ export const BackupModal = ({ virtualEnvironments, ...props }) => {
   const dispatch = useDispatch();
 
   const [task, setTask] = useState(new BackupTask());
-  const [view, setView] = useState<View>(View.BackupDestination);
+  const [view, setView] = useState<View>(View.Backup);
 
   useEffect(() => {
     setTask({
@@ -43,7 +40,6 @@ export const BackupModal = ({ virtualEnvironments, ...props }) => {
     );
   }, []);
 
-  const backupDestinations = useSelector(selectBackupDestinations);
   const backupTypes = useSelector(selectBackupTypes);
 
   const setPriority = (value) => {
@@ -87,14 +83,13 @@ export const BackupModal = ({ virtualEnvironments, ...props }) => {
             task={task}
             updateSelectedRule={updateSelectedRule}
             toggleAllRules={toggleAllRules}
-            onBack={() => setView(View.BackupDestination)}
+            onBack={() => setView(View.Backup)}
           />
         );
-      case View.BackupDestination:
+      case View.Backup:
         dispatch(showFooterAction());
         return (
           <Backup
-            backupDestinations={backupDestinations}
             backupTypes={backupTypes}
             setPriority={setPriority}
             setTask={setTask}
