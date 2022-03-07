@@ -23,6 +23,7 @@ import thunk from 'redux-thunk';
 import mailingTable from './mailingTable';
 import mailing from './mailing';
 import credentials from './credentials';
+import network from './network';
 
 export const rootReducer = combineReducers({
   user,
@@ -44,6 +45,7 @@ export const rootReducer = combineReducers({
   mailingTable,
   mailing,
   credentials,
+  network,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
