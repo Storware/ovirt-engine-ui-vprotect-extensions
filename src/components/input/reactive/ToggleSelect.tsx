@@ -1,31 +1,32 @@
 import React, { useState } from 'react';
-import { InputText } from 'primereact/inputtext';
 import { ToggleButton } from 'primereact/togglebutton';
+import Select from './Select';
 
-const ToggleText = ({ field, form: { setFieldValue }, ...props }) => {
+const ToggleSelect = ({ field, form, label, textLabel, ...props }) => {
   const [toggleValue, setValue] = useState(false);
 
   return (
     <div className="pt-3">
-      {!!props.label && <label>{props.label}</label>}
+      {!!label && <label>{label}</label>}
       <ToggleButton
         className="ml-2"
         checked={toggleValue}
         onChange={(e) => {
           setValue(e.value);
           if (!e.value) {
-            setFieldValue(field.name, null);
+            props.field?.setFieldValue(props.field.name, null);
+          }
+
+          if (props.toggle) {
+            props.toggle(e);
           }
         }}
       />
       {toggleValue && (
-        <div>
-          {!!props.textLabel && <label>{props.textLabel}</label>}
-          <InputText {...field} {...props} />
-        </div>
+        <Select field={field} form={form} label={textLabel} {...props} />
       )}
     </div>
   );
 };
 
-export default ToggleText;
+export default ToggleSelect;

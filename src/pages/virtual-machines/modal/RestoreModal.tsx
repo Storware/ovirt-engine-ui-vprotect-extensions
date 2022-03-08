@@ -1,10 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { vprotectService } from '../../../services/vprotect-service';
 import { Filesize } from '../../../components/convert/Filesize';
 import { Field, Form, Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getHypervisorClustersForHypervisorManager,
   getHypervisorManagersAvailableForBackupBackupLocation,
   getHypervisorStoragesForHypervisorManager,
   getBackupLocations,
@@ -24,6 +23,12 @@ import { selectSaved } from 'store/modal/selectors';
 import Toggle from 'components/input/reactive/Toggle';
 import ToggleText from 'components/input/reactive/ToggleText';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
+import ToggleSelect from '../../../components/input/reactive/ToggleSelect';
+import {
+  selectNetwork,
+  selectNetworkCopy,
+} from '../../../store/network/selectors';
+import { getNetwork, setNetworkAction } from '../../../store/network/actions';
 
 const storageDropdownTemplate = (option) => {
   return (
@@ -44,6 +49,7 @@ const storageDropdownTemplate = (option) => {
 export const RestoreModal = ({ virtualEnvironment }) => {
   const dispatch = useDispatch();
   const formRef = useRef();
+  const [clusterCopy, setClusterCopy] = useState(null);
 
   useEffect(() => {
     dispatch(getBackupLocations(virtualEnvironment));
@@ -55,6 +61,31 @@ export const RestoreModal = ({ virtualEnvironment }) => {
   const filteredStorages = useSelector(selectFilteredHypervisorStorages);
   const clusters = useSelector(selectHypervisorClusters);
   const task = useSelector(selectTask);
+  const networkList = useSelector(selectNetwork);
+  const networkListCopy = useSelector(selectNetworkCopy);
+
+  useEffect(() => {
+    if (!!task.hypervisorManager && networkList.length === 0) {
+      dispatch(
+        getNetwork({ hypervisorManagerGuid: task?.hypervisorManager.guid }),
+      );
+    }
+  }, [task]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(setNetworkAction([]));
+    };
+  }, []);
+
+  useEffect(() => {
+    if (
+      networkList.length > 0 &&
+      networkListCopy.length === networkList.length
+    ) {
+      filterNetworkByCluster(clusterCopy);
+    }
+  }, [networkListCopy]);
 
   const onBackupLocationChange = (e) => {
     dispatch(
@@ -65,13 +96,13 @@ export const RestoreModal = ({ virtualEnvironment }) => {
     );
   };
 
-  const onHypervisorChange = async (e) => {
-    await dispatch(getHypervisorStoragesForHypervisorManager(e.value.guid));
-    await dispatch(getHypervisorClustersForHypervisorManager(e.value.guid));
+  const onHypervisorChange = ({ value: { guid } }) => {
+    dispatch(getHypervisorStoragesForHypervisorManager(guid));
   };
 
   const onClusterChange = async (event) => {
     const cluster = clusters.find((el) => el.uuid === event.value);
+    setClusterCopy(cluster);
     dispatch(
       setFilteredHypervisorStoragesAction(
         !!cluster
@@ -84,6 +115,20 @@ export const RestoreModal = ({ virtualEnvironment }) => {
           : [],
       ),
     );
+
+    filterNetworkByCluster(cluster);
+  };
+
+  const filterNetworkByCluster = (clusterValue) => {
+    if (networkListCopy.length > 0) {
+      const filteredData = networkListCopy.filter(
+        (network) => network?.hvCluster?.guid === clusterValue.guid,
+      );
+      dispatch(setNetworkAction(filteredData));
+
+      // @ts-ignore
+      formRef?.current?.setFieldValue('restoredNetworks', filteredData[0]);
+    }
   };
 
   if (useSelector(selectSaved)) {
@@ -97,8 +142,16 @@ export const RestoreModal = ({ virtualEnvironment }) => {
         // @ts-ignore
         innerRef={formRef}
         initialValues={task}
-        onSubmit={(values, { setSubmitting }) => {
-          dispatch(submitTask(values));
+        onSubmit={({ restoredNetworks, ...values }, { setSubmitting }) => {
+          dispatch(
+            submitTask({
+              ...values,
+              restoredNetworks:
+                restoredNetworks.length === 0
+                  ? [networkList[0]]
+                  : [restoredNetworks],
+            }),
+          );
           setSubmitting(false);
         }}
       >
@@ -150,6 +203,15 @@ export const RestoreModal = ({ virtualEnvironment }) => {
                 name="restoreToOriginalVolumeType"
                 component={Toggle}
                 label="Restore volumes to original volume types"
+              />
+            )}
+            {clusterCopy && (
+              <Field
+                name="restoredNetworks"
+                component={ToggleSelect}
+                label="Select network interface card"
+                optionLabel="name"
+                options={networkList}
               />
             )}
 

@@ -9,9 +9,9 @@ const getValue = (value, valueProperty?) => {
 const Select = ({ field, form: { setFieldValue }, ...props }) => {
   const [value, setValue] = useState(field.value);
 
-  const setFieldValueAndEmitChangeEvent = (value) => {
-    setValue(value);
-    const propertyValue = getValue(value, props.valueProperty);
+  const setFieldValueAndEmitChangeEvent = (v) => {
+    setValue(v);
+    const propertyValue = getValue(v, props.valueProperty);
     setFieldValue(field.name, propertyValue);
     if (props.change) {
       props.change({
