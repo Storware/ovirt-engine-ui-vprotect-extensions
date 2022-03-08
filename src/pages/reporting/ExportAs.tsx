@@ -7,10 +7,12 @@ import {NameAndDescription} from '../../model/dto/nameAndDescription';
 import { fileSaverService } from '../../services/file-saver-service';
 import dashboardService from 'services/dashboard-service';
 import {selectRange} from '../../store/reporting/selectors';
+import getCookie from '../../utils/getCookie';
 
 export const ExportAs = () => {
   const dispatch = useDispatch();
   const range = useSelector(selectRange);
+  const projectUuid = getCookie('recent_project');
   const [selectedExportType] = useState(null);
   const exportTypes: NameAndDescription<string>[] = [
     { description: 'Send report via e-mail', name: 'sendReportViaEmail' },
@@ -29,11 +31,21 @@ export const ExportAs = () => {
   }
 
   const getReportPdf = async () => {
-    fileSaverService.saveFile(await dashboardService.getDashboardInfoPdf(range));
+    fileSaverService.saveFile(
+      await dashboardService.getDashboardInfoPdf({
+        ...range,
+        'project-uuid': projectUuid,
+      }),
+    );
   };
 
   const getReportHtml = async () => {
-    fileSaverService.saveFile(await dashboardService.getDashboardInfoHtml(range));
+    fileSaverService.saveFile(
+      await dashboardService.getDashboardInfoHtml({
+        ...range,
+        'project-uuid': projectUuid,
+      }),
+    );
   };
 
   const downloadReport = {
