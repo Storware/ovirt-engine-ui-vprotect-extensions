@@ -39,15 +39,6 @@ export const MountedBackupsList = () => {
     ]) ||
       []),
     {
-      label: 'Mount',
-      command: async () => {
-        const task = new MountTask();
-        task.mountedBackup = { guid: actionsElement.guid, name: '' };
-        await tasksService.submitTaskMount(task);
-        alertService.info('Mount task has been submitted');
-      },
-    },
-    {
       label: 'Unmount',
       command: async () => {
         let task = new UnmountTask();
@@ -97,7 +88,7 @@ export const MountedBackupsList = () => {
           <Column field="mode.description" header="Mode" />
           <Column field="node.name" header="Node" />
           <Column
-            field="snapshotTime"
+            field="backup.snapshotTime"
             header="Snapshot Date"
             body={dateTemplate}
           />

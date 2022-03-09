@@ -1,5 +1,6 @@
 import {
   HIDE_MODAL,
+  HIDE_FOOTER,
   ModalAction,
   SAVE_MODAL,
   SHOW_MODAL,
@@ -7,14 +8,16 @@ import {
 } from './types';
 
 export type ModalStore = {
-  readonly modal: { component: () => JSX.Element; props; title: string };
+  readonly modal: { component: () => JSX.Element; props; title: string, buttonLabel: string };
   readonly show: boolean;
+  readonly hideFooter: boolean;
   readonly saved: boolean;
 };
 
 const initial: ModalStore = {
   modal: null,
   show: false,
+  hideFooter: false,
   saved: false,
 };
 
@@ -32,6 +35,12 @@ export default (state = initial, action: ModalAction) => {
       modal: null,
       show: false,
       saved: false,
+    };
+  }
+  if (action.type === HIDE_FOOTER) {
+    return {
+      ...state,
+      hideFooter: true,
     };
   }
   if (action.type === SAVE_MODAL) {

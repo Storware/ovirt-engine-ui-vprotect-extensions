@@ -142,6 +142,14 @@ export const RestoreModal = ({ virtualEnvironment }) => {
               />
             )}
 
+            {!!filteredStorages.length && (
+              <Field
+                name="restoreToOriginalVolumeType"
+                component={Toggle}
+                label="Restore volumes to original volume types"
+              />
+            )}
+
             <Field
               name="overwrite"
               component={Toggle}

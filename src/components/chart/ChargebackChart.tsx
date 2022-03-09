@@ -106,14 +106,14 @@ export default () => {
         <div className="d-flex">
           {page > 0 && (
             <div onClick={onPrevClick} className="d-flex">
-              <i className="fa pi-angle-left blue-icon d-flex flex-column justify-content-center" />
+              <i className="pi pi-angle-left blue-icon d-flex flex-column justify-content-center" />
               <div className="pt-1 px-2">Previous</div>
             </div>
           )}
           {(page + 1) * 10 < chartData.labels.length && (
             <div onClick={onNextClick} className="d-flex ml-3">
               <div className="pt-1 px-2">Next</div>
-              <i className="fa pi-angle-right blue-icon d-flex flex-column justify-content-center" />
+              <i className="pi pi-angle-right blue-icon d-flex flex-column justify-content-center" />
             </div>
           )}
         </div>

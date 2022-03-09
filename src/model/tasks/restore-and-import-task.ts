@@ -18,4 +18,5 @@ export class RestoreAndImportTask {
     description: 'Preallocated',
   };
   overwrite = false;
+  restoreToOriginalVolumeType: boolean
 }

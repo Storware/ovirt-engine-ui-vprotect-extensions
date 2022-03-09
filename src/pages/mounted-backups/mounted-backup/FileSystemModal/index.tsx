@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSaved } from '../../../../store/modal/selectors';
-import {
-  hideModalAction,
-  unsaveModalAction,
-} from '../../../../store/modal/actions';
 import { getFilesystemListing } from '../../../../store/mounted-backups/actions';
 import { selectFileSystemListing } from '../../../../store/mounted-backups/selectors';
 import { BreadCrumb } from 'primereact/breadcrumb';
@@ -18,6 +13,7 @@ import {
 import { Button } from 'primereact/button';
 import { fileSaverService } from '../../../../services/file-saver-service';
 import { backupsService } from '../../../../services/backups-service';
+import {hideFooterAction} from '../../../../store/modal/actions';
 
 const icon = {
   DIRECTORY: 'pi-folder',
@@ -27,25 +23,14 @@ const icon = {
 };
 
 const FileSystemModal = ({ guid }) => {
-  let dispatch = useDispatch();
-
-  const save = () => {
-    if (1) {
-      dispatch(hideModalAction());
-    } else {
-      dispatch(unsaveModalAction());
-    }
-  };
-
-  if (useSelector(selectSaved)) {
-    save();
-  }
+  const dispatch = useDispatch();
+  dispatch(hideFooterAction())
 
   useEffect(() => {
     dispatch(getFilesystemListing(guid, currentPath));
   }, []);
 
-  let data = useSelector(selectFileSystemListing);
+  const data = useSelector(selectFileSystemListing);
 
   let currentPath;
   let setCurrentPath;

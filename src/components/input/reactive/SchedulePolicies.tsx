@@ -34,6 +34,16 @@ const SchedulePolicies = ({ field, form: { setFieldValue }, ...props }) => {
   let setValue;
   [value, setValue] = useState([]);
 
+  const setFieldValueAndEmitChangeEvent = (value) => {
+    setValue(value);
+    setFieldValue(field.name, selectedRules(value));
+    if (props.change) {
+      props.change({
+        value: selectedRules(value),
+      });
+    }
+  };
+
   useEffect(() => {
     setValue(selectedPolicies(field.value, props.options));
   }, [field.value, props.options]);
@@ -61,8 +71,7 @@ const SchedulePolicies = ({ field, form: { setFieldValue }, ...props }) => {
         dataKey="guid"
         className="col w-100"
         onChange={(event) => {
-          setFieldValue(field.name, selectedRules(event.value));
-          setValue(event.value);
+          setFieldValueAndEmitChangeEvent(event.value);
         }}
       />
     </div>

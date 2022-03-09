@@ -29,10 +29,10 @@ export const setPage = (payload: number): ChargebackChartAction => {
   };
 };
 
-export const getChargebackData = (
+export const getChargebackData = (params,
   chargebackRequest: ChargebackRequest,
 ) => async (dispatch: Dispatch) => {
-  const chartData = await dashboardService.getChargebackReport(
+  const chartData = await dashboardService.getChargebackReport(params,
     chargebackRequest,
   );
   await dispatch(

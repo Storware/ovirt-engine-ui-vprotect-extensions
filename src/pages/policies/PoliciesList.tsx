@@ -17,6 +17,7 @@ import { sizeTemplate } from 'components/table/templates';
 import { Menu } from 'primereact/menu';
 import { Button } from 'primereact/button';
 import Table from 'components/table/primereactTable';
+import { booleanTemplate } from 'components/table/templates';
 
 export const nameTemplate = (history) => (rowData, column) => {
   return (
@@ -113,9 +114,11 @@ export const PoliciesList = () => {
       {type === 'vm-backup' ? (
         <Table value={rows} header={header()} globalFilter={globalFilter}>
           <Column field="name" header="Name" body={nameTemplate(history)} />
+          <Column field="active" header="Active" body={booleanTemplate} />
           <Column
             field="backupDestinations[0].name"
             header="Backup Destiantion"
+            body={(e) => e.backupDestinations[0].name}
           />
           <Column field="priority" header="Priority" />
           <Column field="vmCount" header="VM Count" />

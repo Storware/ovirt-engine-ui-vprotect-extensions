@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {Field, Form, Formik, useFormikContext} from 'formik';
+import {Field, Form, Formik} from 'formik';
 import { Button } from 'primereact/button';
 import Select from 'components/input/reactive/Select';
 import { ChargebackRequest } from 'model/chargeback/vm-chargeback-request';
@@ -14,6 +14,7 @@ import InputListBox from 'components/input/reactive/InputListBox';
 import ChargebackChart from 'components/chart/ChargebackChart';
 import { getChargebackData } from 'store/chargeback-chart/actions';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
+import {selectRange} from 'store/reporting/selectors';
 
 const groupByOptions = [
   {
@@ -94,6 +95,11 @@ export default () => {
   const propertyOptions = useSelector(selectPropertyOptions);
   const dispatch = useDispatch();
   const chargeBackRequest = new ChargebackRequest();
+  const range = useSelector(selectRange);
+
+  useEffect(() => {
+    dispatch(getChargebackData(range, mapPropertiesObjectListToStringOfGuids(chargeBackRequest)));
+  }, [range]);
 
   return (
     <div>
@@ -102,7 +108,7 @@ export default () => {
         initialValues={chargeBackRequest}
         onSubmit={(values) => {
           dispatch(
-            getChargebackData(mapPropertiesObjectListToStringOfGuids(values)),
+            getChargebackData(range, mapPropertiesObjectListToStringOfGuids(values)),
           );
         }}
         >
@@ -115,6 +121,7 @@ export default () => {
                     optionLabel="label"
                     label="Group by"
                     className="w-100"
+                    placeholder='Choose an option'
                 />
 
                 <h3 className="mt-3">Filter</h3>

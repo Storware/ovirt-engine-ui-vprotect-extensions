@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import './ReportTable.scss';
 import { Link } from 'react-router-dom';
 import { getElementWithoutProjectUuidInName } from 'utils/byProjectFilter';
+import { dateTemplate } from 'components/table/templates';
 
 const virtualEnvironmentStatus = (rowData) => {
   const statusClassName = classNames({
@@ -67,6 +68,7 @@ export default () => {
             style={{ width: '15%' }}
             field="snapshotTime"
             header="Snapshot Time"
+            body={dateTemplate}
           />
         )}
         {type === 'restores' && (
@@ -74,6 +76,7 @@ export default () => {
             style={{ width: '15%' }}
             field="restoreTime"
             header="Restore Time"
+            body={dateTemplate}
           />
         )}
         <Column
