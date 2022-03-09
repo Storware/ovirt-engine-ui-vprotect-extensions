@@ -5,6 +5,7 @@ import { alertService } from '../../services/alert-service';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { dateTemplate } from 'components/table/templates';
+import { durationTemplate } from 'components/table/templates';
 import { Button } from 'primereact/button';
 import Table from 'components/table/primereactTable';
 
@@ -92,6 +93,11 @@ export default () => {
           <Column field="node.name" header="Node" />
           <Column field="backupDestination.name" header="Backup destination" />
           <Column field="priority" header="Priority" />
+          <Column
+            field="duration"
+            header="Duration"
+            body={durationTemplate}
+          />
           <Column
             field="windowStart"
             header="Window start"

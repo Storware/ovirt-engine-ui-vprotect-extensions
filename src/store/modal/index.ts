@@ -1,14 +1,20 @@
 import {
-  HIDE_MODAL,
   HIDE_FOOTER,
+  HIDE_MODAL,
   ModalAction,
   SAVE_MODAL,
+  SHOW_FOOTER,
   SHOW_MODAL,
   UNSAVE_MODAL,
 } from './types';
 
 export type ModalStore = {
-  readonly modal: { component: () => JSX.Element; props; title: string, buttonLabel: string };
+  readonly modal: {
+    component: () => JSX.Element;
+    props;
+    title: string;
+    buttonLabel: string;
+  };
   readonly show: boolean;
   readonly hideFooter: boolean;
   readonly saved: boolean;
@@ -41,6 +47,13 @@ export default (state = initial, action: ModalAction) => {
     return {
       ...state,
       hideFooter: true,
+    };
+  }
+
+  if (action.type === SHOW_FOOTER) {
+    return {
+      ...state,
+      hideFooter: false,
     };
   }
   if (action.type === SAVE_MODAL) {

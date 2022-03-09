@@ -1,4 +1,5 @@
 import { vprotectApiService } from './vprotect-api-service';
+import { getDateLabel } from './time';
 
 class BackupsService {
   getBackup(id) {
@@ -67,11 +68,36 @@ class BackupsService {
   }
 
   getRestorableBackups(virtualMachineGuid) {
-    return vprotectApiService.get(`/backups?protected-entity=${virtualMachineGuid}&status=SUCCESS`);
+    return vprotectApiService.get(
+      `/backups?protected-entity=${virtualMachineGuid}&status=SUCCESS`,
+    );
+  }
+
+  async getBackupLocations(id) {
+    const backupLocations = await vprotectApiService.get('/backup-locations', {
+      params: { 'protected-entity': id, 'location-status': 'PRESENT' },
+    });
+    return backupLocations.map((backupLocation) => {
+      return {
+        ...backupLocation,
+        name: `${getDateLabel(
+          backupLocation.snapshotTime,
+          'YYYY-MM-DD HH:mm:ss',
+        )} (${backupLocation.backupDestination.name})`,
+      };
+    });
   }
 
   getHypervisorManagersAvailableForBackup(id) {
-    return vprotectApiService.get(`/hypervisor-managers/?backup-to-be-restored=${id}`);
+    return vprotectApiService.get(
+      `/hypervisor-managers/?backup-to-be-restored=${id}`,
+    );
+  }
+
+  markBackupWarningsAsKnowledged(id) {
+    return vprotectApiService.put(`/backups/${id}/warnings-acknowledged`, {
+      value: true,
+    });
   }
 }
 

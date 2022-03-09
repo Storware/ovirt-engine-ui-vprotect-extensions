@@ -1,10 +1,10 @@
 import React from 'react';
 import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
-import BackupPolicy from 'pages/policies/BackupPolicy';
 import ListContainer from 'pages/policies-and-schedules/ListContainer';
 import SnapshotPolicy from 'pages/policies/SnapshotPolicy';
 import VirtualEnvironmentBackupSchedule from 'pages/schedules/VirtualEnvironmentBackupSchedule';
 import SnapshotSchedule from 'pages/schedules/SnapshotSchedule';
+import {BackupPolicy} from '../policies/BackupPolicy';
 
 export const PoliciesAndSchedules = () => {
   const match = useRouteMatch();

@@ -1,18 +1,17 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { vprotectService } from '../../../services/vprotect-service';
 import { Filesize } from '../../../components/convert/Filesize';
 import { Field, Form, Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getHypervisorClustersForHypervisorManager,
-  getHypervisorManagersAvailableForBackup,
+  getHypervisorManagersAvailableForBackupBackupLocation,
   getHypervisorStoragesForHypervisorManager,
-  getRestorableBackups,
+  getBackupLocations,
   setFilteredHypervisorStoragesAction,
   submitTask,
 } from 'store/restore-modal/actions';
 import {
-  selectBackups,
+  selectBackupLocations,
   selectFilteredHypervisorStorages,
   selectHypervisorClusters,
   selectHypervisorManagers,
@@ -20,11 +19,16 @@ import {
   selectTask,
 } from 'store/restore-modal/selectors';
 import Select from 'components/input/reactive/Select';
-import BackupSelect from 'components/input/reactive/BackupSelect';
 import { selectSaved } from 'store/modal/selectors';
 import Toggle from 'components/input/reactive/Toggle';
 import ToggleText from 'components/input/reactive/ToggleText';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
+import ToggleSelect from '../../../components/input/reactive/ToggleSelect';
+import {
+  selectNetwork,
+  selectNetworkCopy,
+} from '../../../store/network/selectors';
+import { getNetwork, setNetworkAction } from '../../../store/network/actions';
 
 const storageDropdownTemplate = (option) => {
   return (
@@ -45,31 +49,60 @@ const storageDropdownTemplate = (option) => {
 export const RestoreModal = ({ virtualEnvironment }) => {
   const dispatch = useDispatch();
   const formRef = useRef();
+  const [clusterCopy, setClusterCopy] = useState(null);
 
   useEffect(() => {
-    dispatch(getRestorableBackups(virtualEnvironment));
+    dispatch(getBackupLocations(virtualEnvironment));
   }, [virtualEnvironment]);
 
-  const backups = useSelector(selectBackups);
+  const backupLocations = useSelector(selectBackupLocations);
   const hypervisorManagers = useSelector(selectHypervisorManagers);
   const storages = useSelector(selectHypervisorStorages);
   const filteredStorages = useSelector(selectFilteredHypervisorStorages);
   const clusters = useSelector(selectHypervisorClusters);
   const task = useSelector(selectTask);
+  const networkList = useSelector(selectNetwork);
+  const networkListCopy = useSelector(selectNetworkCopy);
 
-  const onBackupChange = (e) => {
+  useEffect(() => {
+    if (!!task.hypervisorManager && networkList.length === 0) {
+      dispatch(
+        getNetwork({ hypervisorManagerGuid: task?.hypervisorManager.guid }),
+      );
+    }
+  }, [task]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(setNetworkAction([]));
+    };
+  }, []);
+
+  useEffect(() => {
+    if (
+      networkList.length > 0 &&
+      networkListCopy.length === networkList.length
+    ) {
+      filterNetworkByCluster(clusterCopy);
+    }
+  }, [networkListCopy]);
+
+  const onBackupLocationChange = (e) => {
     dispatch(
-      getHypervisorManagersAvailableForBackup(e.value.guid, virtualEnvironment),
+      getHypervisorManagersAvailableForBackupBackupLocation(
+        e.value,
+        virtualEnvironment,
+      ),
     );
   };
 
-  const onHypervisorChange = async (e) => {
-    await dispatch(getHypervisorStoragesForHypervisorManager(e.value.guid));
-    await dispatch(getHypervisorClustersForHypervisorManager(e.value.guid));
+  const onHypervisorChange = ({ value: { guid } }) => {
+    dispatch(getHypervisorStoragesForHypervisorManager(guid));
   };
 
   const onClusterChange = async (event) => {
     const cluster = clusters.find((el) => el.uuid === event.value);
+    setClusterCopy(cluster);
     dispatch(
       setFilteredHypervisorStoragesAction(
         !!cluster
@@ -82,6 +115,20 @@ export const RestoreModal = ({ virtualEnvironment }) => {
           : [],
       ),
     );
+
+    filterNetworkByCluster(cluster);
+  };
+
+  const filterNetworkByCluster = (clusterValue) => {
+    if (networkListCopy.length > 0) {
+      const filteredData = networkListCopy.filter(
+        (network) => network?.hvCluster?.guid === clusterValue.guid,
+      );
+      dispatch(setNetworkAction(filteredData));
+
+      // @ts-ignore
+      formRef?.current?.setFieldValue('restoredNetworks', filteredData[0]);
+    }
   };
 
   if (useSelector(selectSaved)) {
@@ -95,20 +142,29 @@ export const RestoreModal = ({ virtualEnvironment }) => {
         // @ts-ignore
         innerRef={formRef}
         initialValues={task}
-        onSubmit={(values, { setSubmitting }) => {
-          dispatch(submitTask(values));
+        onSubmit={({ restoredNetworks, ...values }, { setSubmitting }) => {
+          dispatch(
+            submitTask({
+              ...values,
+              restoredNetworks:
+                restoredNetworks.length === 0
+                  ? [networkList[0]]
+                  : [restoredNetworks],
+            }),
+          );
           setSubmitting(false);
         }}
       >
         {() => (
           <Form>
             <Field
-              name="backup"
-              component={BackupSelect}
-              label="Backup"
-              change={onBackupChange}
+              name="backupLocation"
+              component={Select}
+              label="Backup location to restore"
+              optionLabel="name"
+              change={onBackupLocationChange}
               required
-              options={backups}
+              options={backupLocations}
             />
             <Field
               name="hypervisorManager"
@@ -147,6 +203,15 @@ export const RestoreModal = ({ virtualEnvironment }) => {
                 name="restoreToOriginalVolumeType"
                 component={Toggle}
                 label="Restore volumes to original volume types"
+              />
+            )}
+            {clusterCopy && (
+              <Field
+                name="restoredNetworks"
+                component={ToggleSelect}
+                label="Select network interface card"
+                optionLabel="name"
+                options={networkList}
               />
             )}
 

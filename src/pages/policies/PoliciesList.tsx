@@ -9,7 +9,7 @@ import {
 } from 'store/policies/actions';
 import { selectPolicies } from 'store/policies/selectors';
 import { showModalAction } from 'store/modal/actions';
-import { BackupModal } from 'components/modal/BackupModal';
+import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { createBrowserHistory } from 'history';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
@@ -115,11 +115,6 @@ export const PoliciesList = () => {
         <Table value={rows} header={header()} globalFilter={globalFilter}>
           <Column field="name" header="Name" body={nameTemplate(history)} />
           <Column field="active" header="Active" body={booleanTemplate} />
-          <Column
-            field="backupDestinations[0].name"
-            header="Backup Destiantion"
-            body={(e) => e.backupDestinations[0].name}
-          />
           <Column field="priority" header="Priority" />
           <Column field="vmCount" header="VM Count" />
           <Column

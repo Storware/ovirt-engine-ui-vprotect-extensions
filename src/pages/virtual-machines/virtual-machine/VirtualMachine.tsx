@@ -5,7 +5,7 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { DateShow } from '../../../components/convert/Date';
 import { Filesize } from '../../../components/convert/Filesize';
-import { BackupModal } from '../../../components/modal/BackupModal';
+import { BackupModal } from '../../../components/modal/BackupModal/BackupModal';
 import { TabView, TabPanel } from 'primereact/tabview';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -15,31 +15,34 @@ import {
   selectVirtualMachine,
 } from '../../../store/virtual-machine/selectors';
 import { getVirtualMachinePage } from '../../../store/virtual-machine/actions';
-import BackupsHistoryTable from './BackupsHistoryTable';
+import BackupsHistoryTable from './components/BackupsHistoryTable';
 import BackupsTable from './BackupsTable';
 import RestoresHistoryTable from './RestoresHistoryTable';
 import SnapshotsTable from './SnapshotsTable';
+import SnapshotsHistoryTable from './SnapshotsHistoryTable';
 import DisksTable from './DisksTable';
 import SchedulesTable from './SchedulesTable';
-import Settings from './Settings';
+import Settings from './components/Settings';
 import { showModalAction } from '../../../store/modal/actions';
 import { createBrowserHistory } from 'history';
 import BarChartContainer from 'components/chart/BarChartContainer';
 import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 
 const VirtualMachine = () => {
-  let dispatch = useDispatch();
-  let { guid } = useParams();
+  const dispatch = useDispatch();
+  const { guid } = useParams();
   const history = createBrowserHistory();
 
   useEffect(() => {
-    dispatch(getVirtualMachinePage(guid));
+    loadPage();
   }, [dispatch]);
 
-  let virtualMachine = useSelector(selectVirtualMachine);
-  let backupsHistory = useSelector(selectBackupsHistory);
-  let restoresHistory = useSelector(selectRestoresHistory);
-  let hypervisor = useSelector(selectHypervisor);
+  const loadPage = () => dispatch(getVirtualMachinePage(guid));
+
+  const virtualMachine = useSelector(selectVirtualMachine);
+  const backupsHistory = useSelector(selectBackupsHistory);
+  const restoresHistory = useSelector(selectRestoresHistory);
+  const hypervisor = useSelector(selectHypervisor);
 
   return (
     <Panel header="Virtual Machine">
@@ -158,8 +161,8 @@ const VirtualMachine = () => {
       <Card className="mt-4" title="Backup/Restore Statistics">
         <BarChartContainer
           datasets={{
-            backupsHistory: backupsHistory,
-            restoresHistory: restoresHistory,
+            backupsHistory,
+            restoresHistory,
           }}
         />
       </Card>
@@ -170,13 +173,16 @@ const VirtualMachine = () => {
             <BackupsTable />
           </TabPanel>
           <TabPanel header="Backup History">
-            <BackupsHistoryTable />
+            <BackupsHistoryTable onRefresh={() => loadPage()} />
           </TabPanel>
           <TabPanel header="Restore History">
             <RestoresHistoryTable />
           </TabPanel>
           <TabPanel header="Snapshots">
             <SnapshotsTable />
+          </TabPanel>
+          <TabPanel header="Snapshots History">
+            <SnapshotsHistoryTable />
           </TabPanel>
           <TabPanel header="Disks">
             <DisksTable />

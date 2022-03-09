@@ -9,7 +9,7 @@ import { selectSnapshots } from '../../../store/virtual-machine/selectors';
 import Table from '../../../components/table/primereactTable';
 
 const SnapshotsTable = () => {
-  let snapshots = useSelector(selectSnapshots);
+  const snapshots = useSelector(selectSnapshots);
 
   return (
     <div>

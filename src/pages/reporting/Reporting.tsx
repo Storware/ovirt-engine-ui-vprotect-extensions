@@ -8,10 +8,7 @@ import DateRange from 'pages/reporting/DateRange';
 import ReportTable from 'pages/reporting/ReportTable';
 import ChargebackForm from 'pages/reporting/ChargebackForm';
 import Tabs from 'components/tabs/Tabs';
-import {Button} from 'primereact/button';
-import {showModalAction} from '../../store/modal/actions';
-import SendReportViaEmailModal from '../dashboard/chargeback/SendReportViaEmailModal';
-import {useDispatch} from 'react-redux';
+import { ExportAs } from './ExportAs';
 
 const tabs: Tab[] = [
   {label: 'Summary', path: 'summary'},
@@ -36,25 +33,11 @@ const routes: RouteList = [
 
 export default () => {
   const match = useRouteMatch();
-  const dispatch = useDispatch();
   return (
     <div>
       <div className='d-flex justify-content-between align-items-center'>
         <DateRange/>
-        <Button
-          type='button'
-          label='Send report via e-mail'
-          className='p-button-success my-4'
-          onClick={() => {
-            dispatch(
-              showModalAction({
-                component: SendReportViaEmailModal,
-                title: 'Send report via e-mail',
-                buttonLabel: 'Send'
-              }),
-            );
-          }}
-        />
+        <ExportAs />
       </div>
       <Tabs items={{tabs, inkStyle}}/>
       <Switch>

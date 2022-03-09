@@ -2,12 +2,40 @@ import React from 'react';
 import { DateShow } from '../convert/Date';
 import { Filesize } from '../convert/Filesize';
 import { schedulesService } from '../../services/schedules-service';
+import { convertMilisecondsToHours } from '../../utils/convertMilisecondsToHours';
+
+enum StatusColorHex {
+  IN_PROGRESS = '#1f75b1',
+  PRESENT = '#00624c',
+  FAILED = '#c70015',
+  REMOVED = '#9A9A9A',
+}
+export const durationTemplate = (rowData) => {
+  return (
+    <span>
+      {rowData.state.name !== 'QUEUED' &&
+        convertMilisecondsToHours(
+          rowData.state.name !== 'RUNNING'
+            ? rowData.finishTime || 0
+            : +new Date() - rowData.startTime,
+        )}
+    </span>
+  );
+};
 
 export const dateTemplate = (rowData, column) => {
   const path = column.field.split('.');
-  return <DateShow date={path.length > 1 ? path.reduce((prev, curr) => {
-    return prev ? prev[curr] : null
-  }, rowData || self) : rowData[column.field]} />;
+  return (
+    <DateShow
+      date={
+        path.length > 1
+          ? path.reduce((prev, curr) => {
+              return prev ? prev[curr] : null;
+            }, rowData || self)
+          : rowData[column.field]
+      }
+    />
+  );
 };
 
 export const sizeTemplate = (rowData, column) => {
@@ -57,7 +85,7 @@ export const permissionTemplate = (rowData, column) => {
     'OTHERS_EXECUTE',
   ];
 
-  const checkIfPresent = function (item) {
+  const checkIfPresent = (item) => {
     let permission;
 
     if (rowData[column.field] && rowData[column.field].includes(item)) {
@@ -68,7 +96,7 @@ export const permissionTemplate = (rowData, column) => {
     return permission;
   };
 
-  const transformDisplay = function (el) {
+  const transformDisplay = (el) => {
     let displayedLetter;
     if (el.toLowerCase().includes('read')) {
       displayedLetter = 'r';
@@ -85,4 +113,18 @@ export const permissionTemplate = (rowData, column) => {
   });
 
   return displayText.join('');
+};
+
+export const backupLocationsTemplates = (rowData) => {
+  return rowData.backupLocations.map(
+    ({ backupDestination: { name }, status }, i) => (
+      <div key={i} className="d-flex align-items-center">
+        <i
+          className="pi pi-circle-on mr-2"
+          style={{ color: StatusColorHex[status.name] }}
+        />
+        {name}
+      </div>
+    ),
+  );
 };

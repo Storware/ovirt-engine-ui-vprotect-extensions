@@ -24,9 +24,10 @@ const virtualEnvironmentStatus = (rowData) => {
 const nameLink = (rowData) => {
   return (
     <div>
-      <Link to={`/virtual_environments/${rowData.protectedEntityGuid}`}>
-        {rowData.protectedEntity}
-      </Link>
+      { rowData.protectedEntityGuid ?
+        <Link to={`/virtual_environments/${rowData.protectedEntityGuid}`}>
+          {rowData.protectedEntity}
+        </Link> : rowData.protectedEntity }
     </div>
   );
 };
@@ -68,7 +69,6 @@ export default () => {
             style={{ width: '15%' }}
             field="snapshotTime"
             header="Snapshot Time"
-            body={dateTemplate}
           />
         )}
         {type === 'restores' && (

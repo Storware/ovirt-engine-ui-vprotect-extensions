@@ -20,6 +20,10 @@ import chargebackChart from './chargeback-chart';
 import reporting from './reporting';
 import chargebackChartForm from './chargeback-chart-form';
 import thunk from 'redux-thunk';
+import mailingTable from './mailingTable';
+import mailing from './mailing';
+import credentials from './credentials';
+import network from './network';
 
 export const rootReducer = combineReducers({
   user,
@@ -38,6 +42,10 @@ export const rootReducer = combineReducers({
   chargebackChart,
   reporting,
   chargebackChartForm,
+  mailingTable,
+  mailing,
+  credentials,
+  network,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));

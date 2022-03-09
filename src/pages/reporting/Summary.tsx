@@ -8,6 +8,7 @@ const labels = {
   backups: {
     successful: 'Successful backups',
     inProgress: 'Backups in progress',
+    queued: 'Backups in queued',
     failed: 'Failed backups',
     total: 'Total backups',
     totalData: 'Total data protected',
@@ -15,6 +16,7 @@ const labels = {
   restores: {
     successful: 'Successful restores',
     inProgress: 'Restores in progress',
+    queued: 'Restores in queued',
     failed: 'Failed restores',
     total: 'Total restores',
     totalData: 'Total data restored',
