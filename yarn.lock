@@ -2235,7 +2235,7 @@ bootstrap-touchspin@~3.1.1:
   resolved "https://registry.npmjs.org/bootstrap-touchspin/-/bootstrap-touchspin-3.1.1.tgz"
   integrity sha1-l3nerHKq9Xfl52K4USx0fIcdlZc=
 
-bootstrap@3.4.x, bootstrap@^3.3, bootstrap@^3.4.1, bootstrap@~3.4.1:
+bootstrap@3.4.x, bootstrap@^3.3, bootstrap@~3.4.1:
   version "3.4.1"
   resolved "https://registry.npmjs.org/bootstrap/-/bootstrap-3.4.1.tgz"
   integrity sha512-yN5oZVmRCwe5aKwzRj6736nSmKDX7pLYwsXiCj/EYmo16hODaBiT4En5btW/jhBF/seV+XMx3aYwukYC3A49DA==
@@ -2747,15 +2747,6 @@ cli-width@^2.0.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/cli-width/-/cli-width-2.2.0.tgz"
   integrity sha1-/xnt6Kml5XkyQUewwR8PvLq+1jk=
-
-clipboard@^1.7.1:
-  version "1.7.1"
-  resolved "https://registry.npmjs.org/clipboard/-/clipboard-1.7.1.tgz"
-  integrity sha1-Ng1taUbpmnof7zleQrqStem1oWs=
-  dependencies:
-    good-listener "^1.2.2"
-    select "^1.1.2"
-    tiny-emitter "^2.0.0"
 
 cliui@^5.0.0:
   version "5.0.0"
@@ -3532,11 +3523,6 @@ delayed-stream@~1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz"
   integrity sha1-3zrhmayt+31ECqrgsp4icrJOxhk=
-
-delegate@^3.1.2:
-  version "3.2.0"
-  resolved "https://registry.npmjs.org/delegate/-/delegate-3.2.0.tgz"
-  integrity sha512-IofjkYBZaZivn0V8nnsMJGBr4jVLxHDheKSW88PyxS5QC4Vo9ZbZVvhzlSxY87fVq3STR6r+4cGepyHkcWOQSw==
 
 delegates@^1.0.0:
   version "1.0.0"
@@ -4848,13 +4834,6 @@ globule@^1.0.0:
     glob "~7.1.1"
     lodash "~4.17.12"
     minimatch "~3.0.2"
-
-good-listener@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.npmjs.org/good-listener/-/good-listener-1.2.2.tgz"
-  integrity sha1-1TswzfkxPf+33JoNR3CWqm0UXFA=
-  dependencies:
-    delegate "^3.1.2"
 
 google-code-prettify@~1.0.5:
   version "1.0.5"
@@ -6204,7 +6183,7 @@ jquery@3.5.0:
   resolved "https://registry.npmjs.org/jquery/-/jquery-3.5.0.tgz"
   integrity sha512-Xb7SVYMvygPxbFMpTFQiHh1J7HClEaThguL15N/Gg37Lri/qKyhRGZYzHRyLH8Stq3Aow0LsHO2O2ci86fCrNQ==
 
-"jquery@>= 2.1.x", jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.8, "jquery@^1.8.3 || ^2.0 || ^3.0", jquery@^3.4.1, jquery@~3.4.1:
+"jquery@>= 2.1.x", jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.8, "jquery@^1.8.3 || ^2.0 || ^3.0", jquery@~3.4.1:
   version "3.4.1"
   resolved "https://registry.npmjs.org/jquery/-/jquery-3.4.1.tgz"
   integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
@@ -7701,14 +7680,6 @@ patternfly-bootstrap-treeview@~2.1.0:
     bootstrap "3.4.x"
     jquery ">= 2.1.x"
 
-patternfly-bootstrap-treeview@~2.1.10:
-  version "2.1.10"
-  resolved "https://registry.npmjs.org/patternfly-bootstrap-treeview/-/patternfly-bootstrap-treeview-2.1.10.tgz"
-  integrity sha512-P9+iFu34CwX+R5Fd7/EWbxTug0q9mDj53PnZIIh5ie54KX2kD0+54lCWtpD9SVylDwDtDv3n3A6gbFVkx7HsuA==
-  dependencies:
-    bootstrap "^3.4.1"
-    jquery "^3.4.1"
-
 patternfly-react@2.38.1:
   version "2.38.1"
   resolved "https://registry.npmjs.org/patternfly-react/-/patternfly-react-2.38.1.tgz"
@@ -7736,38 +7707,6 @@ patternfly-react@2.38.1:
   optionalDependencies:
     sortabular "^1.5.1"
     table-resolver "^3.2.0"
-
-patternfly@3.59.4:
-  version "3.59.4"
-  resolved "https://registry.npmjs.org/patternfly/-/patternfly-3.59.4.tgz"
-  integrity sha512-xkXTmmQFyscfQ/2Vbh8OUFQPPPCgncKb1FMwNwxUXgCjJRqohmkOAR8enMYGNVbFruzrZKxJVOdHnGduLlETDQ==
-  dependencies:
-    bootstrap "~3.4.1"
-    font-awesome "^4.7.0"
-    jquery "~3.4.1"
-  optionalDependencies:
-    "@types/c3" "^0.6.0"
-    bootstrap-datepicker "^1.7.1"
-    bootstrap-sass "^3.4.0"
-    bootstrap-select "1.12.2"
-    bootstrap-slider "^9.9.0"
-    bootstrap-switch "3.3.4"
-    bootstrap-touchspin "~3.1.1"
-    c3 "~0.4.11"
-    d3 "~3.5.17"
-    datatables.net "^1.10.15"
-    datatables.net-colreorder "^1.4.1"
-    datatables.net-colreorder-bs "~1.3.2"
-    datatables.net-select "~1.2.0"
-    drmonty-datatables-colvis "~1.1.2"
-    eonasdan-bootstrap-datetimepicker "^4.17.47"
-    font-awesome-sass "^4.7.0"
-    google-code-prettify "~1.0.5"
-    jquery-match-height "^0.7.2"
-    moment "^2.19.1"
-    moment-timezone "^0.4.1"
-    patternfly-bootstrap-combobox "~1.1.7"
-    patternfly-bootstrap-treeview "~2.1.10"
 
 patternfly@^3.58.0:
   version "3.59.3"
@@ -8281,11 +8220,6 @@ pretty-format@^24.9.0:
     ansi-styles "^3.2.0"
     react-is "^16.8.4"
 
-primeflex@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/primeflex/-/primeflex-3.0.0.tgz"
-  integrity sha512-uIJaJWnH+bHIwbq/Q2rfK9A9PGp5zG+G685nskn9xwg5zGGh4fSYB8PkSo76jgapUTJSTg95+jaVT7yzClkdjg==
-
 primeicons@^4.1.0:
   version "4.1.0"
   resolved "https://registry.npmjs.org/primeicons/-/primeicons-4.1.0.tgz"
@@ -8300,13 +8234,6 @@ printj@~1.1.0:
   version "1.1.2"
   resolved "https://registry.npmjs.org/printj/-/printj-1.1.2.tgz"
   integrity sha512-zA2SmoLaxZyArQTOPj5LXecR+RagfPSU5Kw1qP+jkWeNlrq+eJZyY2oS68SU1Z/7/myXM4lo9716laOFAVStCQ==
-
-prismjs@1.9.0:
-  version "1.9.0"
-  resolved "https://registry.npmjs.org/prismjs/-/prismjs-1.9.0.tgz"
-  integrity sha1-+j4tntw8OIfB8fMJXUHx+bQgDw8=
-  optionalDependencies:
-    clipboard "^1.7.1"
 
 private@^0.1.6, private@~0.1.5:
   version "0.1.8"
@@ -9340,11 +9267,6 @@ select-hose@^2.0.0:
   resolved "https://registry.npmjs.org/select-hose/-/select-hose-2.0.0.tgz"
   integrity sha1-Yl2GWPhlr0Psliv8N2o3NZpJlMo=
 
-select@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.npmjs.org/select/-/select-1.1.2.tgz"
-  integrity sha1-DnNQrN7ICxEIUoeG7B1EGNEbOW0=
-
 selfsigned@^1.10.7:
   version "1.10.7"
   resolved "https://registry.npmjs.org/selfsigned/-/selfsigned-1.10.7.tgz"
@@ -10121,11 +10043,6 @@ timsort@^0.3.0:
   version "0.3.0"
   resolved "https://registry.npmjs.org/timsort/-/timsort-0.3.0.tgz"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
-
-tiny-emitter@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/tiny-emitter/-/tiny-emitter-2.1.0.tgz"
-  integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
 
 tiny-invariant@^1.0.2:
   version "1.1.0"
