@@ -9,7 +9,7 @@
     "build": "webpack --config webpack.ovirt.prod.js",
     "start": "webpack-dev-server --config webpack.dev.js",
     "openstackBuild": "webpack --config webpack.openstack.prod.js",
-    "prettify": "prettier --write **/*.ts*"
+    "prettify": "prettier --write \"**/*.ts*\""
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.2.5",
