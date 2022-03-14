@@ -7,12 +7,14 @@ import { Field, Form, Formik } from 'formik';
 import Text from 'components/input/reactive/Text';
 import { selectRange } from 'store/reporting/selectors';
 import { hideModalAction } from 'store/modal/actions';
+import getCookie from '../../../utils/getCookie';
 
 let submitFormikForm;
 
 export default () => {
   const [model, setModel] = useState(new StringDTO());
   const range = useSelector(selectRange);
+  const projectUuid = getCookie('recent_project');
   const dispatch = useDispatch();
 
   const getEmails = async () => {
@@ -22,7 +24,10 @@ export default () => {
 
   const sendEmail = async (email: StringDTO) => {
     dispatch(hideModalAction());
-    await globalSettingsService.sendDashboardInfoEmail(email, range);
+    await globalSettingsService.sendDashboardInfoEmail(email, {
+      ...range,
+      'project-uuid': projectUuid,
+    });
   };
 
   useEffect(() => {
