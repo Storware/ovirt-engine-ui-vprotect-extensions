@@ -1,4 +1,4 @@
-import { store } from 'react-notifications-component';
+import { Store } from 'react-notifications-component';
 
 class getPluginApi {
   configObject = () => {
@@ -9,7 +9,7 @@ class getPluginApi {
     };
   };
   showToast = (toastType, text) => {
-    store.addNotification({
+    Store.addNotification({
       message: text,
       type: toastType,
       insert: 'top',
