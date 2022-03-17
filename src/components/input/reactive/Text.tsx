@@ -17,6 +17,10 @@ const Text = ({ field, form: { setFieldValue }, ...props }) => {
         value: propertyValue,
       });
     }
+
+    if (props.onChange) {
+      props.onChange({ value: propertyValue });
+    }
   };
 
   useEffect(() => {
