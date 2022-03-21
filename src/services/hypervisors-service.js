@@ -1,4 +1,5 @@
 import { vprotectApiService } from './vprotect-api-service';
+import getCookie from '../utils/getCookie';
 
 export const hypervisorManagerImportExportModes = {
   AWS: [
@@ -81,7 +82,10 @@ class HypervisorsService {
   }
 
   getAllHypervisorClusters() {
-    return vprotectApiService.get('/hypervisor-clusters');
+    const projectUuid = getCookie('recent_project');
+    return vprotectApiService.get('/hypervisor-clusters', {
+      params: { 'project-uuid': projectUuid },
+    });
   }
 
   getHypervisors() {
@@ -93,15 +97,23 @@ class HypervisorsService {
   }
 
   getHypervisorStoragesForHvm(id) {
-    return vprotectApiService.get(
-      `/hypervisor-storages?hypervisor-manager=${id}`,
-    );
+    const projectUuid = getCookie('recent_project');
+    return vprotectApiService.get(`/hypervisor-storages`, {
+      params: {
+        'hypervisor-manager': id,
+        'project-uuid': projectUuid,
+      },
+    });
   }
 
   getHypervisorClustersForHvm(id) {
-    return vprotectApiService.get(
-      `/hypervisor-clusters?hypervisor-manager=${id}`,
-    );
+    const projectUuid = getCookie('recent_project');
+    return vprotectApiService.get(`/hypervisor-clusters`, {
+      params: {
+        'hypervisor-manager': id,
+        'project-uuid': projectUuid,
+      },
+    });
   }
 }
 
