@@ -49,6 +49,7 @@ export default () => {
             y: tickSizeOptions(chartData.datasets[0].data),
           },
         }}
+        redraw={true}
       />
     </div>
   );
