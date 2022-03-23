@@ -70,8 +70,8 @@ export const getBackupLocations =
     const backupLocations = await backupsService.getBackupLocations(
       virtualMachine.guid,
     );
-    await dispatch(setBackupLocationsAction(backupLocations));
 
+    await dispatch(setBackupLocationsAction(backupLocations));
     if (!backupLocations.length) {
       alertService.error(
         'There are no restorable backups for this virtual environment',

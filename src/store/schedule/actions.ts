@@ -23,17 +23,16 @@ const policyType = {
   VM_BACKUP: 'vm-backup',
 };
 
-export const getSchedulePage = (type: string, guid: string) => async (
-  dispatch: Dispatch,
-) => {
-  const scheduele =
-    guid === 'create'
-      ? new Schedule(type)
-      : await schedulesService.getSchedule(guid);
-  await dispatch(setScheduleAction(scheduele));
-  const policies = await policiesService.getPolicies(policyType[type]);
-  await dispatch(setPoliciesAction(policies));
-};
+export const getSchedulePage =
+  (type: string, guid: string) => async (dispatch: Dispatch) => {
+    const scheduele =
+      guid === 'create'
+        ? new Schedule(type)
+        : await schedulesService.getSchedule(guid);
+    await dispatch(setScheduleAction(scheduele));
+    const policies = await policiesService.getPolicies(policyType[type]);
+    await dispatch(setPoliciesAction(policies));
+  };
 
 export const save = async (model: any) => {
   if (model.guid) {

@@ -45,9 +45,8 @@ const Settings = () => {
 
   const policies = useSelector(selectPolicies);
   const snapshotPolicies = useSelector(selectSnapshotPolicies);
-  const modes = virtualMachinesService.getVirtualMachineExportImportModes(
-    model,
-  );
+  const modes =
+    virtualMachinesService.getVirtualMachineExportImportModes(model);
   const history = createBrowserHistory();
 
   const save = async () => {

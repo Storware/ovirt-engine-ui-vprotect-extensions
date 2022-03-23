@@ -12,7 +12,10 @@ export class Schedule {
   name = '';
   hour = 0;
   active = true;
-  backupType: NameAndDescription<string> = { name: 'FULL', description: 'Full' };
+  backupType: NameAndDescription<string> = {
+    name: 'FULL',
+    description: 'Full',
+  };
   daysOfWeek: any[] = [];
   months: any[] = [];
   rules: any[] = [];
@@ -20,7 +23,10 @@ export class Schedule {
   policies: NameAndGuid[];
   startWindowLength: number = 360 * 1000 * 60;
   type: NameAndDescription<string>;
-  executionType: NameAndDescription<string> = { name: 'TIME', description: 'Time' };
+  executionType: NameAndDescription<string> = {
+    name: 'TIME',
+    description: 'Time',
+  };
   interval: Interval = null;
 
   constructor(type: string) {

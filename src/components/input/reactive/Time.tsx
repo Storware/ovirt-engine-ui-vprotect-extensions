@@ -42,7 +42,7 @@ const Time = ({ factor, field, form: { setFieldValue }, ...props }) => {
         timeOnly
         hourFormat="24"
         onChange={(e: any) => {
-          setFieldValueAndEmitChangeEvent(e)
+          setFieldValueAndEmitChangeEvent(e);
         }}
       />
     </div>

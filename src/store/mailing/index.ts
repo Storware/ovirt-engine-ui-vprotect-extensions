@@ -1,19 +1,19 @@
-import {MailingAction, SET_MAILING} from './types';
+import { MailingAction, SET_MAILING } from './types';
 
 export type MailingStore = {
-    readonly mailing: any[];
+  readonly mailing: any[];
 };
 
 const initial: MailingStore = {
-    mailing: [],
+  mailing: [],
 };
 
 export default (state = initial, action: MailingAction) => {
-    if (action.type === SET_MAILING) {
-        return {
-            ...state,
-            mailing: action.payload,
-        };
-    }
-    return state;
+  if (action.type === SET_MAILING) {
+    return {
+      ...state,
+      mailing: action.payload,
+    };
+  }
+  return state;
 };

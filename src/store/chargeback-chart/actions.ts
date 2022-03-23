@@ -29,21 +29,22 @@ export const setPage = (payload: number): ChargebackChartAction => {
   };
 };
 
-export const getChargebackData = (params,
-  chargebackRequest: ChargebackRequest,
-) => async (dispatch: Dispatch) => {
-  const chartData = await dashboardService.getChargebackReport(params,
-    chargebackRequest,
-  );
-  await dispatch(
-    setChargebackData({
-      labels: chartData.map((el) => el.name),
-      datasets: [
-        {
-          data: chartData.map((el) => el.size),
-          label: 'Size',
-        },
-      ],
-    }),
-  );
-};
+export const getChargebackData =
+  (params, chargebackRequest: ChargebackRequest) =>
+  async (dispatch: Dispatch) => {
+    const chartData = await dashboardService.getChargebackReport(
+      params,
+      chargebackRequest,
+    );
+    await dispatch(
+      setChargebackData({
+        labels: chartData.map((el) => el.name),
+        datasets: [
+          {
+            data: chartData.map((el) => el.size),
+            label: 'Size',
+          },
+        ],
+      }),
+    );
+  };
