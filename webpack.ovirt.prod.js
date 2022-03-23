@@ -185,9 +185,9 @@ module.exports = {
         __dirname,
         'src/integrations/ovirt/plugin-api.js',
       ),
-      [path.resolve(__dirname, 'src/utils/config.js')]: path.resolve(
+      [path.resolve(__dirname, 'src/utils/config.ts')]: path.resolve(
         __dirname,
-        'src/integrations/ovirt/config.js',
+        'src/integrations/ovirt/config.ts',
       ),
     },
     extensions: ['.ts', '.tsx', '.js', '.jsx', '*'],
