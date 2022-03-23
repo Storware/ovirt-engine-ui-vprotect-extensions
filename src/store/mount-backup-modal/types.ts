@@ -40,7 +40,6 @@ export type SetTask = {
   payload?: RestoreAndMountTask;
 };
 
-
 export type ResetTask = {
   type: typeof RESET_TASK;
 };

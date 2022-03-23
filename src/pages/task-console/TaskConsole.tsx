@@ -85,7 +85,11 @@ export default () => {
               />
             )}
           />
-          <Column field="backupType.description" header="" className="text-center" />
+          <Column
+            field="backupType.description"
+            header=""
+            className="text-center"
+          />
           <Column field="type.description" header="Type" />
           <Column field="hypervisorManager.name" header="Hypervisor" />
           <Column field="protectedEntity.name" header="Virtual Machine"
@@ -93,11 +97,7 @@ export default () => {
           <Column field="node.name" header="Node" />
           <Column field="backupDestination.name" header="Backup destination" />
           <Column field="priority" header="Priority" />
-          <Column
-            field="duration"
-            header="Duration"
-            body={durationTemplate}
-          />
+          <Column field="duration" header="Duration" body={durationTemplate} />
           <Column
             field="windowStart"
             header="Window start"

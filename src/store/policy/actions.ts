@@ -48,31 +48,30 @@ export const setSchedules = (payload: any[]): PolicyAction => {
   };
 };
 
-export const getPolicyPage = (type: string, guid: string) => async (
-  dispatch: Dispatch,
-) => {
-  if (guid !== 'create') {
-    const policy = await policiesService.getPolicy(type, guid);
-    await dispatch(setPolicyAction(policy));
-  }
-  const hypervisorClusters = await hypervisorsService.getAllHypervisorClusters();
-  await dispatch(setHypervisorClustersAction(hypervisorClusters));
-  const virtualMachines = await virtualMachinesService.getVirtualMachines();
-  await dispatch(setVirtualMachinesAction(virtualMachines));
-  const backupDestinations = await backupDestinationsService.getAllBackupDestinations();
-  await dispatch(setBackupDestinationsAction(backupDestinations));
-  const schedueles = await schedulesService.getAllTypeSchedules('VM_SNAPSHOT');
-  await dispatch(setSchedules(schedueles));
-};
+export const getPolicyPage =
+  (type: string, guid: string) => async (dispatch: Dispatch) => {
+    if (guid !== 'create') {
+      const policy = await policiesService.getPolicy(type, guid);
+      await dispatch(setPolicyAction(policy));
+    }
+    const hypervisorClusters =
+      await hypervisorsService.getAllHypervisorClusters();
+    await dispatch(setHypervisorClustersAction(hypervisorClusters));
+    const virtualMachines = await virtualMachinesService.getVirtualMachines();
+    await dispatch(setVirtualMachinesAction(virtualMachines));
+    const backupDestinations =
+      await backupDestinationsService.getAllBackupDestinations();
+    await dispatch(setBackupDestinationsAction(backupDestinations));
+    const schedueles = await schedulesService.getAllTypeSchedules(
+      'VM_SNAPSHOT',
+    );
+    await dispatch(setSchedules(schedueles));
+  };
 
 export const save = async (model, type) => {
   if (model.guid) {
     await policiesService.updatePolicy(type, model.guid, model);
-    await policiesService.updateRule(
-      type,
-      model.rules[0].guid,
-      model.rules[0],
-    );
+    await policiesService.updateRule(type, model.rules[0].guid, model.rules[0]);
   } else {
     const policy = await policiesService.createPolicy(type, model);
     await policiesService.createRule(type, {

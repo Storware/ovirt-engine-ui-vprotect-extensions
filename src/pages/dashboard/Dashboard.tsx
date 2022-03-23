@@ -1,6 +1,6 @@
-import {useEffect, useState} from 'react';
-import {vprotectService} from '../../services/vprotect-service';
-import {hypervisorsService} from '../../services/hypervisors-service';
+import { useEffect, useState } from 'react';
+import { vprotectService } from '../../services/vprotect-service';
+import { hypervisorsService } from '../../services/hypervisors-service';
 import {
   DonutChart,
   ListView,
@@ -8,17 +8,17 @@ import {
   ProgressBar,
   Toolbar,
 } from 'patternfly-react';
-import {Filesize} from '../../components/convert/Filesize';
+import { Filesize } from '../../components/convert/Filesize';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 import Chargeback from './chargeback/Chargeback';
 import ActivityChart from './activity/ActivityChart';
-import {Card} from 'primereact/card';
+import { Card } from 'primereact/card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-import {Button} from 'primereact/button';
-import {TIMEZONES} from '../../model/timezones';
-import {user} from '../../utils/user';
-import {version} from '../../../package.json';
+import { Button } from 'primereact/button';
+import { TIMEZONES } from '../../model/timezones';
+import { user } from '../../utils/user';
+import { version } from '../../../package.json';
 
 const fullTimeZoneName =
   user &&
@@ -35,13 +35,13 @@ export const Dashboard = () => {
       setProtection(result);
     });
     vprotectService.getDashboardBackupStats().then((result) => {
-      setBackupStats(result)
+      setBackupStats(result);
     });
     vprotectService.getDashboardStagingSpaceInfo().then((result) => {
-      setStaginngSpace(result)
+      setStaginngSpace(result);
     });
     vprotectService.getDashboardBackupDestinationStats().then((result) => {
-      setBackupDestinationStats(result)
+      setBackupDestinationStats(result);
     });
   }, []);
 
@@ -54,7 +54,7 @@ export const Dashboard = () => {
           {isNotOpenstackBuild && (
             <div className={'form-group'}>
               <Button
-                label='Synchronize inventory'
+                label="Synchronize inventory"
                 onClick={() => {
                   hypervisorsService
                     .getAllHypervisorManagers()
@@ -63,7 +63,7 @@ export const Dashboard = () => {
                         hypervisorManagers: hypervisorManagers
                           .filter((el) => el.type.name === 'RHV')
                           .map((el) => {
-                            return {guid: el.guid};
+                            return { guid: el.guid };
                           }),
                       });
                     });
@@ -74,21 +74,21 @@ export const Dashboard = () => {
         </div>
       </Toolbar>
       <div className={'container-fluid pt-4'}>
-        <div className='d-flex w-100'>
-          <Card className='w-100 mr-2'>
+        <div className="d-flex w-100">
+          <Card className="w-100 mr-2">
             <div className={'card-pf-heading'}>
               <h5 className={'font-weight-light'}>Protection stats</h5>
             </div>
-            <hr/>
+            <hr />
             {protection && (
-              <div className='card-pf-body pie-chart-with-title-container text-center'>
+              <div className="card-pf-body pie-chart-with-title-container text-center">
                 <h6 className={'text-center font-weight-light card-pf-title'}>
                   VIRTUAL MACHINES
                 </h6>
 
                 <div>
                   <DonutChart
-                    id='virtual-environments'
+                    id="virtual-environments"
                     data={{
                       colors: {
                         Protected: '#34bfa3',
@@ -97,39 +97,31 @@ export const Dashboard = () => {
                       },
                       columns: [
                         ['Protected', protection.vm.protectedNo],
-                        [
-                          'Not Protected',
-                          protection.vm.notProtected,
-                        ],
-                        [
-                          'Not Scheduled',
-                          protection.vm.noSchedule,
-                        ],
+                        ['Not Protected', protection.vm.notProtected],
+                        ['Not Scheduled', protection.vm.noSchedule],
                       ],
-                      groups: [
-                        ['Protected', 'Not Protected', 'Not Scheduled'],
-                      ],
+                      groups: [['Protected', 'Not Protected', 'Not Scheduled']],
                       // type: 'pie'
                     }}
-                    tooltip={{show: true}}
-                    title={{secondary: 'VMs'}}
+                    tooltip={{ show: true }}
+                    title={{ secondary: 'VMs' }}
                   />
                 </div>
               </div>
             )}
           </Card>
-          <Card className='w-100 ml-2'>
+          <Card className="w-100 ml-2">
             <div className={'card-pf-heading'}>
               <h5 className={'font-weight-light'}>Success Rate</h5>
             </div>
-            <hr/>
+            <hr />
             {backupStats && (
               <div className={'d-flex flex-row justify-content-around'}>
-                <div className='d-flex flex-column'>
+                <div className="d-flex flex-column">
                   <h6 className={'text-center card-pf-title'}>LAST 24H</h6>
                   <DonutChart
-                    id='donunt-chart-1'
-                    size={{width: 210, height: 167}}
+                    id="donunt-chart-1"
+                    size={{ width: 210, height: 167 }}
                     data={{
                       colors: {
                         Success: '#34bfa3',
@@ -144,8 +136,8 @@ export const Dashboard = () => {
                       groups: [['Success', 'In progress', 'Failed']],
                       order: null,
                     }}
-                    tooltip={{show: true}}
-                    title={{secondary: 'tasks'}}
+                    tooltip={{ show: true }}
+                    title={{ secondary: 'tasks' }}
                   />
                 </div>
                 <div className={'align-self-center'}>
@@ -158,7 +150,7 @@ export const Dashboard = () => {
 
         {isNotOpenstackBuild && (
           <div className={'col-md-6'}>
-            <div className='card-pf'>
+            <div className="card-pf">
               <div>
                 <div className={'card-pf-heading'}>
                   <div>
@@ -172,37 +164,37 @@ export const Dashboard = () => {
                 </div>
                 <ListView>
                   {stagingSpace.length > 0 &&
-                  stagingSpace.map((el) => {
-                    const usedSpace = el.totalSpace - el.availableSpace;
-                    const percentage = (usedSpace / el.totalSpace) * 100;
-                    return (
-                      <ListViewItem
-                        key={el.node.name}
-                        additionalInfo={[
-                          <div
-                            key={el.node.name + 'progressBar'}
-                            className={'w-100'}
-                          >
+                    stagingSpace.map((el) => {
+                      const usedSpace = el.totalSpace - el.availableSpace;
+                      const percentage = (usedSpace / el.totalSpace) * 100;
+                      return (
+                        <ListViewItem
+                          key={el.node.name}
+                          additionalInfo={[
                             <div
-                              className={
-                                'd-flex flex-row justify-content-between'
-                              }
+                              key={el.node.name + 'progressBar'}
+                              className={'w-100'}
                             >
-                                  <span className={'color-black'}>
-                                    {percentage.toFixed(2)}%
-                                  </span>
-                              <span className={'color-black'}>
-                                    <Filesize bytes={usedSpace}/> /{' '}
-                                <Filesize bytes={el.totalSpace}/>
-                                  </span>
-                            </div>
-                            <ProgressBar now={percentage}/>
-                          </div>,
-                        ]}
-                        heading={el.node.name}
-                      />
-                    );
-                  })}
+                              <div
+                                className={
+                                  'd-flex flex-row justify-content-between'
+                                }
+                              >
+                                <span className={'color-black'}>
+                                  {percentage.toFixed(2)}%
+                                </span>
+                                <span className={'color-black'}>
+                                  <Filesize bytes={usedSpace} /> /{' '}
+                                  <Filesize bytes={el.totalSpace} />
+                                </span>
+                              </div>
+                              <ProgressBar now={percentage} />
+                            </div>,
+                          ]}
+                          heading={el.node.name}
+                        />
+                      );
+                    })}
                 </ListView>
               </div>
             </div>
@@ -211,7 +203,7 @@ export const Dashboard = () => {
 
         {isNotOpenstackBuild && (
           <div className={'col-md-6'}>
-            <div className='card-pf'>
+            <div className="card-pf">
               <div>
                 <div className={'card-pf-heading'}>
                   <h6>Backup Destinations</h6>
@@ -219,58 +211,49 @@ export const Dashboard = () => {
                 {backupDestinationStats && (
                   <div>
                     {backupDestinationStats.totalUsedSpace &&
-                    backupDestinationStats
-                      .totalAvailableSpace && (
-                      <div className={'padding-top-bottom-10px'}>
-                        <div
-                          className={
-                            'd-flex flex-row justify-content-between'
-                          }
-                        >
-                          <div>Total used space</div>
-                          <div>
-                            <Filesize
-                              bytes={
-                                backupDestinationStats
-                                  .totalUsedSpace
-                              }
-                            />
+                      backupDestinationStats.totalAvailableSpace && (
+                        <div className={'padding-top-bottom-10px'}>
+                          <div
+                            className={
+                              'd-flex flex-row justify-content-between'
+                            }
+                          >
+                            <div>Total used space</div>
+                            <div>
+                              <Filesize
+                                bytes={backupDestinationStats.totalUsedSpace}
+                              />
+                            </div>
                           </div>
-                        </div>
 
-                        <div
-                          className={
-                            'd-flex flex-row justify-content-between'
-                          }
-                        >
-                          <div>Total available space</div>
-                          <div>
-                            <Filesize
-                              bytes={
-                                backupDestinationStats
-                                  .totalAvailableSpace
-                              }
-                            />
+                          <div
+                            className={
+                              'd-flex flex-row justify-content-between'
+                            }
+                          >
+                            <div>Total available space</div>
+                            <div>
+                              <Filesize
+                                bytes={
+                                  backupDestinationStats.totalAvailableSpace
+                                }
+                              />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )}
+                      )}
 
                     <ListView>
-                      {backupDestinationStats.backupDestinations
-                        .length > 0 &&
-                      backupDestinationStats.backupDestinations.map(
-                        (el) => {
+                      {backupDestinationStats.backupDestinations.length > 0 &&
+                        backupDestinationStats.backupDestinations.map((el) => {
                           const usedSpace =
-                            (el.totalUsedSpace / el.totalAvailableSpace) *
-                            100;
+                            (el.totalUsedSpace / el.totalAvailableSpace) * 100;
                           const usedDedupSpace =
                             (el.totalDedupUsedSpace /
                               el.totalDedupAvailableSpace) *
                             100;
                           const reductionRatio =
-                            (1 -
-                              el.totalDedupUsedSpace / el.totalUsedSpace) *
+                            (1 - el.totalDedupUsedSpace / el.totalUsedSpace) *
                             100;
 
                           return (
@@ -281,10 +264,9 @@ export const Dashboard = () => {
                             >
                               {!(
                                 el.totalUsedSpace || el.totalAvailableSpace
-                              ) && <ListViewItem heading={`No data`}/>}
+                              ) && <ListViewItem heading={`No data`} />}
 
-                              {!el.totalAvailableSpace &&
-                              el.totalUsedSpace && (
+                              {!el.totalAvailableSpace && el.totalUsedSpace && (
                                 <ListViewItem
                                   additionalInfo={[
                                     <div
@@ -311,20 +293,20 @@ export const Dashboard = () => {
                                             'd-flex flex-row justify-content-between'
                                           }
                                         >
-                                              <span className={'color-black'}>
-                                                {usedSpace.toFixed(2)}%
-                                              </span>
                                           <span className={'color-black'}>
-                                                <Filesize
-                                                  bytes={el.totalUsedSpace}
-                                                />{' '}
+                                            {usedSpace.toFixed(2)}%
+                                          </span>
+                                          <span className={'color-black'}>
+                                            <Filesize
+                                              bytes={el.totalUsedSpace}
+                                            />{' '}
                                             /{' '}
                                             <Filesize
                                               bytes={el.totalAvailableSpace}
                                             />
-                                              </span>
+                                          </span>
                                         </div>
-                                        <ProgressBar now={usedSpace}/>
+                                        <ProgressBar now={usedSpace} />
                                       </div>,
                                     ]}
                                     heading={'Used space'}
@@ -342,79 +324,63 @@ export const Dashboard = () => {
                                                 'd-flex flex-row justify-content-between'
                                               }
                                             >
-                                                  <span
-                                                    className={'color-black'}
-                                                  >
-                                                    {usedDedupSpace.toFixed(2)}%
-                                                  </span>
-                                              <span
-                                                className={'color-black'}
-                                              >
-                                                    <Filesize
-                                                      bytes={
-                                                        el.totalDedupUsedSpace
-                                                      }
-                                                    />{' '}
+                                              <span className={'color-black'}>
+                                                {usedDedupSpace.toFixed(2)}%
+                                              </span>
+                                              <span className={'color-black'}>
+                                                <Filesize
+                                                  bytes={el.totalDedupUsedSpace}
+                                                />{' '}
                                                 /{' '}
                                                 <Filesize
                                                   bytes={
                                                     el.totalDedupAvailableSpace
                                                   }
                                                 />
-                                                  </span>
+                                              </span>
                                             </div>
-                                            <ProgressBar
-                                              now={usedDedupSpace}
-                                            />
+                                            <ProgressBar now={usedDedupSpace} />
                                           </div>,
                                         ]}
-                                        heading={
-                                          'Used Space (Deduplicated)'
-                                        }
+                                        heading={'Used Space (Deduplicated)'}
                                       />
                                     </div>
                                   )}
                                   {el.totalDedupUsedSpace &&
-                                  1 -
-                                  el.totalDedupUsedSpace /
-                                  el.totalUsedSpace >
-                                  0 && (
-                                    <div>
-                                      <ListViewItem
-                                        additionalInfo={[
-                                          <div
-                                            key={el.guid + `progressBar`}
-                                            className={'w-100'}
-                                          >
+                                    1 -
+                                      el.totalDedupUsedSpace /
+                                        el.totalUsedSpace >
+                                      0 && (
+                                      <div>
+                                        <ListViewItem
+                                          additionalInfo={[
                                             <div
-                                              className={
-                                                'd-flex flex-row justify-content-between'
-                                              }
+                                              key={el.guid + `progressBar`}
+                                              className={'w-100'}
                                             >
-                                                    <span
-                                                      className={'color-black'}
-                                                    >
-                                                      {reductionRatio.toFixed(
-                                                        2,
-                                                      )}
-                                                      %
-                                                    </span>
-                                            </div>
-                                            <ProgressBar
-                                              now={reductionRatio}
-                                            />
-                                          </div>,
-                                        ]}
-                                        heading={'Reduction Ratio'}
-                                      />
-                                    </div>
-                                  )}
+                                              <div
+                                                className={
+                                                  'd-flex flex-row justify-content-between'
+                                                }
+                                              >
+                                                <span className={'color-black'}>
+                                                  {reductionRatio.toFixed(2)}%
+                                                </span>
+                                              </div>
+                                              <ProgressBar
+                                                now={reductionRatio}
+                                              />
+                                            </div>,
+                                          ]}
+                                          heading={'Reduction Ratio'}
+                                        />
+                                      </div>
+                                    )}
                                 </div>
                               )}
                             </ListViewItem>
                           );
-                        },
-                      )}
+                        })}
                     </ListView>
                   </div>
                 )}
@@ -423,33 +389,31 @@ export const Dashboard = () => {
           </div>
         )}
 
-        <div className='d-flex align-items-stretch'>
-          <Card className='w-100 mr-3 mt-3'>
-
+        <div className="d-flex align-items-stretch">
+          <Card className="w-100 mr-3 mt-3">
             <div>
               <div className={'card-pf-heading'}>
                 <h5 className={'font-weight-light'}>Last 24h backup size</h5>
               </div>
-              <hr/>
+              <hr />
               <div>
-                <Chargeback/>
+                <Chargeback />
               </div>
             </div>
           </Card>
-          <Card className='w-100 mt-3'>
-
+          <Card className="w-100 mt-3">
             <div>
               <div className={'card-pf-heading'}>
                 <h5 className={'font-weight-light'}>Activity</h5>
               </div>
-              <hr/>
+              <hr />
               <div>
-                <ActivityChart/>
+                <ActivityChart />
               </div>
             </div>
           </Card>
         </div>
       </div>
     </>
-  )
-}
+  );
+};

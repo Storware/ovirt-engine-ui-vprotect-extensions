@@ -24,13 +24,12 @@ const getFilterEntitiesOptionsMethod = {
   virtualMachineGuids: virtualMachinesService.getVirtualMachines,
 };
 
-export const getPropertyOptions = (property: string, propertyOptions) => async (
-  dispatch: Dispatch,
-) => {
-  await dispatch(
-    setPropertyOptions({
-      ...propertyOptions,
-      [property]: await getFilterEntitiesOptionsMethod[property](),
-    }),
-  );
-};
+export const getPropertyOptions =
+  (property: string, propertyOptions) => async (dispatch: Dispatch) => {
+    await dispatch(
+      setPropertyOptions({
+        ...propertyOptions,
+        [property]: await getFilterEntitiesOptionsMethod[property](),
+      }),
+    );
+  };

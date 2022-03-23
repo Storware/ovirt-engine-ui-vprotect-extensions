@@ -16,14 +16,14 @@ export const setNetworkCopyAction = (payload: any): NetworkAction => {
   };
 };
 
-export const getNetwork = ({ hypervisorManagerGuid }) => async (
-  dispatch: Dispatch,
-) => {
-  const network = await networkService.getNetworkList({
-    ...(hypervisorManagerGuid && {
-      'hypervisor-manager': hypervisorManagerGuid,
-    }),
-  });
-  await dispatch(setNetworkAction(network));
-  await dispatch(setNetworkCopyAction(network));
-};
+export const getNetwork =
+  ({ hypervisorManagerGuid }) =>
+  async (dispatch: Dispatch) => {
+    const network = await networkService.getNetworkList({
+      ...(hypervisorManagerGuid && {
+        'hypervisor-manager': hypervisorManagerGuid,
+      }),
+    });
+    await dispatch(setNetworkAction(network));
+    await dispatch(setNetworkCopyAction(network));
+  };

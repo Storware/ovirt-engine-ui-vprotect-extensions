@@ -52,9 +52,10 @@ export const BackupPolicy = () => {
                   ...(rule.ruleBackupDestinations.find(
                     ({ roleType: { name } }) => name === 'SECONDARY',
                   ) && {
-                    secondaryBackupDestination: rule.ruleBackupDestinations.find(
-                      ({ roleType: { name } }) => name === 'SECONDARY',
-                    ),
+                    secondaryBackupDestination:
+                      rule.ruleBackupDestinations.find(
+                        ({ roleType: { name } }) => name === 'SECONDARY',
+                      ),
                   }),
                 },
               };

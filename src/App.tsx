@@ -17,11 +17,11 @@ const App = () => {
   return (
     <Router>
       {start > 0 && (
-          <Redirect
-              to={{
-                pathname: '/' + path,
-              }}
-          />
+        <Redirect
+          to={{
+            pathname: '/' + path,
+          }}
+        />
       )}
       <div className={'py-4 container-fluid'}>
         <Switch>

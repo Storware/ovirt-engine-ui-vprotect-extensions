@@ -1,10 +1,10 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 import { Button } from 'primereact/button';
 import { commonSizeOptions } from 'pages/dashboard/chargeback/commonSizeOptions';
 import BarChart from 'components/chart/BarChart';
 import { ChartData } from 'model/ChartData';
-import {Menu} from 'primereact/menu';
+import { Menu } from 'primereact/menu';
 
 const prepareChartDataDays = (datasets, state) => {
   let limit = 30;
@@ -237,42 +237,94 @@ export default ({ datasets }) => {
   const menuRestore = useRef(null);
 
   const dailyActivityMenu = [
-    { label: 'Daily Activity', command: () => {setState({
-        ...state,
-        option: 'days'
-      })}}
-  ]
+    {
+      label: 'Daily Activity',
+      command: () => {
+        setState({
+          ...state,
+          option: 'days',
+        });
+      },
+    },
+  ];
 
   const backupChartMenu = [
-    { label: 'Backup Size', command: () => {setState({
-        ...state,
-        option: 'backups',
-      })}},
-    { label: 'Backup Time', command: () => { setState({
-        ...state,
-        option: 'time',
-      })}}
-  ]
+    {
+      label: 'Backup Size',
+      command: () => {
+        setState({
+          ...state,
+          option: 'backups',
+        });
+      },
+    },
+    {
+      label: 'Backup Time',
+      command: () => {
+        setState({
+          ...state,
+          option: 'time',
+        });
+      },
+    },
+  ];
 
   const restoreChartMenu = [
-    { label: 'Restore Time', command: () => {setState({
-        ...state,
-        option: 'restoreTime'
-      })}}
-  ]
+    {
+      label: 'Restore Time',
+      command: () => {
+        setState({
+          ...state,
+          option: 'restoreTime',
+        });
+      },
+    },
+  ];
 
   return (
     <div>
       <div className="d-flex justify-content-end mt-3">
         <div>
-          <Menu model={dailyActivityMenu} popup ref={menuDailyActivity} id="popup_menu" />
-          <Button label='Daily Activity' onClick={(event) => menuDailyActivity.current.toggle(event)} aria-controls="popup_menu" aria-haspopup className="mx-2"/>
+          <Menu
+            model={dailyActivityMenu}
+            popup
+            ref={menuDailyActivity}
+            id="popup_menu"
+          />
+          <Button
+            label="Daily Activity"
+            onClick={(event) => menuDailyActivity.current.toggle(event)}
+            aria-controls="popup_menu"
+            aria-haspopup
+            className="mx-2"
+          />
 
-          <Menu model={backupChartMenu} popup ref={menuBackup} id="popup_menu" />
-          <Button label='Backup Statistics' onClick={(event) => menuBackup.current.toggle(event)} aria-controls="popup_menu" aria-haspopup />
+          <Menu
+            model={backupChartMenu}
+            popup
+            ref={menuBackup}
+            id="popup_menu"
+          />
+          <Button
+            label="Backup Statistics"
+            onClick={(event) => menuBackup.current.toggle(event)}
+            aria-controls="popup_menu"
+            aria-haspopup
+          />
 
-          <Menu model={restoreChartMenu} popup ref={menuRestore} id="popup_menu" />
-          <Button label='Restore Statistics' onClick={(event) => menuRestore.current.toggle(event)} aria-controls="popup_menu" aria-haspopup className="mx-2"/>
+          <Menu
+            model={restoreChartMenu}
+            popup
+            ref={menuRestore}
+            id="popup_menu"
+          />
+          <Button
+            label="Restore Statistics"
+            onClick={(event) => menuRestore.current.toggle(event)}
+            aria-controls="popup_menu"
+            aria-haspopup
+            className="mx-2"
+          />
         </div>
       </div>
       <BarChart data={state.chartData} chartType={state.type} />

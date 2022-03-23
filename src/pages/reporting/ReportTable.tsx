@@ -24,10 +24,13 @@ const virtualEnvironmentStatus = (rowData) => {
 const nameLink = (rowData) => {
   return (
     <div>
-      { rowData.protectedEntityGuid ?
+      {rowData.protectedEntityGuid ? (
         <Link to={`/virtual_environments/${rowData.protectedEntityGuid}`}>
           {rowData.protectedEntity}
-        </Link> : rowData.protectedEntity }
+        </Link>
+      ) : (
+        rowData.protectedEntity
+      )}
     </div>
   );
 };

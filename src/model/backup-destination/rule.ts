@@ -1,5 +1,5 @@
-import {Schedule} from '../schedule';
-import {BackupDestinationRule} from './backup-destination-rule';
+import { Schedule } from '../schedule';
+import { BackupDestinationRule } from './backup-destination-rule';
 
 export class Rule {
   guid: string;
@@ -7,8 +7,8 @@ export class Rule {
   backupDestinations = [];
   ruleBackupDestinations = {
     primaryBackupDestination: new BackupDestinationRule('PRIMARY'),
-    secondaryBackupDestination: new BackupDestinationRule('SECONDARY')
-  }
+    secondaryBackupDestination: new BackupDestinationRule('SECONDARY'),
+  };
   retentionVersions: number;
   retentionDays: number;
   position = 0;

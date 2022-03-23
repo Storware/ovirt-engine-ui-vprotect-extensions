@@ -5,7 +5,7 @@ import {
   dateTemplate,
 } from '../../../components/table/templates';
 import { useSelector } from 'react-redux';
-import {selectBackupsHistory} from '../../../store/virtual-machine/selectors';
+import { selectBackupsHistory } from '../../../store/virtual-machine/selectors';
 import Table from 'components/table/primereactTable';
 
 const BackupsTable = () => {

@@ -65,82 +65,82 @@ export const setHypervisorClustersAction = (
   };
 };
 
-export const getBackupLocations = (virtualMachine: any) => async (
-  dispatch: Dispatch,
-) => {
-  const backupLocations = await backupsService.getBackupLocations(
-    virtualMachine.guid,
-  );
-
-  await dispatch(setBackupLocationsAction(backupLocations));
-  if (!backupLocations.length) {
-    alertService.error(
-      'There are no restorable backups for this virtual environment',
+export const getBackupLocations =
+  (virtualMachine: any) => async (dispatch: Dispatch) => {
+    const backupLocations = await backupsService.getBackupLocations(
+      virtualMachine.guid,
     );
-    await dispatch(hideModalAction());
-    return;
-  }
-  await getHypervisorManagersAvailableForBackupBackupLocation(
-    backupLocations[0],
-    virtualMachine,
-  )(dispatch);
-};
 
-export const getHypervisorManagersAvailableForBackupBackupLocation = (
-  backupLocation: any,
-  virtualMachine: any,
-) => async (dispatch: Dispatch) => {
-  const backupDetails = await backupsService.getBackup(
-    backupLocation?.backup?.guid,
-  );
+    await dispatch(setBackupLocationsAction(backupLocations));
+    if (!backupLocations.length) {
+      alertService.error(
+        'There are no restorable backups for this virtual environment',
+      );
+      await dispatch(hideModalAction());
+      return;
+    }
+    await getHypervisorManagersAvailableForBackupBackupLocation(
+      backupLocations[0],
+      virtualMachine,
+    )(dispatch);
+  };
 
-  const hypervisorManagers = await backupsService.getHypervisorManagersAvailableForBackup(
-    backupDetails.guid,
-  );
+export const getHypervisorManagersAvailableForBackupBackupLocation =
+  (backupLocation: any, virtualMachine: any) => async (dispatch: Dispatch) => {
+    const backupDetails = await backupsService.getBackup(
+      backupLocation?.backup?.guid,
+    );
 
-  if (hypervisorManagers.length === 0) {
-    return;
-  }
-  await dispatch(setHypervisoManagersAction(hypervisorManagers));
-  const hypervisorInArray = hypervisorManagers?.find(
-    (el) => el.guid === virtualMachine.hvManager.guid,
-  );
-  const hypervisorManager = hypervisorInArray || hypervisorManagers[0];
-  await dispatch(
-    setTaskAction({
-      ...new RestoreAndImportTask(),
-      hypervisorManager,
-    }),
-  );
+    const hypervisorManagers =
+      await backupsService.getHypervisorManagersAvailableForBackup(
+        backupDetails.guid,
+      );
 
-  const hypervisorClusters = await hypervisorsService.getHypervisorClustersForHvm(
-    hypervisorManager.guid,
-  );
-  await dispatch(setHypervisorClustersAction(hypervisorClusters));
+    if (hypervisorManagers.length === 0) {
+      return;
+    }
+    await dispatch(setHypervisoManagersAction(hypervisorManagers));
+    const hypervisorInArray = hypervisorManagers?.find(
+      (el) => el.guid === virtualMachine.hvManager.guid,
+    );
+    const hypervisorManager = hypervisorInArray || hypervisorManagers[0];
+    await dispatch(
+      setTaskAction({
+        ...new RestoreAndImportTask(),
+        hypervisorManager,
+      }),
+    );
 
-  const hypervisorStorages = await hypervisorsService.getHypervisorStoragesForHvm(
-    hypervisorManager.guid,
-  );
-  await dispatch(setHypervisorStoragesAction(hypervisorStorages));
-};
+    const hypervisorClusters =
+      await hypervisorsService.getHypervisorClustersForHvm(
+        hypervisorManager.guid,
+      );
+    await dispatch(setHypervisorClustersAction(hypervisorClusters));
 
-export const getHypervisorStoragesForHypervisorManager = (
-  hypervisorManagerGuid: string,
-) => async (dispatch: Dispatch) => {
-  const hypervisorStorages = await hypervisorsService.getHypervisorStoragesForHvm(
-    hypervisorManagerGuid,
-  );
-  await dispatch(setHypervisorStoragesAction(hypervisorStorages));
-};
+    const hypervisorStorages =
+      await hypervisorsService.getHypervisorStoragesForHvm(
+        hypervisorManager.guid,
+      );
+    await dispatch(setHypervisorStoragesAction(hypervisorStorages));
+  };
 
-export const getHypervisorClustersForHypervisorManager = (
-  hypervisorManagerGuid: string,
-) => async (dispatch: Dispatch) => {
-  const hypervisorClusters = await hypervisorsService.getHypervisorClustersForHvm(
-    hypervisorManagerGuid,
-  );
-  await dispatch(setHypervisorClustersAction(hypervisorClusters));
-};
+export const getHypervisorStoragesForHypervisorManager =
+  (hypervisorManagerGuid: string) => async (dispatch: Dispatch) => {
+    const hypervisorStorages =
+      await hypervisorsService.getHypervisorStoragesForHvm(
+        hypervisorManagerGuid,
+      );
+    await dispatch(setHypervisorStoragesAction(hypervisorStorages));
+  };
+
+export const getHypervisorClustersForHypervisorManager =
+  (hypervisorManagerGuid: string) => async (dispatch: Dispatch) => {
+    const hypervisorClusters =
+      await hypervisorsService.getHypervisorClustersForHvm(
+        hypervisorManagerGuid,
+      );
+    await dispatch(setHypervisorClustersAction(hypervisorClusters));
+  };
 
 export const submitTask = (task) => async (dispatch: Dispatch) => {
   try {

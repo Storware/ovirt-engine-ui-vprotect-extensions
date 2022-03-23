@@ -21,10 +21,8 @@ export const RulesContainer = ({
     secondaryBackupDestinationToggle,
     setSecondaryBackupDestinationToggle,
   ] = useState(!!rule.ruleBackupDestinations.secondaryBackupDestination);
-  const [
-    primaryBackupDestinationOptions,
-    setPrimaryBackupDestinationOptions,
-  ] = useState(filteredBackupDestinations);
+  const [primaryBackupDestinationOptions, setPrimaryBackupDestinationOptions] =
+    useState(filteredBackupDestinations);
   const [
     secondaryBackupDestinationOptions,
     setSecondaryBackupDestinationOptions,
@@ -182,7 +180,8 @@ export const RulesContainer = ({
             .backupRetentionSettings.keepLastBackupWhenSourceStillExists
         }
         updateKeepLastBackupWhenSourceStillExists={({ value }) => {
-          rule.ruleBackupDestinations.primaryBackupDestination.backupRetentionSettings.keepLastBackupWhenSourceStillExists = value;
+          rule.ruleBackupDestinations.primaryBackupDestination.backupRetentionSettings.keepLastBackupWhenSourceStillExists =
+            value;
           updateBackupDestination();
         }}
         retentionKeepLastNFull={
@@ -190,14 +189,16 @@ export const RulesContainer = ({
             .backupRetentionSettings.retentionKeepLastNFull
         }
         updateRetentionKeepLastNFull={({ value }) => {
-          rule.ruleBackupDestinations.primaryBackupDestination.backupRetentionSettings.retentionKeepLastNFull = value;
+          rule.ruleBackupDestinations.primaryBackupDestination.backupRetentionSettings.retentionKeepLastNFull =
+            value;
         }}
         retentionKeepLastNIncremental={
           rule.ruleBackupDestinations.primaryBackupDestination
             .backupRetentionSettings.retentionKeepLastNIncremental
         }
         updateRetentionKeepLastNIncremental={({ value }) => {
-          rule.ruleBackupDestinations.primaryBackupDestination.backupRetentionSettings.retentionKeepLastNIncremental = value;
+          rule.ruleBackupDestinations.primaryBackupDestination.backupRetentionSettings.retentionKeepLastNIncremental =
+            value;
         }}
       />
 
@@ -207,9 +208,8 @@ export const RulesContainer = ({
           onChange={({ value }) => {
             delete rule.ruleBackupDestinations.secondaryBackupDestination;
             if (value) {
-              rule.ruleBackupDestinations.secondaryBackupDestination = new BackupDestinationRule(
-                'SECONDARY',
-              );
+              rule.ruleBackupDestinations.secondaryBackupDestination =
+                new BackupDestinationRule('SECONDARY');
             }
             updateFilteredBackupDestinations();
             setBackupDestinationOptions();
@@ -238,7 +238,8 @@ export const RulesContainer = ({
               .backupRetentionSettings.keepLastBackupWhenSourceStillExists
           }
           updateKeepLastBackupWhenSourceStillExists={({ value }) => {
-            rule.ruleBackupDestinations.secondaryBackupDestination.backupRetentionSettings.keepLastBackupWhenSourceStillExists = value;
+            rule.ruleBackupDestinations.secondaryBackupDestination.backupRetentionSettings.keepLastBackupWhenSourceStillExists =
+              value;
             updateBackupDestination();
           }}
           retentionKeepLastNFull={
@@ -246,14 +247,16 @@ export const RulesContainer = ({
               .backupRetentionSettings.retentionKeepLastNFull
           }
           updateRetentionKeepLastNFull={({ value }) => {
-            rule.ruleBackupDestinations.secondaryBackupDestination.backupRetentionSettings.retentionKeepLastNFull = value;
+            rule.ruleBackupDestinations.secondaryBackupDestination.backupRetentionSettings.retentionKeepLastNFull =
+              value;
           }}
           retentionKeepLastNIncremental={
             rule.ruleBackupDestinations.secondaryBackupDestination
               .backupRetentionSettings.retentionKeepLastNIncremental
           }
           updateRetentionKeepLastNIncremental={({ value }) => {
-            rule.ruleBackupDestinations.secondaryBackupDestination.backupRetentionSettings.retentionKeepLastNIncremental = value;
+            rule.ruleBackupDestinations.secondaryBackupDestination.backupRetentionSettings.retentionKeepLastNIncremental =
+              value;
           }}
         />
       )}
