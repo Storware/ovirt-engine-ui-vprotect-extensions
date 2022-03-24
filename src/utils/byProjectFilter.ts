@@ -16,9 +16,9 @@ export const getElementWithoutProjectUuidInName = (element) => {
 export const getElementWithProjectUuidInName = (policy) => {
   return {
     ...policy,
-    ...(isNotOpenstackBuild
-      ? {}
-      : { name: `uuid_${getCookie('recent_project')}_${policy.name}` }),
+    ...(!isNotOpenstackBuild && {
+      name: `uuid_${getCookie('recent_project')}_${policy.name}`,
+    }),
   };
 };
 
