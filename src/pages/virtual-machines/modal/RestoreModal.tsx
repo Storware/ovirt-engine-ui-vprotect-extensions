@@ -29,6 +29,7 @@ import {
   selectNetworkCopy,
 } from '../../../store/network/selectors';
 import { getNetwork, setNetworkAction } from '../../../store/network/actions';
+import { hideModalAction } from 'store/modal/actions';
 
 const storageDropdownTemplate = (option) => {
   return (
@@ -142,17 +143,20 @@ export const RestoreModal = ({ virtualEnvironment }) => {
         // @ts-ignore
         innerRef={formRef}
         initialValues={task}
-        onSubmit={({ restoredNetworks, ...values }, { setSubmitting }) => {
+        onSubmit={({ restoredNetworks = [], ...values }, { setSubmitting }) => {
           dispatch(
             submitTask({
               ...values,
               restoredNetworks:
                 restoredNetworks.length === 0
-                  ? [networkList[0]]
+                  ? !!networkList[0]
+                    ? [networkList[0]]
+                    : []
                   : [restoredNetworks],
             }),
           );
           setSubmitting(false);
+          dispatch(hideModalAction());
         }}
       >
         {() => (
