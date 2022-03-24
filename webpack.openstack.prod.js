@@ -169,9 +169,9 @@ module.exports = {
         __dirname,
         'src/integrations/openstack/App.tsx',
       ),
-      [path.resolve(__dirname, 'src/utils/config.js')]: path.resolve(
+      [path.resolve(__dirname, 'src/utils/config.ts')]: path.resolve(
         __dirname,
-        'src/integrations/openstack/config.js',
+        'src/integrations/openstack/config.ts',
       ),
     },
     extensions: ['.ts', '.tsx', '.js', '.jsx', '*'],

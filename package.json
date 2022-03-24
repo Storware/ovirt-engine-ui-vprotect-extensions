@@ -1,15 +1,20 @@
 {
   "name": "ovirt-engine-vprotect-extension",
-  "version": "5.0.0-1",
+  "version": "5.0.0-2",
   "license": "Apache-2.0",
   "repository": {
     "type": "git"
   },
   "scripts": {
-    "build": "webpack --config webpack.ovirt.prod.js",
     "start": "webpack-dev-server --config webpack.dev.js",
-    "openstackBuild": "webpack --config webpack.openstack.prod.js",
-    "prettify": "prettier --write \"**/*.ts*\""
+    "prettify": "prettier --write \"**/*.ts*\"",
+    "clean:dist": "rm -rf dist",
+    "zip:oVirt": "cd dist && zip -r oVirt.zip ./*",
+    "zip:openstack": "cd dist && zip -r openstack.zip ./*",
+    "build:oVirt": "yarn clean:dist && webpack --config webpack.ovirt.prod.js",
+    "build:openstack": "yarn clean:dist && webpack --config webpack.openstack.prod.js",
+    "build-n-zip:oVirt": "yarn build:oVirt && yarn zip:oVirt",
+    "build-n-zip:openstack": "yarn build:openstack && yarn zip:openstack"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.2.5",
