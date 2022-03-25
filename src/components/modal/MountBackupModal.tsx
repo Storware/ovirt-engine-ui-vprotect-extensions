@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {selectSaved} from 'store/modal/selectors';
+import { selectSaved } from 'store/modal/selectors';
 import {
   checkIfIscsiMountable,
   getBackupFilesystems,
   setMountedBackup,
+  setNodesAction,
   setTaskAction,
   submitTask,
 } from 'store/mount-backup-modal/actions';
@@ -27,6 +28,9 @@ import { Column } from 'primereact/column';
 import Table from '../table/primereactTable';
 import { sizeTemplate } from '../table/templates';
 import { Chips } from 'primereact/chips';
+import { getBackupLocations } from 'store/restore-modal/actions';
+import { selectBackupLocations } from 'store/restore-modal/selectors';
+import { nodesService } from '../../services/nodes-service';
 
 const manuallyMountParameterLabel = (el) => {
   return (
@@ -63,16 +67,24 @@ let autoMountFileSystem = {
   mountPath: null,
 };
 
-export const MountBackupModal = ({ guid, backups }) => {
+export const MountBackupModal = ({ virtualEnvironment, backups }) => {
   const dispatch = useDispatch();
   const [iscsiDisks, setIscsiDisks] = useState([]);
 
   useEffect(() => {
-    dispatch(setMountedBackup(guid, backups));
-  }, []);
+    dispatch(getBackupLocations(virtualEnvironment));
+    getNodes().then();
+    dispatch(setMountedBackup(virtualEnvironment.guid, backups));
+  }, [virtualEnvironment]);
+
+  const getNodes = async () => {
+    const _nodes = await nodesService.getAllNodes();
+    await dispatch(setNodesAction(_nodes));
+  };
 
   const [
     mountableBackups,
+    backupsLocations,
     nodes,
     task,
     manualMountFileSystems,
@@ -80,6 +92,7 @@ export const MountBackupModal = ({ guid, backups }) => {
     iscsiMountable,
   ] = [
     useSelector(selectMountableBackups),
+    useSelector(selectBackupLocations),
     useSelector(selectNodes),
     useSelector(selectTask),
     useSelector(selectManualMountFilesystems),
@@ -108,44 +121,51 @@ export const MountBackupModal = ({ guid, backups }) => {
 
   return (
     <div>
-      <div className='form'>
+      <div className="form">
         <label>Select backup to mount</label>
         <BackupDropdown
-          options={mountableBackups}
-          value={task.backup}
+          options={backupsLocations}
+          value={task.backupLocation}
           onChange={(event) => {
-            autoMountFileSystem = {...autoMountFileSystem, mountPath: '/mnt/vprotect/' +
-                  event.protectedEntity.name +
-                  '/' +
-                  moment(event.snapshotTime).format('YYYYMMDD_HHmmss')}
+            const i = backupsLocations.findIndex(
+              ({ guid }) => event.guid === guid,
+            );
+            autoMountFileSystem = {
+              ...autoMountFileSystem,
+              mountPath:
+                '/mnt/vprotect/' +
+                mountableBackups[i]?.protectedEntity?.name +
+                '/' +
+                moment(event.snapshotTime).format('YYYYMMDD_HHmmss'),
+            };
 
-            dispatch(getBackupFilesystems(event));
-            dispatch(checkIfIscsiMountable(event));
+            dispatch(getBackupFilesystems(mountableBackups[i]));
+            dispatch(checkIfIscsiMountable(mountableBackups[i]));
             dispatch(
               setTaskAction({
                 ...task,
-                backup: event,
+                backupLocation: event,
               }),
             );
           }}
         />
 
-        <div className='mt-2'>
+        <div className="mt-2">
           <Select
-              label='Choose node'
-              optionLabel='name'
-              value={task.node}
-              options={nodes}
-              dataKey='guid'
-              required
-              onChange={(event) =>
-                  dispatch(
-                      setTaskAction({
-                        ...task,
-                        node: event.value,
-                      }),
-                  )
-              }
+            label="Choose node"
+            optionLabel="name"
+            value={task.node}
+            options={nodes}
+            dataKey="guid"
+            required
+            onChange={(event) =>
+              dispatch(
+                setTaskAction({
+                  ...task,
+                  node: event.value,
+                }),
+              )
+            }
           />
         </div>
 
@@ -165,7 +185,7 @@ export const MountBackupModal = ({ guid, backups }) => {
 
         {task.mode?.name === 'AUTO' && (
           <Text
-            label='Mount point for backup'
+            label="Mount point for backup"
             inputValue={task.mountedFileSystems[0].mountPath}
             onChange={(e) =>
               dispatch(
@@ -204,10 +224,10 @@ export const MountBackupModal = ({ guid, backups }) => {
                     checked={el.selected}
                   />
                   <Text
-                    label='Mount point'
+                    label="Mount point"
                     inputValue={el.mountPath}
                     onChange={(e) => {
-                      el = {...el, mountPath: e.target.value}
+                      el = { ...el, mountPath: e.target.value };
                       dispatch(setTaskAction({ ...task }));
                     }}
                   />
@@ -243,9 +263,9 @@ export const MountBackupModal = ({ guid, backups }) => {
                 }}
                 value={backupFiles}
               >
-                <Column selectionMode='multiple' style={{ width: '3em' }} />
-                <Column field='name' header='Name' body={nameTemplate} />
-                <Column field='size' header='Size' body={sizeTemplate} />
+                <Column selectionMode="multiple" style={{ width: '3em' }} />
+                <Column field="name" header="Name" body={nameTemplate} />
+                <Column field="size" header="Size" body={sizeTemplate} />
               </Table>
             </div>
             <div>
@@ -253,8 +273,8 @@ export const MountBackupModal = ({ guid, backups }) => {
                 <h4>Provide list of allowed iSCSI initiators (IQNs)</h4>
                 <Chips
                   value={task.allowedClients}
-                  separator=','
-                  className='w-100'
+                  separator=","
+                  className="w-100"
                   onChange={(e) => {
                     dispatch(
                       setTaskAction({
