@@ -100,7 +100,7 @@ const VirtualMachinesList = () => {
           showModalAction({
             component: MountBackupModal,
             props: {
-              guid: actionsElement.guid,
+              virtualEnvironment: actionsElement,
               backups: mountableBackups,
             },
             title: 'Mount Backup',
