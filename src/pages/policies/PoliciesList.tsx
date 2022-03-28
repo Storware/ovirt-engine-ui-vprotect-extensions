@@ -62,6 +62,7 @@ export const PoliciesList = () => {
               props: {
                 virtualEnvironments: policy.vms,
                 showIncremental: true,
+                rules: policy.rules,
               },
               title: 'Backup',
             }),
