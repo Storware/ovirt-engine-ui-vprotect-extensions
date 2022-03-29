@@ -22,7 +22,7 @@ import { Rule } from '../../model/backup-destination/rule';
 import { backupDestinationsService } from '../../services/backup-destinations-service';
 import { BackupDestinationRule } from '../../model/backup-destination/backup-destination-rule';
 
-export const BackupPolicy = () => {
+export const BackupPolicy = ({ type }) => {
   const history = createBrowserHistory();
   const match = useRouteMatch();
   const [model, setModel] = useState(new VirtualMachineBackupPolicy());
@@ -52,9 +52,10 @@ export const BackupPolicy = () => {
                   ...(rule.ruleBackupDestinations.find(
                     ({ roleType: { name } }) => name === 'SECONDARY',
                   ) && {
-                    secondaryBackupDestination: rule.ruleBackupDestinations.find(
-                      ({ roleType: { name } }) => name === 'SECONDARY',
-                    ),
+                    secondaryBackupDestination:
+                      rule.ruleBackupDestinations.find(
+                        ({ roleType: { name } }) => name === 'SECONDARY',
+                      ),
                   }),
                 },
               };
@@ -338,6 +339,7 @@ export const BackupPolicy = () => {
                   >
                     <RulesContainer
                       rule={rule}
+                      policyType={type}
                       removeRule={() => deleteRule(i)}
                       filteredBackupDestinations={filteredBackupDestinations}
                       updateFilteredBackupDestinations={

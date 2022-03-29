@@ -4,7 +4,7 @@ import ListContainer from 'pages/policies-and-schedules/ListContainer';
 import SnapshotPolicy from 'pages/policies/SnapshotPolicy';
 import VirtualEnvironmentBackupSchedule from 'pages/schedules/VirtualEnvironmentBackupSchedule';
 import SnapshotSchedule from 'pages/schedules/SnapshotSchedule';
-import {BackupPolicy} from '../policies/BackupPolicy';
+import { BackupPolicy } from '../policies/BackupPolicy';
 
 export const PoliciesAndSchedules = () => {
   const match = useRouteMatch();
@@ -19,7 +19,7 @@ export const PoliciesAndSchedules = () => {
           <SnapshotSchedule />
         </Route>
         <Route path={`${match.path}/vm-backup/policies/:guid`}>
-          <BackupPolicy />
+          <BackupPolicy type={'vm-backup'} />
         </Route>
         <Route path={`${match.path}/vm-snapshot/policies/:guid`}>
           <SnapshotPolicy />
