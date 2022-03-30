@@ -2,7 +2,6 @@ import React from 'react';
 import { DateShow } from '../convert/Date';
 import { Filesize } from '../convert/Filesize';
 import { schedulesService } from '../../services/schedules-service';
-import { convertMilisecondsToHours } from '../../utils/convertMilisecondsToHours';
 
 enum StatusColorHex {
   IN_PROGRESS = '#1f75b1',
@@ -10,18 +9,6 @@ enum StatusColorHex {
   FAILED = '#c70015',
   REMOVED = '#9A9A9A',
 }
-export const durationTemplate = (rowData) => {
-  return (
-    <span>
-      {rowData.state.name !== 'QUEUED' &&
-        convertMilisecondsToHours(
-          rowData.state.name !== 'RUNNING'
-            ? rowData.finishTime || 0
-            : +new Date() - rowData.startTime,
-        )}
-    </span>
-  );
-};
 
 export const dateTemplate = (rowData, column) => {
   const path = column.field.split('.');
