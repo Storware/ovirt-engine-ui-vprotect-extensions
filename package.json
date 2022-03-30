@@ -9,12 +9,17 @@
     "start": "webpack-dev-server --config webpack.dev.js",
     "prettify": "prettier --write \"**/*.ts*\"",
     "clean:dist": "rm -rf dist",
-    "zip:oVirt": "cd dist && zip -r oVirt.zip ./*",
-    "zip:openstack": "cd dist && zip -r openstack.zip ./*",
-    "build:oVirt": "yarn clean:dist && webpack --config webpack.ovirt.prod.js",
-    "build:openstack": "yarn clean:dist && webpack --config webpack.openstack.prod.js",
+    "clean:oVirt": "rm -rf ./dist/oVirt",
+    "clean:openstack": "rm -rf ./dist/openstack",
+    "zip:oVirt": "cd dist/oVirt && zip -r oVirt.zip ./*",
+    "zip:openstack": "cd dist/openstack && zip -r openstack.zip ./*",
+    "zip": "yarn zip:oVirt && yarn zip:openstack",
+    "build:oVirt": "webpack --config webpack.ovirt.prod.js",
+    "build:openstack": "webpack --config webpack.openstack.prod.js",
+    "build": "yarn build:oVirt && yarn build:openstack",
     "build-n-zip:oVirt": "yarn build:oVirt && yarn zip:oVirt",
-    "build-n-zip:openstack": "yarn build:openstack && yarn zip:openstack"
+    "build-n-zip:openstack": "yarn build:openstack && yarn zip:openstack",
+    "build-n-zip": "yarn build && yarn zip"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.2.5",

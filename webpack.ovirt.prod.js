@@ -1,5 +1,3 @@
-// const path = require('path')
-
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -82,7 +80,7 @@ module.exports = {
 
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist/vprotect-resources'),
+    path: path.resolve(__dirname, 'dist/oVirt/vprotect-resources'),
 
     // UI plugin resources are served through Engine
     publicPath: '/ovirt-engine/webadmin/plugin/vprotect/',
