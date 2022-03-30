@@ -17,8 +17,6 @@ const targetBrowsers = [
   'last 2 Safari versions',
 ];
 
-const env = process.env.NODE_ENV || 'development';
-
 // babel configs
 module.exports = {
   presets: [
@@ -29,7 +27,7 @@ module.exports = {
           browsers: targetBrowsers,
           node: 'current',
         },
-        debug: !process.env.Q && env === 'development',
+        debug: false,
         useBuiltIns: 'usage',
         corejs: 3,
       },

@@ -16,6 +16,7 @@ const commonModules = ['core-js/stable'];
 module.exports = {
   mode: 'production',
   devtool: 'source-map',
+  stats: 'errors-only',
 
   module: {
     rules: [

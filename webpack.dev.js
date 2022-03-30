@@ -11,7 +11,7 @@ module.exports = {
   mode: 'development',
   devtool: 'eval-source-map',
   devServer: {
-    contentBase: './dist',
+    contentBase: './dist/dev',
     writeToDisk: true,
     historyApiFallback: {
       index: 'index.html',
@@ -106,7 +106,7 @@ module.exports = {
   ],
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist/dev'),
     publicPath: '/',
   },
 };
