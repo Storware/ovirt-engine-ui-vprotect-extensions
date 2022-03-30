@@ -5,22 +5,43 @@ import { alertService } from '../../services/alert-service';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { dateTemplate } from 'components/table/templates';
-import { durationTemplate } from 'components/table/templates';
 import { Button } from 'primereact/button';
 import Table from 'components/table/primereactTable';
+import { convertMilisecondsToHours } from 'utils/convertMilisecondsToHours';
 
 export default () => {
   const [rows, setRows] = useState([]);
   const [globalFilter, setGlobalFilter] = useState(null);
 
-  const getAllTasks = async () => {
-    setRows(await vprotectService.getAllTasks());
-  };
-
   useEffect(() => {
     getAllTasks();
   }, []);
 
+  const getAllTasks = async () => {
+    const tasks = await vprotectService.getAllTasks();
+    setRows(addDurationToTasks(tasks));
+  };
+
+  const addDurationToTasks = (tasks = []) => {
+    return tasks.map((task) => {
+      if (task.state.name !== 'RUNNING' && !task.startTime && task.finishTime) {
+        return { ...task, duration: '00:00:00' };
+      }
+
+      if (task.state.name !== 'RUNNING' && task.startTime && task.finishTime) {
+        return {
+          ...task,
+          duration: convertMilisecondsToHours(task.finishTime - task.startTime),
+        };
+      }
+
+      if (task.state.name !== 'RUNNING') {
+        return task;
+      }
+
+      return task;
+    });
+  };
   const header = () => {
     return (
       <div>
@@ -85,19 +106,26 @@ export default () => {
               />
             )}
           />
-          <Column field="backupType.description" header="" className="text-center" />
+          <Column
+            field="backupType.description"
+            header=""
+            className="text-center"
+          />
           <Column field="type.description" header="Type" />
           <Column field="hypervisorManager.name" header="Hypervisor" />
-          <Column field="protectedEntity.name" header="Virtual Machine"
-                  body={(res) => res.protectedEntity ? res.protectedEntity.name : res.protectedEntityDisplayName} />
+          <Column
+            field="protectedEntity.name"
+            header="Virtual Machine"
+            body={(res) =>
+              res.protectedEntity
+                ? res.protectedEntity.name
+                : res.protectedEntityDisplayName
+            }
+          />
           <Column field="node.name" header="Node" />
           <Column field="backupDestination.name" header="Backup destination" />
           <Column field="priority" header="Priority" />
-          <Column
-            field="duration"
-            header="Duration"
-            body={durationTemplate}
-          />
+          <Column field="duration" header="Duration" />
           <Column
             field="windowStart"
             header="Window start"
