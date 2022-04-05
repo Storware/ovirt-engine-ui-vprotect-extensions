@@ -71,6 +71,12 @@ const VirtualMachinesList = () => {
     {
       label: 'Backup',
       command: () => {
+        if (!actionsElement.vmBackupPolicy) {
+          alertService.error(
+            'Virtual machine is not assigned to the backup policy',
+          );
+          return;
+        }
         dispatch(
           showModalAction({
             component: BackupModal,
