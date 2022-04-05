@@ -44,6 +44,18 @@ const VirtualMachine = () => {
   const restoresHistory = useSelector(selectRestoresHistory);
   const hypervisor = useSelector(selectHypervisor);
 
+  const Details = ({ title, children, ...rest }) => {
+    if (!children) {
+      return <></>;
+    }
+    return (
+      <div {...rest} className="mb-3">
+        <h5>{title}</h5>
+        <div>{children}</div>
+      </div>
+    );
+  };
+
   return (
     <Panel header="Virtual Machine">
       <div className="d-flex justify-content-between mt-3">
@@ -93,67 +105,55 @@ const VirtualMachine = () => {
       >
         <div className={'row'}>
           <div className={'col'}>
-            <h5>BACKUP DETAILS</h5>
-            <p>
-              Last backup - <DateShow date={virtualMachine.lastBackup} />
-            </p>
-            <p>
-              Last backup size -{' '}
-              <Filesize bytes={virtualMachine.lastSuccessfulBackupSize} />
-            </p>
-            <p>
-              Last full backup size -{' '}
-              <Filesize bytes={virtualMachine.lastSuccessfulFullBackupSize} />
-            </p>
+            <Details title="BACKUP DETAILS">
+              <p>
+                Last backup:{' '}
+                <b>
+                  <DateShow date={virtualMachine.lastBackup} />
+                </b>
+              </p>
+              <p>
+                Last backup size:{' '}
+                <b>
+                  <Filesize bytes={virtualMachine.lastSuccessfulBackupSize} />
+                </b>
+              </p>
+              <p>
+                Last full backup size:{' '}
+                <b>
+                  <Filesize
+                    bytes={virtualMachine.lastSuccessfulFullBackupSize}
+                  />
+                </b>
+              </p>
+            </Details>
           </div>
 
           <div className={'col'}>
-            {virtualMachine.tags && (
-              <div>
-                <h5>HYPERVISOR TAGS</h5>
-                {virtualMachine.tags.map((el, index, arr) => {
-                  return (
-                    <span>
-                      {el}
-                      {index === arr.length - 1 ? '' : ', '}
-                    </span>
-                  );
-                })}
-              </div>
-            )}
-            {hypervisor && hypervisor.node && (
-              <div>
-                <h5>NODE</h5>
-                <span>{hypervisor.node.name}</span>
-              </div>
-            )}
-            {virtualMachine.vmBackupPolicy && (
-              <div>
-                <h5>Backup Policy</h5>
-                <span>{virtualMachine.vmBackupPolicy.name}</span>
-              </div>
-            )}
-            {virtualMachine.snapshotMgmtPolicy && (
-              <div>
-                <h5>Snapshot Management Policy</h5>
-                <span>{virtualMachine.snapshotMgmtPolicy.name}</span>
-              </div>
-            )}
+            <Details title="HYPERVISOR TAGS">
+              {virtualMachine.tags?.length > 0 &&
+                virtualMachine.tags.map((el, index, arr) => (
+                  <span>
+                    {el}
+                    {index === arr.length - 1 ? '' : ', '}
+                  </span>
+                ))}
+            </Details>
+
+            <Details title="NODE">{hypervisor?.node?.name}</Details>
+            <Details title="Backup Policy">
+              {virtualMachine?.vmBackupPolicy?.name}
+            </Details>
+            <Details title="Snapshot Management Policy">
+              {virtualMachine?.snapshotMgmtPolicy?.name}
+            </Details>
           </div>
 
           <div className={'col'}>
-            {virtualMachine.hvManager && (
-              <div>
-                <h5>HYPERVISOR MANAGER</h5>
-                <span>{virtualMachine.hvManager.name}</span>
-              </div>
-            )}
-            {hypervisor && (
-              <div>
-                <h5>HYPERVISOR</h5>
-                <span>{hypervisor.name}</span>
-              </div>
-            )}
+            <Details title="HYPERVISOR MANAGER">
+              {virtualMachine.hvManager?.url}
+            </Details>
+            <Details title="HYPERVISOR">{hypervisor.host}</Details>
           </div>
         </div>
       </Card>
