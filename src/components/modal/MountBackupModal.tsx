@@ -169,6 +169,21 @@ export const MountBackupModal = ({ virtualEnvironment, backups }) => {
           />
         </div>
 
+        <Text
+          // same default value as in the RestoreAndMountTask
+          inputValue={24}
+          type="number"
+          label="Time to auto-umount [h]"
+          change={({ value }) =>
+            dispatch(
+              setTaskAction({
+                ...task,
+                unmountTime: moment().add(value, 'hours').valueOf(),
+              }),
+            )
+          }
+        />
+
         <Radio
           value={task.mode}
           options={filteredModes}
