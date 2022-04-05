@@ -12,14 +12,26 @@ import { convertMilisecondsToHours } from 'utils/convertMilisecondsToHours';
 export default () => {
   const [rows, setRows] = useState([]);
   const [globalFilter, setGlobalFilter] = useState(null);
+  const [busy, setBusy] = useState<ReturnType<typeof setTimeout>[]>([]);
 
   useEffect(() => {
     getAllTasks();
+    return () => {
+      clearBusy();
+    };
   }, []);
 
   const getAllTasks = async () => {
+    clearBusy();
     const tasks = await vprotectService.getAllTasks();
     setRows(addDurationToTasks(tasks));
+  };
+
+  const clearBusy = () => {
+    busy.filter(Boolean).forEach((interval) => {
+      clearInterval(interval);
+    });
+    setBusy([]);
   };
 
   const addDurationToTasks = (tasks = []) => {
@@ -34,10 +46,18 @@ export default () => {
           duration: convertMilisecondsToHours(task.finishTime - task.startTime),
         };
       }
-
       if (task.state.name !== 'RUNNING') {
         return task;
       }
+
+      setTimeout(() => {
+        const interval = setInterval(() => {
+          task.duration = convertMilisecondsToHours(
+            +new Date() - task.startTime,
+          );
+        }, 2000);
+        setBusy((b) => [...b, interval]);
+      }, 1000);
 
       return task;
     });
