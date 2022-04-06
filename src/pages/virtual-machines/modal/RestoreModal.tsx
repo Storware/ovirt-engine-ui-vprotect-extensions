@@ -24,11 +24,8 @@ import Toggle from 'components/input/reactive/Toggle';
 import ToggleText from 'components/input/reactive/ToggleText';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 import ToggleSelect from '../../../components/input/reactive/ToggleSelect';
-import {
-  selectNetwork,
-  selectNetworkCopy,
-} from '../../../store/network/selectors';
-import { getNetwork, setNetworkAction } from '../../../store/network/actions';
+import { selectNetwork } from 'store/network/selectors';
+import { getNetwork, setNetworkAction } from 'store/network/actions';
 import { hideModalAction } from 'store/modal/actions';
 
 const storageDropdownTemplate = (option) => {
@@ -63,7 +60,6 @@ export const RestoreModal = ({ virtualEnvironment }) => {
   const clusters = useSelector(selectHypervisorClusters);
   const task = useSelector(selectTask);
   const networkList = useSelector(selectNetwork);
-  const networkListCopy = useSelector(selectNetworkCopy);
 
   useEffect(() => {
     if (!!task.hypervisorManager && networkList.length === 0) {
@@ -78,15 +74,6 @@ export const RestoreModal = ({ virtualEnvironment }) => {
       dispatch(setNetworkAction([]));
     };
   }, []);
-
-  useEffect(() => {
-    if (
-      networkList.length > 0 &&
-      networkListCopy.length === networkList.length
-    ) {
-      filterNetworkByCluster(clusterCopy);
-    }
-  }, [networkListCopy]);
 
   const onBackupLocationChange = (e) => {
     dispatch(
@@ -116,20 +103,6 @@ export const RestoreModal = ({ virtualEnvironment }) => {
           : [],
       ),
     );
-
-    filterNetworkByCluster(cluster);
-  };
-
-  const filterNetworkByCluster = (clusterValue) => {
-    if (networkListCopy.length > 0) {
-      const filteredData = networkListCopy.filter(
-        (network) => network?.hvCluster?.guid === clusterValue.guid,
-      );
-      dispatch(setNetworkAction(filteredData));
-
-      // @ts-ignore
-      formRef?.current?.setFieldValue('restoredNetworks', filteredData[0]);
-    }
   };
 
   if (useSelector(selectSaved)) {
