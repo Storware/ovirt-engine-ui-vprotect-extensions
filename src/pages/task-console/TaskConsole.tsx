@@ -55,6 +55,7 @@ export default () => {
           task.duration = convertMilisecondsToHours(
             +new Date() - task.startTime,
           );
+          setRows((t) => [...t]);
         }, 2000);
         setBusy((b) => [...b, interval]);
       }, 1000);
