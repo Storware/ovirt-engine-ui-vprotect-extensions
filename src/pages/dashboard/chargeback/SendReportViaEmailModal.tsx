@@ -26,7 +26,6 @@ export default () => {
     dispatch(hideModalAction());
     await globalSettingsService.sendDashboardInfoEmail(email, {
       ...range,
-      'project-uuid': projectUuid,
     });
   };
 
