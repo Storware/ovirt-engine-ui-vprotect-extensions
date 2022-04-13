@@ -6,7 +6,7 @@ const getValue = (value, valueProperty?) => {
   return valueProperty ? value[valueProperty] : value;
 };
 
-const Select = ({ field, form: { setFieldValue }, ...props }) => {
+const Select = ({ field, form: { setFieldValue }, hidden, ...props }) => {
   const [value, setValue] = useState(field.value);
 
   const setFieldValueAndEmitChangeEvent = (v) => {
@@ -42,7 +42,7 @@ const Select = ({ field, form: { setFieldValue }, ...props }) => {
   }, [props.options, field.value]);
 
   return (
-    <div className="pt-3">
+    <div className="pt-3" hidden={hidden}>
       {!!props.label && <label>{props.label}</label>}
       <Dropdown
         {...field}
