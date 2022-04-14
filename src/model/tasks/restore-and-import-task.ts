@@ -1,6 +1,8 @@
 import { BaseImage } from '../base-image';
 import { DataCenter } from '../data-center';
 import { NameAndDescription } from '../dto/nameAndDescription';
+import { RestoredNetwork } from 'model/tasks/restored-network';
+import { NetworkInterfaceCard } from 'model/tasks/network-interface-card';
 
 export class RestoreAndImportTask {
   restoreStorageId = '';
@@ -18,5 +20,11 @@ export class RestoreAndImportTask {
     description: 'Preallocated',
   };
   overwrite = false;
-  restoreToOriginalVolumeType: boolean
+  restoreToOriginalVolumeType: boolean;
+  readonly restoredNetworks: RestoredNetwork[];
+  constructor(networkInterfaceCards?: NetworkInterfaceCard[]) {
+    this.restoredNetworks =
+      networkInterfaceCards?.map((network) => new RestoredNetwork(network)) ??
+      [];
+  }
 }

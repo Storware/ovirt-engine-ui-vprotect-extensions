@@ -56,7 +56,7 @@ export default () => {
             +new Date() - task.startTime,
           );
           setRows((t) => [...t]);
-        }, 2000);
+        }, 1000);
         setBusy((b) => [...b, interval]);
       }, 1000);
 

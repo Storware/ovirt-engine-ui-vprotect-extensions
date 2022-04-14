@@ -115,24 +115,30 @@ export const RestoreModal = ({ virtualEnvironment }) => {
         enableReinitialize
         // @ts-ignore
         innerRef={formRef}
-        initialValues={task}
-        onSubmit={({ restoredNetworks = [], ...values }, { setSubmitting }) => {
+        initialValues={{
+          ...task,
+          restoredNetworks: task.restoredNetworks.map(
+            (networkInterfaceCard) => {
+              return {
+                ...networkInterfaceCard,
+                network: networkList.filter(
+                  ({ guid }) => guid === networkInterfaceCard.network.guid,
+                )[0],
+              };
+            },
+          ),
+        }}
+        onSubmit={({ ...values }, { setSubmitting }) => {
           dispatch(
             submitTask({
               ...values,
-              restoredNetworks:
-                restoredNetworks.length === 0
-                  ? !!networkList[0]
-                    ? [networkList[0]]
-                    : []
-                  : [restoredNetworks],
             }),
           );
           setSubmitting(false);
           dispatch(hideModalAction());
         }}
       >
-        {() => (
+        {(formik) => (
           <Form>
             <Field
               name="backupLocation"
@@ -182,15 +188,17 @@ export const RestoreModal = ({ virtualEnvironment }) => {
                 label="Restore volumes to original volume types"
               />
             )}
-            {clusterCopy && (
-              <Field
-                name="restoredNetworks"
-                component={ToggleSelect}
-                label="Select network interface card"
-                optionLabel="name"
-                options={networkList}
-              />
-            )}
+            {clusterCopy &&
+              task.restoredNetworks.map((networkInterfaceCard, id) => (
+                  <Field
+                    key={id}
+                    name={`restoredNetworks[${id}].network`}
+                    component={ToggleSelect}
+                    label={`Select network interface card ${networkInterfaceCard.networkInterfaceCard.name}`}
+                    optionLabel="name"
+                    options={networkList}
+                  />
+              ))}
 
             <Field
               name="overwrite"
