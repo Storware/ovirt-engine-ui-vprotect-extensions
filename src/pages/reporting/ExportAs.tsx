@@ -1,16 +1,18 @@
-import { useDispatch } from 'react-redux';
-import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import { showModalAction } from '../../store/modal/actions';
 import SendReportViaEmailModal from '../dashboard/chargeback/SendReportViaEmailModal';
-
-import { Button } from 'primereact/button';
+import { Dropdown } from 'primereact/dropdown';
+import { NameAndDescription } from '../../model/dto/nameAndDescription';
+import { fileSaverService } from '../../services/file-saver-service';
+import dashboardService from 'services/dashboard-service';
+import { selectRange } from '../../store/reporting/selectors';
+import getCookie from '../../utils/getCookie';
 
 export const ExportAs = () => {
   const dispatch = useDispatch();
-  /*
   const range = useSelector(selectRange);
   const projectUuid = getCookie('recent_project');
-
   const [selectedExportType] = useState(null);
   const exportTypes: NameAndDescription<string>[] = [
     { description: 'Send report via e-mail', name: 'sendReportViaEmail' },
@@ -18,18 +20,15 @@ export const ExportAs = () => {
     { description: 'Export as HTML', name: 'exportAsHtml' },
   ];
 
-*/
   const onSendReportViaEmail = () => {
     dispatch(
       showModalAction({
         component: SendReportViaEmailModal,
         title: 'Send report via e-mail',
-        buttonLabel: 'Send',
       }),
     );
   };
 
-  /*
   const getReportPdf = async () => {
     fileSaverService.saveFile(
       await dashboardService.getDashboardInfoPdf({
@@ -57,19 +56,14 @@ export const ExportAs = () => {
   const onExportTypeChange = (e) => {
     downloadReport[e.value.name]();
   };
-*/
+
   return (
-    /*<Dropdown
+    <Dropdown
       value={selectedExportType}
       options={exportTypes}
       optionLabel="description"
       onChange={onExportTypeChange}
-      placeholder="Export"/>*/
-    <Button
-      type="button"
-      label="Send report via e-mail"
-      className="p-button-success my-4"
-      onClick={onSendReportViaEmail}
+      placeholder="Export"
     />
   );
 };
