@@ -29,6 +29,10 @@ const SchedulesList = () => {
 
   const rows = useSelector(selectSchedules);
 
+  const removeElement = (guid: string) => {
+    dispatch(removeSchedule(typeMap[type], guid));
+  };
+
   const header = () => {
     return (
       <div>
@@ -82,12 +86,7 @@ const SchedulesList = () => {
         field="action"
         header="Action"
         body={(rowData) => (
-          <Button
-            label="Remove"
-            onClick={() => {
-              dispatch(removeSchedule(type, rowData.guid));
-            }}
-          />
+          <Button label="Remove" onClick={() => removeElement(rowData.guid)} />
         )}
       />
     </Table>
