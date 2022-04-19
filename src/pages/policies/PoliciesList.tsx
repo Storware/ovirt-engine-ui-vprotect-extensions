@@ -44,7 +44,6 @@ export const PoliciesList = () => {
     label: 'Remove',
     command: () => {
       dispatch(removePolicy(type, actionsElement.guid));
-      dispatch(getPolicies(type));
     },
   };
 
