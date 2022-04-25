@@ -104,10 +104,24 @@ export const BackupPolicy = ({ type }) => {
 
   const handle = (name) => {
     return (e) => {
-      setModel({
-        ...model,
-        [name]: e.target?.nodeName === 'INPUT' ? e.target.value : e.value,
-      });
+      const setNestedValue = (beforeVal, nestedName, val) => {
+        const [n, ...restNames] = nestedName.split('.');
+        return {
+          ...beforeVal,
+          [n]:
+            restNames.length > 0
+              ? setNestedValue(beforeVal[n], restNames.join('.'), val)
+              : val,
+        };
+      };
+
+      setModel(
+        setNestedValue(
+          model,
+          name,
+          e.target?.nodeName === 'INPUT' ? e.target.value : e.value,
+        ),
+      );
     };
   };
 
@@ -262,7 +276,7 @@ export const BackupPolicy = ({ type }) => {
                       name="autoAssignSettings.includeTags"
                       component={InputChips}
                       label="Include TAG based rules"
-                      value={model.autoAssignSettings.includeTags}
+                      onChange={handle('autoAssignSettings.includeTags')}
                     />
                   </div>
                   <div className={'col'}>
@@ -270,7 +284,7 @@ export const BackupPolicy = ({ type }) => {
                       name="autoAssignSettings.includeRegExps"
                       component={InputChips}
                       label="Include Regex based rules"
-                      value={model.autoAssignSettings.includeRegExps}
+                      onChange={handle('autoAssignSettings.includeRegExps')}
                     />
                   </div>
                 </div>
@@ -282,7 +296,7 @@ export const BackupPolicy = ({ type }) => {
                       name="autoAssignSettings.excludeTags"
                       component={InputChips}
                       label="Exclude TAG based rules"
-                      value={model.autoAssignSettings.excludeTags}
+                      onChange={handle('autoAssignSettings.excludeTags')}
                     />
                   </div>
                   <div className={'col'}>
@@ -290,7 +304,7 @@ export const BackupPolicy = ({ type }) => {
                       name="autoAssignSettings.excludeRegExps"
                       component={InputChips}
                       label="Exclude Regex based rules"
-                      value={model.autoAssignSettings.excludeRegExps}
+                      onChange={handle('autoAssignSettings.excludeRegExps')}
                     />
                   </div>
                 </div>
