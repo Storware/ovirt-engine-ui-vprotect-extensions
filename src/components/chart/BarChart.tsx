@@ -27,7 +27,8 @@ const prepareChart = {
         maintainAspectRatio: false,
         ...commonTimeOptions('y'),
         scales: {
-          y: tickTimeOptions(data.datasets[0]?.data),
+          y: { ...tickTimeOptions(data.datasets[0]?.data), stacked: true },
+          x: { stacked: true },
         },
       },
     };
