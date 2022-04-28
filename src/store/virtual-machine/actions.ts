@@ -1,9 +1,11 @@
 import {
+  SET_BACKUPS,
   SET_DISKS,
   SET_POLICIES,
   SET_SCHEDULES,
   SET_SNAPSHOT_POLICIES,
-  SET_SNAPSHOTS, SET_SNAPSHOTS_HISTORY,
+  SET_SNAPSHOTS,
+  SET_SNAPSHOTS_HISTORY,
   VirtualMachineAction,
 } from './types';
 import { Dispatch } from 'redux';
@@ -29,6 +31,13 @@ export const setVirtualMachine = (payload: any): VirtualMachineAction => {
 export const setHypervisor = (payload: any): VirtualMachineAction => {
   return {
     type: SET_HYPERVISOR,
+    payload,
+  };
+};
+
+export const setBackups = (payload: any[]): VirtualMachineAction => {
+  return {
+    type: SET_BACKUPS,
     payload,
   };
 };
@@ -101,6 +110,10 @@ export const getVirtualMachinePage = (guid) => async (dispatch: Dispatch) => {
     );
     await dispatch(setHypervisor(hypervisor));
   }
+  const backups = await backupsService.getProtectedEntityBackups(guid, {
+    status: ['SUCCESS', 'PARTIAL_SUCCESS'],
+  });
+  await dispatch(setBackups(backups));
   const backupsHistory = await backupsService.getProtectedEntityBackups(guid);
   await dispatch(setBackupsHistory(backupsHistory));
   const restoresHistory = await backupsService.getProtectedEntityRestoreJobs(
@@ -110,7 +123,8 @@ export const getVirtualMachinePage = (guid) => async (dispatch: Dispatch) => {
   let snapshots = await virtualMachinesService.getVirtualMachineSnapshots(guid);
   snapshots = setCurrentForIncrementalBackup(virtualMachine, snapshots);
   await dispatch(setSnapshots(snapshots));
-  const snapshotsHistory = await virtualMachinesService.getVirtualMachineSnapshots(guid, true);
+  const snapshotsHistory =
+    await virtualMachinesService.getVirtualMachineSnapshots(guid, true);
   await dispatch(setSnapshotsHistory(snapshotsHistory));
   const disks = await virtualMachinesService.getVirtualMachineDisks(guid);
   await dispatch(setDisks(disks));

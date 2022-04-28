@@ -11,6 +11,21 @@ const errorMessage = (error) => {
     return 'Something went wrong';
   }
 };
+const addParameters = (url = '', parameters = {}) => {
+  const params = new URLSearchParams(new URL(url));
+
+  Object.keys(parameters).forEach((paramName) => {
+    if (Array.isArray(parameters[paramName])) {
+      parameters[paramName].forEach((arrValues) =>
+        params.append(paramName, arrValues),
+      );
+      return;
+    }
+    params.append(paramName, parameters[paramName]);
+  });
+
+  return `${url}?${params}`;
+};
 
 class VprotectApiService {
   vprotectURL;
@@ -21,9 +36,10 @@ class VprotectApiService {
       this.vprotectURL = config.vProtectURL;
     }
     let fullPath = this.vprotectURL + path;
-    if (options && options.params) {
-      fullPath += `?${new URLSearchParams(options.params)}`;
+    if (options?.params) {
+      fullPath = addParameters(fullPath, options.params);
     }
+
     return fetch(fullPath, {
       method,
       credentials: 'include',
