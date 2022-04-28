@@ -1,12 +1,17 @@
 td {
-    text-align: center;
-    overflow-wrap: break-word;
+  text-align: center;
+  overflow-wrap: break-word;
 }
 
-.form .p-datatable .p-dropdown, .p-inputtext {
-    width: auto;
+.form .p-datatable .p-dropdown,
+.p-inputtext {
+  width: auto;
 }
 
 table .actions {
-    width: 70px;
+  width: 70px;
+}
+
+table .p-row-tooltip [data-pr-tooltip] {
+  pointer-events: all;
 }
