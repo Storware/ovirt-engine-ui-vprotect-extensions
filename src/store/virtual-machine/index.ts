@@ -1,4 +1,5 @@
 import {
+  SET_BACKUPS,
   SET_BACKUPS_HISTORY,
   SET_DISKS,
   SET_HYPERVISOR,
@@ -14,6 +15,7 @@ import {
 export type VirtualMachineStore = {
   readonly virtualMachine: any;
   readonly hypervisor: any;
+  readonly backups: any[];
   readonly backupsHistory: any[];
   readonly restoresHistory: any[];
   readonly snapshots: any[];
@@ -27,6 +29,7 @@ export type VirtualMachineStore = {
 const initial: VirtualMachineStore = {
   virtualMachine: {},
   hypervisor: {},
+  backups: [],
   backupsHistory: [],
   restoresHistory: [],
   snapshots: [],
@@ -48,6 +51,12 @@ export default (state = initial, action: VirtualMachineAction) => {
     return {
       ...state,
       hypervisor: action.payload,
+    };
+  }
+  if (action.type === SET_BACKUPS) {
+    return {
+      ...state,
+      backups: action.payload,
     };
   }
   if (action.type === SET_BACKUPS_HISTORY) {

@@ -6,8 +6,13 @@ class BackupsService {
     return vprotectApiService.get('/backups/' + id);
   }
 
-  getProtectedEntityBackups(id) {
-    return vprotectApiService.get('/backups?protected-entity=' + id);
+  getProtectedEntityBackups(id, params = {}) {
+    return vprotectApiService.get('/backups', {
+      params: {
+        'protected-entity': id,
+        ...params,
+      },
+    });
   }
 
   getProtectedEntityRestoreJobs(id) {
