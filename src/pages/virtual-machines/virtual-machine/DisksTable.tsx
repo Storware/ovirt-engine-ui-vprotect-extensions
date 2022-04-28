@@ -12,15 +12,23 @@ import { virtualMachinesService } from 'services/virtual-machines-service';
 import { alertService } from 'services/alert-service';
 import { Button } from 'primereact/button';
 import { setDisks } from 'store/virtual-machine/actions';
+import { Tooltip } from 'primereact/tooltip';
 
 export const excludedFromBackupTemplate = (list, setList) => (rowData) => {
   const element = list.find((el) => el.guid === rowData.guid);
 
   return (
-    <div className={'text-center'}>
+    <div
+      className={'text-center'}
+      {...{
+        ...(!element.supported && {
+          'data-pr-tooltip': `Backup of ${element.type?.description} is not supported`,
+        }),
+      }}
+    >
       <ToggleButton
         checked={element.excludedFromBackup}
-        onChange={(e) => {
+        onChange={() => {
           element.excludedFromBackup = !element.excludedFromBackup;
           setList([...list]);
         }}
@@ -42,7 +50,9 @@ const saveDisks = async (list, updatedList, dispatch) => {
 };
 
 const DisksTable = () => {
-  const disks = useSelector(selectDisks);
+  const disks = useSelector(selectDisks).map((disk) =>
+    disk.supported ? disk : { ...disk, excludedFromBackup: true },
+  );
   const [list, setList] = useState(disks);
   const dispatch = useDispatch();
 
@@ -52,7 +62,14 @@ const DisksTable = () => {
 
   return (
     <div>
-      <Table value={disks}>
+      <Tooltip target=".p-row-tooltip [data-pr-tooltip]" position={'top'} />
+      <Table
+        value={disks}
+        rowClassName={({ supported }) => ({
+          'p-disabled': !supported,
+          'p-row-tooltip': !supported,
+        })}
+      >
         <Column field="name" header="Name" />
         <Column field="uuid" header="UUID" />
         <Column field="size" header="Size date" body={sizeTemplate} />
