@@ -63,7 +63,10 @@ class VprotectApiService {
         return response;
       }
       if (response.statusText !== 'No Content') {
-        return await response.json();
+        const r = await response.text();
+        if (r !== '') {
+          return JSON.parse(r)
+        }
       }
     });
   }
