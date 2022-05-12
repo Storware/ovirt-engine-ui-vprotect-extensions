@@ -9,13 +9,7 @@ export const setNetworkAction = (payload: any): NetworkAction => {
   };
 };
 
-export const getNetwork =
-  ({ hypervisorManagerGuid }) =>
-  async (dispatch: Dispatch) => {
-    const network = await networkService.getNetworkList({
-      ...(hypervisorManagerGuid && {
-        'hypervisor-manager': hypervisorManagerGuid,
-      }),
-    });
-    await dispatch(setNetworkAction(network));
-  };
+export const getNetwork = (params) => async (dispatch: Dispatch) => {
+  const network = await networkService.getNetworkList(params);
+  await dispatch(setNetworkAction(network));
+};

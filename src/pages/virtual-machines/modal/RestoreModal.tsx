@@ -62,26 +62,23 @@ export const RestoreModal = ({ virtualEnvironment }) => {
   const networkList = useSelector(selectNetwork);
 
   useEffect(() => {
-    if (!!task.hypervisorManager && networkList.length === 0) {
-      dispatch(
-        getNetwork({ hypervisorManagerGuid: task?.hypervisorManager.guid }),
-      );
-    }
-  }, [task]);
-
-  useEffect(() => {
     return () => {
       dispatch(setNetworkAction([]));
     };
   }, []);
 
-  const onBackupLocationChange = (e) => {
+  const onBackupLocationChange = ({ value }) => {
+    if (!value?.backup?.guid) {
+      return;
+    }
+
     dispatch(
       getHypervisorManagersAvailableForBackupBackupLocation(
-        e.value,
+        value,
         virtualEnvironment,
       ),
     );
+    getNetworkList();
   };
 
   const onHypervisorChange = ({ value: { guid } }) => {
@@ -105,6 +102,20 @@ export const RestoreModal = ({ virtualEnvironment }) => {
     );
   };
 
+  const getNetworkList = () => {
+    const project = virtualEnvironment.project?.guid;
+    const hypervisorManagerGuid = task?.hypervisorManager?.guid;
+
+    dispatch(
+      getNetwork({
+        ...(hypervisorManagerGuid && {
+          'hypervisor-manager': hypervisorManagerGuid,
+        }),
+        ...(project && { project }),
+      }),
+    );
+  };
+
   if (useSelector(selectSaved)) {
     // @ts-ignore
     formRef.current.handleSubmit();
@@ -117,7 +128,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
         innerRef={formRef}
         initialValues={{
           ...task,
-          restoredNetworks: task.restoredNetworks.map(
+         /* restoredNetworks: task.restoredNetworks.map(
             (networkInterfaceCard) => {
               return {
                 ...networkInterfaceCard,
@@ -126,7 +137,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
                 )[0],
               };
             },
-          ),
+          ),*/
         }}
         onSubmit={({ ...values }, { setSubmitting }) => {
           dispatch(
@@ -190,14 +201,14 @@ export const RestoreModal = ({ virtualEnvironment }) => {
             )}
             {clusterCopy &&
               task.restoredNetworks.map((networkInterfaceCard, id) => (
-                  <Field
-                    key={id}
-                    name={`restoredNetworks[${id}].network`}
-                    component={ToggleSelect}
-                    label={`Select network interface card ${networkInterfaceCard.networkInterfaceCard.name}`}
-                    optionLabel="name"
-                    options={networkList}
-                  />
+                <Field
+                  key={id}
+                  name={`restoredNetworks[${id}].network`}
+                  component={ToggleSelect}
+                  label={`Select network interface card ${networkInterfaceCard.networkInterfaceCard.name}`}
+                  optionLabel="name"
+                  options={networkList}
+                />
               ))}
 
             <Field
