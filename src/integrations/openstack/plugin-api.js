@@ -1,9 +1,9 @@
 import { Store } from 'react-notifications-component';
 
 class getPluginApi {
-  configObject = async () => {
-    return { vProtectURL: `${window.parent.origin}/dashboard/vprotect/api` };
-  };
+  configObject = async () => ({
+    vProtectURL: `${window.parent.origin}/dashboard/vprotect/api`,
+  });
   showToast = (toastType, text) => {
     Store.addNotification({
       message: text,

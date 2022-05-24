@@ -79,17 +79,17 @@ const filterByFieldOptions = {
 
 const mapPropertiesObjectListToStringOfGuids = (
   chargebackRequest: ChargebackRequest,
-) => {
-  return Object.keys(chargebackRequest).reduce((obj, property) => {
-    return {
+) =>
+  Object.keys(chargebackRequest).reduce(
+    (obj, property) => ({
       ...obj,
       [property]:
         property === 'groupBy'
           ? chargebackRequest[property]
           : chargebackRequest[property].map((el) => el.guid),
-    };
-  }, {} as ChargebackRequest);
-};
+    }),
+    {} as ChargebackRequest,
+  );
 
 export default () => {
   const propertyOptions = useSelector(selectPropertyOptions);

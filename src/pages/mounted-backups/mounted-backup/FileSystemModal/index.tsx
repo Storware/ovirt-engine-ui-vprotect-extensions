@@ -50,9 +50,7 @@ const FileSystemModal = ({ guid }) => {
     const path = {
       paths: [],
     };
-    path.paths = selection.map((el) => {
-      return `${currentPath.path}${el.name}`;
-    });
+    path.paths = selection.map((el) => `${currentPath.path}${el.name}`);
     const data = await backupsService.downloadBackupFilesystemsFiles(
       guid,
       path,
@@ -102,30 +100,28 @@ const FileSystemModal = ({ guid }) => {
         <Column
           field="name"
           header="Name"
-          body={(rowData, column) => {
-            return (
-              <div>
-                <i className={'mr-2 pi ' + icon[rowData.fileType.name]} />
-                <span
-                  className="cursor-pointer"
-                  onClick={() => {
-                    if (rowData.fileType.name === 'DIRECTORY') {
-                      let newBreadCrumb = [
-                        ...breadCrumb,
-                        {
-                          label: rowData[column.field],
-                          command: goToBreadcrumbs,
-                        },
-                      ];
-                      goToPage(newBreadCrumb);
-                    }
-                  }}
-                >
-                  {rowData[column.field]}
-                </span>
-              </div>
-            );
-          }}
+          body={(rowData, column) => (
+            <div>
+              <i className={'mr-2 pi ' + icon[rowData.fileType.name]} />
+              <span
+                className="cursor-pointer"
+                onClick={() => {
+                  if (rowData.fileType.name === 'DIRECTORY') {
+                    const newBreadCrumb = [
+                      ...breadCrumb,
+                      {
+                        label: rowData[column.field],
+                        command: goToBreadcrumbs,
+                      },
+                    ];
+                    goToPage(newBreadCrumb);
+                  }
+                }}
+              >
+                {rowData[column.field]}
+              </span>
+            </div>
+          )}
         />
         <Column field="fileType.description" header="Type" />
         <Column field="size" header="Size" body={sizeTemplate} />

@@ -4,7 +4,7 @@ import { ListBox } from 'primereact/listbox';
 import { Filesize } from '../convert/Filesize';
 
 const selectedPolicies = (value, policies) => {
-  let data = [];
+  const data = [];
   if (!policies) {
     return [];
   }
@@ -19,7 +19,7 @@ const selectedPolicies = (value, policies) => {
 };
 
 const selectedRules = (value) => {
-  let data = [];
+  const data = [];
   value.forEach((policy) => {
     if (policy) {
       policy.rules.forEach((rule) => {
@@ -49,17 +49,15 @@ export class InputSchedulePolicies extends React.Component {
     return (
       <ListBox
         value={this.state.value}
-        options={this.props.options.map((el) => {
-          return {
-            ...el,
-            label: (
-              <span>
-                {el.name} (<Filesize bytes={el.averageBackupSize} />,{' '}
-                {el.vmCount} Virtual Environments)
-              </span>
-            ),
-          };
-        })}
+        options={this.props.options.map((el) => ({
+          ...el,
+          label: (
+            <span>
+              {el.name} (<Filesize bytes={el.averageBackupSize} />, {el.vmCount}{' '}
+              Virtual Environments)
+            </span>
+          ),
+        }))}
         optionLabel="label"
         multiple
         dataKey="guid"

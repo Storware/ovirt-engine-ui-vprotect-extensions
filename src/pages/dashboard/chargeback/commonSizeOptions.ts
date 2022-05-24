@@ -5,20 +5,17 @@ const commonProperties = {
   responsive: true,
 };
 
-export const commonSizeOptions = (tooltipProperty) => {
-  return {
-    ...commonProperties,
-    plugins: {
-      tooltip: {
-        callbacks: {
-          label: (tooltipItem) => {
-            return `Size: ${getFileSize(tooltipItem.parsed[tooltipProperty])}`;
-          },
-        },
+export const commonSizeOptions = (tooltipProperty) => ({
+  ...commonProperties,
+  plugins: {
+    tooltip: {
+      callbacks: {
+        label: (tooltipItem) =>
+          `Size: ${getFileSize(tooltipItem.parsed[tooltipProperty])}`,
       },
     },
-  };
-};
+  },
+});
 
 const duration = (milliseconds) => {
   const dur = moment.duration(milliseconds, 'milliseconds');
@@ -34,51 +31,36 @@ const duration = (milliseconds) => {
   );
 };
 
-export const commonTimeOptions = (tooltipProperty) => {
-  return {
-    ...commonProperties,
-    plugins: {
-      tooltip: {
-        callbacks: {
-          label: (tooltipItem) => {
-            return (
-              (tooltipItem.parsed[tooltipProperty] &&
-                ` ${duration(tooltipItem.parsed[tooltipProperty])}`) ||
-              null
-            );
-          },
-        },
+export const commonTimeOptions = (tooltipProperty) => ({
+  ...commonProperties,
+  plugins: {
+    tooltip: {
+      callbacks: {
+        label: (tooltipItem) =>
+          (tooltipItem.parsed[tooltipProperty] &&
+            ` ${duration(tooltipItem.parsed[tooltipProperty])}`) ||
+          null,
       },
     },
-  };
-};
+  },
+});
 
-const commonTickOptions = (elements) => {
-  return {
-    min: 0,
-    max: Math.max(...elements),
-    stepSize: Math.max(...elements) / 10,
-  };
-};
+const commonTickOptions = (elements) => ({
+  min: 0,
+  max: Math.max(...elements),
+  stepSize: Math.max(...elements) / 10,
+});
 
-export const tickSizeOptions = (elements) => {
-  return {
-    ticks: {
-      callback: (value) => {
-        return getFileSize(value);
-      },
-      ...commonTickOptions(elements),
-    },
-  };
-};
+export const tickSizeOptions = (elements) => ({
+  ticks: {
+    callback: (value) => getFileSize(value),
+    ...commonTickOptions(elements),
+  },
+});
 
-export const tickTimeOptions = (elements) => {
-  return {
-    ticks: {
-      callback: (value) => {
-        return duration(value);
-      },
-      ...commonTickOptions(elements),
-    },
-  };
-};
+export const tickTimeOptions = (elements) => ({
+  ticks: {
+    callback: (value) => duration(value),
+    ...commonTickOptions(elements),
+  },
+});

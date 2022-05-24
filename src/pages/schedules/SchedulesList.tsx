@@ -33,27 +33,25 @@ const SchedulesList = () => {
     dispatch(removeSchedule(typeMap[type], guid));
   };
 
-  const header = () => {
-    return (
-      <div>
-        <div className="d-flex justify-content-between mt-2">
-          <div className="p-datatable-globalfilter-container">
-            <InputText
-              type="search"
-              // @ts-ignore
-              onInput={(e) => setGlobalFilter(e.target.value)}
-              placeholder="Global Search"
-            />
-          </div>
-          <div>
-            <Link to={`${history.location.pathname}/create`}>
-              <Button label="Create" />
-            </Link>
-          </div>
+  const header = () => (
+    <div>
+      <div className="d-flex justify-content-between mt-2">
+        <div className="p-datatable-globalfilter-container">
+          <InputText
+            type="search"
+            // @ts-ignore
+            onInput={(e) => setGlobalFilter(e.target.value)}
+            placeholder="Global Search"
+          />
+        </div>
+        <div>
+          <Link to={`${history.location.pathname}/create`}>
+            <Button label="Create" />
+          </Link>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
 
   return (
     <Table value={rows} header={header()} globalFilter={globalFilter}>
@@ -70,9 +68,7 @@ const SchedulesList = () => {
         field="daysOfWeek"
         header="Days"
         body={(rowData) =>
-          rowData.daysOfWeek.map((el) => {
-            return <span>{el.name} </span>;
-          })
+          rowData.daysOfWeek.map((el) => <span>{el.name} </span>)
         }
       />
       <Column field="backupType.description" header="Backup Type" />

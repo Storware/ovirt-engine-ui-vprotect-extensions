@@ -43,26 +43,22 @@ export default () => {
           </div>
         </div>
         <div className="col">
-          {['backups', 'restores'].map((type) => {
-            return (
-              <table className="mb-4" key={type}>
-                <tbody>
-                  {Object.keys(labels['backups']).map((property) => {
-                    return (
-                      <tr key={property}>
-                        <td className="text-left py-4 pr-4">
-                          {labels[type][property]}
-                        </td>
-                        <td className="text-left py-4 pl-4">
-                          {report[type][property]}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            );
-          })}
+          {['backups', 'restores'].map((type) => (
+            <table className="mb-4" key={type}>
+              <tbody>
+                {Object.keys(labels['backups']).map((property) => (
+                  <tr key={property}>
+                    <td className="text-left py-4 pr-4">
+                      {labels[type][property]}
+                    </td>
+                    <td className="text-left py-4 pl-4">
+                      {report[type][property]}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ))}
         </div>
       </div>
     </div>

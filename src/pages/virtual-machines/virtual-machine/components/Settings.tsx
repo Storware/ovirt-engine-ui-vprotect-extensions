@@ -22,9 +22,8 @@ import {
   SshAccess,
 } from './settings';
 
-const isBaseImageConfigAvailable = (model) => {
-  return model.hvmType != null && model.hvmType.name === 'AWS';
-};
+const isBaseImageConfigAvailable = (model) =>
+  model.hvmType != null && model.hvmType.name === 'AWS';
 
 const inheritableBooleanValues = [
   { name: 'TRUE', description: 'True' },

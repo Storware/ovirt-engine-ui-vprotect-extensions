@@ -4,7 +4,7 @@ import MountedBackupsList from './mounted-backups-list/MountedBackupsList';
 import MountedBackup from './mounted-backup/MountedBackup';
 
 const MountedBackups = () => {
-  let match = useRouteMatch();
+  const match = useRouteMatch();
 
   return (
     <Switch>

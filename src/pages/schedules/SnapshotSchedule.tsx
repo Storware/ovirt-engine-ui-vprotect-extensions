@@ -26,13 +26,13 @@ import { createBrowserHistory } from 'history';
 import { BackButton } from 'utils/backButton';
 
 const SnapshotSchedule = () => {
-  let dispatch = useDispatch();
-  let { guid } = useParams();
+  const dispatch = useDispatch();
+  const { guid } = useParams();
 
   const history = createBrowserHistory();
 
-  let model = useSelector(selectSchedule);
-  let policies = useSelector(selectPolicies);
+  const model = useSelector(selectSchedule);
+  const policies = useSelector(selectPolicies);
 
   useEffect(() => {
     dispatch(getSchedulePage('VM_SNAPSHOT', guid));

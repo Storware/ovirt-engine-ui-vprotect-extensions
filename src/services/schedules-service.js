@@ -12,7 +12,11 @@ class SchedulesService {
   backupTypes = [
     { name: 'FULL', description: 'Full backup' },
     { name: 'INCREMENTAL', description: 'Incremental Backup' },
-    { name: "SYNCHRONIZATION", description: "Backup synchronization (primary to secondary backup destination)" }
+    {
+      name: 'SYNCHRONIZATION',
+      description:
+        'Backup synchronization (primary to secondary backup destination)',
+    },
   ];
 
   executionTypes = [
@@ -22,12 +26,10 @@ class SchedulesService {
 
   async getAllTypeSchedules(type) {
     const data = await vprotectApiService.get('/schedules?type=' + type);
-    return getElementsWithoutProjectUuidInName(data).map((el) => {
-      return {
-        ...el,
-        daysOfWeek: sourceToViewShiftedDays(el.daysOfWeek, el.hour),
-      };
-    });
+    return getElementsWithoutProjectUuidInName(data).map((el) => ({
+      ...el,
+      daysOfWeek: sourceToViewShiftedDays(el.daysOfWeek, el.hour),
+    }));
   }
 
   deleteSchedule(id) {
@@ -54,15 +56,13 @@ class SchedulesService {
   }
 
   async getProtectedEntitySchedules(id) {
-    let data = await vprotectApiService.get(
+    const data = await vprotectApiService.get(
       '/schedules?protected-entity=' + id,
     );
-    return data.map((el) => {
-      return {
-        ...el,
-        daysOfWeek: sourceToViewShiftedDays(el.daysOfWeek, el.hour),
-      };
-    });
+    return data.map((el) => ({
+      ...el,
+      daysOfWeek: sourceToViewShiftedDays(el.daysOfWeek, el.hour),
+    }));
   }
 
   getScheduleTimeOrIntervalLabel(schedule) {

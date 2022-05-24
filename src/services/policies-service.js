@@ -49,12 +49,12 @@ class PoliciesService {
   }
 
   async getAllVmBackupPolicies() {
-    const res = await vprotectApiService.get(`/policies/vm-backup`);
+    const res = await vprotectApiService.get('/policies/vm-backup');
     return getElementsWithoutProjectUuidInName(res);
   }
 
   async getAllSnapshotMgmtPolicies() {
-    const res = await vprotectApiService.get(`/policies/vm-snapshot`);
+    const res = await vprotectApiService.get('/policies/vm-snapshot');
     return getElementsWithoutProjectUuidInName(res);
   }
 
@@ -63,8 +63,8 @@ class PoliciesService {
   }
 
   isSnapshotManagementAvailable(vm) {
-    let hvmWithSnapshotMgmt = ['AWS', 'NUTANIX', 'RHEV', 'RHV', 'VCENTER'];
-    let hvWithSnapshotMgmt = ['CITRIX', 'PROXMOX', 'ESXI', 'HYPERV'];
+    const hvmWithSnapshotMgmt = ['AWS', 'NUTANIX', 'RHEV', 'RHV', 'VCENTER'];
+    const hvWithSnapshotMgmt = ['CITRIX', 'PROXMOX', 'ESXI', 'HYPERV'];
 
     return (
       (vm.hvType != null && hvWithSnapshotMgmt.includes(vm.hvType.name)) ||

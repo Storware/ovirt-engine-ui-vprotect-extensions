@@ -1,5 +1,5 @@
-import {AutoAssignSettings} from './AutoAssignSettings';
-import {Rule} from "./backup-destination/rule";
+import { AutoAssignSettings } from './AutoAssignSettings';
+import { Rule } from './backup-destination/rule';
 
 export class VirtualMachineBackupPolicy {
   name = '';
@@ -10,8 +10,6 @@ export class VirtualMachineBackupPolicy {
   autoRemoveNonPresent = true;
   failRemainingBackupTasksExportThreshold;
   failRemainingBackupTasksStoreThreshold;
-  rules = [
-    new Rule()
-  ];
+  rules = [new Rule()];
   backupRetryCount = 0;
 }

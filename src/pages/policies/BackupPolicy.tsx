@@ -41,25 +41,22 @@ export const BackupPolicy = ({ type }) => {
         .then((result) => {
           setModel({
             ...result,
-            rules: result.rules.map((rule) => {
-              return {
-                ...rule,
-                ruleBackupDestinations: {
-                  primaryBackupDestination:
-                    rule.ruleBackupDestinations.find(
-                      (el) => el.roleType.name === 'PRIMARY',
-                    ) || new BackupDestinationRule('PRIMARY'),
-                  ...(rule.ruleBackupDestinations.find(
+            rules: result.rules.map((rule) => ({
+              ...rule,
+              ruleBackupDestinations: {
+                primaryBackupDestination:
+                  rule.ruleBackupDestinations.find(
+                    (el) => el.roleType.name === 'PRIMARY',
+                  ) || new BackupDestinationRule('PRIMARY'),
+                ...(rule.ruleBackupDestinations.find(
+                  ({ roleType: { name } }) => name === 'SECONDARY',
+                ) && {
+                  secondaryBackupDestination: rule.ruleBackupDestinations.find(
                     ({ roleType: { name } }) => name === 'SECONDARY',
-                  ) && {
-                    secondaryBackupDestination:
-                      rule.ruleBackupDestinations.find(
-                        ({ roleType: { name } }) => name === 'SECONDARY',
-                      ),
-                  }),
-                },
-              };
-            }),
+                  ),
+                }),
+              },
+            })),
           });
         });
     }
@@ -102,43 +99,39 @@ export const BackupPolicy = ({ type }) => {
     handleChangeBackupDestination();
   };
 
-  const handle = (name) => {
-    return (e) => {
-      const setNestedValue = (beforeVal, nestedName, val) => {
-        const [n, ...restNames] = nestedName.split('.');
-        return {
-          ...beforeVal,
-          [n]:
-            restNames.length > 0
-              ? setNestedValue(beforeVal[n], restNames.join('.'), val)
-              : val,
-        };
+  const handle = (name) => (e) => {
+    const setNestedValue = (beforeVal, nestedName, val) => {
+      const [n, ...restNames] = nestedName.split('.');
+      return {
+        ...beforeVal,
+        [n]:
+          restNames.length > 0
+            ? setNestedValue(beforeVal[n], restNames.join('.'), val)
+            : val,
       };
-
-      setModel(
-        setNestedValue(
-          model,
-          name,
-          e.target?.nodeName === 'INPUT' ? e.target.value : e.value,
-        ),
-      );
     };
+
+    setModel(
+      setNestedValue(
+        model,
+        name,
+        e.target?.nodeName === 'INPUT' ? e.target.value : e.value,
+      ),
+    );
   };
 
   const saveBackupPolicy = async () => {
     const mappedModel = {
       ...model,
-      rules: model.rules.map((rule) => {
-        return {
-          ...rule,
-          ruleBackupDestinations: [
-            rule.ruleBackupDestinations.primaryBackupDestination,
-            ...(rule.ruleBackupDestinations.secondaryBackupDestination
-              ? [rule.ruleBackupDestinations.secondaryBackupDestination]
-              : []),
-          ],
-        };
-      }),
+      rules: model.rules.map((rule) => ({
+        ...rule,
+        ruleBackupDestinations: [
+          rule.ruleBackupDestinations.primaryBackupDestination,
+          ...(rule.ruleBackupDestinations.secondaryBackupDestination
+            ? [rule.ruleBackupDestinations.secondaryBackupDestination]
+            : []),
+        ],
+      })),
     };
 
     if (model.guid) {
@@ -178,8 +171,8 @@ export const BackupPolicy = ({ type }) => {
     });
   };
 
-  const possibleAddRule = () => {
-    return model.rules.some(
+  const possibleAddRule = () =>
+    model.rules.some(
       ({
         ruleBackupDestinations: {
           primaryBackupDestination: { backupDestination: pbd },
@@ -189,7 +182,6 @@ export const BackupPolicy = ({ type }) => {
         },
       }) => !!pbd === !!pbd?.guid && !!sbd === !!sbd?.guid,
     );
-  };
 
   useEffect(() => {
     handleChangeBackupDestination();
@@ -347,24 +339,22 @@ export const BackupPolicy = ({ type }) => {
                 />
               </AccordionTab>
 
-              {model.rules.map((rule, i) => {
-                return (
-                  <AccordionTab
-                    key={rule.name}
-                    header={'Rule (' + rule.name + ')'}
-                  >
-                    <RulesContainer
-                      rule={rule}
-                      policyType={type}
-                      removeRule={() => deleteRule(i)}
-                      filteredBackupDestinations={filteredBackupDestinations}
-                      updateFilteredBackupDestinations={
-                        handleChangeBackupDestination
-                      }
-                    />
-                  </AccordionTab>
-                );
-              })}
+              {model.rules.map((rule, i) => (
+                <AccordionTab
+                  key={rule.name}
+                  header={'Rule (' + rule.name + ')'}
+                >
+                  <RulesContainer
+                    rule={rule}
+                    policyType={type}
+                    removeRule={() => deleteRule(i)}
+                    filteredBackupDestinations={filteredBackupDestinations}
+                    updateFilteredBackupDestinations={
+                      handleChangeBackupDestination
+                    }
+                  />
+                </AccordionTab>
+              ))}
 
               <AccordionTab header="Other">
                 <Field

@@ -59,7 +59,9 @@ function testDefined(obj, key) {
  * cannot be edited directly.
  */
 export function updateConfig(updates) {
-  if (__DEV__) console.log('updateConfig:', updates);
+  if (__DEV__) {
+    console.log('updateConfig:', updates);
+  }
 
   if (testDefined(updates, 'useFakeData')) {
     useFakeData = Boolean(updates.useFakeData);

@@ -15,7 +15,7 @@ class BackupDestinationsService {
   // ];
 
   getBackupDestinationsForVMs(vms) {
-    return vprotectApiService.post(`/backup-destinations/usable-for-vms`, vms);
+    return vprotectApiService.post('/backup-destinations/usable-for-vms', vms);
   }
 
   getAllBackupDestinations() {

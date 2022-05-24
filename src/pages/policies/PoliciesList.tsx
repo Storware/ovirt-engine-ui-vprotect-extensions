@@ -19,13 +19,12 @@ import { Button } from 'primereact/button';
 import Table from 'components/table/primereactTable';
 import { booleanTemplate } from 'components/table/templates';
 
-export const nameTemplate = (history) => (rowData, column) => {
-  return (
+export const nameTemplate = (history) => (rowData, column) =>
+  (
     <Link to={`${history.location.pathname}/${rowData.guid}`}>
       {rowData[column.field]}
     </Link>
   );
-};
 
 export const PoliciesList = () => {
   const dispatch = useDispatch();
@@ -82,27 +81,25 @@ export const PoliciesList = () => {
     ],
   };
 
-  const header = () => {
-    return (
-      <div>
-        <div className="d-flex justify-content-between mt-2">
-          <div className="p-datatable-globalfilter-container">
-            <InputText
-              type="search"
-              // @ts-ignore
-              onInput={(e) => setGlobalFilter(e.target.value)}
-              placeholder="Global Search"
-            />
-          </div>
-          <div>
-            <Link to={`${history.location.pathname}/create`}>
-              <Button label="Create" />
-            </Link>
-          </div>
+  const header = () => (
+    <div>
+      <div className="d-flex justify-content-between mt-2">
+        <div className="p-datatable-globalfilter-container">
+          <InputText
+            type="search"
+            // @ts-ignore
+            onInput={(e) => setGlobalFilter(e.target.value)}
+            placeholder="Global Search"
+          />
+        </div>
+        <div>
+          <Link to={`${history.location.pathname}/create`}>
+            <Button label="Create" />
+          </Link>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
 
   return (
     <>

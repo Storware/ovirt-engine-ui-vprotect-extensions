@@ -6,19 +6,21 @@ const nameParts = (name) => name.split('_');
 class DashboardService {
   getChargebackReport(params = {}, data: ChargebackRequest) {
     return vprotectApiService
-      .post(`/chargeback-reporting/backup-size/vm`, data, {
+      .post('/chargeback-reporting/backup-size/vm', data, {
         params: {
-          ...params
-        }})
-      .then((res) => {
-        return res.map((el) => {
-          return { ...el, name: nameParts(el.name).slice(2).join('') || el.name };
-        });
-      });
+          ...params,
+        },
+      })
+      .then((res) =>
+        res.map((el) => ({
+          ...el,
+          name: nameParts(el.name).slice(2).join('') || el.name,
+        })),
+      );
   }
 
   getReport(params = {}) {
-    return vprotectApiService.get(`/dashboard/report`, {
+    return vprotectApiService.get('/dashboard/report', {
       params: {
         ...params,
         protectedEntityType: 'VM',
@@ -37,18 +39,18 @@ class DashboardService {
   }
 
   getDashboardInfoPdf(params = {}) {
-    return vprotectApiService.get(`/dashboard/report-pdf`, {
+    return vprotectApiService.get('/dashboard/report-pdf', {
       responseType: 'blob',
       observe: 'response',
-      params: {...params, protectedEntityType: 'VM'},
+      params: { ...params, protectedEntityType: 'VM' },
     });
   }
 
   getDashboardInfoHtml(params = {}) {
-    return vprotectApiService.get(`/dashboard/report-html`, {
+    return vprotectApiService.get('/dashboard/report-html', {
       responseType: 'blob',
       observe: 'response',
-      params: {...params, protectedEntityType: 'VM'},
+      params: { ...params, protectedEntityType: 'VM' },
     });
   }
 }

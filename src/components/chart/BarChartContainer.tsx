@@ -60,11 +60,11 @@ const prepareChartDataBackups = (datasets, state) => {
     return state;
   }
 
-  const backups = datasets.backupsHistory.filter((value) => {
-    return (
-      value.status.name === 'SUCCESS_REMOVED' || value.status.name === 'SUCCESS'
-    );
-  });
+  const backups = datasets.backupsHistory.filter(
+    (value) =>
+      value.status.name === 'SUCCESS_REMOVED' ||
+      value.status.name === 'SUCCESS',
+  );
 
   let shiftChart = state.shiftChart;
   let enablePrevious = state.enablePrevious;

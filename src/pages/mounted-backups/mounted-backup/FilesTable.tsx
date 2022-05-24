@@ -8,14 +8,14 @@ import { useParams } from 'react-router-dom';
 import { booleanTemplate } from '../../../components/table/templates';
 
 const FilesTable = () => {
-  let dispatch = useDispatch();
-  let { guid } = useParams();
+  const dispatch = useDispatch();
+  const { guid } = useParams();
 
   useEffect(() => {
     dispatch(getFiles(guid));
   }, []);
 
-  let files = useSelector(selectFiles);
+  const files = useSelector(selectFiles);
   return (
     <div>
       <Table value={files}>

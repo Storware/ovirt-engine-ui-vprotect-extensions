@@ -7,7 +7,7 @@ const Select = ({ value, ...props }) => {
       return;
     }
 
-    let optionalValue = props.options[0];
+    const optionalValue = props.options[0];
     props.onChange({ value: optionalValue });
   }, [props.options, value]);
 

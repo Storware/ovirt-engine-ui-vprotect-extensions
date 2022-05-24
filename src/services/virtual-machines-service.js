@@ -5,14 +5,14 @@ import {
 } from './hypervisors-service';
 
 export const preAndPostSnapStdErrorHandlingOptions = [
-  { name: 'DONT_IGNORE', description: `Don't ignore` },
+  { name: 'DONT_IGNORE', description: "Don't ignore" },
   { name: 'IGNORE_WITHOUT_WARNING', description: 'Ignore without warning' },
   { name: 'IGNORE_WITH_WARNING', description: 'Ignore with warning' },
 ];
 
 class VirtualMachinesService {
   getVirtualMachines() {
-    return vprotectApiService.get(`/virtual-machines`);
+    return vprotectApiService.get('/virtual-machines');
   }
 
   getVirtualMachine(id) {
@@ -22,9 +22,10 @@ class VirtualMachinesService {
   getVirtualMachineSnapshots(id, standAlone) {
     return vprotectApiService.get('/snapshots', {
       params: {
-        "protected-entity": id,
-        ...standAlone ? {"stand-alone": standAlone.toString()} : null,
-      }});
+        'protected-entity': id,
+        ...(standAlone ? { 'stand-alone': standAlone.toString() } : null),
+      },
+    });
   }
 
   getVirtualMachineDisks(id) {

@@ -11,8 +11,8 @@ import { Dispatch } from 'redux';
 import { sizeTemplate } from '../../../components/table/templates';
 import { Button } from 'primereact/button';
 
-const actionTemplate = (dispatch: Dispatch) => (rowData) => {
-  return (
+const actionTemplate = (dispatch: Dispatch) => (rowData) =>
+  (
     <Button
       onClick={() => {
         dispatch(
@@ -28,17 +28,16 @@ const actionTemplate = (dispatch: Dispatch) => (rowData) => {
       label="Browse"
     />
   );
-};
 
 const FileSystemsTable = () => {
-  let dispatch = useDispatch();
-  let { guid } = useParams();
+  const dispatch = useDispatch();
+  const { guid } = useParams();
 
   useEffect(() => {
     dispatch(getFileSystems(guid));
   }, []);
 
-  let fileSystems = useSelector(selectFileSystems);
+  const fileSystems = useSelector(selectFileSystems);
   return (
     <div>
       <Table value={fileSystems}>

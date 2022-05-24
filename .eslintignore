@@ -20,5 +20,11 @@ extra/
 exported-artifacts/
 rpmbuild/
 
+
+
 # override default excludes so we can lint config js files in project root
 !/.*.js
+
+#configs files
+.*
+webpack.*

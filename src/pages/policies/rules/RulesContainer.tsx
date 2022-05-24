@@ -140,12 +140,9 @@ export const RulesContainer = ({
     ] = value * factor;
   };
 
-  const getRetentionSettingsValue = (key) => {
-    return (
-      rule.ruleBackupDestinations.primaryBackupDestination
-        .backupRetentionSettings[key] / factor
-    );
-  };
+  const getRetentionSettingsValue = (key) =>
+    rule.ruleBackupDestinations.primaryBackupDestination
+      .backupRetentionSettings[key] / factor;
 
   // @ts-ignore
   return (

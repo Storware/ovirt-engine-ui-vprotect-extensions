@@ -9,9 +9,8 @@ import {
   MILLISECONDS_IN_MINUTE,
 } from 'utils/milisecondsTimespan';
 
-export const getCurrentDayMidnight = () => {
-  return moment().utc().hours(0).minutes(0).second(0).millisecond(0);
-};
+export const getCurrentDayMidnight = () =>
+  moment().utc().hours(0).minutes(0).second(0).millisecond(0);
 
 export const getHoursAndMinutesFromSource = (value) => {
   const momentDate = moment.tz(
@@ -24,15 +23,12 @@ export const getHoursAndMinutesFromSource = (value) => {
   return date;
 };
 
-export const getSourceValueFromHoursAndMinutes = (e) => {
-  return (
-    (e.value.getHours() * MILLISECONDS_IN_HOUR +
-      e.value.getMinutes() * MILLISECONDS_IN_MINUTE +
-      offset +
-      MILLISECONDS_IN_DAY) %
-    MILLISECONDS_IN_DAY
-  );
-};
+export const getSourceValueFromHoursAndMinutes = (e) =>
+  (e.value.getHours() * MILLISECONDS_IN_HOUR +
+    e.value.getMinutes() * MILLISECONDS_IN_MINUTE +
+    offset +
+    MILLISECONDS_IN_DAY) %
+  MILLISECONDS_IN_DAY;
 
 export const InputTime = ({ value, onChange }) => {
   const [inputValue, setInputValue] = useState(new Date());

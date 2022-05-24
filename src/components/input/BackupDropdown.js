@@ -13,16 +13,14 @@ export class BackupDropdown extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    let options = props.options.map((el) => {
-      return {
-        ...el,
-        time: `${new Date(el.snapshotTime).toLocaleString()} ${
-          el.type && el.type.name === 'FULL' ? '(Full)' : ''
-        }`,
-      };
-    });
+    const options = props.options.map((el) => ({
+      ...el,
+      time: `${new Date(el.snapshotTime).toLocaleString()} ${
+        el.type && el.type.name === 'FULL' ? '(Full)' : ''
+      }`,
+    }));
     return {
-      options: options,
+      options,
       value: props.value
         ? state.options.find((el) => el.guid === props.value.guid)
         : options[0],

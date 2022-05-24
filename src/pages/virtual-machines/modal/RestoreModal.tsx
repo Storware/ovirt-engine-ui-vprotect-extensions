@@ -28,21 +28,17 @@ import { selectNetwork } from 'store/network/selectors';
 import { getNetwork, setNetworkAction } from 'store/network/actions';
 import { hideModalAction } from 'store/modal/actions';
 
-const storageDropdownTemplate = (option) => {
-  return (
-    <div>
-      <span>{option.name}</span>
-      {option.totalAvailableSpace && (
-        <span>
-          <Filesize bytes={option.totalAvailableSpace} />, free:{' '}
-          <Filesize
-            bytes={option.totalAvailableSpace - option.totalUsedSpace}
-          />
-        </span>
-      )}
-    </div>
-  );
-};
+const storageDropdownTemplate = (option) => (
+  <div>
+    <span>{option.name}</span>
+    {option.totalAvailableSpace && (
+      <span>
+        <Filesize bytes={option.totalAvailableSpace} />, free:{' '}
+        <Filesize bytes={option.totalAvailableSpace - option.totalUsedSpace} />
+      </span>
+    )}
+  </div>
+);
 
 export const RestoreModal = ({ virtualEnvironment }) => {
   const dispatch = useDispatch();
@@ -69,11 +65,12 @@ export const RestoreModal = ({ virtualEnvironment }) => {
     }
   }, [task]);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       dispatch(setNetworkAction([]));
-    };
-  }, []);
+    },
+    [],
+  );
 
   const onBackupLocationChange = (e) => {
     dispatch(
@@ -94,12 +91,11 @@ export const RestoreModal = ({ virtualEnvironment }) => {
     dispatch(
       setFilteredHypervisorStoragesAction(
         !!cluster
-          ? storages.filter((storage) => {
-              return (
+          ? storages.filter(
+              (storage) =>
                 !!storage.clusters &&
-                !!storage.clusters.find((el) => cluster.guid === el.guid)
-              );
-            })
+                !!storage.clusters.find((el) => cluster.guid === el.guid),
+            )
           : [],
       ),
     );
@@ -118,14 +114,12 @@ export const RestoreModal = ({ virtualEnvironment }) => {
         initialValues={{
           ...task,
           restoredNetworks: task.restoredNetworks.map(
-            (networkInterfaceCard) => {
-              return {
-                ...networkInterfaceCard,
-                network: networkList.filter(
-                  ({ guid }) => guid === networkInterfaceCard.network.guid,
-                )[0],
-              };
-            },
+            (networkInterfaceCard) => ({
+              ...networkInterfaceCard,
+              network: networkList.filter(
+                ({ guid }) => guid === networkInterfaceCard.network.guid,
+              )[0],
+            }),
           ),
         }}
         onSubmit={({ ...values }, { setSubmitting }) => {
@@ -190,14 +184,14 @@ export const RestoreModal = ({ virtualEnvironment }) => {
             )}
             {clusterCopy &&
               task.restoredNetworks.map((networkInterfaceCard, id) => (
-                  <Field
-                    key={id}
-                    name={`restoredNetworks[${id}].network`}
-                    component={ToggleSelect}
-                    label={`Select network interface card ${networkInterfaceCard.networkInterfaceCard.name}`}
-                    optionLabel="name"
-                    options={networkList}
-                  />
+                <Field
+                  key={id}
+                  name={`restoredNetworks[${id}].network`}
+                  component={ToggleSelect}
+                  label={`Select network interface card ${networkInterfaceCard.networkInterfaceCard.name}`}
+                  optionLabel="name"
+                  options={networkList}
+                />
               ))}
 
             <Field

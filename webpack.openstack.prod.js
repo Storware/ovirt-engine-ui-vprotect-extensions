@@ -17,6 +17,10 @@ module.exports = {
   mode: 'production',
   devtool: 'source-map',
 
+  entry: {
+    index: [...commonModules, './src/index.tsx'],
+  },
+
   module: {
     rules: [
       {
@@ -78,7 +82,7 @@ module.exports = {
 
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist/openstack'),
 
     publicPath: '/dashboard/static/vprotect/',
   },
@@ -141,10 +145,6 @@ module.exports = {
   ],
 
   bail: true,
-
-  entry: {
-    index: [...commonModules, './src/index.tsx'],
-  },
 
   resolve: {
     alias: {

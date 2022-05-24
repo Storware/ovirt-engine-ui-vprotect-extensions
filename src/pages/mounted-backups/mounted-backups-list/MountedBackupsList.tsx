@@ -41,7 +41,7 @@ export const MountedBackupsList = () => {
     {
       label: 'Unmount',
       command: async () => {
-        let task = new UnmountTask();
+        const task = new UnmountTask();
         task.mountedBackup = { guid: actionsElement.guid, name: '' };
         await tasksService.submitTaskUnmount(task);
         alertService.info('Unmount task has been submitted');
@@ -49,20 +49,18 @@ export const MountedBackupsList = () => {
     },
   ];
 
-  const header = () => {
-    return (
-      <div className="d-flex justify-content-between">
-        <div className="p-datatable-globalfilter-container">
-          <InputText
-            type="search"
-            // @ts-ignore
-            onInput={(e) => setGlobalFilter(e.target.value)}
-            placeholder="Global Search"
-          />
-        </div>
+  const header = () => (
+    <div className="d-flex justify-content-between">
+      <div className="p-datatable-globalfilter-container">
+        <InputText
+          type="search"
+          // @ts-ignore
+          onInput={(e) => setGlobalFilter(e.target.value)}
+          placeholder="Global Search"
+        />
       </div>
-    );
-  };
+    </div>
+  );
 
   return (
     <div>

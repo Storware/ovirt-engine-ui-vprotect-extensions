@@ -16,9 +16,10 @@ export const dateTemplate = (rowData, column) => {
     <DateShow
       date={
         path.length > 1
-          ? path.reduce((prev, curr) => {
-              return prev ? prev[curr] : null;
-            }, rowData || self)
+          ? path.reduce(
+              (prev, curr) => (prev ? prev[curr] : null),
+              rowData || self,
+            )
           : rowData[column.field]
       }
     />
@@ -43,21 +44,15 @@ export const booleanTemplate = (rowData, column) => {
   );
 };
 
-export const scheduleTimeTemplate = (rowData) => {
-  return (
-    <span>{schedulesService.getScheduleTimeOrIntervalLabel(rowData)}</span>
-  );
-};
+export const scheduleTimeTemplate = (rowData) => (
+  <span>{schedulesService.getScheduleTimeOrIntervalLabel(rowData)}</span>
+);
 
-export const scheduleDaysTemplate = (rowData) => {
-  return rowData.daysOfWeek.map((el) => {
-    return <span>{el.name} </span>;
-  });
-};
+export const scheduleDaysTemplate = (rowData) =>
+  rowData.daysOfWeek.map((el) => <span>{el.name} </span>);
 
-export const convertTemplate = (convertValue) => (rowData, column) => {
-  return <span>{rowData[column.field] / convertValue}</span>;
-};
+export const convertTemplate = (convertValue) => (rowData, column) =>
+  <span>{rowData[column.field] / convertValue}</span>;
 
 export const permissionTemplate = (rowData, column) => {
   const perm = [
@@ -95,23 +90,18 @@ export const permissionTemplate = (rowData, column) => {
     return displayedLetter;
   };
 
-  const displayText = perm.map((el) => {
-    return checkIfPresent(el);
-  });
+  const displayText = perm.map((el) => checkIfPresent(el));
 
   return displayText.join('');
 };
 
-export const backupLocationsTemplates = (rowData) => {
-  return rowData.backupLocations.map(
-    ({ backupDestination: { name }, status }, i) => (
-      <div key={i} className="d-flex align-items-center">
-        <i
-          className="pi pi-circle-on mr-2"
-          style={{ color: StatusColorHex[status.name] }}
-        />
-        {name}
-      </div>
-    ),
-  );
-};
+export const backupLocationsTemplates = (rowData) =>
+  rowData.backupLocations.map(({ backupDestination: { name }, status }, i) => (
+    <div key={i} className="d-flex align-items-center">
+      <i
+        className="pi pi-circle-on mr-2"
+        style={{ color: StatusColorHex[status.name] }}
+      />
+      {name}
+    </div>
+  ));

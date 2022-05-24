@@ -3,12 +3,10 @@ export default (chartData, sortBy) => {
     return chartData;
   }
 
-  let labelsAndDataMergedAndSorted = chartData.labels.map((el, index) => {
-    return {
-      label: el,
-      dataValue: chartData.datasets[0].data[index],
-    };
-  });
+  let labelsAndDataMergedAndSorted = chartData.labels.map((el, index) => ({
+    label: el,
+    dataValue: chartData.datasets[0].data[index],
+  }));
 
   if (sortBy.size !== null) {
     labelsAndDataMergedAndSorted = labelsAndDataMergedAndSorted.sort((a, b) =>

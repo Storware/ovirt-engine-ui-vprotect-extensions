@@ -6,7 +6,7 @@ const selectedPolicies = (value, policies) => {
   if (!policies || !value) {
     return [];
   }
-  let data = [];
+  const data = [];
   value.forEach((rule) => {
     policies.forEach((policy) => {
       if (policy.rules.some((el) => el.guid === rule.guid)) {
@@ -18,7 +18,7 @@ const selectedPolicies = (value, policies) => {
 };
 
 const selectedRules = (value) => {
-  let data = [];
+  const data = [];
   value.forEach((policy) => {
     if (policy) {
       policy.rules.forEach((rule) => {
@@ -55,17 +55,15 @@ const SchedulePolicies = ({ field, form: { setFieldValue }, ...props }) => {
         {...field}
         {...props}
         value={value}
-        options={props.options.map((el) => {
-          return {
-            ...el,
-            label: (
-              <span>
-                {el.name} (<Filesize bytes={el.averageBackupSize} />,{' '}
-                {el.vmCount} Virtual Environments)
-              </span>
-            ),
-          };
-        })}
+        options={props.options.map((el) => ({
+          ...el,
+          label: (
+            <span>
+              {el.name} (<Filesize bytes={el.averageBackupSize} />, {el.vmCount}{' '}
+              Virtual Environments)
+            </span>
+          ),
+        }))}
         optionLabel="label"
         multiple
         dataKey="guid"

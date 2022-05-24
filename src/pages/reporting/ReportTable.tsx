@@ -21,23 +21,19 @@ const virtualEnvironmentStatus = (rowData) => {
   return <div className={statusClassName}>{rowData.status}</div>;
 };
 
-const nameLink = (rowData) => {
-  return (
-    <div>
-      {rowData.protectedEntityGuid ? (
-        <Link to={`/virtual_environments/${rowData.protectedEntityGuid}`}>
-          {rowData.protectedEntity}
-        </Link>
-      ) : (
-        rowData.protectedEntity
-      )}
-    </div>
-  );
-};
+const nameLink = (rowData) => (
+  <div>
+    {rowData.protectedEntityGuid ? (
+      <Link to={`/virtual_environments/${rowData.protectedEntityGuid}`}>
+        {rowData.protectedEntity}
+      </Link>
+    ) : (
+      rowData.protectedEntity
+    )}
+  </div>
+);
 
-const rowClassName = () => {
-  return { StyleRow: true };
-};
+const rowClassName = () => ({ StyleRow: true });
 
 export default () => {
   const type = getLastElementOfPath();

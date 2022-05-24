@@ -12,7 +12,7 @@ import Table from '../../../components/table/primereactTable';
 import { getElementWithoutProjectUuidInName } from 'utils/byProjectFilter';
 
 const SchedulesTable = () => {
-  let schedules = useSelector(selectSchedules);
+  const schedules = useSelector(selectSchedules);
 
   return (
     <div>

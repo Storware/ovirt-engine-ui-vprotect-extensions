@@ -1,7 +1,3 @@
-export const getWebAdminWindow = () => {
-  return window.top;
-};
+export const getWebAdminWindow = () => window.top;
 
-export const getWebAdminDocumentBody = () => {
-  return getWebAdminWindow().document.body;
-};
+export const getWebAdminDocumentBody = () => getWebAdminWindow().document.body;
