@@ -15,11 +15,10 @@ export const getSchedules = (type: string) => async (dispatch: Dispatch) => {
   await dispatch(setSchedules(schedules));
 };
 
-export const removeSchedule = (type: string, guid: string) => async (
-  dispatch: Dispatch,
-) => {
-  await schedulesService.deleteSchedule(guid);
-  const schedules = await schedulesService.getAllTypeSchedules(type);
-  await dispatch(setSchedules(schedules));
-  alertService.info('Schedule removed');
-};
+export const removeSchedule =
+  (type: string, guid: string) => async (dispatch: Dispatch) => {
+    await schedulesService.deleteSchedule(guid);
+    const schedules = await schedulesService.getAllTypeSchedules(type);
+    await dispatch(setSchedules(schedules));
+    alertService.info('Schedule removed');
+  };

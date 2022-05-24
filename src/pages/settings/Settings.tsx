@@ -4,21 +4,21 @@ import MailingTable from 'pages/settings/mailing/mailing-table/MailingTable';
 import MailingList from 'pages/settings/mailing/mailing-list/MailingList';
 
 export default () => {
-    const match = useRouteMatch();
+  const match = useRouteMatch();
 
-    return (
-        <Switch>
-            <Route path={`${match.path}/mailing-list/:guid`}>
-                <MailingList />
-            </Route>
-            <Route path={`${match.path}/mailing-list`}>
-                <MailingTable/>
-            </Route>
-            <Redirect
-                to={{
-                    pathname: `${match.path}/mailing-list`,
-                }}
-            />
-        </Switch>
-        )
-}
+  return (
+    <Switch>
+      <Route path={`${match.path}/mailing-list/:guid`}>
+        <MailingList />
+      </Route>
+      <Route path={`${match.path}/mailing-list`}>
+        <MailingTable />
+      </Route>
+      <Redirect
+        to={{
+          pathname: `${match.path}/mailing-list`,
+        }}
+      />
+    </Switch>
+  );
+};
