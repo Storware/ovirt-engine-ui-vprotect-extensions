@@ -15,3 +15,8 @@ table .actions {
 table .p-row-tooltip [data-pr-tooltip] {
   pointer-events: all;
 }
+
+
+.c-table .p-paginator .p-inputtext {
+  padding: 0.75rem 0 0.75rem 0.75rem;
+}
