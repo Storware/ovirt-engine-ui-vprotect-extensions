@@ -27,7 +27,7 @@ export default ({ items }: { items: TabList }) => {
             </Link>
           );
         })}
-        <li className="p-tabmenu-ink-bar" style={items.inkStyle[path]} />
+        <li className="p-tabmenu-ink-bar" style={items.inkStyle[path]}  />
       </ul>
     </div>
   );

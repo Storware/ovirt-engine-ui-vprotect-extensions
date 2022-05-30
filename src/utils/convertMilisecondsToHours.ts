@@ -6,4 +6,4 @@ export const convertMilisecondsToHours = (miliseconds) => {
   seconds = Math.floor(seconds % 60);
   const time = (n) => (n < 10 ? `0${n}` : n);
   return `${time(hours)}:${time(minutes)}:${time(seconds)}`;
-};
+}

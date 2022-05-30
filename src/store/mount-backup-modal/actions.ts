@@ -1,6 +1,5 @@
 import {
-  MountBackupModalAction,
-  RESET_TASK,
+  MountBackupModalAction, RESET_TASK,
   SET_BACKUP_FILES,
   SET_ISCSI_MOUNTABLE,
   SET_MANUAL_MOUNT_FILESYSTEMS,
@@ -62,7 +61,8 @@ export const setBackupFilesAction = (
   };
 };
 
-export const resetTaskAction = (): MountBackupModalAction => {
+export const resetTaskAction = (
+): MountBackupModalAction => {
   return {
     type: RESET_TASK,
   };
@@ -77,40 +77,43 @@ export const setTaskAction = (
   };
 };
 
-export const setMountedBackup =
-  (guid: string, mountableBackups) => async (dispatch: Dispatch) => {
-    await dispatch(setMountableBackupsAction(mountableBackups));
-    const nodes = await nodesService.getAllNodes();
-    await dispatch(setNodesAction(nodes));
-  };
+export const setMountedBackup = (guid: string, mountableBackups) => async (
+  dispatch: Dispatch,
+) => {
+  await dispatch(setMountableBackupsAction(mountableBackups));
+  const nodes = await nodesService.getAllNodes();
+  await dispatch(setNodesAction(nodes));
+};
 
-export const getBackupFilesystems =
-  (backup: any) => async (dispatch: Dispatch) => {
-    const data = await backupsService.getBackupFileSystems(backup.guid);
-    const manualMountFileSystems = [];
-    data.forEach((element) => {
-      const ms = new MountedFileSystemRequest();
-      ms.fileSystem = element;
-      ms.mountPath =
-        '/mnt/vprotect/' +
-        backup.protectedEntity.name +
-        '/' +
-        moment(backup.snapshotTime).format('YYYYMMDD_HHmmss') +
-        '/' +
-        element.volume.replace(/^.*[\\\/]/, '');
-      manualMountFileSystems.push(ms);
-    });
-    await dispatch(setManualMountFilesystemsAction(manualMountFileSystems));
-  };
+export const getBackupFilesystems = (backup: any) => async (
+  dispatch: Dispatch,
+) => {
+  const data = await backupsService.getBackupFileSystems(backup.guid);
+  const manualMountFileSystems = [];
+  data.forEach((element) => {
+    const ms = new MountedFileSystemRequest();
+    ms.fileSystem = element;
+    ms.mountPath =
+      '/mnt/vprotect/' +
+      backup.protectedEntity.name +
+      '/' +
+      moment(backup.snapshotTime).format('YYYYMMDD_HHmmss') +
+      '/' +
+      element.volume.replace(/^.*[\\\/]/, '');
+    manualMountFileSystems.push(ms);
+  });
+  await dispatch(setManualMountFilesystemsAction(manualMountFileSystems));
+};
 
-export const checkIfIscsiMountable =
-  (backup: any) => async (dispatch: Dispatch) => {
-    const data = await backupsService.getBackup(backup.guid);
-    await dispatch(setIscsiMountableAction(data.iscsiMountable));
-    if (data.iscsiMountable) {
-      await dispatch(await getBackupFiles(backup));
-    }
-  };
+export const checkIfIscsiMountable = (backup: any) => async (
+  dispatch: Dispatch,
+) => {
+  const data = await backupsService.getBackup(backup.guid);
+  await dispatch(setIscsiMountableAction(data.iscsiMountable));
+  if (data.iscsiMountable) {
+    await dispatch(await getBackupFiles(backup));
+  }
+};
 
 export const getBackupFiles = async (backup: any) => {
   const data = await backupsService.getBackupFiles(backup.guid);
@@ -122,13 +125,14 @@ export const getBackupFiles = async (backup: any) => {
   );
 };
 
-export const submitTask =
-  (task: RestoreAndMountTask) => async (dispatch: Dispatch) => {
-    try {
-      await tasksService.submitTaskRestoreAndMount(task);
-      alertService.info('Restore and Mount task has been submitted');
-      await dispatch(hideModalAction());
-    } catch (e) {
-      await dispatch(unsaveModalAction());
-    }
-  };
+export const submitTask = (task: RestoreAndMountTask) => async (
+  dispatch: Dispatch,
+) => {
+  try {
+    await tasksService.submitTaskRestoreAndMount(task);
+    alertService.info('Restore and Mount task has been submitted');
+    await dispatch(hideModalAction());
+  } catch (e) {
+    await dispatch(unsaveModalAction());
+  }
+};
