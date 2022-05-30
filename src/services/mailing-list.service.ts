@@ -1,6 +1,7 @@
 import { vprotectApiService } from './vprotect-api-service';
 
 class MailingListService {
+
   getMailingLists() {
     return vprotectApiService.get(`/mailing-lists`);
   }
@@ -20,6 +21,7 @@ class MailingListService {
   deleteMailingList(guid: string) {
     return vprotectApiService.delete(`/mailing-lists/${guid}`);
   }
+
 }
 
 export const mailingService = new MailingListService();

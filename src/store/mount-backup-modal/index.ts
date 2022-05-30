@@ -8,9 +8,9 @@ import {
   SET_NODES,
   SET_TASK,
 } from './types';
-import { MountedFileSystemRequest } from '../../model/tasks/mounted-file-system-request';
-import { BackupFile } from '../../model/backup-file';
-import { RestoreAndMountTask } from 'model/tasks/restore-and-mount-task';
+import {MountedFileSystemRequest} from '../../model/tasks/mounted-file-system-request';
+import {BackupFile} from '../../model/backup-file';
+import {RestoreAndMountTask} from 'model/tasks/restore-and-mount-task';
 
 export type MountedBackupStore = {
   readonly nodes: any[];

@@ -67,18 +67,19 @@ export const getFiles = (guid) => async (dispatch: Dispatch) => {
   await dispatch(setFiles(files));
 };
 
-export const getFilesystemListing =
-  (guid, path) => async (dispatch: Dispatch) => {
-    await dispatch(startLoading());
-    try {
-      const files = await backupsService.getMountedBackupFilesystemsListing(
-        guid,
-        path,
-      );
-      await dispatch(setFileSystemListing(files));
-    } catch (e) {
-      await dispatch(setFileSystemListing([]));
-    } finally {
-      await dispatch(stopLoading());
-    }
-  };
+export const getFilesystemListing = (guid, path) => async (
+  dispatch: Dispatch,
+) => {
+  await dispatch(startLoading());
+  try {
+    const files = await backupsService.getMountedBackupFilesystemsListing(
+      guid,
+      path,
+    );
+    await dispatch(setFileSystemListing(files));
+  } catch (e) {
+    await dispatch(setFileSystemListing([]));
+  } finally {
+    await dispatch(stopLoading());
+  }
+};

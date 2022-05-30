@@ -11,7 +11,7 @@ import { BackupTask } from '../../model/tasks/backup-task';
 import { hideModalAction, unsaveModalAction } from '../modal/actions';
 
 export const setBackupDestinationsAction = (
-  payload: any[],
+  payload: any[]
 ): BackupModalAction => {
   return {
     type: SET_BACKUP_DESTINATIONS,
@@ -26,20 +26,12 @@ export const setBackupTypesAction = (payload: any[]): BackupModalAction => {
   };
 };
 
-export const getBackupDestinationsAndBackupTypes =
-  (virtualEnvironments: any, showIncremental = false) =>
-  async (dispatch: Dispatch) => {
-    const backupDestiantions =
-      await backupDestinationsService.getBackupDestinationsForVMs(
-        virtualEnvironments,
-      );
-    await dispatch(setBackupDestinationsAction(backupDestiantions));
-    const backupTypes = vprotectService.getBackupTypes(
-      virtualEnvironments[0],
-      showIncremental,
-    );
-    await dispatch(setBackupTypesAction(backupTypes));
-  };
+export const getBackupDestinationsAndBackupTypes = (virtualEnvironments: any, showIncremental = false) => async (dispatch: Dispatch) => {
+  const backupDestiantions = await backupDestinationsService.getBackupDestinationsForVMs(virtualEnvironments);
+  await dispatch(setBackupDestinationsAction(backupDestiantions));
+  const backupTypes = vprotectService.getBackupTypes(virtualEnvironments[0], showIncremental);
+  await dispatch(setBackupTypesAction(backupTypes));
+};
 
 export const submitTask = (task: BackupTask) => async (dispatch: Dispatch) => {
   try {

@@ -1,20 +1,20 @@
-import { MailingTableAction, SET_MAILING_TABLE } from './types';
+import {MailingTableAction, SET_MAILING_TABLE} from './types';
 
 export type MailingTableStore = {
-  readonly mailingTable: any[];
+    readonly mailingTable: any[];
 };
 
 const initial: MailingTableStore = {
-  mailingTable: [],
+    mailingTable: [],
 };
 
 export default (state = initial, action: MailingTableAction) => {
-  if (action.type === SET_MAILING_TABLE) {
-    return {
-      ...state,
-      mailingTable: action.payload,
-      filteredMailingTable: action.payload,
-    };
-  }
-  return state;
+    if (action.type === SET_MAILING_TABLE) {
+        return {
+            ...state,
+            mailingTable: action.payload,
+            filteredMailingTable: action.payload,
+        };
+    }
+    return state;
 };

@@ -13,7 +13,7 @@ import {
 import { Button } from 'primereact/button';
 import { fileSaverService } from '../../../../services/file-saver-service';
 import { backupsService } from '../../../../services/backups-service';
-import { hideFooterAction } from '../../../../store/modal/actions';
+import {hideFooterAction} from '../../../../store/modal/actions';
 
 const icon = {
   DIRECTORY: 'pi-folder',
@@ -24,7 +24,7 @@ const icon = {
 
 const FileSystemModal = ({ guid }) => {
   const dispatch = useDispatch();
-  dispatch(hideFooterAction());
+  dispatch(hideFooterAction())
 
   useEffect(() => {
     dispatch(getFilesystemListing(guid, currentPath));

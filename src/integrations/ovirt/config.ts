@@ -1,3 +1,3 @@
 export default {
-  build: 'OVIRT',
-};
+    build: 'OVIRT'
+}

@@ -1,10 +1,7 @@
-import { BackupRetentionSettings } from './backup-retention-settings';
-import { BackupDestinationType } from './backup-destination-type';
+import {BackupRetentionSettings} from './backup-retention-settings';
+import {BackupDestinationType} from './backup-destination-type';
 
-export const BackupDestinationRetentionFactory: Record<
-  BackupDestinationType,
-  any
-> = {
+export const BackupDestinationRetentionFactory: Record<BackupDestinationType, any> = {
   FILESYSTEM: BackupRetentionSettings,
   SYNTHETICXFS: BackupRetentionSettings,
   SYNTHETICDDBOOST: BackupRetentionSettings,

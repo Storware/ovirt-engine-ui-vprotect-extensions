@@ -1,5 +1,5 @@
-import { NameAndDescription } from '../dto/nameAndDescription';
-import { BackupDestinationType } from './backup-destination-type';
+import {NameAndDescription} from '../dto/nameAndDescription';
+import {BackupDestinationType} from './backup-destination-type';
 
 export class BackupDestination {
   guid: string;
