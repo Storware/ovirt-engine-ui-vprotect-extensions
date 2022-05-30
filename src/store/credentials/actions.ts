@@ -10,21 +10,17 @@ import { Optional } from '../../model/utils';
 
 export const setCredentials = (
   payload: CredentialModel[],
-): CredentialsAction => {
-  return {
-    type: SET_CREDENTIALS,
-    payload,
-  };
-};
+): CredentialsAction => ({
+  type: SET_CREDENTIALS,
+  payload,
+});
 
 export const setSelectedCredential = (
   payload: CredentialModel,
-): CredentialsAction => {
-  return {
-    type: SET_SELECTED_CREDENTIAL,
-    payload,
-  };
-};
+): CredentialsAction => ({
+  type: SET_SELECTED_CREDENTIAL,
+  payload,
+});
 
 export const getCredentials = async (dispatch: Dispatch) => {
   const credentials = await credentialsService.getCredentials();

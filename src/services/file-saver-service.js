@@ -2,9 +2,9 @@ import * as FileSaver from 'file-saver';
 
 class FileSaverService {
   async saveFile(data) {
-    let contentDisposition = data.headers.get('content-disposition') || '';
+    const contentDisposition = data.headers.get('content-disposition') || '';
 
-    let matches = /filename=([^;]+)/gi.exec(contentDisposition);
+    const matches = /filename=([^;]+)/gi.exec(contentDisposition);
     let fileName =
       contentDisposition === ''
         ? 'untitled'
@@ -17,7 +17,7 @@ class FileSaverService {
       fileName = fileName.slice(0, fileName.length - 1);
     }
 
-    let blob = new Blob([await data.blob()], {
+    const blob = new Blob([await data.blob()], {
       type: 'application/octet-stream',
     });
 

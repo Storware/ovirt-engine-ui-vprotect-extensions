@@ -12,23 +12,21 @@ const ModalContainer = () => {
   const hideButtonActions = useSelector(hideFooter);
   const { component: Component, buttonLabel } = modal;
 
-  const renderFooter = () => {
-    return (
-      <div>
-        <Button
-          label="Cancel"
-          icon="pi pi-times"
-          onClick={() => dispatch(hideModalAction())}
-          className="p-button-text"
-        />
-        <Button
-          label={buttonLabel ? buttonLabel : 'Save'}
-          icon="pi pi-check"
-          onClick={() => dispatch(saveModalAction())}
-        />
-      </div>
-    );
-  };
+  const renderFooter = () => (
+    <div>
+      <Button
+        label="Cancel"
+        icon="pi pi-times"
+        onClick={() => dispatch(hideModalAction())}
+        className="p-button-text"
+      />
+      <Button
+        label={buttonLabel ? buttonLabel : 'Save'}
+        icon="pi pi-check"
+        onClick={() => dispatch(saveModalAction())}
+      />
+    </div>
+  );
 
   return (
     <div className="dialog-demo">

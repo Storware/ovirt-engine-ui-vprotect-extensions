@@ -16,7 +16,7 @@ class TasksService {
   }
 
   async submitTaskRestoreAndImport(task) {
-    return vprotectApiService.post(`/tasks/restore-and-import`, task);
+    return vprotectApiService.post('/tasks/restore-and-import', task);
   }
 
   async submitTaskRestoreAndImportWithProjectAssign(task) {
@@ -24,7 +24,7 @@ class TasksService {
       return this.submitTaskRestoreAndImport(task);
     }
 
-    const projects = await vprotectApiService.get(`/projects`);
+    const projects = await vprotectApiService.get('/projects');
     return this.submitTaskRestoreAndImport({
       ...task,
       restoreProject: projects.find(

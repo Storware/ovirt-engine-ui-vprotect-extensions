@@ -32,21 +32,17 @@ import { getBackupLocations } from 'store/restore-modal/actions';
 import { selectBackupLocations } from 'store/restore-modal/selectors';
 import { nodesService } from '../../services/nodes-service';
 
-const manuallyMountParameterLabel = (el) => {
-  return (
-    <span>
-      {el.fileSystem?.volume}{' '}
-      {el.fileSystem?.label ? '[' + el.fileSystem?.label + ']' : ''} (
-      {el.fileSystem?.type}, <Filesize bytes={el.fileSystem?.size} />)
-    </span>
-  );
-};
+const manuallyMountParameterLabel = (el) => (
+  <span>
+    {el.fileSystem?.volume}{' '}
+    {el.fileSystem?.label ? '[' + el.fileSystem?.label + ']' : ''} (
+    {el.fileSystem?.type}, <Filesize bytes={el.fileSystem?.size} />)
+  </span>
+);
 
-export const nameTemplate = (rowData) => {
-  return (
-    <span>{rowData.path.split('/')[rowData.path.split('/').length - 1]}</span>
-  );
-};
+export const nameTemplate = (rowData) => (
+  <span>{rowData.path.split('/')[rowData.path.split('/').length - 1]}</span>
+);
 
 const modes = [
   {
@@ -220,35 +216,33 @@ export const MountBackupModal = ({ virtualEnvironment, backups }) => {
         {task.mode?.name === 'MANUAL' && (
           <div>
             <label>PARAMETERS FOR MOUNTING FILESYSTEMS MANUALLY</label>
-            {mountedFileSystems['MANUAL'].map((el) => {
-              return (
-                <div key={el}>
-                  <Check
-                    label={manuallyMountParameterLabel(el)}
-                    onChange={(e) => {
-                      el.selected = e.checked;
-                      dispatch(
-                        setTaskAction({
-                          ...task,
-                          mountedFileSystems: mountedFileSystems[
-                            'MANUAL'
-                          ].filter((el) => el.selected),
-                        }),
-                      );
-                    }}
-                    checked={el.selected}
-                  />
-                  <Text
-                    label="Mount point"
-                    inputValue={el.mountPath}
-                    onChange={(e) => {
-                      el = { ...el, mountPath: e.target.value };
-                      dispatch(setTaskAction({ ...task }));
-                    }}
-                  />
-                </div>
-              );
-            })}
+            {mountedFileSystems['MANUAL'].map((el) => (
+              <div key={el}>
+                <Check
+                  label={manuallyMountParameterLabel(el)}
+                  onChange={(e) => {
+                    el.selected = e.checked;
+                    dispatch(
+                      setTaskAction({
+                        ...task,
+                        mountedFileSystems: mountedFileSystems['MANUAL'].filter(
+                          (el) => el.selected,
+                        ),
+                      }),
+                    );
+                  }}
+                  checked={el.selected}
+                />
+                <Text
+                  label="Mount point"
+                  inputValue={el.mountPath}
+                  onChange={(e) => {
+                    el = { ...el, mountPath: e.target.value };
+                    dispatch(setTaskAction({ ...task }));
+                  }}
+                />
+              </div>
+            ))}
           </div>
         )}
 
@@ -263,16 +257,14 @@ export const MountBackupModal = ({ virtualEnvironment, backups }) => {
                   dispatch(
                     setTaskAction({
                       ...task,
-                      mountedDisks: e.value.map((el) => {
-                        return {
-                          backupFile: {
-                            guid: el.guid,
-                            name: el.path.split('/')[
-                              el.path.split('/').length - 1
-                            ],
-                          },
-                        };
-                      }),
+                      mountedDisks: e.value.map((el) => ({
+                        backupFile: {
+                          guid: el.guid,
+                          name: el.path.split('/')[
+                            el.path.split('/').length - 1
+                          ],
+                        },
+                      })),
                     }),
                   );
                 }}

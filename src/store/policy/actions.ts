@@ -13,40 +13,30 @@ import { virtualMachinesService } from '../../services/virtual-machines-service'
 import { backupDestinationsService } from '../../services/backup-destinations-service';
 import { schedulesService } from '../../services/schedules-service';
 
-export const setPolicyAction = (payload: any): PolicyAction => {
-  return {
-    type: SET_POLICY,
-    payload,
-  };
-};
+export const setPolicyAction = (payload: any): PolicyAction => ({
+  type: SET_POLICY,
+  payload,
+});
 
-export const setHypervisorClustersAction = (payload: any): PolicyAction => {
-  return {
-    type: SET_HYPERVISOR_CLUSTERS,
-    payload,
-  };
-};
+export const setHypervisorClustersAction = (payload: any): PolicyAction => ({
+  type: SET_HYPERVISOR_CLUSTERS,
+  payload,
+});
 
-export const setVirtualMachinesAction = (payload: any[]): PolicyAction => {
-  return {
-    type: SET_VIRTUAL_MACHINES,
-    payload,
-  };
-};
+export const setVirtualMachinesAction = (payload: any[]): PolicyAction => ({
+  type: SET_VIRTUAL_MACHINES,
+  payload,
+});
 
-export const setBackupDestinationsAction = (payload: any[]): PolicyAction => {
-  return {
-    type: SET_BACKUP_DESTINATIONS,
-    payload,
-  };
-};
+export const setBackupDestinationsAction = (payload: any[]): PolicyAction => ({
+  type: SET_BACKUP_DESTINATIONS,
+  payload,
+});
 
-export const setSchedules = (payload: any[]): PolicyAction => {
-  return {
-    type: SET_SCHEDULES,
-    payload,
-  };
-};
+export const setSchedules = (payload: any[]): PolicyAction => ({
+  type: SET_SCHEDULES,
+  payload,
+});
 
 export const getPolicyPage = (type: string, guid: string) => async (
   dispatch: Dispatch,

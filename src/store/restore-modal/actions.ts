@@ -15,55 +15,45 @@ import { alertService } from 'services/alert-service';
 import { hideModalAction, unsaveModalAction } from '../modal/actions';
 import { RestoreAndImportTask } from '../../model/tasks/restore-and-import-task';
 
-export const setTaskAction = (payload: any): BackupModalAction => {
-  return {
-    type: SET_TASK,
-    payload,
-  };
-};
+export const setTaskAction = (payload: any): BackupModalAction => ({
+  type: SET_TASK,
+  payload,
+});
 
-export const setBackupLocationsAction = (payload: any[]): BackupModalAction => {
-  return {
-    type: SET_BACKUP_LOCATIONS,
-    payload,
-  };
-};
+export const setBackupLocationsAction = (
+  payload: any[],
+): BackupModalAction => ({
+  type: SET_BACKUP_LOCATIONS,
+  payload,
+});
 
 export const setHypervisoManagersAction = (
   payload: any[],
-): BackupModalAction => {
-  return {
-    type: SET_HYPERVISOR_MANAGERS,
-    payload,
-  };
-};
+): BackupModalAction => ({
+  type: SET_HYPERVISOR_MANAGERS,
+  payload,
+});
 
 export const setHypervisorStoragesAction = (
   payload: any[],
-): BackupModalAction => {
-  return {
-    type: SET_HYPERVISOR_STORAGES,
-    payload,
-  };
-};
+): BackupModalAction => ({
+  type: SET_HYPERVISOR_STORAGES,
+  payload,
+});
 
 export const setFilteredHypervisorStoragesAction = (
   payload: any[],
-): BackupModalAction => {
-  return {
-    type: SET_FILTERED_HYPERVISOR_STORAGES,
-    payload,
-  };
-};
+): BackupModalAction => ({
+  type: SET_FILTERED_HYPERVISOR_STORAGES,
+  payload,
+});
 
 export const setHypervisorClustersAction = (
   payload: any[],
-): BackupModalAction => {
-  return {
-    type: SET_HYPERVISOR_CLUSTERS,
-    payload,
-  };
-};
+): BackupModalAction => ({
+  type: SET_HYPERVISOR_CLUSTERS,
+  payload,
+});
 
 export const getBackupLocations =
   (virtualMachine: any) => async (dispatch: Dispatch) => {

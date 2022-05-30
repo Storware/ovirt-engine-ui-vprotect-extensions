@@ -6,7 +6,7 @@ import { selectRestoresHistory } from '../../../store/virtual-machine/selectors'
 import Table from '../../../components/table/primereactTable';
 
 const RestoresHistoryTable = () => {
-  let restoresHistory = useSelector(selectRestoresHistory);
+  const restoresHistory = useSelector(selectRestoresHistory);
 
   return (
     <div>

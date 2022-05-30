@@ -8,26 +8,20 @@ import { Dispatch } from 'redux';
 import dashboardService from 'services/dashboard-service';
 import { ChargebackRequest } from 'model/chargeback/vm-chargeback-request';
 
-export const setChargebackData = (payload: any): ChargebackChartAction => {
-  return {
-    type: SET_CHARGEBACK_DATA,
-    payload,
-  };
-};
+export const setChargebackData = (payload: any): ChargebackChartAction => ({
+  type: SET_CHARGEBACK_DATA,
+  payload,
+});
 
-export const setSortBy = (payload: any): ChargebackChartAction => {
-  return {
-    type: SET_SORT_BY,
-    payload,
-  };
-};
+export const setSortBy = (payload: any): ChargebackChartAction => ({
+  type: SET_SORT_BY,
+  payload,
+});
 
-export const setPage = (payload: number): ChargebackChartAction => {
-  return {
-    type: SET_PAGE,
-    payload,
-  };
-};
+export const setPage = (payload: number): ChargebackChartAction => ({
+  type: SET_PAGE,
+  payload,
+});
 
 export const getChargebackData = (params,
   chargebackRequest: ChargebackRequest,

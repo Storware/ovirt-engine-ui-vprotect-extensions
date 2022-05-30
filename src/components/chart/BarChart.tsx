@@ -8,31 +8,27 @@ import {
 } from 'pages/dashboard/chargeback/commonSizeOptions';
 
 const prepareChart = {
-  size: (data, state) => {
-    return {
-      ...state,
-      options: {
-        maintainAspectRatio: false,
-        ...commonSizeOptions('y'),
-        scales: {
-          y: tickSizeOptions(data.datasets[0]?.data),
-        },
+  size: (data, state) => ({
+    ...state,
+    options: {
+      maintainAspectRatio: false,
+      ...commonSizeOptions('y'),
+      scales: {
+        y: tickSizeOptions(data.datasets[0]?.data),
       },
-    };
-  },
-  time: (data, state) => {
-    return {
-      ...state,
-      options: {
-        maintainAspectRatio: false,
-        ...commonTimeOptions('y'),
-        scales: {
-          y: { ...tickTimeOptions(data.datasets[0]?.data), stacked: true },
-          x: { stacked: true },
-        },
+    },
+  }),
+  time: (data, state) => ({
+    ...state,
+    options: {
+      maintainAspectRatio: false,
+      ...commonTimeOptions('y'),
+      scales: {
+        y: { ...tickTimeOptions(data.datasets[0]?.data), stacked: true },
+        x: { stacked: true },
       },
-    };
-  },
+    },
+  }),
 };
 
 export default ({ data, chartType }) => {

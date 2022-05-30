@@ -4,12 +4,10 @@ import { virtualMachinesService } from '../../services/virtual-machines-service'
 import { tasksService } from '../../services/tasks-service';
 import { alertService } from '../../services/alert-service';
 
-export const setVirtualMachines = (payload: any): VirtualMachinesAction => {
-  return {
-    type: SET_VIRTUAL_MACHINES,
-    payload,
-  };
-};
+export const setVirtualMachines = (payload: any): VirtualMachinesAction => ({
+  type: SET_VIRTUAL_MACHINES,
+  payload,
+});
 
 export const getVirtualMachinesPage = async (dispatch: Dispatch) => {
   const virtualMachine = await virtualMachinesService.getVirtualMachines();

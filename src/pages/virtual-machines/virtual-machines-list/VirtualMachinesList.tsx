@@ -44,28 +44,26 @@ const VirtualMachinesList = () => {
     alertService.info('Absent virtual machines have been deleted');
   };
 
-  const header = () => {
-    return (
-      <HeaderTable>
-        <div className="p-datatable-globalfilter-container">
-          <InputText
-            type="search"
-            onInput={({ target }) =>
-              setGlobalFilter((target as HTMLInputElement).value)
-            }
-            placeholder="Global Search"
-          />
-        </div>
-        <Button
-          className="p-button-danger"
-          label="Delete Non-Present"
-          onClick={() => {
-            deleteNonPresent();
-          }}
+  const header = () => (
+    <HeaderTable>
+      <div className="p-datatable-globalfilter-container">
+        <InputText
+          type="search"
+          onInput={({ target }) =>
+            setGlobalFilter((target as HTMLInputElement).value)
+          }
+          placeholder="Global Search"
         />
-      </HeaderTable>
-    );
-  };
+      </div>
+      <Button
+        className="p-button-danger"
+        label="Delete Non-Present"
+        onClick={() => {
+          deleteNonPresent();
+        }}
+      />
+    </HeaderTable>
+  );
 
   const actions = [
     {

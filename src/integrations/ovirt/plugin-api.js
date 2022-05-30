@@ -3,5 +3,4 @@ import { getWebAdminWindow } from 'utils/webadmin-dom';
 
 const getPluginApi = getWebAdminWindow().pluginApi(pluginName);
 
-export default getPluginApi
-
+export default getPluginApi;

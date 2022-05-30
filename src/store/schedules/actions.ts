@@ -3,12 +3,10 @@ import { Dispatch } from 'redux';
 import { alertService } from '../../services/alert-service';
 import { schedulesService } from '../../services/schedules-service';
 
-export const setSchedules = (payload: any[]): PoliciesAction => {
-  return {
-    type: SET_SCHEDULES,
-    payload,
-  };
-};
+export const setSchedules = (payload: any[]): PoliciesAction => ({
+  type: SET_SCHEDULES,
+  payload,
+});
 
 export const getSchedules = (type: string) => async (dispatch: Dispatch) => {
   const schedules = await schedulesService.getAllTypeSchedules(type);

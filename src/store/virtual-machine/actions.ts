@@ -21,82 +21,60 @@ import { backupsService } from '../../services/backups-service';
 import { schedulesService } from '../../services/schedules-service';
 import { policiesService } from '../../services/policies-service';
 
-export const setVirtualMachine = (payload: any): VirtualMachineAction => {
-  return {
-    type: SET_VIRTUAL_MACHINE,
-    payload,
-  };
-};
+export const setVirtualMachine = (payload: any): VirtualMachineAction => ({
+  type: SET_VIRTUAL_MACHINE,
+  payload,
+});
 
-export const setHypervisor = (payload: any): VirtualMachineAction => {
-  return {
-    type: SET_HYPERVISOR,
-    payload,
-  };
-};
+export const setHypervisor = (payload: any): VirtualMachineAction => ({
+  type: SET_HYPERVISOR,
+  payload,
+});
 
-export const setBackups = (payload: any[]): VirtualMachineAction => {
-  return {
-    type: SET_BACKUPS,
-    payload,
-  };
-};
+export const setBackups = (payload: any[]): VirtualMachineAction => ({
+  type: SET_BACKUPS,
+  payload,
+});
 
-export const setBackupsHistory = (payload: any[]): VirtualMachineAction => {
-  return {
-    type: SET_BACKUPS_HISTORY,
-    payload,
-  };
-};
+export const setBackupsHistory = (payload: any[]): VirtualMachineAction => ({
+  type: SET_BACKUPS_HISTORY,
+  payload,
+});
 
-export const setRestoresHistory = (payload: any[]): VirtualMachineAction => {
-  return {
-    type: SET_RESTORES_HISTORY,
-    payload,
-  };
-};
+export const setRestoresHistory = (payload: any[]): VirtualMachineAction => ({
+  type: SET_RESTORES_HISTORY,
+  payload,
+});
 
-export const setSnapshots = (payload: any[]): VirtualMachineAction => {
-  return {
-    type: SET_SNAPSHOTS,
-    payload,
-  };
-};
+export const setSnapshots = (payload: any[]): VirtualMachineAction => ({
+  type: SET_SNAPSHOTS,
+  payload,
+});
 
-export const setSnapshotsHistory = (payload: any[]): VirtualMachineAction => {
-  return {
-    type: SET_SNAPSHOTS_HISTORY,
-    payload,
-  };
-};
+export const setSnapshotsHistory = (payload: any[]): VirtualMachineAction => ({
+  type: SET_SNAPSHOTS_HISTORY,
+  payload,
+});
 
-export const setDisks = (payload: any[]): VirtualMachineAction => {
-  return {
-    type: SET_DISKS,
-    payload,
-  };
-};
+export const setDisks = (payload: any[]): VirtualMachineAction => ({
+  type: SET_DISKS,
+  payload,
+});
 
-export const setSchedules = (payload: any[]): VirtualMachineAction => {
-  return {
-    type: SET_SCHEDULES,
-    payload,
-  };
-};
+export const setSchedules = (payload: any[]): VirtualMachineAction => ({
+  type: SET_SCHEDULES,
+  payload,
+});
 
-export const setPolicies = (payload: any[]): VirtualMachineAction => {
-  return {
-    type: SET_POLICIES,
-    payload,
-  };
-};
+export const setPolicies = (payload: any[]): VirtualMachineAction => ({
+  type: SET_POLICIES,
+  payload,
+});
 
-export const setSnapshotPolicies = (payload: any[]): VirtualMachineAction => {
-  return {
-    type: SET_SNAPSHOT_POLICIES,
-    payload,
-  };
-};
+export const setSnapshotPolicies = (payload: any[]): VirtualMachineAction => ({
+  type: SET_SNAPSHOT_POLICIES,
+  payload,
+});
 
 export const getVirtualMachinePage = (guid) => async (dispatch: Dispatch) => {
   if (!guid) {

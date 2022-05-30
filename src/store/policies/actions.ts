@@ -4,12 +4,10 @@ import { alertService } from '../../services/alert-service';
 import { policiesService } from '../../services/policies-service';
 import { SnapshotTask } from '../../model/tasks/snapshot-task';
 
-export const setPolicies = (payload: any[]): PoliciesAction => {
-  return {
-    type: SET_POLICIES,
-    payload,
-  };
-};
+export const setPolicies = (payload: any[]): PoliciesAction => ({
+  type: SET_POLICIES,
+  payload,
+});
 
 export const getPolicies = (type: string) => async (dispatch: Dispatch) => {
   const policies = await policiesService.getPolicies(type);

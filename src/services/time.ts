@@ -17,15 +17,14 @@ export const timezone = user && user.uiTimeZone;
 export const offset =
   timezone && moment.tz(timezone).utcOffset() * MILLISECONDS_IN_MINUTE * -1;
 
-export const shiftedDays = (value, shiftValue) => {
-  return value.map((option) => {
+export const shiftedDays = (value, shiftValue) =>
+  value.map((option) => {
     const daysOfWeekIndex = daysOfWeek.findIndex(
       (el) => el.name === option.name,
     );
     const index = (daysOfWeekIndex + shiftValue) % 7;
     return daysOfWeek[index === -1 ? 6 : index];
   });
-};
 
 const oneDayDuration = 1000 * 60 * 60 * 24;
 
@@ -44,8 +43,8 @@ export const viewToSourceShiftedDays = (value, hour) => {
   return shiftedDays(value, shiftValue);
 };
 
-export const getDateLabel = (val, args?, showSeconds?) => {
-  return moment
+export const getDateLabel = (val, args?, showSeconds?) =>
+  moment
     .tz(val, timezone)
     .format(
       args ||
@@ -59,4 +58,3 @@ export const getDateLabel = (val, args?, showSeconds?) => {
               ]
         }`,
     );
-};

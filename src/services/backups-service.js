@@ -82,15 +82,13 @@ class BackupsService {
     const backupLocations = await vprotectApiService.get('/backup-locations', {
       params: { 'protected-entity': id, 'location-status': 'PRESENT' },
     });
-    return backupLocations.map((backupLocation) => {
-      return {
-        ...backupLocation,
-        name: `${getDateLabel(
-          backupLocation.snapshotTime,
-          'YYYY-MM-DD HH:mm:ss',
-        )} (${backupLocation.backupDestination.name})`,
-      };
-    });
+    return backupLocations.map((backupLocation) => ({
+      ...backupLocation,
+      name: `${getDateLabel(
+        backupLocation.snapshotTime,
+        'YYYY-MM-DD HH:mm:ss',
+      )} (${backupLocation.backupDestination.name})`,
+    }));
   }
 
   getHypervisorManagersAvailableForBackup(id) {

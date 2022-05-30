@@ -1,3 +1,3 @@
-import App from './AppDefault'
+import App from './AppDefault';
 
 export default App;

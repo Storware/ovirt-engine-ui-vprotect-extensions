@@ -8,12 +8,12 @@ import { hypervisorsService } from 'services/hypervisors-service';
 import { virtualMachinesService } from 'services/virtual-machines-service';
 import { backupDestinationsService } from 'services/backup-destinations-service';
 
-export const setPropertyOptions = (payload: any): ChargebackChartFormAction => {
-  return {
-    type: SET_PROPERTY_OPTIONS,
-    payload,
-  };
-};
+export const setPropertyOptions = (
+  payload: any,
+): ChargebackChartFormAction => ({
+  type: SET_PROPERTY_OPTIONS,
+  payload,
+});
 
 const getFilterEntitiesOptionsMethod = {
   backupDestinationGuids: backupDestinationsService.getAllBackupDestinations,

@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Dropdown } from 'primereact/dropdown';
 import { compareWithValueProperty } from 'utils/compare';
 
-const getValue = (value, valueProperty?) => {
-  return valueProperty ? value[valueProperty] : value;
-};
+const getValue = (value, valueProperty?) =>
+  valueProperty ? value[valueProperty] : value;
 
 const Select = ({ field, form: { setFieldValue }, hidden, ...props }) => {
   const [value, setValue] = useState(field.value);

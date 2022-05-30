@@ -3,7 +3,7 @@ import { vprotectApiService } from './vprotect-api-service';
 class MailingListService {
 
   getMailingLists() {
-    return vprotectApiService.get(`/mailing-lists`);
+    return vprotectApiService.get('/mailing-lists');
   }
 
   getMailingList(guid: string) {
@@ -11,7 +11,7 @@ class MailingListService {
   }
 
   createMailingList(mailing) {
-    return vprotectApiService.post(`/mailing-lists`, mailing);
+    return vprotectApiService.post('/mailing-lists', mailing);
   }
 
   updateMailingList(guid: string, mailing) {

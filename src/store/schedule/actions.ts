@@ -4,19 +4,15 @@ import { policiesService } from '../../services/policies-service';
 import { schedulesService } from '../../services/schedules-service';
 import { Schedule } from '../../model/schedule';
 
-export const setScheduleAction = (payload: any): PolicyAction => {
-  return {
-    type: SET_SCHEDULE,
-    payload,
-  };
-};
+export const setScheduleAction = (payload: any): PolicyAction => ({
+  type: SET_SCHEDULE,
+  payload,
+});
 
-export const setPoliciesAction = (payload: any): PolicyAction => {
-  return {
-    type: SET_POLICIES,
-    payload,
-  };
-};
+export const setPoliciesAction = (payload: any): PolicyAction => ({
+  type: SET_POLICIES,
+  payload,
+});
 
 const policyType = {
   VM_SNAPSHOT: 'vm-snapshot',

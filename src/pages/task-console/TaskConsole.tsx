@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ProgressBar } from 'patternfly-react';
+// import { ProgressBar } from 'patternfly-react';
 import { vprotectService } from '../../services/vprotect-service';
 import { alertService } from '../../services/alert-service';
 import { Column } from 'primereact/column';
@@ -34,8 +34,8 @@ export default () => {
     setBusy([]);
   };
 
-  const addDurationToTasks = (tasks = []) => {
-    return tasks.map((task) => {
+  const addDurationToTasks = (tasks = []) =>
+    tasks.map((task) => {
       if (task.state.name !== 'RUNNING' && !task.startTime && task.finishTime) {
         return { ...task, duration: '00:00:00' };
       }
@@ -62,51 +62,48 @@ export default () => {
 
       return task;
     });
-  };
-  const header = () => {
-    return (
-      <div>
-        <div className="d-flex justify-content-between mt-2">
-          <div className="p-datatable-globalfilter-container">
-            <InputText
-              type="search"
-              // @ts-ignore
-              onInput={(e) => setGlobalFilter(e.target.value)}
-              placeholder="Global Search"
-            />
-          </div>
-          <div>
-            <Button onClick={() => getAllTasks()} label="Refresh" />
-            <Button
-              className="ml-2"
-              label="Delete all finished and queued tasks"
-              onClick={async () => {
-                await vprotectService.deleteQueuedOrFinishedTasks();
-                await getAllTasks();
-              }}
-            />
-            <Button
-              className="ml-2"
-              label="Remove all finished tasks"
-              onClick={async () => {
-                await vprotectService.deleteFinishedTasks();
-                await getAllTasks();
-              }}
-            />
+  const header = () => (
+    <div>
+      <div className="d-flex justify-content-between mt-2">
+        <div className="p-datatable-globalfilter-container">
+          <InputText
+            type="search"
+            // @ts-ignore
+            onInput={(e) => setGlobalFilter(e.target.value)}
+            placeholder="Global Search"
+          />
+        </div>
+        <div>
+          <Button onClick={() => getAllTasks()} label="Refresh" />
+          <Button
+            className="ml-2"
+            label="Delete all finished and queued tasks"
+            onClick={async () => {
+              await vprotectService.deleteQueuedOrFinishedTasks();
+              await getAllTasks();
+            }}
+          />
+          <Button
+            className="ml-2"
+            label="Remove all finished tasks"
+            onClick={async () => {
+              await vprotectService.deleteFinishedTasks();
+              await getAllTasks();
+            }}
+          />
 
-            <Button
-              className="ml-2"
-              label="Cancel all running tasks"
-              onClick={async () => {
-                await vprotectService.cancelRunningTasks();
-                await getAllTasks();
-              }}
-            />
-          </div>
+          <Button
+            className="ml-2"
+            label="Cancel all running tasks"
+            onClick={async () => {
+              await vprotectService.cancelRunningTasks();
+              await getAllTasks();
+            }}
+          />
         </div>
       </div>
-    );
-  };
+    </div>
+  );
 
   return (
     <div>
@@ -117,14 +114,15 @@ export default () => {
             field="progress"
             header="Progress"
             body={(rowData) => (
-              <ProgressBar
-                now={rowData.progress}
-                label={
-                  <span className={'text-center'}>
-                    {rowData.progress > 20 ? `${rowData.progress} %` : ''}
-                  </span>
-                }
-              />
+              <div></div>
+              // <ProgressBar
+              //   now={rowData.progress}
+              //   label={
+              //     <span className={'text-center'}>
+              //       {rowData.progress > 20 ? `${rowData.progress} %` : ''}
+              //     </span>
+              //   }
+              // />
             )}
           />
           <Column

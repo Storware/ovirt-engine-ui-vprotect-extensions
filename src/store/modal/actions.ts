@@ -8,39 +8,27 @@ import {
   UNSAVE_MODAL,
 } from './types';
 
-export const showModalAction = (payload: any): ModalAction => {
-  return {
-    type: SHOW_MODAL,
-    payload,
-  };
-};
+export const showModalAction = (payload: any): ModalAction => ({
+  type: SHOW_MODAL,
+  payload,
+});
 
-export const hideModalAction = (): ModalAction => {
-  return {
-    type: HIDE_MODAL,
-  };
-};
+export const hideModalAction = (): ModalAction => ({
+  type: HIDE_MODAL,
+});
 
-export const hideFooterAction = (): ModalAction => {
-  return {
-    type: HIDE_FOOTER,
-  };
-};
+export const hideFooterAction = (): ModalAction => ({
+  type: HIDE_FOOTER,
+});
 
-export const showFooterAction = (): ModalAction => {
-  return {
-    type: SHOW_FOOTER,
-  };
-};
+export const showFooterAction = (): ModalAction => ({
+  type: SHOW_FOOTER,
+});
 
-export const saveModalAction = (): ModalAction => {
-  return {
-    type: SAVE_MODAL,
-  };
-};
+export const saveModalAction = (): ModalAction => ({
+  type: SAVE_MODAL,
+});
 
-export const unsaveModalAction = (): ModalAction => {
-  return {
-    type: UNSAVE_MODAL,
-  };
-};
+export const unsaveModalAction = (): ModalAction => ({
+  type: UNSAVE_MODAL,
+});

@@ -7,8 +7,8 @@ const Radio = ({ value, ...props }) => {
   [sourceValue, setSourceValue] = useState();
 
   useEffect(() => {
-    let shouldSelectFirstOption = !value && props.required;
-    let optionalValue = shouldSelectFirstOption
+    const shouldSelectFirstOption = !value && props.required;
+    const optionalValue = shouldSelectFirstOption
       ? props.options[0].value
       : value;
     setSourceValue(optionalValue);
@@ -20,24 +20,22 @@ const Radio = ({ value, ...props }) => {
   return (
     <div className="pt-3">
       {!!props.label && <label>{props.label}</label>}
-      {props.options.map((el) => {
-        return (
-          <div className="col d-flex my-2" key={el.name}>
-            <RadioButton
-              value={el.value}
-              inputId={el.name}
-              checked={sourceValue?.name === el.value?.name}
-              onChange={(e) => {
-                setSourceValue(e.value);
-                props.onChange({ value: e.value });
-              }}
-            />
-            <label htmlFor={el.name} className="pl-2 p-radiobutton-label">
-              {el.name}
-            </label>
-          </div>
-        );
-      })}
+      {props.options.map((el) => (
+        <div className="col d-flex my-2" key={el.name}>
+          <RadioButton
+            value={el.value}
+            inputId={el.name}
+            checked={sourceValue?.name === el.value?.name}
+            onChange={(e) => {
+              setSourceValue(e.value);
+              props.onChange({ value: e.value });
+            }}
+          />
+          <label htmlFor={el.name} className="pl-2 p-radiobutton-label">
+            {el.name}
+          </label>
+        </div>
+      ))}
     </div>
   );
 };

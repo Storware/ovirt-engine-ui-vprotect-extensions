@@ -77,7 +77,7 @@ export const hypervisorImportExportModes = [
 
 class HypervisorsService {
   getAllHypervisorManagers() {
-    return vprotectApiService.get(`/hypervisor-managers`);
+    return vprotectApiService.get('/hypervisor-managers');
   }
 
   getAllHypervisorClusters() {

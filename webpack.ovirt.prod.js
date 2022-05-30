@@ -82,7 +82,7 @@ module.exports = {
 
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist/vprotect-resources'),
+    path: path.resolve(__dirname, 'dist/oVirt/vprotect-resources'),
 
     // UI plugin resources are served through Engine
     publicPath: '/ovirt-engine/webadmin/plugin/vprotect/',

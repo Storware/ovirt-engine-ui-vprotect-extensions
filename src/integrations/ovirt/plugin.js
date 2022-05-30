@@ -1,7 +1,7 @@
 import getPluginApi from 'integrations/ovirt/plugin-api';
 import appInit from 'integrations/ovirt/app-init';
 import { addPlaces } from 'integrations/ovirt/places';
-import 'patternfly-react/dist/css/patternfly-react.css';
+import '@patternfly/react-core/dist/styles/base.css';
 import { vprotectService } from 'services/vprotect-service';
 
 getPluginApi.register({

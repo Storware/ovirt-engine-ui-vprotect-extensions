@@ -14,7 +14,7 @@ class GlobalSettingsService {
       },
     };
     return vprotectApiService.post(
-      `/dashboard/report-email`,
+      '/dashboard/report-email',
       emails,
       httpOptions,
     );

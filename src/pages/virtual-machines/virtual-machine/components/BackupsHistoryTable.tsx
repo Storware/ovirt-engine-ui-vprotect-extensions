@@ -19,23 +19,20 @@ const BackupsHistoryTable = ({ onRefresh }) => {
     onRefresh();
   };
 
-  const warningIconTemplate = (rowData) => {
-    return (
-      !!rowData?.warnings.length && (
-        <Button
-          id={rowData.guid}
-          icon="pi pi-exclamation-triangle"
-          className={`p-button-rounded p-button-text`}
-          onClick={() => markBackupWarningsAsKnowledged(rowData.guid)}
-          tooltip={rowData.warnings.join(', ')}
-          tooltipOptions={{ position: 'top', className: 'text-center' }}
-          style={{
-            color: rowData.warningsAcknowledged ? '#b1b1b1' : '#ffb236',
-          }}
-        />
-      )
+  const warningIconTemplate = (rowData) =>
+    !!rowData?.warnings.length && (
+      <Button
+        id={rowData.guid}
+        icon="pi pi-exclamation-triangle"
+        className={'p-button-rounded p-button-text'}
+        onClick={() => markBackupWarningsAsKnowledged(rowData.guid)}
+        tooltip={rowData.warnings.join(', ')}
+        tooltipOptions={{ position: 'top', className: 'text-center' }}
+        style={{
+          color: rowData.warningsAcknowledged ? '#b1b1b1' : '#ffb236',
+        }}
+      />
     );
-  };
 
   return (
     <div>

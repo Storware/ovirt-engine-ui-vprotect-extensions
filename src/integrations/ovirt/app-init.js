@@ -3,8 +3,9 @@ import { updateConfig } from 'integrations/ovirt/plugin-config';
 
 // update the app configuration based on the plugin config
 const updateFromPluginConfig = (resolve, reject) => {
-  if (__DEV__)
+  if (__DEV__) {
     console.log('pluginApi.configObject:', getPluginApi.configObject());
+  }
   let { useFakeData, clusterUpgradePlaybook } =
     getPluginApi.configObject() || {};
 

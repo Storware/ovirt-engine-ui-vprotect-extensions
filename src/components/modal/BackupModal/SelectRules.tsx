@@ -24,18 +24,16 @@ export const SelectRules = ({
     vmBackupPolicyArr?.[0]?.guid,
   );
 
-  const CheckboxLabel = ({ name, checked, onChange, ...props }) => {
-    return (
-      <label {...props}>
-        <Checkbox
-          checked={checked}
-          onChange={(value) => onChange(value.checked)}
-          className="mr-2"
-        />
-        {name}
-      </label>
-    );
-  };
+  const CheckboxLabel = ({ name, checked, onChange, ...props }) => (
+    <label {...props}>
+      <Checkbox
+        checked={checked}
+        onChange={(value) => onChange(value.checked)}
+        className="mr-2"
+      />
+      {name}
+    </label>
+  );
 
   return (
     <div>
