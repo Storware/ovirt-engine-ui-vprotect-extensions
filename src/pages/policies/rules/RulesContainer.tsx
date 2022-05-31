@@ -156,7 +156,7 @@ export const RulesContainer = ({
       <Text
         inputValue={rule.name}
         change={({ value }) => (rule.name = value)}
-        label="Name"
+        label="Name *"
       />
 
       <BackupDestinationComponent
@@ -220,6 +220,7 @@ export const RulesContainer = ({
       {secondaryBackupDestinationToggle && (
         <BackupDestinationComponent
           title="SECONDARY BACKUP DESTINATION"
+          selectedBackupDestinationLabel={'Select Secondary Backup Destination'}
           policyType={policyType}
           backupDestinationOptions={secondaryBackupDestinationOptions}
           backupDestination={

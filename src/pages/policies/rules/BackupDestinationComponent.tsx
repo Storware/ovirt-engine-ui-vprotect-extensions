@@ -22,6 +22,7 @@ export const BackupDestinationComponent = ({
   retentionKeepLastNIncremental,
   updateRetentionKeepLastNIncremental,
   policyType,
+  selectedBackupDestinationLabel = 'Select Backup Destination *',
 }) => {
   const [retentionState, setRetentionState] = useState<RetentionStateEnum>(
     RetentionStateEnum.normal,
@@ -46,7 +47,7 @@ export const BackupDestinationComponent = ({
       <h6 className="mt-4">{title}</h6>
 
       <Select
-        label="Select Backup Destination"
+        label={selectedBackupDestinationLabel}
         optionLabel="name"
         dataKey="guid"
         required={true}
@@ -62,7 +63,7 @@ export const BackupDestinationComponent = ({
         >
           <div className="mt-2">
             <Text
-              label={`${retentionState} - number of days to keep`}
+              label={`${retentionState} - number of days to keep *`}
               inputValue={getRetentionSettingsValue(
                 'retentionKeepFullNewerThan',
               )}
@@ -75,7 +76,7 @@ export const BackupDestinationComponent = ({
           {retentionState === RetentionStateEnum.full && (
             <div className="mt-2">
               <Text
-                label="Retention (Inc.) - number of days to keep"
+                label="Retention (Inc.) - number of days to keep *"
                 inputValue={getRetentionSettingsValue(
                   'retentionKeepIncrementalNewerThan',
                 )}
@@ -97,7 +98,7 @@ export const BackupDestinationComponent = ({
           <div className="mt-2">
             <Text
               inputValue={retentionKeepLastNFull}
-              label={`${retentionState} - number of versions to keep`}
+              label={`${retentionState} - number of versions to keep *`}
               change={updateRetentionKeepLastNFull}
             />
           </div>
@@ -106,7 +107,7 @@ export const BackupDestinationComponent = ({
             <div className="mt-2">
               <Text
                 inputValue={retentionKeepLastNIncremental}
-                label="Retention (Inc.) - number of versions to keep"
+                label="Retention (Inc.) - number of versions to keep *"
                 change={updateRetentionKeepLastNIncremental}
               />
             </div>
