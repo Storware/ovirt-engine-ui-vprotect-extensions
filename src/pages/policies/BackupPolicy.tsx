@@ -201,7 +201,7 @@ export const BackupPolicy = ({ type }) => {
                 <Field
                   name="name"
                   component={Text}
-                  label="Name"
+                  label="Name *"
                   onChange={handle('name')}
                 />
                 <Field
@@ -232,18 +232,18 @@ export const BackupPolicy = ({ type }) => {
                 <Field
                   name="backupRetryCount"
                   component={InputSlider}
-                  label="Retry Count"
+                  label="Retry Count *"
                   onChange={handle('backupRetryCount')}
                 />
                 <Field
                   name="priority"
                   component={InputSlider}
-                  label="Priority"
+                  label="Priority *"
                   onChange={handle('priority')}
                 />
               </AccordionTab>
 
-              <AccordionTab header="Auto-assigment">
+              <AccordionTab header="Auto-assigment *">
                 <Field
                   name="autoAssignSettings.mode"
                   options={policiesService.assignModes}
@@ -251,7 +251,7 @@ export const BackupPolicy = ({ type }) => {
                   optionLabel="description"
                   dataKey="name"
                   required
-                  label="Auto-assign Mode"
+                  label="Auto-assign Mode *"
                   change={({ value }) => {
                     setModel({
                       ...model,
@@ -342,7 +342,7 @@ export const BackupPolicy = ({ type }) => {
               {model.rules.map((rule, i) => (
                 <AccordionTab
                   key={rule.name}
-                  header={'Rule (' + rule.name + ')'}
+                  header={'Rule (' + rule.name + ') *'}
                 >
                   <RulesContainer
                     rule={rule}
