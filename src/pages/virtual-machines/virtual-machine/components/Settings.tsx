@@ -44,9 +44,8 @@ const Settings = () => {
 
   const policies = useSelector(selectPolicies);
   const snapshotPolicies = useSelector(selectSnapshotPolicies);
-  const modes = virtualMachinesService.getVirtualMachineExportImportModes(
-    model,
-  );
+  const modes =
+    virtualMachinesService.getVirtualMachineExportImportModes(model);
   const history = createBrowserHistory();
 
   const save = async () => {
@@ -166,13 +165,13 @@ const Settings = () => {
               />
             </div>
           )}
-          {!!modes && modes.length > 0 && (
+          {modes?.length > 0 && (
             <div className={'mt-2'}>
               <h6>Export/Import mode</h6>
               <Dropdown
                 value={model.vmExportImportMode}
-                optionLabel="name"
-                dataKey="name"
+                optionLabel="description"
+                dataKey="description"
                 options={modes}
                 onChange={(e) => {
                   setModel({
