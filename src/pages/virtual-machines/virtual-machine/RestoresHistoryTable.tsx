@@ -7,6 +7,15 @@ import Table from '../../../components/table/primereactTable';
 
 const RestoresHistoryTable = () => {
   const restoresHistory = useSelector(selectRestoresHistory);
+  const restoreTypes = {
+    RESTORE: 'Restore',
+    RESTORE_AND_IMPORT: 'Restore with import',
+    RESTORE_AND_MOUNT: 'Restore with mount',
+  };
+
+  const TypeTemplate = ({ restoreType }) => (
+    <>{restoreType ? restoreTypes[restoreType.name] : '-'}</>
+  );
 
   return (
     <div>
@@ -19,7 +28,7 @@ const RestoresHistoryTable = () => {
         />
         <Column field="status.description" header="Status" />
         <Column field="statusInfo" header="Status info" />
-        <Column field="type.description" header="Type" />
+        <Column field="type.description" header="Type" body={TypeTemplate} />
       </Table>
     </div>
   );
