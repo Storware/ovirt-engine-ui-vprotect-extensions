@@ -58,6 +58,16 @@ export const OsCredentials = ({ model, setModel }) => {
 
 const Credential = () => {
   const dispatch = useDispatch();
+  const validate = ({ name, password, retypePassword, user }) => {
+    const requiredFieldsHaveNoValue = [
+      name,
+      password,
+      retypePassword,
+      user,
+    ].some((value) => !value);
+    const passwordIsNotSame = password !== retypePassword;
+    return requiredFieldsHaveNoValue || passwordIsNotSame;
+  };
 
   return (
     <Formik
@@ -91,7 +101,7 @@ const Credential = () => {
               type="submit"
               label="Save"
               className="p-button-success ml-4"
-              disabled={props.values.password !== props.values.retypePassword}
+              disabled={validate(props.values)}
             />
           </div>
         </Form>
