@@ -76,46 +76,6 @@ export const setSnapshotPolicies = (payload: any[]): VirtualMachineAction => ({
   payload,
 });
 
-export const getVirtualMachinePage = (guid) => async (dispatch: Dispatch) => {
-  if (!guid) {
-    return;
-  }
-  const virtualMachine = await virtualMachinesService.getVirtualMachine(guid);
-  await dispatch(setVirtualMachine(virtualMachine));
-  if (virtualMachine.hypervisor) {
-    const hypervisor = await hypervisorsService.getHypervisor(
-      virtualMachine.hypervisor.guid,
-    );
-    await dispatch(setHypervisor(hypervisor));
-  }
-  const backups = await backupsService.getProtectedEntityBackups(guid, {
-    status: ['SUCCESS', 'PARTIAL_SUCCESS'],
-  });
-  await dispatch(setBackups(backups));
-  const backupsHistory = await backupsService.getProtectedEntityBackups(guid);
-  await dispatch(setBackupsHistory(backupsHistory));
-  const restoresHistory = await backupsService.getProtectedEntityRestoreJobs(
-    guid,
-  );
-  await dispatch(setRestoresHistory(restoresHistory));
-  let snapshots = await virtualMachinesService.getVirtualMachineSnapshots(guid);
-  snapshots = setCurrentForIncrementalBackup(virtualMachine, snapshots);
-  await dispatch(setSnapshots(snapshots));
-  const snapshotsHistory =
-    await virtualMachinesService.getVirtualMachineSnapshots(guid, true);
-  await dispatch(setSnapshotsHistory(snapshotsHistory));
-  const disks = await virtualMachinesService.getVirtualMachineDisks(guid);
-  await dispatch(setDisks(disks));
-  const schedules = await schedulesService.getProtectedEntitySchedules(guid);
-  await dispatch(setSchedules(schedules));
-  const policies = await policiesService.getAllVmBackupPolicies(guid);
-  await dispatch(setPolicies(policies));
-  const snapshotPolicies = await policiesService.getAllSnapshotMgmtPolicies(
-    guid,
-  );
-  await dispatch(setSnapshotPolicies(snapshotPolicies));
-};
-
 const setCurrentForIncrementalBackup = (virtualMachine, snapshots) => {
   for (const snapshot of snapshots) {
     if (
@@ -127,4 +87,65 @@ const setCurrentForIncrementalBackup = (virtualMachine, snapshots) => {
     }
   }
   return snapshots;
+};
+
+export const getVirtualMachinePage = (guid) => async (dispatch: Dispatch) => {
+  if (!guid) {
+    return;
+  }
+
+  const virtualMachine = await virtualMachinesService.getVirtualMachine(guid);
+  await dispatch(setVirtualMachine(virtualMachine));
+
+  if (virtualMachine.hypervisor) {
+    void hypervisorsService
+      .getHypervisor(virtualMachine.hypervisor.guid)
+      .then((hypervisor) => dispatch(setHypervisor(hypervisor)));
+  }
+
+  void backupsService
+    .getProtectedEntityBackups(guid, {
+      status: ['SUCCESS', 'PARTIAL_SUCCESS'],
+    })
+    .then((backups) => dispatch(setBackups(backups)));
+
+  void backupsService
+    .getProtectedEntityBackups(guid)
+    .then((backupsHistory) => dispatch(setBackupsHistory(backupsHistory)));
+
+  void backupsService
+    .getProtectedEntityRestoreJobs(guid)
+    .then((restoresHistory) => dispatch(setRestoresHistory(restoresHistory)));
+
+  void virtualMachinesService
+    .getVirtualMachineSnapshots(guid)
+    .then((snapshots) =>
+      dispatch(
+        setSnapshots(setCurrentForIncrementalBackup(virtualMachine, snapshots)),
+      ),
+    );
+
+  void virtualMachinesService
+    .getVirtualMachineSnapshots(guid, true)
+    .then((snapshotsHistory) =>
+      dispatch(setSnapshotsHistory(snapshotsHistory)),
+    );
+
+  void virtualMachinesService
+    .getVirtualMachineDisks(guid)
+    .then((disks) => dispatch(setDisks(disks)));
+
+  void schedulesService
+    .getProtectedEntitySchedules(guid)
+    .then((schedules) => dispatch(setSchedules(schedules)));
+
+  void policiesService
+    .getAllVmBackupPolicies(guid)
+    .then((policies) => dispatch(setPolicies(policies)));
+
+  void policiesService
+    .getAllSnapshotMgmtPolicies(guid)
+    .then((snapshotPolicies) =>
+      dispatch(setSnapshotPolicies(snapshotPolicies)),
+    );
 };
