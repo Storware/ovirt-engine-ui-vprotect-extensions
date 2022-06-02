@@ -5,16 +5,21 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { DateShow } from '../../../components/convert/Date';
 import { Filesize } from '../../../components/convert/Filesize';
-import { BackupModal } from '../../../components/modal/BackupModal/BackupModal';
+import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { TabView, TabPanel } from 'primereact/tabview';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  selectBackups,
   selectBackupsHistory,
+  selectDisks,
   selectHypervisor,
   selectRestoresHistory,
+  selectSchedules,
+  selectSnapshots,
+  selectSnapshotsHistory,
   selectVirtualMachine,
-} from '../../../store/virtual-machine/selectors';
-import { getVirtualMachinePage } from '../../../store/virtual-machine/actions';
+} from 'store/virtual-machine/selectors';
+import { getVirtualMachinePage } from 'store/virtual-machine/actions';
 import BackupsHistoryTable from './components/BackupsHistoryTable';
 import BackupsTable from './BackupsTable';
 import RestoresHistoryTable from './RestoresHistoryTable';
@@ -23,25 +28,32 @@ import SnapshotsHistoryTable from './SnapshotsHistoryTable';
 import DisksTable from './DisksTable';
 import SchedulesTable from './SchedulesTable';
 import Settings from './components/Settings';
-import { showModalAction } from '../../../store/modal/actions';
+import { showModalAction } from 'store/modal/actions';
 import { createBrowserHistory } from 'history';
 import BarChartContainer from 'components/chart/BarChartContainer';
 import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 
 const VirtualMachine = () => {
   const dispatch = useDispatch();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   const { guid } = useParams();
   const history = createBrowserHistory();
+
+  const loadPage = () => dispatch(getVirtualMachinePage(guid));
 
   useEffect(() => {
     loadPage();
   }, [dispatch]);
 
-  const loadPage = () => dispatch(getVirtualMachinePage(guid));
-
-  const virtualMachine = useSelector(selectVirtualMachine);
+  const backups = useSelector(selectBackups);
   const backupsHistory = useSelector(selectBackupsHistory);
   const restoresHistory = useSelector(selectRestoresHistory);
+  const snapshots = useSelector(selectSnapshots);
+  const snapshotsHistory = useSelector(selectSnapshotsHistory);
+  const disks = useSelector(selectDisks);
+  const schedules = useSelector(selectSchedules);
+
+  const virtualMachine = useSelector(selectVirtualMachine);
   const hypervisor = useSelector(selectHypervisor);
 
   const Details = ({ title, children, ...rest }) => {
@@ -95,7 +107,7 @@ const VirtualMachine = () => {
               }}
             />
           )}
-          <Button className="ml-2" label="Refresh" onClick={this.getData} />
+          <Button className="ml-2" label="Refresh" onClick={loadPage} />
         </div>
       </div>
       <Card
@@ -169,25 +181,25 @@ const VirtualMachine = () => {
 
       <Card className="mt-4" title="Backup/Restore Statistics">
         <TabView>
-          <TabPanel header="Backup">
+          <TabPanel header={`Backup (${backups.length})`}>
             <BackupsTable />
           </TabPanel>
-          <TabPanel header="Backup History">
+          <TabPanel header={`Backup History (${backupsHistory.length})`}>
             <BackupsHistoryTable onRefresh={() => loadPage()} />
           </TabPanel>
-          <TabPanel header="Restore History">
+          <TabPanel header={`Restore History (${restoresHistory.length})`}>
             <RestoresHistoryTable />
           </TabPanel>
-          <TabPanel header="Snapshots">
+          <TabPanel header={`Snapshots (${snapshots.length})`}>
             <SnapshotsTable />
           </TabPanel>
-          <TabPanel header="Snapshots History">
+          <TabPanel header={`Snapshots History (${snapshotsHistory.length})`}>
             <SnapshotsHistoryTable />
           </TabPanel>
-          <TabPanel header="Disks">
+          <TabPanel header={`Disks (${disks.length})`}>
             <DisksTable />
           </TabPanel>
-          <TabPanel header="Schedules">
+          <TabPanel header={`Schedules (${schedules.length})`}>
             <SchedulesTable />
           </TabPanel>
           <TabPanel header="Settings">
