@@ -13,13 +13,15 @@ import {
   tickSizeOptions,
 } from 'pages/dashboard/chargeback/commonSizeOptions';
 
+type SortType = 'name' | 'size';
+
 export default () => {
   const dispatch = useDispatch();
   const chartData = useSelector(selectChartData);
   const sortBy = useSelector(selectSortBy);
   const page = useSelector(selectPage);
 
-  const onSortClick = (property) => () => {
+  const onSortClick = (property: SortType) => () => {
     Object.keys(sortBy).forEach((el) => {
       if (el !== property) {
         sortBy[el] = null;
@@ -75,6 +77,24 @@ export default () => {
     },
   };
 
+  const SortBy = ({ type }: { type: SortType }) => (
+    <div onClick={onSortClick(type)} className="d-flex cursor-pointer">
+      <div className="pt-1 px-2 text-capitalize">{type}</div>
+      <i
+        className={`pi blue-icon d-flex flex-column justify-content-center ${
+          sortBy[type] === true && 'pi-angle-down'
+        } ${sortBy[type] === false && 'pi-angle-up'}`}
+      />
+    </div>
+  );
+
+  const PaginationArrow = ({ className = '', ...props }) => (
+    <div
+      {...props}
+      className={`d-flex mr-3 pi blue-icon d-flex flex-column justify-content-center cursor-pointer ${className}`}
+    ></div>
+  );
+
   return (
     <div>
       <Chart
@@ -82,42 +102,28 @@ export default () => {
         data={getPaginatedAndSortedData(chartData, sortBy, page)}
         options={options}
       />
-      <div className="d-flex justify-content-between cursor-pointer">
-        <div className="d-flex w-25">
+      <div className="d-flex justify-content-between">
+        <div className="d-flex">
           <div className="pt-1 px-2">Sort by:</div>
-          <div onClick={onSortClick('name')} className="d-flex">
-            <div className="pt-1 px-2">Name</div>
-            <i
-              className={`pi blue-icon d-flex flex-column justify-content-center ${
-                sortBy.name === true && 'pi-angle-down'
-              } ${sortBy.name === false && 'pi-angle-up'}`}
-            />
-          </div>
-          <div onClick={onSortClick('size')} className="d-flex">
-            <div className="pt-1 px-2">Size</div>
-            <i
-              className={`pi blue-icon d-flex flex-column justify-content-center ${
-                sortBy.size === true && 'pi-angle-down'
-              } ${sortBy.size === false && 'pi-angle-up'}`}
-            />
-          </div>
+          <SortBy type="name" />
+          <SortBy type="size" />
         </div>
 
         <div className="d-flex">
           {page > 0 && (
-            <div onClick={onPrevClick} className="d-flex">
-              <i className="pi pi-angle-left blue-icon d-flex flex-column justify-content-center" />
-              <div className="pt-1 px-2">Previous</div>
-            </div>
+            <PaginationArrow
+              onClick={onPrevClick}
+              className="mr-3 pi-angle-left"
+            />
           )}
+          <div className="d-flex justify-content-end">Page {pagesLabel}</div>
           {(page + 1) * 10 < chartData.labels.length && (
-            <div onClick={onNextClick} className="d-flex ml-3">
-              <div className="pt-1 px-2">Next</div>
-              <i className="pi pi-angle-right blue-icon d-flex flex-column justify-content-center" />
-            </div>
+            <PaginationArrow
+              onClick={onNextClick}
+              className="ml-3 pi-angle-right"
+            />
           )}
         </div>
-        <div className="d-flex w-25 justify-content-end">Page {pagesLabel}</div>
       </div>
     </div>
   );
