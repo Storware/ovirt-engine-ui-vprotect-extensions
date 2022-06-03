@@ -21,13 +21,13 @@ export const excludedFromBackupTemplate = (list, setList) => (rowData) => {
     <div
       className={'text-center'}
       {...{
-        ...(!element.supported && {
-          'data-pr-tooltip': `Backup of ${element.type?.description} is not supported`,
+        ...(!element?.supported && {
+          'data-pr-tooltip': `Backup of ${element?.type?.description} is not supported`,
         }),
       }}
     >
       <ToggleButton
-        checked={element.excludedFromBackup}
+        checked={element?.excludedFromBackup}
         onChange={() => {
           element.excludedFromBackup = !element.excludedFromBackup;
           setList([...list]);
