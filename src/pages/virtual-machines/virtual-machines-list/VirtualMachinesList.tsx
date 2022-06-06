@@ -150,6 +150,7 @@ const VirtualMachinesList = () => {
         <Column
           field="vmBackupPolicy"
           header="Policy"
+          filterField="vmBackupPolicy.name"
           body={(rowData) =>
             rowData.vmBackupPolicy &&
             getElementWithoutProjectUuidInName(rowData.vmBackupPolicy).name
