@@ -6,21 +6,34 @@ import BarChart from 'components/chart/BarChart';
 import { ChartData } from 'model/ChartData';
 import { Menu } from 'primereact/menu';
 
-const prepareChartDataDays = (datasets, state) => {
-  const limit = 30;
+type DateRange = [Date, Date];
+
+const selectedDays = ([startDate, endDate]: DateRange) => {
+  const millisecondsPerDay = 24 * 60 * 60 * 1000;
+  const treatAsUTC = (date: Date) =>
+    new Date(date).setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  return (
+    Math.floor(
+      (treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay,
+    ) + 1
+  );
+};
+
+const prepareChartDataDays = (datasets, state, dateRange: DateRange) => {
+  const [startDate] = dateRange;
   const chartData = new ChartData(2);
 
   chartData.datasets[0].label = 'Backup';
   chartData.datasets[1].label = 'Restore';
 
-  for (let i = limit - 1; i >= 0; i--) {
-    chartData.labels = [...Array(30)]
-      .map((item, index) => index)
-      .map((el) => moment().subtract(el, 'days').format('DD-MM-YYYY'))
-      .reverse();
+  chartData.labels = [...Array(selectedDays(dateRange))].map((_, index) =>
+    moment(startDate).add(index, 'days').format('DD-MM-YYYY'),
+  );
+
+  chartData.labels.forEach(() => {
     chartData.datasets[0].data.push(0);
     chartData.datasets[1].data.push(0);
-  }
+  });
 
   datasets.backupsHistory.forEach((element) => {
     const time = moment(element.snapshotTime).format('DD-MM-YYYY');
@@ -52,36 +65,20 @@ const prepareChartDataDays = (datasets, state) => {
 };
 
 const prepareChartDataBackups = (datasets, state) => {
-  const limit = 20;
   const chartData = new ChartData(1);
+  const shiftChart = state.shiftChart;
+  const enablePrevious = state.enablePrevious;
+
   chartData.datasets[0].label = 'Backup';
 
-  if (!datasets.backupsHistory || datasets.backupsHistory.length === 0) {
-    return state;
-  }
-
-  const backups = datasets.backupsHistory.filter(
-    (value) =>
-      value.status.name === 'SUCCESS_REMOVED' ||
-      value.status.name === 'SUCCESS',
+  const backups = datasets.backupsHistory.filter(({ status: { name } }) =>
+    ['SUCCESS_REMOVED', 'SUCCESS'].includes(name),
   );
 
-  let shiftChart = state.shiftChart;
-  let enablePrevious = state.enablePrevious;
-
-  if (limit + shiftChart > backups.length) {
-    shiftChart = backups.length - limit;
-    enablePrevious = false;
-  }
-
-  for (let i = limit - 1 + shiftChart; i >= 0 + shiftChart; i--) {
-    if (backups[i]) {
-      chartData.labels.push(
-        moment(backups[i].backupTime).format('DD-MM-YYYY HH:mm'),
-      );
-      chartData.datasets[0].data.push(backups[i].size);
-    }
-  }
+  [...backups].reverse().forEach((backup) => {
+    chartData.labels.push(moment(backup.backupTime).format('DD-MM-YYYY HH:mm'));
+    chartData.datasets[0].data.push(backup.size);
+  });
 
   return {
     ...state,
@@ -92,45 +89,34 @@ const prepareChartDataBackups = (datasets, state) => {
 };
 
 const prepareChartDataTime = (datasets, state) => {
-  const limit = 20;
-  const chartData = new ChartData(4);
-
-  chartData.datasets[0].label = 'Export (queued) duration';
-  chartData.datasets[1].label = 'Export duration';
-  chartData.datasets[2].label = 'Store (queued) duration';
-  chartData.datasets[3].label = 'Store duration';
-
+  const shiftChart = state.shiftChart;
+  const enablePrevious = state.enablePrevious;
   const backups = datasets.backupsHistory;
+  const chartData = new ChartData(4);
+  [
+    'Export (queued) duration',
+    'Export duration',
+    'Store (queued) duration',
+    'Store duration',
+  ].forEach((label, id) => {
+    chartData.datasets[id].label = label;
+  });
+  [...backups].reverse().forEach(({ taskTimeStats, snapshotTime }) => {
+    const { exportTime, queuedExportTime, storeTime, queuedStoreTime } =
+      taskTimeStats;
 
-  const backupsLength = datasets.backupsHistory.length;
+    chartData.labels.push(moment(snapshotTime).format('DD-MM-YYYY HH:mm'));
+    [queuedExportTime, exportTime, queuedStoreTime, storeTime].forEach(
+      (dataElement, id) => {
+        chartData.datasets[id].data.push(dataElement);
+      },
+    );
 
-  let shiftChart = state.shiftChart;
-  let enablePrevious = state.enablePrevious;
-
-  if (limit + shiftChart > backupsLength) {
-    shiftChart = backupsLength - limit;
-    enablePrevious = false;
-  }
-
-  for (let i = limit - 1 + shiftChart; i >= 0 + shiftChart; i--) {
-    if (backups[i]) {
-      chartData.labels.push(
-        moment(backups[i].snapshotTime).format('DD-MM-YYYY HH:mm'),
-      );
-      const exportTime = backups[i].taskTimeStats.exportTime;
-      const queuedExportTime = backups[i].taskTimeStats.queuedExportTime;
-      const storeTime = backups[i].taskTimeStats.storeTime;
-      const queuedStoreTime = backups[i].taskTimeStats.queuedStoreTime;
-      const total = exportTime + queuedExportTime + storeTime + queuedStoreTime;
-      if (chartData.max < total) {
-        chartData.max = total;
-      }
-      chartData.datasets[0].data.push(queuedExportTime);
-      chartData.datasets[1].data.push(exportTime);
-      chartData.datasets[2].data.push(queuedStoreTime);
-      chartData.datasets[3].data.push(storeTime);
+    const total = exportTime + queuedExportTime + storeTime + queuedStoreTime;
+    if (chartData.max < total) {
+      chartData.max = total;
     }
-  }
+  });
 
   return {
     ...state,
@@ -141,39 +127,35 @@ const prepareChartDataTime = (datasets, state) => {
 };
 
 const prepareChartDataRestoreTime = (datasets, state) => {
-  const limit = 20;
   const chartData = new ChartData(6);
-
-  chartData.datasets[0].label = 'Restore (queued) duration';
-  chartData.datasets[1].label = 'Restore duration';
-  chartData.datasets[2].label = 'Import (queued) duration';
-  chartData.datasets[3].label = 'Import duration';
-  chartData.datasets[4].label = 'Mount (queued) duration';
-  chartData.datasets[5].label = 'Mount duration';
-
   const restores = datasets.restoresHistory;
+  const { shiftChart, enablePrevious } = state;
 
-  const backupsLength = datasets.restoresHistory.length;
+  [
+    'Restore (queued) duration',
+    'Restore duration',
+    'Import (queued) duration',
+    'Import duration',
+    'Mount (queued) duration',
+    'Mount duration',
+  ].forEach((label, id) => (chartData.datasets[id].label = label));
 
-  let shiftChart = state.shiftChart;
-  let enablePrevious = state.enablePrevious;
+  [...restores]
+    .reverse()
+    .forEach(({ restoreTime: backupRestoreTime, taskTimeStats }) => {
+      const {
+        importTime,
+        mountTime,
+        queuedImportTime,
+        queuedMountTime,
+        queuedRestoreTime,
+        restoreTime,
+      } = taskTimeStats;
 
-  if (limit + shiftChart > backupsLength) {
-    shiftChart = backupsLength - limit;
-    enablePrevious = false;
-  }
-
-  for (let i = limit - 1 + shiftChart; i >= 0 + shiftChart; i--) {
-    if (restores[i]) {
       chartData.labels.push(
-        moment(restores[i].restoreTime).format('DD-MM-YYYY HH:mm'),
+        moment(backupRestoreTime).format('DD-MM-YYYY HH:mm'),
       );
-      const importTime = restores[i].taskTimeStats.importTime;
-      const mountTime = restores[i].taskTimeStats.mountTime;
-      const queuedImportTime = restores[i].taskTimeStats.queuedImportTime;
-      const queuedMountTime = restores[i].taskTimeStats.queuedMountTime;
-      const queuedRestoreTime = restores[i].taskTimeStats.queuedRestoreTime;
-      const restoreTime = restores[i].taskTimeStats.restoreTime;
+
       const total =
         importTime +
         mountTime +
@@ -184,14 +166,17 @@ const prepareChartDataRestoreTime = (datasets, state) => {
       if (chartData.max < total) {
         chartData.max = total;
       }
-      chartData.datasets[0].data.push(queuedRestoreTime);
-      chartData.datasets[1].data.push(restoreTime);
-      chartData.datasets[2].data.push(queuedImportTime);
-      chartData.datasets[3].data.push(importTime);
-      chartData.datasets[4].data.push(queuedMountTime);
-      chartData.datasets[5].data.push(mountTime);
-    }
-  }
+      [
+        queuedRestoreTime,
+        restoreTime,
+        queuedImportTime,
+        importTime,
+        queuedMountTime,
+        mountTime,
+      ].forEach((dataToPush, id) =>
+        chartData.datasets[id].data.push(dataToPush),
+      );
+    });
 
   return {
     ...state,
@@ -215,7 +200,13 @@ const type = {
   restoreTime: 'time',
 };
 
-export default ({ datasets }) => {
+export default ({
+  datasets,
+  dateRange,
+}: {
+  datasets: unknown;
+  dateRange: DateRange;
+}) => {
   const [state, setState] = useState({
     chartData: new ChartData(4),
     enablePrevious: true,
@@ -227,7 +218,7 @@ export default ({ datasets }) => {
 
   useEffect(() => {
     setState({
-      ...prepareData[state.option](datasets, state),
+      ...prepareData[state.option](datasets, state, dateRange),
       type: type[state.option],
     });
   }, [state.option, datasets]);

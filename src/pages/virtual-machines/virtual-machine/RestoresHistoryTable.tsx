@@ -4,8 +4,10 @@ import { dateTemplate } from '../../../components/table/templates';
 import { useSelector } from 'react-redux';
 import { selectRestoresHistory } from '../../../store/virtual-machine/selectors';
 import Table from '../../../components/table/primereactTable';
+import { CalendarPropsModel } from 'model/time/calendarPropsModel';
+import { Calendar } from 'primereact/calendar';
 
-const RestoresHistoryTable = () => {
+const RestoresHistoryTable = ({ date, setDate }: CalendarPropsModel) => {
   const restoresHistory = useSelector(selectRestoresHistory);
   const restoreTypes = {
     RESTORE: 'Restore',
@@ -19,6 +21,14 @@ const RestoresHistoryTable = () => {
 
   return (
     <div>
+      <Calendar
+        id="range"
+        value={date}
+        onChange={({ value }) => setDate(value)}
+        selectionMode="range"
+        maxDate={new Date()}
+        readOnlyInput
+      />
       <Table value={restoresHistory}>
         <Column field="restoreTime" header="Restore time" body={dateTemplate} />
         <Column

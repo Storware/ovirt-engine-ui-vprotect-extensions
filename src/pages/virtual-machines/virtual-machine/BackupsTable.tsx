@@ -7,12 +7,22 @@ import {
 import { useSelector } from 'react-redux';
 import { selectBackups } from '../../../store/virtual-machine/selectors';
 import Table from 'components/table/primereactTable';
+import { Calendar } from 'primereact/calendar';
+import { CalendarPropsModel } from 'model/time/calendarPropsModel';
 
-const BackupsTable = () => {
+const BackupsTable = ({ date, setDate }: CalendarPropsModel) => {
   const backups = useSelector(selectBackups);
 
   return (
     <div>
+      <Calendar
+        id="range"
+        value={date}
+        onChange={({ value }) => setDate(value)}
+        selectionMode="range"
+        maxDate={new Date()}
+        readOnlyInput
+      />
       <Table value={backups}>
         <Column
           field="snapshotTime"
