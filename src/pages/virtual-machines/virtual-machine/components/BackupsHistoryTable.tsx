@@ -10,8 +10,14 @@ import { selectBackupsHistory } from '../../../../store/virtual-machine/selector
 import Table from '../../../../components/table/primereactTable';
 import { Button } from 'primereact/button';
 import { backupsService } from '../../../../services/backups-service';
+import { CalendarPropsModel } from 'model/time/calendarPropsModel';
+import { Calendar } from 'primereact/calendar';
 
-const BackupsHistoryTable = ({ onRefresh }) => {
+interface Props extends CalendarPropsModel {
+  onRefresh: () => void;
+}
+
+const BackupsHistoryTable = ({ onRefresh, date, setDate }: Props) => {
   const backupsHistory = useSelector(selectBackupsHistory);
 
   const markBackupWarningsAsKnowledged = (guid) => {
@@ -36,6 +42,14 @@ const BackupsHistoryTable = ({ onRefresh }) => {
 
   return (
     <div>
+      <Calendar
+        id="range"
+        value={date}
+        onChange={({ value }) => setDate(value)}
+        selectionMode="range"
+        maxDate={new Date()}
+        readOnlyInput
+      />
       <Table value={backupsHistory}>
         <Column
           field="snapshotTime"

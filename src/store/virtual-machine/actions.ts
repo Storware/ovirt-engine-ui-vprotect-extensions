@@ -20,6 +20,7 @@ import { hypervisorsService } from '../../services/hypervisors-service';
 import { backupsService } from '../../services/backups-service';
 import { schedulesService } from '../../services/schedules-service';
 import { policiesService } from '../../services/policies-service';
+import { DateRangeModel } from 'model/time/dateRange.model';
 
 export const setVirtualMachine = (payload: any): VirtualMachineAction => ({
   type: SET_VIRTUAL_MACHINE,
@@ -88,64 +89,81 @@ const setCurrentForIncrementalBackup = (virtualMachine, snapshots) => {
   }
   return snapshots;
 };
+export const getVirtualMachineTabs =
+  (guid: string, virtualMachine, date?: DateRangeModel) =>
+  (dispatch: Dispatch) => {
+    if (!guid) {
+      return;
+    }
 
-export const getVirtualMachinePage = (guid) => async (dispatch: Dispatch) => {
-  if (!guid) {
-    return;
-  }
+    void backupsService
+      .getProtectedEntityBackups(guid, {
+        status: ['SUCCESS', 'PARTIAL_SUCCESS'],
+        ...(date && { from: date.from, to: date.to }),
+      })
+      .then((backups) => dispatch(setBackups(backups)));
 
-  const virtualMachine = await virtualMachinesService.getVirtualMachine(guid);
-  await dispatch(setVirtualMachine(virtualMachine));
+    void backupsService
+      .getProtectedEntityBackups(guid, {
+        ...(date && { from: date.from, to: date.to }),
+      })
+      .then((backupsHistory) => dispatch(setBackupsHistory(backupsHistory)));
 
-  if (virtualMachine.hypervisor) {
-    void hypervisorsService
-      .getHypervisor(virtualMachine.hypervisor.guid)
-      .then((hypervisor) => dispatch(setHypervisor(hypervisor)));
-  }
+    void backupsService
+      .getProtectedEntityRestoreJobs(guid, {
+        ...(date && { from: date.from, to: date.to }),
+      })
+      .then((restoresHistory) => dispatch(setRestoresHistory(restoresHistory)));
 
-  void backupsService
-    .getProtectedEntityBackups(guid, {
-      status: ['SUCCESS', 'PARTIAL_SUCCESS'],
-    })
-    .then((backups) => dispatch(setBackups(backups)));
+    void virtualMachinesService
+      .getVirtualMachineSnapshots(guid)
+      .then((snapshots) =>
+        dispatch(
+          setSnapshots(
+            setCurrentForIncrementalBackup(virtualMachine, snapshots),
+          ),
+        ),
+      );
 
-  void backupsService
-    .getProtectedEntityBackups(guid)
-    .then((backupsHistory) => dispatch(setBackupsHistory(backupsHistory)));
+    void virtualMachinesService
+      .getVirtualMachineSnapshots(guid, true)
+      .then((snapshotsHistory) =>
+        dispatch(setSnapshotsHistory(snapshotsHistory)),
+      );
 
-  void backupsService
-    .getProtectedEntityRestoreJobs(guid)
-    .then((restoresHistory) => dispatch(setRestoresHistory(restoresHistory)));
+    void virtualMachinesService
+      .getVirtualMachineDisks(guid)
+      .then((disks) => dispatch(setDisks(disks)));
 
-  void virtualMachinesService
-    .getVirtualMachineSnapshots(guid)
-    .then((snapshots) =>
-      dispatch(
-        setSnapshots(setCurrentForIncrementalBackup(virtualMachine, snapshots)),
-      ),
-    );
+    void schedulesService
+      .getProtectedEntitySchedules(guid)
+      .then((schedules) => dispatch(setSchedules(schedules)));
+  };
 
-  void virtualMachinesService
-    .getVirtualMachineSnapshots(guid, true)
-    .then((snapshotsHistory) =>
-      dispatch(setSnapshotsHistory(snapshotsHistory)),
-    );
+export const getVirtualMachinePage =
+  (guid: string, date?: DateRangeModel) => async (dispatch: Dispatch) => {
+    if (!guid) {
+      return;
+    }
 
-  void virtualMachinesService
-    .getVirtualMachineDisks(guid)
-    .then((disks) => dispatch(setDisks(disks)));
+    const virtualMachine = await virtualMachinesService.getVirtualMachine(guid);
+    await dispatch(setVirtualMachine(virtualMachine));
 
-  void schedulesService
-    .getProtectedEntitySchedules(guid)
-    .then((schedules) => dispatch(setSchedules(schedules)));
+    if (virtualMachine.hypervisor) {
+      void hypervisorsService
+        .getHypervisor(virtualMachine.hypervisor.guid)
+        .then((hypervisor) => dispatch(setHypervisor(hypervisor)));
+    }
 
-  void policiesService
-    .getAllVmBackupPolicies(guid)
-    .then((policies) => dispatch(setPolicies(policies)));
+    getVirtualMachineTabs(guid, virtualMachine, date)(dispatch);
 
-  void policiesService
-    .getAllSnapshotMgmtPolicies(guid)
-    .then((snapshotPolicies) =>
-      dispatch(setSnapshotPolicies(snapshotPolicies)),
-    );
-};
+    void policiesService
+      .getAllVmBackupPolicies(guid)
+      .then((policies) => dispatch(setPolicies(policies)));
+
+    void policiesService
+      .getAllSnapshotMgmtPolicies(guid)
+      .then((snapshotPolicies) =>
+        dispatch(setSnapshotPolicies(snapshotPolicies)),
+      );
+  };

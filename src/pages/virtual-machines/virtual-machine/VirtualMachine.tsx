@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Panel } from 'primereact/panel';
 import { Card } from 'primereact/card';
@@ -19,7 +19,10 @@ import {
   selectSnapshotsHistory,
   selectVirtualMachine,
 } from 'store/virtual-machine/selectors';
-import { getVirtualMachinePage } from 'store/virtual-machine/actions';
+import {
+  getVirtualMachinePage,
+  getVirtualMachineTabs,
+} from 'store/virtual-machine/actions';
 import BackupsHistoryTable from './components/BackupsHistoryTable';
 import BackupsTable from './BackupsTable';
 import RestoresHistoryTable from './RestoresHistoryTable';
@@ -32,18 +35,27 @@ import { showModalAction } from 'store/modal/actions';
 import { createBrowserHistory } from 'history';
 import BarChartContainer from 'components/chart/BarChartContainer';
 import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
+import { DateType } from 'model/time/calendarPropsModel';
+import { DateRangeModel } from 'model/time/dateRange.model';
+import { Calendar } from 'primereact/calendar';
 
 const VirtualMachine = () => {
+  const date = new Date();
+  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+  const lastDay = new Date();
+  lastDay.setHours(23);
+  lastDay.setMinutes(59);
+
+  const [dateRange, setDateRange] = useState<DateType>([firstDay, lastDay]);
+  const [dateRangeWithTime, setDateRangeWithTime] = useState<[Date, Date]>([
+    firstDay,
+    lastDay,
+  ]);
+  const notInitialRender = useRef(false);
   const dispatch = useDispatch();
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   const { guid } = useParams();
   const history = createBrowserHistory();
-
-  const loadPage = () => dispatch(getVirtualMachinePage(guid));
-
-  useEffect(() => {
-    loadPage();
-  }, [dispatch]);
 
   const backups = useSelector(selectBackups);
   const backupsHistory = useSelector(selectBackupsHistory);
@@ -55,6 +67,52 @@ const VirtualMachine = () => {
 
   const virtualMachine = useSelector(selectVirtualMachine);
   const hypervisor = useSelector(selectHypervisor);
+
+  const convertDateRangeToObjectNumber = ([_from, _to]: [
+    Date,
+    Date,
+  ]): DateRangeModel => ({
+    from: _from.getTime(),
+    to: _to.getTime(),
+  });
+
+  const loadPage = () =>
+    dispatch(
+      getVirtualMachinePage(
+        guid,
+        convertDateRangeToObjectNumber(dateRangeWithTime),
+      ),
+    );
+  const loadTabs = () =>
+    dispatch(
+      getVirtualMachineTabs(
+        guid,
+        hypervisor,
+        convertDateRangeToObjectNumber(dateRangeWithTime),
+      ),
+    );
+
+  useEffect(() => {
+    loadPage();
+  }, [dispatch]);
+
+  useEffect(() => {
+    const from = dateRange[0];
+    const to = new Date(dateRange[1] || from);
+    to.setHours(23);
+    to.setMinutes(59);
+    setDateRangeWithTime([from, to]);
+  }, [dateRange]);
+
+  useEffect(() => {
+    if (notInitialRender.current) {
+      loadTabs();
+
+      return;
+    }
+
+    notInitialRender.current = true;
+  }, [dateRangeWithTime]);
 
   const Details = ({ title, children, ...rest }) => {
     if (!children) {
@@ -170,25 +228,45 @@ const VirtualMachine = () => {
         </div>
       </Card>
 
-      <Card className="mt-4" title="Backup/Restore Statistics">
-        <BarChartContainer
-          datasets={{
-            backupsHistory,
-            restoresHistory,
-          }}
-        />
-      </Card>
+      <div className="d-flex flex-column flex-md-row mt-4">
+        <Card className="flex-fill mr-md-2" title="Backup/Restore Statistics">
+          <BarChartContainer
+            datasets={{
+              backupsHistory,
+              restoresHistory,
+            }}
+            dateRange={dateRangeWithTime}
+          />
+        </Card>
+        <Card className="mt-4 mt-md-0 ml-md-2" title="Events Calendar">
+          <Calendar
+            id="range"
+            value={dateRange}
+            onChange={({ value }) => setDateRange(value)}
+            selectionMode="range"
+            maxDate={new Date()}
+            inline
+          />
+        </Card>
+      </div>
 
-      <Card className="mt-4" title="Backup/Restore Statistics">
+      <Card className="mt-4">
         <TabView>
           <TabPanel header={`Backup (${backups.length})`}>
-            <BackupsTable />
+            <BackupsTable date={dateRangeWithTime} setDate={setDateRange} />
           </TabPanel>
           <TabPanel header={`Backup History (${backupsHistory.length})`}>
-            <BackupsHistoryTable onRefresh={() => loadPage()} />
+            <BackupsHistoryTable
+              date={dateRangeWithTime}
+              setDate={setDateRange}
+              onRefresh={() => loadPage()}
+            />
           </TabPanel>
           <TabPanel header={`Restore History (${restoresHistory.length})`}>
-            <RestoresHistoryTable />
+            <RestoresHistoryTable
+              date={dateRangeWithTime}
+              setDate={setDateRange}
+            />
           </TabPanel>
           <TabPanel header={`Snapshots (${snapshots.length})`}>
             <SnapshotsTable />

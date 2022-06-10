@@ -15,8 +15,13 @@ class BackupsService {
     });
   }
 
-  getProtectedEntityRestoreJobs(id) {
-    return vprotectApiService.get(`/restore-jobs?protected-entity=${id}`);
+  getProtectedEntityRestoreJobs(id, params = {}) {
+    return vprotectApiService.get('/restore-jobs', {
+      params: {
+        'protected-entity': id,
+        ...params,
+      },
+    });
   }
 
   getProtectedEntityBackupsByStatus(id, status) {
