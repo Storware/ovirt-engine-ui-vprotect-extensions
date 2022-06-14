@@ -25,6 +25,7 @@ module.exports = {
     project: './tsconfig.json',
     sourceType: 'module',
     createDefaultProgram: true,
+    ecmaVersion: 2020,
   },
   plugins: [
     // '@angular-eslint/eslint-plugin',

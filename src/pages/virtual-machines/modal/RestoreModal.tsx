@@ -9,8 +9,10 @@ import {
   getBackupLocations,
   setFilteredHypervisorStoragesAction,
   submitTask,
+  getBackupFiles,
 } from 'store/restore-modal/actions';
 import {
+  selectBackupFiles,
   selectBackupLocations,
   selectFilteredHypervisorStorages,
   selectHypervisorClusters,
@@ -26,9 +28,10 @@ import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 import ToggleSelect from '../../../components/input/reactive/ToggleSelect';
 import { selectNetwork } from 'store/network/selectors';
 import { getNetwork, setNetworkAction } from 'store/network/actions';
-import { hideModalAction } from 'store/modal/actions';
+import { hideModalAction, showFooterAction } from 'store/modal/actions';
+import SelectStoragesWithDiskName from 'pages/virtual-machines/modal/components/SelectStoragesWithDiskName';
 
-const storageDropdownTemplate = (option) => (
+export const storageDropdownTemplate = (option) => (
   <div>
     <span>{option.name}</span>
     {option.totalAvailableSpace && (
@@ -44,12 +47,15 @@ export const RestoreModal = ({ virtualEnvironment }) => {
   const dispatch = useDispatch();
   const formRef = useRef();
   const [clusterCopy, setClusterCopy] = useState(null);
+  const [backupFilesFiltered, setBackupFilesFiltered] = useState([]);
 
   useEffect(() => {
     dispatch(getBackupLocations(virtualEnvironment));
+    dispatch(showFooterAction());
   }, [virtualEnvironment]);
 
   const backupLocations = useSelector(selectBackupLocations);
+  const backupFiles = useSelector(selectBackupFiles);
   const hypervisorManagers = useSelector(selectHypervisorManagers);
   const storages = useSelector(selectHypervisorStorages);
   const filteredStorages = useSelector(selectFilteredHypervisorStorages);
@@ -79,6 +85,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
         virtualEnvironment,
       ),
     );
+    dispatch(getBackupFiles(e.value));
   };
 
   const onHypervisorChange = ({ value: { guid } }) => {
@@ -101,10 +108,31 @@ export const RestoreModal = ({ virtualEnvironment }) => {
     );
   };
 
+  const filterTaskFiles = (arr) =>
+    [...arr]
+      .filter(({ backupFileType }) =>
+        ['DISK', 'DISK_INC', 'VM_IMAGE'].includes(backupFileType?.name),
+      )
+      .map((backupFile) => ({
+        backupFile,
+        originalDiskName: backupFile.path.split('/').pop(),
+        diskName: backupFile.path.split('/').pop(),
+        path: backupFile.path,
+        excludedFromRestore: backupFile.vmDisk.excludedFromBackup,
+        storageId:
+          filteredStorages.find(({ guid }) => guid === backupFile.storageId)
+            ?.guid || filteredStorages[0]?.guid,
+      }));
+
+  useEffect(() => {
+    setBackupFilesFiltered(filterTaskFiles(backupFiles));
+  }, [backupFiles]);
+
   if (useSelector(selectSaved)) {
     // @ts-ignore
     formRef.current.handleSubmit();
   }
+  // @ts-ignore
   return (
     <div className="form">
       <Formik
@@ -113,6 +141,8 @@ export const RestoreModal = ({ virtualEnvironment }) => {
         innerRef={formRef}
         initialValues={{
           ...task,
+          taskFiles: backupFilesFiltered,
+          isDiskLayoutActive: false,
           restoredNetworks: task.restoredNetworks.map(
             (networkInterfaceCard) => ({
               ...networkInterfaceCard,
@@ -122,17 +152,19 @@ export const RestoreModal = ({ virtualEnvironment }) => {
             }),
           ),
         }}
-        onSubmit={({ ...values }, { setSubmitting }) => {
+        onSubmit={(values, { setSubmitting }) => {
+          // tslint:disable-next-line:no-shadowed-variable
+          const { isDiskLayoutActive, ...rest } = values;
           dispatch(
             submitTask({
-              ...values,
+              ...rest,
             }),
           );
           setSubmitting(false);
           dispatch(hideModalAction());
         }}
       >
-        {(formik) => (
+        {({ values, setFieldValue }) => (
           <Form>
             <Field
               name="backupLocation"
@@ -193,6 +225,20 @@ export const RestoreModal = ({ virtualEnvironment }) => {
                   options={networkList}
                 />
               ))}
+
+            <Field
+              name="isDiskLayoutActive"
+              label="Customize disk layout"
+              component={Toggle}
+            />
+
+            {values.isDiskLayoutActive && (
+              <SelectStoragesWithDiskName
+                data={values.taskFiles}
+                setFieldValue={setFieldValue}
+                hvStorages={filteredStorages}
+              />
+            )}
 
             <Field
               name="overwrite"
