@@ -17,4 +17,5 @@ export class PolicySnapshot {
   autoAssignSettings = new AutoAssignSettings();
   autoRemoveNonPresent = true;
   backupRetryCount = 0;
+  executeAutoAssignmentAfterSavingPolicy = true;
 }
