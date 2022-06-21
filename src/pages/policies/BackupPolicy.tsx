@@ -15,12 +15,12 @@ import Toggle from 'components/input/reactive/Toggle';
 import Text from 'components/input/reactive/Text';
 import InputSlider from 'components/input/reactive/InputSlider';
 import Select from 'components/input/reactive/Select';
-import InputChips from 'components/input/reactive/InputChips';
 import InputListBox from 'components/input/reactive/InputListBox';
 import { RulesContainer } from './rules/RulesContainer';
 import { Rule } from '../../model/backup-destination/rule';
 import { backupDestinationsService } from '../../services/backup-destinations-service';
 import { BackupDestinationRule } from '../../model/backup-destination/backup-destination-rule';
+import { AutoAssigment } from 'pages/policies/tabs/auto-assigment/AutoAssigment';
 
 export const BackupPolicy = ({ type }) => {
   const history = createBrowserHistory();
@@ -40,22 +40,26 @@ export const BackupPolicy = ({ type }) => {
         .getPolicy('vm-backup', match.params.guid)
         .then((result) => {
           setModel({
+            executeAutoAssignmentAfterSavingPolicy: true,
             ...result,
             rules: result.rules.map((rule) => ({
               ...rule,
-              ruleBackupDestinations: {
-                primaryBackupDestination:
-                  rule.ruleBackupDestinations.find(
-                    (el) => el.roleType.name === 'PRIMARY',
-                  ) || new BackupDestinationRule('PRIMARY'),
-                ...(rule.ruleBackupDestinations.find(
-                  ({ roleType: { name } }) => name === 'SECONDARY',
-                ) && {
-                  secondaryBackupDestination: rule.ruleBackupDestinations.find(
+              ruleBackupDestinations: [
+                {
+                  primaryBackupDestination:
+                    rule.ruleBackupDestinations.find(
+                      (el) => el.roleType.name === 'PRIMARY',
+                    ) || new BackupDestinationRule('PRIMARY'),
+                  ...(rule.ruleBackupDestinations.find(
                     ({ roleType: { name } }) => name === 'SECONDARY',
-                  ),
-                }),
-              },
+                  ) && {
+                    secondaryBackupDestination:
+                      rule.ruleBackupDestinations.find(
+                        ({ roleType: { name } }) => name === 'SECONDARY',
+                      ),
+                  }),
+                },
+              ],
             })),
           });
         });
@@ -151,12 +155,14 @@ export const BackupPolicy = ({ type }) => {
     setTimeout(() => {
       const _checked = model.rules.flatMap(
         ({
-          ruleBackupDestinations: {
-            primaryBackupDestination: { backupDestination: pbd },
-            secondaryBackupDestination: { backupDestination: sbd } = {
-              backupDestination: null,
+          ruleBackupDestinations: [
+            {
+              primaryBackupDestination: { backupDestination: pbd },
+              secondaryBackupDestination: { backupDestination: sbd } = {
+                backupDestination: null,
+              },
             },
-          },
+          ],
         }) => [
           ...(pbd?.guid ? [pbd?.guid] : []),
           ...(sbd?.guid ? [sbd?.guid] : []),
@@ -174,12 +180,14 @@ export const BackupPolicy = ({ type }) => {
   const possibleAddRule = () =>
     model.rules.some(
       ({
-        ruleBackupDestinations: {
-          primaryBackupDestination: { backupDestination: pbd },
-          secondaryBackupDestination: { backupDestination: sbd } = {
-            backupDestination: null,
+        ruleBackupDestinations: [
+          {
+            primaryBackupDestination: { backupDestination: pbd },
+            secondaryBackupDestination: { backupDestination: sbd } = {
+              backupDestination: null,
+            },
           },
-        },
+        ],
       }) => !!pbd === !!pbd?.guid && !!sbd === !!sbd?.guid,
     );
 
@@ -244,85 +252,12 @@ export const BackupPolicy = ({ type }) => {
               </AccordionTab>
 
               <AccordionTab header="Auto-assigment *">
-                <Field
-                  name="autoAssignSettings.mode"
-                  options={policiesService.assignModes}
-                  component={Select}
-                  optionLabel="description"
-                  dataKey="name"
-                  required
-                  label="Auto-assign Mode *"
-                  change={({ value }) => {
-                    setModel({
-                      ...model,
-                      autoAssignSettings: {
-                        ...model.autoAssignSettings,
-                        mode: value,
-                      },
-                    });
-                  }}
-                />
-
-                <h5 className={'mt-3'}>Include rules</h5>
-                <div className={'row'}>
-                  <div className={'col'}>
-                    <Field
-                      name="autoAssignSettings.includeTags"
-                      component={InputChips}
-                      label="Include TAG based rules"
-                      onChange={handle('autoAssignSettings.includeTags')}
-                    />
-                  </div>
-                  <div className={'col'}>
-                    <Field
-                      name="autoAssignSettings.includeRegExps"
-                      component={InputChips}
-                      label="Include Regex based rules"
-                      onChange={handle('autoAssignSettings.includeRegExps')}
-                    />
-                  </div>
-                </div>
-
-                <h5 className={'mt-3'}>Exclude rules</h5>
-                <div className={'row'}>
-                  <div className={'col'}>
-                    <Field
-                      name="autoAssignSettings.excludeTags"
-                      component={InputChips}
-                      label="Exclude TAG based rules"
-                      onChange={handle('autoAssignSettings.excludeTags')}
-                    />
-                  </div>
-                  <div className={'col'}>
-                    <Field
-                      name="autoAssignSettings.excludeRegExps"
-                      component={InputChips}
-                      label="Exclude Regex based rules"
-                      onChange={handle('autoAssignSettings.excludeRegExps')}
-                    />
-                  </div>
-                </div>
-
-                <Field
-                  name="autoAssignSettings.hvClusters"
-                  options={hypervisorClusters}
-                  component={InputListBox}
-                  optionLabel="name"
-                  multiple
-                  dataKey="guid"
-                  onChange={(e) => {
-                    setModel({
-                      ...model,
-                      autoAssignSettings: {
-                        ...model.autoAssignSettings,
-                        hvClusters:
-                          e.target?.nodeName === 'INPUT'
-                            ? e.target.value
-                            : e.value,
-                      },
-                    });
-                  }}
-                  label="Auto-assign Virtual Environments only if they belong to the following clusters (optional)"
+                <AutoAssigment
+                  model={model}
+                  setModel={setModel}
+                  handle={handle}
+                  hypervisorClusters={hypervisorClusters}
+                  type={type}
                 />
               </AccordionTab>
 

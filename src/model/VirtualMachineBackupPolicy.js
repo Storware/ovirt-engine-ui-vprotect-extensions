@@ -12,4 +12,5 @@ export class VirtualMachineBackupPolicy {
   failRemainingBackupTasksStoreThreshold;
   rules = [new Rule()];
   backupRetryCount = 0;
+  executeAutoAssignmentAfterSavingPolicy = true;
 }

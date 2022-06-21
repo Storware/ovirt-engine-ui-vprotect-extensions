@@ -71,6 +71,15 @@ class PoliciesService {
       (vm.hvmType != null && hvmWithSnapshotMgmt.includes(vm.hvmType.name))
     );
   }
+
+  autoAssignmentPreview(type = '', model) {
+    return vprotectApiService.post(
+      `/policies/${type}/${
+        model.guid ? `${model.guid}/` : ''
+      }auto-assignment-preview`,
+      model,
+    );
+  }
 }
 
 export const policiesService = new PoliciesService();
