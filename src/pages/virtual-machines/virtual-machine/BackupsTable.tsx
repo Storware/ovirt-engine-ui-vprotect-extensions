@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Column } from 'primereact/column';
 import {
   sizeTemplate,
@@ -9,12 +9,17 @@ import { selectBackups } from '../../../store/virtual-machine/selectors';
 import Table from 'components/table/primereactTable';
 import { Calendar } from 'primereact/calendar';
 import { CalendarPropsModel } from 'model/time/calendarPropsModel';
+import { AdjustRetention } from 'pages/virtual-machines/virtual-machine/components/AdjustRetention';
 
 const BackupsTable = ({ date, setDate }: CalendarPropsModel) => {
   const backups = useSelector(selectBackups);
-
+  const [selected, setSelected] = useState([]);
   return (
     <div>
+      <AdjustRetention
+        disabled={selected.length === 0}
+        data={selected.map(({ backupLocations }) => backupLocations[0])}
+      />
       <Calendar
         id="range"
         value={date}
@@ -23,7 +28,17 @@ const BackupsTable = ({ date, setDate }: CalendarPropsModel) => {
         maxDate={new Date()}
         readOnlyInput
       />
-      <Table value={backups}>
+      <Table
+        value={backups}
+        selectionMode="checkbox"
+        selection={selected}
+        onSelectionChange={({ value }) => setSelected(value)}
+      >
+        <Column
+          selectionMode="multiple"
+          headerStyle={{ width: '3em' }}
+        ></Column>
+
         <Column
           field="snapshotTime"
           header="Snapshot time"
