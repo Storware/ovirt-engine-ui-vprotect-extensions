@@ -34,7 +34,7 @@ const ModalContainer = () => {
         <Dialog
           header={modal.title}
           visible={show}
-          style={{ width: '50vw' }}
+          style={{ width: '50vw', ...modal.style }}
           footer={!hideButtonActions && renderFooter()}
           onHide={() => dispatch(hideModalAction())}
         >

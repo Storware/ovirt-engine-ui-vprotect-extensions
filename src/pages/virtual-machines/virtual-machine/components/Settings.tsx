@@ -78,7 +78,7 @@ const Settings = () => {
           })
         }
       >
-        <AccordionTab header="General">
+        <AccordionTab header="GeneralTable">
           <div>
             <h6>Backup policy</h6>
             <Dropdown

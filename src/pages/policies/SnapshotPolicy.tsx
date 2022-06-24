@@ -68,7 +68,7 @@ const SnapshotPolicy = () => {
                 })
               }
             >
-              <AccordionTab header="General">
+              <AccordionTab header="GeneralTable">
                 <Field name="name" component={Text} label="Name" />
                 <Field
                   name="active"
