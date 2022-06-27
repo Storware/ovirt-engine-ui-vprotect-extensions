@@ -21,7 +21,7 @@ export const RulesContainer = ({
   const [
     secondaryBackupDestinationToggle,
     setSecondaryBackupDestinationToggle,
-  ] = useState(!!rule.ruleBackupDestinations.secondaryBackupDestination);
+  ] = useState(!!rule.ruleBackupDestinations[0].secondaryBackupDestination);
   const [primaryBackupDestinationOptions, setPrimaryBackupDestinationOptions] =
     useState(filteredBackupDestinations);
   const [
@@ -56,17 +56,17 @@ export const RulesContainer = ({
 
   const setBackupDestinationOptions = () => {
     setTimeout(() => {
-      if (!!rule.ruleBackupDestinations.primaryBackupDestination) {
+      if (!!rule.ruleBackupDestinations[0].primaryBackupDestination) {
         setPrimaryBackupDestinationOptions([
-          rule.ruleBackupDestinations.primaryBackupDestination
+          rule.ruleBackupDestinations[0].primaryBackupDestination
             .backupDestination,
           ...filteredBackupDestinations,
         ]);
       }
 
-      if (!!rule.ruleBackupDestinations.secondaryBackupDestination) {
+      if (!!rule.ruleBackupDestinations[0].secondaryBackupDestination) {
         setSecondaryBackupDestinationOptions([
-          rule.ruleBackupDestinations.secondaryBackupDestination
+          rule.ruleBackupDestinations[0].secondaryBackupDestination
             .backupDestination,
           ...filteredBackupDestinations,
         ]);
@@ -76,15 +76,17 @@ export const RulesContainer = ({
 
   const setBackupRetentionSettings = () => {
     if (
-      !rule.ruleBackupDestinations.primaryBackupDestination
+      !rule.ruleBackupDestinations[0].primaryBackupDestination
         .backupRetentionSettings.retentionKeepLastNFull
     ) {
       setTypeAndRetention(
-        rule.ruleBackupDestinations.primaryBackupDestination.backupDestination,
+        rule.ruleBackupDestinations[0].primaryBackupDestination
+          .backupDestination,
       );
     } else {
       setType(
-        rule.ruleBackupDestinations.primaryBackupDestination.backupDestination,
+        rule.ruleBackupDestinations[0].primaryBackupDestination
+          .backupDestination,
       );
     }
   };
@@ -97,15 +99,15 @@ export const RulesContainer = ({
       return;
     }
 
-    rule.ruleBackupDestinations.primaryBackupDestination = {
-      ...rule.ruleBackupDestinations.primaryBackupDestination,
+    rule.ruleBackupDestinations[0].primaryBackupDestination = {
+      ...rule.ruleBackupDestinations[0].primaryBackupDestination,
       backupRetentionSettings: new BackupDestinationRetentionFactory[
         backupDestinationType
       ](),
     };
-    if (!!rule.ruleBackupDestinations.secondaryBackupDestination) {
-      rule.ruleBackupDestinations.secondaryBackupDestination = {
-        ...rule.ruleBackupDestinations.secondaryBackupDestination,
+    if (!!rule.ruleBackupDestinations[0].secondaryBackupDestination) {
+      rule.ruleBackupDestinations[0].secondaryBackupDestination = {
+        ...rule.ruleBackupDestinations[0].secondaryBackupDestination,
         backupRetentionSettings: new BackupDestinationRetentionFactory[
           backupDestinationType
         ](),
@@ -132,19 +134,18 @@ export const RulesContainer = ({
   };
 
   const setRetentionSettingsValue = (key, value) => {
-    rule.ruleBackupDestinations.primaryBackupDestination.backupRetentionSettings[
+    rule.ruleBackupDestinations[0].primaryBackupDestination.backupRetentionSettings[
       key
     ] = value * factor;
-    rule.ruleBackupDestinations.secondaryBackupDestination.backupRetentionSettings[
+    rule.ruleBackupDestinations[0].secondaryBackupDestination.backupRetentionSettings[
       key
     ] = value * factor;
   };
 
   const getRetentionSettingsValue = (key) =>
-    rule.ruleBackupDestinations.primaryBackupDestination
+    rule.ruleBackupDestinations[0].primaryBackupDestination
       .backupRetentionSettings[key] / factor;
 
-  // @ts-ignore
   return (
     <>
       {rule.position !== 0 && (
@@ -164,39 +165,40 @@ export const RulesContainer = ({
         policyType={policyType}
         backupDestinationOptions={primaryBackupDestinationOptions}
         backupDestination={
-          rule.ruleBackupDestinations.primaryBackupDestination.backupDestination
+          rule.ruleBackupDestinations[0].primaryBackupDestination
+            .backupDestination
         }
         updateBackupDestination={(e) => {
           updateBackupDestination(e);
 
-          rule.ruleBackupDestinations.primaryBackupDestination.backupDestination =
+          rule.ruleBackupDestinations[0].primaryBackupDestination.backupDestination =
             e.value;
         }}
         getRetentionSettingsValue={getRetentionSettingsValue}
         setRetentionSettingsValue={setRetentionSettingsValue}
         keepLastBackupWhenSourceStillExists={
-          rule.ruleBackupDestinations.primaryBackupDestination
+          rule.ruleBackupDestinations[0].primaryBackupDestination
             .backupRetentionSettings.keepLastBackupWhenSourceStillExists
         }
         updateKeepLastBackupWhenSourceStillExists={({ value }) => {
-          rule.ruleBackupDestinations.primaryBackupDestination.backupRetentionSettings.keepLastBackupWhenSourceStillExists =
+          rule.ruleBackupDestinations[0].primaryBackupDestination.backupRetentionSettings.keepLastBackupWhenSourceStillExists =
             value;
           updateBackupDestination();
         }}
         retentionKeepLastNFull={
-          rule.ruleBackupDestinations.primaryBackupDestination
+          rule.ruleBackupDestinations[0].primaryBackupDestination
             .backupRetentionSettings.retentionKeepLastNFull
         }
         updateRetentionKeepLastNFull={({ value }) => {
-          rule.ruleBackupDestinations.primaryBackupDestination.backupRetentionSettings.retentionKeepLastNFull =
+          rule.ruleBackupDestinations[0].primaryBackupDestination.backupRetentionSettings.retentionKeepLastNFull =
             value;
         }}
         retentionKeepLastNIncremental={
-          rule.ruleBackupDestinations.primaryBackupDestination
+          rule.ruleBackupDestinations[0].primaryBackupDestination
             .backupRetentionSettings.retentionKeepLastNIncremental
         }
         updateRetentionKeepLastNIncremental={({ value }) => {
-          rule.ruleBackupDestinations.primaryBackupDestination.backupRetentionSettings.retentionKeepLastNIncremental =
+          rule.ruleBackupDestinations[0].primaryBackupDestination.backupRetentionSettings.retentionKeepLastNIncremental =
             value;
         }}
       />
@@ -205,9 +207,9 @@ export const RulesContainer = ({
         <ToggleButton
           checked={secondaryBackupDestinationToggle}
           onChange={({ value }) => {
-            delete rule.ruleBackupDestinations.secondaryBackupDestination;
+            delete rule.ruleBackupDestinations[0].secondaryBackupDestination;
             if (value) {
-              rule.ruleBackupDestinations.secondaryBackupDestination =
+              rule.ruleBackupDestinations[0].secondaryBackupDestination =
                 new BackupDestinationRule('SECONDARY');
             }
             updateFilteredBackupDestinations();
@@ -224,39 +226,39 @@ export const RulesContainer = ({
           policyType={policyType}
           backupDestinationOptions={secondaryBackupDestinationOptions}
           backupDestination={
-            rule.ruleBackupDestinations.secondaryBackupDestination
+            rule.ruleBackupDestinations[0].secondaryBackupDestination
               .backupDestination
           }
           updateBackupDestination={(e) => {
-            rule.ruleBackupDestinations.secondaryBackupDestination.backupDestination =
+            rule.ruleBackupDestinations[0].secondaryBackupDestination.backupDestination =
               e.value;
             updateBackupDestination(e);
           }}
           getRetentionSettingsValue={getRetentionSettingsValue}
           setRetentionSettingsValue={setRetentionSettingsValue}
           keepLastBackupWhenSourceStillExists={
-            rule.ruleBackupDestinations.secondaryBackupDestination
+            rule.ruleBackupDestinations[0].secondaryBackupDestination
               .backupRetentionSettings.keepLastBackupWhenSourceStillExists
           }
           updateKeepLastBackupWhenSourceStillExists={({ value }) => {
-            rule.ruleBackupDestinations.secondaryBackupDestination.backupRetentionSettings.keepLastBackupWhenSourceStillExists =
+            rule.ruleBackupDestinations[0].secondaryBackupDestination.backupRetentionSettings.keepLastBackupWhenSourceStillExists =
               value;
             updateBackupDestination();
           }}
           retentionKeepLastNFull={
-            rule.ruleBackupDestinations.secondaryBackupDestination
+            rule.ruleBackupDestinations[0].secondaryBackupDestination
               .backupRetentionSettings.retentionKeepLastNFull
           }
           updateRetentionKeepLastNFull={({ value }) => {
-            rule.ruleBackupDestinations.secondaryBackupDestination.backupRetentionSettings.retentionKeepLastNFull =
+            rule.ruleBackupDestinations[0].secondaryBackupDestination.backupRetentionSettings.retentionKeepLastNFull =
               value;
           }}
           retentionKeepLastNIncremental={
-            rule.ruleBackupDestinations.secondaryBackupDestination
+            rule.ruleBackupDestinations[0].secondaryBackupDestination
               .backupRetentionSettings.retentionKeepLastNIncremental
           }
           updateRetentionKeepLastNIncremental={({ value }) => {
-            rule.ruleBackupDestinations.secondaryBackupDestination.backupRetentionSettings.retentionKeepLastNIncremental =
+            rule.ruleBackupDestinations[0].secondaryBackupDestination.backupRetentionSettings.retentionKeepLastNIncremental =
               value;
           }}
         />

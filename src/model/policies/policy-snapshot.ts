@@ -18,4 +18,7 @@ export class PolicySnapshot {
   autoRemoveNonPresent = true;
   backupRetryCount = 0;
   executeAutoAssignmentAfterSavingPolicy = true;
+  dailyReportEnabled = false;
+  failRemainingBackupTasksExportThreshold = null;
+  failRemainingBackupTasksStoreThreshold = null;
 }

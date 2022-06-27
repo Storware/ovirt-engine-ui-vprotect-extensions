@@ -40,7 +40,6 @@ export const BackupPolicy = ({ type }) => {
         .getPolicy('vm-backup', match.params.guid)
         .then((result) => {
           setModel({
-            executeAutoAssignmentAfterSavingPolicy: true,
             ...result,
             rules: result.rules.map((rule) => ({
               ...rule,
@@ -218,15 +217,15 @@ export const BackupPolicy = ({ type }) => {
                   label="Scheduled backups enabled"
                   onChange={handle('active')}
                 />
-                {/*
-                TODO: Uncomment and fix with SVP-7720
+
                 <Field
-                  name="mailingList"
+                  name="dailyReportEnabled"
                   component={Toggle}
                   label="Send daily backup/restore report for VMs assigned to this policy "
-                  onChange={handle('mailingList')}
-                />*/}
-                {model.mailingList && (
+                  onChange={handle('dailyReportEnabled')}
+                />
+
+                {model.dailyReportEnabled && (
                   <Field
                     name="mailingList"
                     options={availableMailingLists}
@@ -273,7 +272,6 @@ export const BackupPolicy = ({ type }) => {
                   onChange={handle('vms')}
                 />
               </AccordionTab>
-
               {model.rules.map((rule, i) => (
                 <AccordionTab
                   key={rule.name}
