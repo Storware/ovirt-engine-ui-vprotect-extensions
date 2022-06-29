@@ -109,6 +109,12 @@ class BackupsService {
       value: true,
     });
   }
+
+  updateBackupDescription(guid = '', description = '') {
+    return vprotectApiService.put(`/backups/${guid}/description`, {
+      value: description,
+    });
+  }
 }
 
 export const backupsService = new BackupsService();
