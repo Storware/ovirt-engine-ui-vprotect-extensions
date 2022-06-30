@@ -1,9 +1,17 @@
-export const SET_CHARGEBACK_DATA = 'SET_CHARGEBACK_DATA';
+export const SET_CHARGEBACK_BACKUP_SIZE_DATA =
+  'SET_CHARGEBACK_BACKUP_SIZE_DATA';
+export const SET_CHARGEBACK_TRANSFER_SIZE_DATA =
+  'SET_CHARGEBACK_TRANSFER_SIE_DATA';
 export const SET_SORT_BY = 'SET_SORT_BY';
 export const SET_PAGE = 'SET_PAGE';
 
-export type SetChargebackData = {
-  type: typeof SET_CHARGEBACK_DATA;
+export type SetChargebackBackupSizeData = {
+  type: typeof SET_CHARGEBACK_BACKUP_SIZE_DATA;
+  payload: any;
+};
+
+export type SetChargebackTransferSizeData = {
+  type: typeof SET_CHARGEBACK_TRANSFER_SIZE_DATA;
   payload: any;
 };
 
@@ -17,4 +25,8 @@ export type SetPage = {
   payload: number;
 };
 
-export type ChargebackChartAction = SetChargebackData | SetSortBy | SetPage;
+export type ChargebackChartAction =
+  | SetChargebackBackupSizeData
+  | SetChargebackTransferSizeData
+  | SetSortBy
+  | SetPage;

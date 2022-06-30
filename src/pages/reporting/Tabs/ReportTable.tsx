@@ -7,7 +7,7 @@ import { selectRange, selectReport } from 'store/reporting/selectors';
 import { getReport } from 'store/reporting/actions';
 import { sizeTemplate } from 'components/table/templates';
 import classNames from 'classnames';
-import './ReportTable.scss';
+import 'pages/reporting/Tabs/ReportTable.scss';
 import { Link } from 'react-router-dom';
 import { getElementWithoutProjectUuidInName } from 'utils/byProjectFilter';
 import { dateTemplate } from 'components/table/templates';

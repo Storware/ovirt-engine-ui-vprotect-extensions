@@ -1,6 +1,7 @@
 import {
   ChargebackChartAction,
-  SET_CHARGEBACK_DATA,
+  SET_CHARGEBACK_BACKUP_SIZE_DATA,
+  SET_CHARGEBACK_TRANSFER_SIZE_DATA,
   SET_PAGE,
   SET_SORT_BY,
 } from './types';
@@ -11,13 +12,15 @@ const chartData = {
 };
 
 export type ChargebackChart = {
-  readonly chartData;
+  readonly chartDataBackupSize;
+  readonly chartDataTransferSize;
   readonly sortBy;
   readonly page: number;
 };
 
 const initial: ChargebackChart = {
-  chartData,
+  chartDataBackupSize: chartData,
+  chartDataTransferSize: chartData,
   sortBy: {
     size: null,
     name: null,
@@ -26,10 +29,21 @@ const initial: ChargebackChart = {
 };
 
 export default (state = initial, action: ChargebackChartAction) => {
-  if (action.type === SET_CHARGEBACK_DATA) {
+  if (action.type === SET_CHARGEBACK_BACKUP_SIZE_DATA) {
     return {
       ...state,
-      chartData: action.payload,
+      chartDataBackupSize: action.payload,
+      sortBy: initial.sortBy,
+      page: initial.page,
+    };
+  }
+
+  if (action.type === SET_CHARGEBACK_TRANSFER_SIZE_DATA) {
+    return {
+      ...state,
+      chartDataTransferSize: action.payload,
+      sortBy: initial.sortBy,
+      page: initial.page,
     };
   }
   if (action.type === SET_SORT_BY) {
