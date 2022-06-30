@@ -4,9 +4,24 @@ import { ChargebackRequest } from 'model/chargeback/vm-chargeback-request';
 const nameParts = (name) => name.split('_');
 
 class DashboardService {
-  getChargebackReport(params = {}, data: ChargebackRequest) {
+  getChargebackBackupSizeReport(params = {}, data: ChargebackRequest) {
     return vprotectApiService
       .post('/chargeback-reporting/backup-size/vm', data, {
+        params: {
+          ...params,
+        },
+      })
+      .then((res) =>
+        res.map((el) => ({
+          ...el,
+          name: nameParts(el.name).slice(2).join('') || el.name,
+        })),
+      );
+  }
+
+  getChargebackTransferSizeReport(params = {}, data: ChargebackRequest) {
+    return vprotectApiService
+      .post('/chargeback-reporting/transfer-size/vm', data, {
         params: {
           ...params,
         },

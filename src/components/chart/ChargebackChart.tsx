@@ -1,10 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  selectChartData,
-  selectPage,
-  selectSortBy,
-} from 'store/chargeback-chart/selectors';
+import { selectPage, selectSortBy } from 'store/chargeback-chart/selectors';
 import { setPage, setSortBy } from 'store/chargeback-chart/actions';
 import getPaginatedAndSortedData from 'pages/dashboard/chargeback/getPaginatedAndSortedData';
 import { Chart } from 'primereact/chart';
@@ -15,9 +11,8 @@ import {
 
 type SortType = 'name' | 'size';
 
-export default () => {
+export default ({ chartData }) => {
   const dispatch = useDispatch();
-  const chartData = useSelector(selectChartData);
   const sortBy = useSelector(selectSortBy);
   const page = useSelector(selectPage);
 
