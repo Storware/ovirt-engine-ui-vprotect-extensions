@@ -16,6 +16,10 @@ table .p-row-tooltip [data-pr-tooltip] {
   pointer-events: all;
 }
 
+table .p-muted {
+  opacity: 0.38;
+}
+
 
 .c-table .p-paginator .p-inputtext {
   padding: 0.75rem 0 0.75rem 0.75rem;

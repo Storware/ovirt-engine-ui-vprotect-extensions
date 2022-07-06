@@ -1,5 +1,6 @@
 import {
   BackupModalAction,
+  SET_BACKUP_FILES,
   SET_BACKUP_LOCATIONS,
   SET_FILTERED_HYPERVISOR_STORAGES,
   SET_HYPERVISOR_CLUSTERS,
@@ -27,7 +28,7 @@ export const setBackupLocationsAction = (
   payload,
 });
 
-export const setHypervisoManagersAction = (
+export const setHypervisorManagersAction = (
   payload: any[],
 ): BackupModalAction => ({
   type: SET_HYPERVISOR_MANAGERS,
@@ -52,6 +53,11 @@ export const setHypervisorClustersAction = (
   payload: any[],
 ): BackupModalAction => ({
   type: SET_HYPERVISOR_CLUSTERS,
+  payload,
+});
+
+export const setBackupFilesAction = (payload: any[]): BackupModalAction => ({
+  type: SET_BACKUP_FILES,
   payload,
 });
 
@@ -81,6 +87,14 @@ export const getHypervisorManagersAvailableForBackupBackupLocation =
       backupLocation?.backup?.guid,
     );
 
+    const backupFiles = await backupsService.getBackupFilesDetailed(
+      backupLocation?.backup?.guid,
+    );
+
+    const backupFilesFiltered = backupFiles.filter(
+      (el) => el.hasOwnProperty('iscsiMountable') && el.iscsiMountable === true,
+    );
+
     const hypervisorManagers =
       await backupsService.getHypervisorManagersAvailableForBackup(
         backupDetails.guid,
@@ -89,29 +103,30 @@ export const getHypervisorManagersAvailableForBackupBackupLocation =
     if (hypervisorManagers.length === 0) {
       return;
     }
-    await dispatch(setHypervisoManagersAction(hypervisorManagers));
+    await dispatch(setHypervisorManagersAction(hypervisorManagers));
     const hypervisorInArray = hypervisorManagers?.find(
-      (el) => el.guid === virtualMachine.hvManager.guid,
+      ({ guid }) => guid === virtualMachine.hvManager.guid,
     );
     const hypervisorManager = hypervisorInArray || hypervisorManagers[0];
     await dispatch(
       setTaskAction({
         ...new RestoreAndImportTask(backupDetails.networkInterfaceCards),
         hypervisorManager,
+        ...(backupFilesFiltered && { taskFiles: backupFiles }),
       }),
     );
 
-    const hypervisorClusters =
-      await hypervisorsService.getHypervisorClustersForHvm(
-        hypervisorManager.guid,
+    void hypervisorsService
+      .getHypervisorClustersForHvm(hypervisorManager.guid)
+      .then((hypervisorClusters) =>
+        dispatch(setHypervisorClustersAction(hypervisorClusters)),
       );
-    await dispatch(setHypervisorClustersAction(hypervisorClusters));
 
-    const hypervisorStorages =
-      await hypervisorsService.getHypervisorStoragesForHvm(
-        hypervisorManager.guid,
+    void hypervisorsService
+      .getHypervisorStoragesForHvm(hypervisorManager.guid)
+      .then((hypervisorStorages) =>
+        dispatch(setHypervisorStoragesAction(hypervisorStorages)),
       );
-    await dispatch(setHypervisorStoragesAction(hypervisorStorages));
   };
 
 export const getHypervisorStoragesForHypervisorManager =
@@ -141,3 +156,16 @@ export const submitTask = (task) => async (dispatch: Dispatch) => {
     await dispatch(unsaveModalAction());
   }
 };
+
+export const getBackupFiles =
+  (backupLocation: any) => async (dispatch: Dispatch) => {
+    const data = await backupsService.getBackupFilesDetailed(
+      backupLocation?.backup?.guid,
+    );
+
+    const v = data.filter(
+      (el) => el.hasOwnProperty('iscsiMountable') && el.iscsiMountable === true,
+    );
+
+    dispatch(setBackupFilesAction(data));
+  };
