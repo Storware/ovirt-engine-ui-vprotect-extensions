@@ -20,7 +20,6 @@ const MailingTable = () => {
   const dispatch = useDispatch();
   const [globalFilter, setGlobalFilter] = useState(null);
   const history = createBrowserHistory();
-  const [actionsElement, setActionsElement] = useState(null);
   const rows = useSelector(selectMailingTable);
 
   useEffect(() => {
@@ -51,6 +50,7 @@ const MailingTable = () => {
     <div>
       <Table value={rows} header={header()} globalFilter={globalFilter}>
         <Column field="name" header="Name" body={nameTemplate(history)} />
+        <Column field="recipientCount" header="Recipient count" />
         <Column
           field="action"
           header="Action"
