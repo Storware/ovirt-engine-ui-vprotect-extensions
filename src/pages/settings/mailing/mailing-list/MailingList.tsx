@@ -8,31 +8,19 @@ import { useParams } from 'react-router-dom';
 import { BackButton } from 'utils/backButton';
 import { Button } from 'primereact/button';
 import { Panel } from 'primereact/panel';
-import InputChips from 'components/input/reactive/InputChips';
 import { MailingListModel } from 'model/mailing/mailing';
-import { projectsService } from 'services/projects-service';
-import Select from 'components/input/reactive/Select';
+import { InputList } from 'components/input/reactive/InputList';
 
 const MailingList = () => {
   const dispatch = useDispatch();
   const { guid } = useParams();
-  const [projects, setProjects] = useState([]);
 
   const model =
     guid === 'create' ? new MailingListModel() : useSelector(selectMailing);
 
-  const getProjects = async () => {
-    const p = await projectsService.getAllProjects();
-    setProjects([{ name: '', guid: '' }, ...p]);
-  };
-
   useEffect(() => {
     dispatch(getMailingList(guid));
   }, [guid]);
-
-  useEffect(() => {
-    getProjects();
-  }, []);
 
   return (
     <div className="form">
@@ -40,31 +28,35 @@ const MailingList = () => {
         enableReinitialize
         initialValues={model}
         onSubmit={async (values) => {
-          // @ts-ignore
-          const { project } = values;
-          await save({
-            ...values,
-            project: project.guid ? project : null,
-          });
+          await save(values);
           history.back();
         }}
       >
-        {() => (
+        {({ values, setFieldValue }) => (
           <Form>
             <Panel header="Mailing List">
-              <Field name="name" component={Text} label="Name" />
               <Field
-                name="recipients"
-                component={InputChips}
-                label="Add recipient"
+                name="name"
+                component={Text}
+                label="Name *"
+                required={true}
               />
-              <Field
-                name="project"
-                component={Select}
-                options={projects}
-                label="Project"
-                optionLabel="name"
-              />
+              <div className="d-flex flex-column align-items-start">
+                <Field
+                  name="recipients"
+                  component={InputList}
+                  label="Add recipient"
+                  required={true}
+                />
+                <Button
+                  label="Add recipient"
+                  onClick={(v) => {
+                    v.preventDefault();
+                    // @ts-ignore
+                    setFieldValue('recipients', [...values.recipients, '']);
+                  }}
+                />
+              </div>
             </Panel>
             <div className="d-flex justify-content-between mt-3">
               <div>
