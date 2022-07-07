@@ -207,7 +207,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
               />
             )}
 
-            {!!filteredStorages.length && (
+            {filteredStorages.length > 0 && (
               <Field
                 name="restoreToOriginalVolumeType"
                 component={Toggle}
@@ -226,18 +226,22 @@ export const RestoreModal = ({ virtualEnvironment }) => {
                 />
               ))}
 
-            <Field
-              name="isDiskLayoutActive"
-              label="Customize disk layout"
-              component={Toggle}
-            />
+            {!values.restoreToOriginalVolumeType && (
+              <>
+                <Field
+                  name="isDiskLayoutActive"
+                  label="Customize disk layout"
+                  component={Toggle}
+                />
 
-            {values.isDiskLayoutActive && (
-              <SelectStoragesWithDiskName
-                data={values.taskFiles}
-                setFieldValue={setFieldValue}
-                hvStorages={filteredStorages}
-              />
+                {values.isDiskLayoutActive && (
+                  <SelectStoragesWithDiskName
+                    data={values.taskFiles}
+                    setFieldValue={setFieldValue}
+                    hvStorages={filteredStorages}
+                  />
+                )}
+              </>
             )}
 
             <Field
