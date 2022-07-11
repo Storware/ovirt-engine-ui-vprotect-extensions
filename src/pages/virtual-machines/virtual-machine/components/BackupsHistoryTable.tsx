@@ -4,6 +4,7 @@ import {
   sizeTemplate,
   dateTemplate,
   backupLocationsTemplates,
+  originTemplate,
 } from '../../../../components/table/templates';
 import { useSelector } from 'react-redux';
 import { selectBackupsHistory } from '../../../../store/virtual-machine/selectors';
@@ -68,6 +69,8 @@ const BackupsHistoryTable = ({ onRefresh, date, setDate }: Props) => {
           header="Locations"
           body={backupLocationsTemplates}
         />
+        <Column header="Origin" body={originTemplate} />
+
         <Column field="statusInfo" header="Status info" />
         <Column
           field="type.description"

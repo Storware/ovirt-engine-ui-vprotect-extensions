@@ -4,7 +4,7 @@ import { vprotectService } from '../../services/vprotect-service';
 import { alertService } from '../../services/alert-service';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
-import { dateTemplate } from 'components/table/templates';
+import { dateTemplate, originTemplate } from 'components/table/templates';
 import { Button } from 'primereact/button';
 import Table from 'components/table/primereactTable';
 import { convertMilisecondsToHours } from 'utils/convertMilisecondsToHours';
@@ -143,6 +143,7 @@ export default () => {
           />
           <Column field="node.name" header="Node" />
           <Column field="backupDestination.name" header="Backup destination" />
+          <Column header="Origin" body={originTemplate} />
           <Column field="priority" header="Priority" />
           <Column field="duration" header="Duration" />
           <Column

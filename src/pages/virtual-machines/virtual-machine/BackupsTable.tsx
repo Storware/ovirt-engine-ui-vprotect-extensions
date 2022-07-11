@@ -3,6 +3,7 @@ import { Column } from 'primereact/column';
 import {
   sizeTemplate,
   dateTemplate,
+  originTemplate,
 } from '../../../components/table/templates';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectBackups } from '../../../store/virtual-machine/selectors';
@@ -61,6 +62,7 @@ const BackupsTable = ({ date, setDate }: CalendarPropsModel) => {
             </>
           )}
         />
+        <Column header="Origin" body={originTemplate} />
         <Column field="statusInfo" header="Status info" />
         <Column field="type.description" header="Type" />
         <Column field="size" header="Size" body={sizeTemplate} />
