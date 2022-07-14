@@ -28,3 +28,11 @@ table .p-muted {
 .c-table .p-component {
   font-size: 13px;
 }
+
+.text-capitalize-from-uppercase {
+  text-transform: lowercase;
+
+  &:first-letter {
+    text-transform: uppercase;
+  }
+}
