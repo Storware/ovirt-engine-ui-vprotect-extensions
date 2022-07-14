@@ -5,6 +5,7 @@ import { VirtualScrollTable } from 'components/table/VirtualScrollTable';
 import { DataTable } from 'primereact/datatable';
 import { convertMilisecondsToHours } from 'utils/convertMilisecondsToHours';
 import { getDateLabel } from 'services/time';
+import { originTemplate } from 'components/table/templates';
 
 export const WorkflowExecution = () => {
   const [workflowExecutionData, setWorkflowExecutionData] = useState([]);
@@ -152,6 +153,7 @@ export const WorkflowExecution = () => {
         header="Backup destination"
         body={backupDestinationsBody}
       />
+      <Column field="originEntity" header="Origin" body={originTemplate} />
       <Column field="priority" header="Priority" />
       <Column field="duration" header="Duration" />
     </VirtualScrollTable>

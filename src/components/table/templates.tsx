@@ -2,6 +2,8 @@ import React from 'react';
 import { DateShow } from '../convert/Date';
 import { Filesize } from '../convert/Filesize';
 import { schedulesService } from '../../services/schedules-service';
+import { Button } from 'primereact/button';
+import { OriginEntityType } from 'model/task-panel.model';
 
 enum StatusColorHex {
   IN_PROGRESS = '#1f75b1',
@@ -105,3 +107,16 @@ export const backupLocationsTemplates = (rowData) =>
       {name}
     </div>
   ));
+
+export const originTemplate = ({ originEntity }) =>
+  originEntity?.type?.description ? (
+    <>
+      <Button
+        icon={`pi pi-${OriginEntityType[originEntity.type.name].icon}`}
+        tooltip={originEntity?.type?.description}
+        tooltipOptions={{ position: 'left' }}
+      />
+    </>
+  ) : (
+    <></>
+  );
