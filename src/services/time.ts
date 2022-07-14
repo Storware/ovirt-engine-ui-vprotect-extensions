@@ -49,12 +49,6 @@ export const getDateLabel = (val, args?, showSeconds?) =>
     .format(
       args ||
         `YYYY-MM-DD ${
-          showSeconds
-            ? timeFormatWithSeconds[
-                this.userService.currentUser.appUserSettings.timeFormat
-              ]
-            : timeFormat[
-                this.userService.currentUser.appUserSettings.timeFormat
-              ]
+          showSeconds ? timeFormatWithSeconds[12] : timeFormat[12]
         }`,
     );

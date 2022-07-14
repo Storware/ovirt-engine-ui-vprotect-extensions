@@ -52,6 +52,23 @@ class VprotectService {
     return vprotectApiService.get('/tasks');
   }
 
+  getTaskWorkflowExecution(guid) {
+    return vprotectApiService.get('/tasks', {
+      params: {
+        'workflow-execution': guid,
+      },
+    });
+  }
+
+  getWorkflowExecution(page = 0, size = 40) {
+    return vprotectApiService.get('/workflow-executions', {
+      params: {
+        page,
+        size,
+      },
+    });
+  }
+
   cancelTask(id, state) {
     return vprotectApiService.put(`/tasks/${id}/state`, state);
   }
