@@ -10,6 +10,7 @@ import { createBrowserHistory } from 'history';
 import { deleteVirtualMachine } from '../../../store/virtual-machines/actions';
 import { getElementWithoutProjectUuidInName } from '../../../utils/byProjectFilter';
 import { virtualMachinesService } from '../../../services/virtual-machines-service';
+import { policiesService } from '../../../services/policies-service';
 import { alertService } from '../../../services/alert-service';
 import { Column } from 'primereact/column';
 import Table from 'components/table/primereactTable';
@@ -68,18 +69,30 @@ const VirtualMachinesList = () => {
   const actions = [
     {
       label: 'Backup',
-      command: () => {
+      command: async () => {
         if (!actionsElement.vmBackupPolicy) {
           alertService.error(
             'Virtual machine is not assigned to the backup policy',
           );
           return;
         }
+
+        const policies = await policiesService.getPoliciesByEntities(
+          actionsElement.guid,
+        );
+
+        if (!policies.length) {
+          alertService.error(
+            'Virtual machine is not assigned to the backup policy with rules',
+          );
+          return;
+        }
+
         dispatch(
           showModalAction({
             component: BackupModal,
             props: {
-              virtualEnvironments: [actionsElement],
+              virtualEnvironments: [{...actionsElement, vmBackupPolicy: policies[0]}],
             },
             title: 'Backup',
           }),

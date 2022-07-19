@@ -1,4 +1,4 @@
-import { vprotectApiService } from './vprotect-api-service';
+import {vprotectApiService} from './vprotect-api-service';
 import {
   getElementsWithoutProjectUuidInName,
   getElementWithoutProjectUuidInName,
@@ -7,9 +7,9 @@ import {
 
 class PoliciesService {
   assignModes = [
-    { name: 'DISABLED', description: 'Disabled' },
-    { name: 'ASSIGN_ONLY', description: 'Assign Only' },
-    { name: 'ASSIGN_AND_REMOVE', description: 'Assign And Remove' },
+    {name: 'DISABLED', description: 'Disabled'},
+    {name: 'ASSIGN_ONLY', description: 'Assign Only'},
+    {name: 'ASSIGN_AND_REMOVE', description: 'Assign And Remove'},
   ];
 
   async getPolicies(type) {
@@ -69,6 +69,17 @@ class PoliciesService {
     return (
       (vm.hvType != null && hvWithSnapshotMgmt.includes(vm.hvType.name)) ||
       (vm.hvmType != null && hvmWithSnapshotMgmt.includes(vm.hvmType.name))
+    );
+  }
+
+  getPoliciesByEntities(
+    guids
+  ) {
+    return vprotectApiService.post(
+      `/policies/vm-backup/list-by-entities`,
+      {
+        protectedEntities: [guids],
+      }
     );
   }
 }
