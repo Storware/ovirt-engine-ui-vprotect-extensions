@@ -253,18 +253,18 @@ const VirtualMachine = () => {
       <Card className="mt-4">
         <TabView>
           <TabPanel header={`Backup (${backups.length})`}>
-            <BackupsTable date={dateRangeWithTime} setDate={setDateRange} />
+            <BackupsTable date={dateRange} setDate={setDateRange} />
           </TabPanel>
           <TabPanel header={`Backup History (${backupsHistory.length})`}>
             <BackupsHistoryTable
-              date={dateRangeWithTime}
+              date={dateRange}
               setDate={setDateRange}
               onRefresh={() => loadPage()}
             />
           </TabPanel>
           <TabPanel header={`Restore History (${restoresHistory.length})`}>
             <RestoresHistoryTable
-              date={dateRangeWithTime}
+              date={dateRange}
               setDate={setDateRange}
             />
           </TabPanel>

@@ -48,7 +48,7 @@ const prepareChartDataDays = (datasets, state, dateRange: DateRange) => {
 
   datasets.restoresHistory.forEach((element) => {
     const time = moment(element.restoreTime).format('DD-MM-YYYY');
-    const size = element.backup.size;
+    const size = element.backup?.size;
     const index = chartData.labels.indexOf(time);
     if (index >= 0) {
       const sizeAtIndex = chartData.datasets[1].data[index];
