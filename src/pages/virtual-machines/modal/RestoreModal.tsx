@@ -27,6 +27,7 @@ import ToggleSelect from '../../../components/input/reactive/ToggleSelect';
 import { selectNetwork } from 'store/network/selectors';
 import { getNetwork, setNetworkAction } from 'store/network/actions';
 import { hideModalAction } from 'store/modal/actions';
+import {StagingSpace} from '../../dashboard/staging-space/StagingSpace';
 
 const storageDropdownTemplate = (option) => (
   <div>
@@ -159,7 +160,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
               valueProperty="uuid"
               optionLabel="name"
               required
-              label="Import to an availability zone"
+              label={isNotOpenstackBuild ? 'Cluster' : 'Import to an availability zone'}
               options={clusters}
             />
             {!!filteredStorages.length && (
