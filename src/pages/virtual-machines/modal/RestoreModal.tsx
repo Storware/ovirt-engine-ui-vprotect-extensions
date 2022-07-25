@@ -191,7 +191,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
               valueProperty="uuid"
               optionLabel="name"
               required
-              label="Import to an availability zone"
+              label={isNotOpenstackBuild ? 'Cluster' : 'Import to an availability zone'}
               options={clusters}
             />
             {!!filteredStorages.length && (
@@ -247,7 +247,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
             <Field
               name="overwrite"
               component={Toggle}
-              label="Delete if virtual environment already exists"
+              label={'Delete if virtual environment already exists' + (isNotOpenstackBuild ? '' : ' (all existing VMs with this name in target project)')}
             />
             <Field
               name="restoredPeName"
