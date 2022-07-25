@@ -84,6 +84,7 @@ export const MountedBackupsList = () => {
             )}
           />
           <Column field="mode.description" header="Mode" />
+          <Column field="state" header="State" />
           <Column field="node.name" header="Node" />
           <Column
             field="backup.snapshotTime"
