@@ -20,24 +20,13 @@ export const AutoAssigment = ({
 
   return (
     <>
-      {' '}
       <Field
         name="autoAssignSettings.mode"
         options={policiesService.assignModes}
         component={Select}
         optionLabel="description"
+        change={handle('autoAssignSettings.mode')}
         dataKey="name"
-        required
-        label="Auto-assign Mode *"
-        change={({ value }) => {
-          setModel({
-            ...model,
-            autoAssignSettings: {
-              ...model.autoAssignSettings,
-              mode: value,
-            },
-          });
-        }}
       />
       <h5 className={'mt-3'}>Include rules</h5>
       <div className={'row'}>
