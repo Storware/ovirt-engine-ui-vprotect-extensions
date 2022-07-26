@@ -1,21 +1,12 @@
-import React, { useEffect } from 'react';
-import { Button } from 'primereact/button';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  hideFooterAction,
-  hideModalAction,
-  showModalAction,
-} from '../../../../../store/modal/actions';
-import CredentialForm, {
-  initialValues,
-} from '../../../../../components/credentials/CredentialForm';
-import { Form, Formik } from 'formik';
-import {
-  getCredentials,
-  saveCredential,
-} from '../../../../../store/credentials/actions';
-import Select from '../../../../../components/input/Select';
-import { selectCredentials } from '../../../../../store/credentials/selectors';
+import React, {useEffect} from 'react';
+import {Button} from 'primereact/button';
+import {useDispatch, useSelector} from 'react-redux';
+import {hideFooterAction, hideModalAction, showModalAction,} from 'store/modal/actions';
+import CredentialForm, {initialValues,} from 'components/credentials/CredentialForm';
+import {Form, Formik} from 'formik';
+import {getCredentials, saveCredential,} from 'store/credentials/actions';
+import Select from 'components/input/Select';
+import {selectCredentials} from 'store/credentials/selectors';
 
 export const OsCredentials = ({ model, setModel }) => {
   const dispatch = useDispatch();
