@@ -7,9 +7,9 @@ import {
 
 class PoliciesService {
   assignModes = [
-    { name: 'DISABLED', description: 'Disabled' },
-    { name: 'ASSIGN_ONLY', description: 'Assign Only' },
-    { name: 'ASSIGN_AND_REMOVE', description: 'Assign And Remove' },
+    {name: 'DISABLED', description: 'Disabled'},
+    {name: 'ASSIGN_ONLY', description: 'Assign only'},
+    {name: 'ASSIGN_AND_REMOVE', description: 'Assign and remove'},
   ];
 
   async getPolicies(type) {
