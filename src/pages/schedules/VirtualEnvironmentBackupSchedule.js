@@ -128,7 +128,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
             <Field
               name="name"
               component={Text}
-              label="Name"
+              label="Name *"
               onChange={this.handle('name')}
             />
             <Field
@@ -142,7 +142,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
             <Field
               name="backupType"
               component={Select}
-              label="Backup type"
+              label="Backup type *"
               optionLabel="description"
               dataKey="name"
               options={schedulesService.backupTypes}
@@ -157,7 +157,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
             <Field
               name="executionType"
               component={Select}
-              label="Schedule execution type"
+              label="Schedule execution type *"
               optionLabel="description"
               change={(e) => {
                 this.onExecutionTypeChange(e.value);
@@ -170,7 +170,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
                 <Field
                   name="startWindowLength"
                   component={Convert}
-                  label="Start Window Length [min]"
+                  label="Start Window Length [min] *"
                   factor={1000 * 60}
                   change={this.handle('startWindowLength')}
                 />
@@ -222,7 +222,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
                   component={InputListBox}
                   label="Selected day of week occurrence (optional)"
                   multiple
-                  optionLabel="name"
+                  optionLabel="description"
                   options={dayOfWeekOccurrences}
                   dataKey="name"
                   onChange={this.handle('dayOfWeekOccurrences')}
