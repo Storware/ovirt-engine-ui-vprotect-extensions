@@ -1,26 +1,24 @@
 import {
-  SET_BACKUPS,
-  SET_DISKS,
-  SET_POLICIES,
-  SET_SCHEDULES,
-  SET_SNAPSHOT_POLICIES,
-  SET_SNAPSHOTS,
-  SET_SNAPSHOTS_HISTORY,
-  VirtualMachineAction,
+    SET_BACKUPS,
+    SET_BACKUPS_HISTORY,
+    SET_DISKS,
+    SET_HYPERVISOR,
+    SET_POLICIES,
+    SET_RESTORES_HISTORY,
+    SET_SCHEDULES,
+    SET_SNAPSHOT_POLICIES,
+    SET_SNAPSHOTS,
+    SET_SNAPSHOTS_HISTORY,
+    SET_VIRTUAL_MACHINE,
+    VirtualMachineAction,
 } from './types';
-import { Dispatch } from 'redux';
-import {
-  SET_RESTORES_HISTORY,
-  SET_BACKUPS_HISTORY,
-  SET_HYPERVISOR,
-  SET_VIRTUAL_MACHINE,
-} from './types';
-import { virtualMachinesService } from '../../services/virtual-machines-service';
-import { hypervisorsService } from '../../services/hypervisors-service';
-import { backupsService } from '../../services/backups-service';
-import { schedulesService } from '../../services/schedules-service';
-import { policiesService } from '../../services/policies-service';
-import { DateRangeModel } from 'model/time/dateRange.model';
+import {Dispatch} from 'redux';
+import {virtualMachinesService} from 'services/virtual-machines-service';
+import {hypervisorsService} from 'services/hypervisors-service';
+import {backupsService} from 'services/backups-service';
+import {schedulesService} from 'services/schedules-service';
+import {policiesService} from 'services/policies-service';
+import {DateRangeModel} from 'model/time/dateRange.model';
 
 export const setVirtualMachine = (payload: any): VirtualMachineAction => ({
   type: SET_VIRTUAL_MACHINE,
@@ -158,11 +156,11 @@ export const getVirtualMachinePage =
     getVirtualMachineTabs(guid, virtualMachine, date)(dispatch);
 
     void policiesService
-      .getAllVmBackupPolicies(guid)
+      .getAllVmBackupPolicies()
       .then((policies) => dispatch(setPolicies(policies)));
 
     void policiesService
-      .getAllSnapshotMgmtPolicies(guid)
+      .getAllSnapshotMgmtPolicies()
       .then((snapshotPolicies) =>
         dispatch(setSnapshotPolicies(snapshotPolicies)),
       );
