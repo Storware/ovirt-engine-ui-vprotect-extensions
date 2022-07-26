@@ -204,7 +204,7 @@ export const BackupPolicy = ({ type }) => {
         {() => (
           <Form>
             <Accordion multiple activeIndex={[0]}>
-              <AccordionTab header="GeneralTable">
+              <AccordionTab header="General">
                 <Field
                   name="name"
                   component={Text}
