@@ -1,5 +1,5 @@
 import { InputText } from 'primereact/inputtext';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button } from 'primereact/button';
 
 export const InputList = ({
@@ -30,6 +30,7 @@ export const InputList = ({
             onChange={(v) => updateField(v, id)}
           />
           <Button
+            type="button"
             icon="pi pi-times"
             className="ml-3"
             onClick={(v) => {

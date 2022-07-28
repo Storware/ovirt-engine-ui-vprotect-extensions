@@ -8,8 +8,10 @@ export const Nav = () => {
 
   return (
     <nav className="nav-dev">
-      {routes.map(({ path }) => (
-        <a href={path}>{getPageName(path)}</a>
+      {routes.map(({ path }, key) => (
+        <a href={path} key={key}>
+          {getPageName(path)}
+        </a>
       ))}
     </nav>
   );
