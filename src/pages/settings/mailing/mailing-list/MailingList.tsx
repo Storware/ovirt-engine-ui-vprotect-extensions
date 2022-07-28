@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { DOMElement, useEffect, useState } from 'react';
 import { Field, Form, Formik } from 'formik';
 import { getMailingList, save } from 'store/mailing/actions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +17,14 @@ const MailingList = () => {
 
   const model =
     guid === 'create' ? new MailingListModel() : useSelector(selectMailing);
+
+  const focusLastRecipientInput = () => {
+    setTimeout(() => {
+      const inputs = document.querySelectorAll('form .recipient-input');
+      // @ts-ignore
+      inputs[inputs.length - 1].focus();
+    });
+  };
 
   useEffect(() => {
     dispatch(getMailingList(guid));
@@ -45,11 +53,21 @@ const MailingList = () => {
                 <Field
                   name="recipients"
                   component={InputList}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter') {
+                      event.preventDefault();
+                      // @ts-ignore
+                      setFieldValue('recipients', [...values.recipients, '']);
+                      focusLastRecipientInput();
+                    }
+                  }}
                   label="Add recipient"
                   required={true}
+                  className="recipient-input"
                 />
                 <Button
                   label="Add recipient"
+                  type="button"
                   onClick={(v) => {
                     v.preventDefault();
                     // @ts-ignore
