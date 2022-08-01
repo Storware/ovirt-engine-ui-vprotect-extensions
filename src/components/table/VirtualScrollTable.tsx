@@ -10,24 +10,27 @@ interface Props extends DataTableProps {
 export const VirtualScrollTable = ({
   children,
   getLazyValues,
-  value: prevValue,
+  value: changedValue,
   ...props
 }: Props) => {
   const [value, setValue] = useState([]);
   const [lazyLoading, setLazyLoading] = useState(false);
-  const [possibleLoadMore, setPossibleLoadMore] = useState(true);
 
   useEffect(() => {
-    if (prevValue.length === value.length && value.length !== 0) {
-      setPossibleLoadMore(false);
+    // On refreshed data
+    if (changedValue.length === 0 && value.length > 0) {
+      setValue(changedValue);
       return;
     }
-    setValue(prevValue);
+    if (changedValue.length <= value.length && value.length !== 0) {
+      return;
+    }
+    setValue(changedValue);
     setLazyLoading(false);
-  }, [prevValue]);
+  }, [changedValue]);
 
   const loadValuesLazy = ({ last }) => {
-    if (last < value.length || lazyLoading === true || !possibleLoadMore) {
+    if (last === 0 || last < value.length || lazyLoading === true) {
       return;
     }
     setLazyLoading(true);
@@ -40,8 +43,9 @@ export const VirtualScrollTable = ({
       value={value}
       virtualScrollerOptions={{
         lazy: true,
-        onLazyLoad: loadValuesLazy,
         delay: 200,
+        itemSize: 75,
+        onLazyLoad: loadValuesLazy,
         ...props.virtualScrollerOptions,
       }}
     >
