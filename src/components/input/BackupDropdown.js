@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import { Dropdown } from 'primereact/dropdown';
 
 export class BackupDropdown extends React.Component {
+  static defaultProps = {
+    options: [],
+    value: null,
+  };
+
   constructor(props) {
     super(props);
 
@@ -28,7 +33,10 @@ export class BackupDropdown extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!prevState.value && this.state.value) {
+    if (
+      JSON.stringify(prevState.value) !== JSON.stringify(this.state.value) ||
+      JSON.stringify(prevProps.value) !== JSON.stringify(this.props.value)
+    ) {
       this.props.onChange(this.state.value);
     }
   }
