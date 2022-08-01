@@ -162,7 +162,6 @@ export const getBackupFiles =
     const data = await backupsService.getBackupFilesDetailed(
       backupLocation?.backup?.guid,
     );
-    console.log(data);
 
     const v = data.filter(
       (el) => el.hasOwnProperty('iscsiMountable') && el.iscsiMountable === true,
