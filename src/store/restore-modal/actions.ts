@@ -1,20 +1,20 @@
 import {
-  BackupModalAction,
-  SET_BACKUP_FILES,
-  SET_BACKUP_LOCATIONS,
-  SET_FILTERED_HYPERVISOR_STORAGES,
-  SET_HYPERVISOR_CLUSTERS,
-  SET_HYPERVISOR_MANAGERS,
-  SET_HYPERVISOR_STORAGES,
-  SET_TASK,
+    BackupModalAction,
+    SET_BACKUP_FILES,
+    SET_BACKUP_LOCATIONS,
+    SET_FILTERED_HYPERVISOR_STORAGES,
+    SET_HYPERVISOR_CLUSTERS,
+    SET_HYPERVISOR_MANAGERS,
+    SET_HYPERVISOR_STORAGES,
+    SET_TASK,
 } from './types';
-import { Dispatch } from 'redux';
-import { backupsService } from '../../services/backups-service';
-import { tasksService } from '../../services/tasks-service';
-import { hypervisorsService } from '../../services/hypervisors-service';
-import { alertService } from 'services/alert-service';
-import { hideModalAction, unsaveModalAction } from '../modal/actions';
-import { RestoreAndImportTask } from '../../model/tasks/restore-and-import-task';
+import {Dispatch} from 'redux';
+import {backupsService} from 'services/backups-service';
+import {tasksService} from 'services/tasks-service';
+import {hypervisorsService} from 'services/hypervisors-service';
+import {alertService} from 'services/alert-service';
+import {hideModalAction, unsaveModalAction} from '../modal/actions';
+import {RestoreAndImportTask} from 'model/tasks/restore-and-import-task';
 
 export const setTaskAction = (payload: any): BackupModalAction => ({
   type: SET_TASK,
@@ -162,6 +162,7 @@ export const getBackupFiles =
     const data = await backupsService.getBackupFilesDetailed(
       backupLocation?.backup?.guid,
     );
+    console.log(data);
 
     const v = data.filter(
       (el) => el.hasOwnProperty('iscsiMountable') && el.iscsiMountable === true,
