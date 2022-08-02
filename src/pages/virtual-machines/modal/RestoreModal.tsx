@@ -136,7 +136,6 @@ export const RestoreModal = ({ virtualEnvironment }) => {
   return (
     <div className="form">
       <Formik
-        enableReinitialize
         // @ts-ignore
         innerRef={formRef}
         initialValues={{
