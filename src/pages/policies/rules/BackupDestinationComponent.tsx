@@ -50,7 +50,9 @@ export const BackupDestinationComponent = ({
         label={selectedBackupDestinationLabel}
         optionLabel="name"
         dataKey="guid"
-        required={true}
+        // https://forum.primefaces.org/viewtopic.php?f=57&t=74067&sid=eccbd62b89b8e56f7bfce74f11f9944a
+        // @Todo: when bug will be fixed, uncomment line below and update primereact package
+        // required={true}
         value={backupDestination}
         options={backupDestinationOptions}
         onChange={updateBackupDestination}
