@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Column } from 'primereact/column';
-import {
-  sizeTemplate,
-  booleanTemplate,
-} from '../../../components/table/templates';
+import { sizeTemplate, booleanTemplate } from 'components/table/templates';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectDisks } from '../../../store/virtual-machine/selectors';
-import Table from '../../../components/table/primereactTable';
+import { selectDisks } from 'store/virtual-machine/selectors';
+import Table from 'components/table/primereactTable';
 import { ToggleButton } from 'primereact/togglebutton';
 import { virtualMachinesService } from 'services/virtual-machines-service';
 import { alertService } from 'services/alert-service';
@@ -49,7 +46,7 @@ const saveDisks = async (list, updatedList, dispatch) => {
   alertService.info('Disks have been updated');
 };
 
-const DisksTable = () => {
+export default () => {
   const disks = useSelector(selectDisks).map((disk) =>
     disk.supported ? disk : { ...disk, excludedFromBackup: true },
   );
@@ -93,5 +90,3 @@ const DisksTable = () => {
     </div>
   );
 };
-
-export default DisksTable;

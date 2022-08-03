@@ -55,8 +55,7 @@ const Footer = ({
   );
 };
 
-export const AdjustRetentionModal = ({ value: data }) => {
-  const [generalData, setGeneralData] = useState([...data]);
+export const AdjustRetentionModal = ({ value: data, onSave: onSaveEmit }) => {
   const [previewData, setPreviewData] = useState([]);
   const [backupLocations, setBackupLocations] = useState([]);
   const [step, setStep] = useState<Step>(Step.GENERAL);
@@ -76,14 +75,20 @@ export const AdjustRetentionModal = ({ value: data }) => {
   };
 
   const onSave = async () => {
-    console.log('save');
     retentionService.markBackups(backupLocations).then(() => {
       alertService.info('Unmount task has been submitted');
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      onSaveEmit();
     });
   };
 
   useEffect(() => {
     _initMarkBackupLocations();
+    return () => {
+      setPreviewData([]);
+      setBackupLocations([]);
+      setStep(Step.GENERAL);
+    };
   }, []);
 
   useEffect(() => {
@@ -95,7 +100,7 @@ export const AdjustRetentionModal = ({ value: data }) => {
   return (
     <div>
       {step === Step.GENERAL && (
-        <GeneralTable value={generalData} setValue={setGeneralData} />
+        <GeneralTable value={backupLocations} setValue={setBackupLocations} />
       )}
       {step === Step.PREVIEW && <PreviewTable value={previewData} />}
       <Footer

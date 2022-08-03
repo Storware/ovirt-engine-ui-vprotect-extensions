@@ -1,20 +1,29 @@
-import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
-import {selectPolicies, selectSnapshotPolicies, selectVirtualMachine,} from 'store/virtual-machine/selectors';
-import {Accordion, AccordionTab} from 'primereact/accordion';
-import {Dropdown} from 'primereact/dropdown';
-import {policiesService} from 'services/policies-service';
-import {alertService} from 'services/alert-service';
-import {virtualMachinesService} from 'services/virtual-machines-service';
-import {ToggleButton} from 'primereact/togglebutton';
-import {InputText} from 'primereact/inputtext';
-import {Button} from 'primereact/button';
-import {createBrowserHistory} from 'history';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import {
+  selectPolicies,
+  selectSnapshotPolicies,
+  selectVirtualMachine,
+} from 'store/virtual-machine/selectors';
+import { Accordion, AccordionTab } from 'primereact/accordion';
+import { Dropdown } from 'primereact/dropdown';
+import { policiesService } from 'services/policies-service';
+import { alertService } from 'services/alert-service';
+import { virtualMachinesService } from 'services/virtual-machines-service';
+import { ToggleButton } from 'primereact/togglebutton';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import { createBrowserHistory } from 'history';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
-import {OsCredentials, PostSnapCommandExecution, PreSnapCommandExecution, SshAccess,} from './settings/index';
+import {
+  OsCredentials,
+  PostSnapCommandExecution,
+  PreSnapCommandExecution,
+  SshAccess,
+} from 'pages/virtual-machines/virtual-machine/components/settings';
 
 const isBaseImageConfigAvailable = (model) =>
-    model.hvmType != null && model.hvmType.name === 'AWS';
+  model.hvmType != null && model.hvmType.name === 'AWS';
 
 const inheritableBooleanValues = [
   { name: 'TRUE', description: 'True' },
@@ -22,7 +31,7 @@ const inheritableBooleanValues = [
   { name: 'INHERIT', description: 'Inherit' },
 ];
 
-const Settings = () => {
+export default () => {
   const [model, setModel] = useState(useSelector(selectVirtualMachine));
   const [activeIndex, setActiveIndex] = useState({
     first: [0],
@@ -260,5 +269,3 @@ const Settings = () => {
     </div>
   );
 };
-
-export default Settings;

@@ -23,14 +23,6 @@ import {
   getVirtualMachinePage,
   getVirtualMachineTabs,
 } from 'store/virtual-machine/actions';
-import BackupsHistoryTable from './components/BackupsHistoryTable';
-import BackupsTable from './BackupsTable';
-import RestoresHistoryTable from './RestoresHistoryTable';
-import SnapshotsTable from './SnapshotsTable';
-import SnapshotsHistoryTable from './SnapshotsHistoryTable';
-import DisksTable from './DisksTable';
-import SchedulesTable from './SchedulesTable';
-import Settings from './components/Settings';
 import { showModalAction } from 'store/modal/actions';
 import { createBrowserHistory } from 'history';
 import BarChartContainer from 'components/chart/BarChartContainer';
@@ -38,6 +30,16 @@ import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 import { DateType } from 'model/time/calendarPropsModel';
 import { DateRangeModel } from 'model/time/dateRange.model';
 import { Calendar } from 'primereact/calendar';
+import {
+  BackupsHistoryTable,
+  BackupsTable,
+  DisksTable,
+  RestoresHistoryTable,
+  SchedulesTable,
+  Settings,
+  SnapshotsHistoryTable,
+  SnapshotsTable,
+} from 'pages/virtual-machines/virtual-machine/tabs';
 
 const VirtualMachine = () => {
   const date = new Date();
@@ -253,7 +255,11 @@ const VirtualMachine = () => {
       <Card className="mt-4">
         <TabView>
           <TabPanel header={`Backup (${backups.length})`}>
-            <BackupsTable date={dateRange} setDate={setDateRange} />
+            <BackupsTable
+              date={dateRange}
+              setDate={setDateRange}
+              onRefresh={() => loadPage()}
+            />
           </TabPanel>
           <TabPanel header={`Backup History (${backupsHistory.length})`}>
             <BackupsHistoryTable
@@ -263,10 +269,7 @@ const VirtualMachine = () => {
             />
           </TabPanel>
           <TabPanel header={`Restore History (${restoresHistory.length})`}>
-            <RestoresHistoryTable
-              date={dateRange}
-              setDate={setDateRange}
-            />
+            <RestoresHistoryTable date={dateRange} setDate={setDateRange} />
           </TabPanel>
           <TabPanel header={`Snapshots (${snapshots.length})`}>
             <SnapshotsTable />

@@ -1,11 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectSnapshotsHistory } from 'store/virtual-machine/selectors';
-import Table from '../../../components/table/primereactTable';
+import Table from 'components/table/primereactTable';
 import { Column } from 'primereact/column';
 import { dateTemplate } from 'components/table/templates';
 
-const SnapshotsHistoryTable = () => {
+export default () => {
   const snapshotsHistory = useSelector(selectSnapshotsHistory);
 
   return (
@@ -23,5 +23,3 @@ const SnapshotsHistoryTable = () => {
     </div>
   );
 };
-
-export default SnapshotsHistoryTable;

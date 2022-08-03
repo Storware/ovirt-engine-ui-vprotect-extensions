@@ -1,26 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Column } from 'primereact/column';
 import {
   sizeTemplate,
   dateTemplate,
   backupLocationsTemplates,
   originTemplate,
-} from '../../../../components/table/templates';
+} from 'components/table/templates';
 import { useSelector } from 'react-redux';
-import { selectBackupsHistory } from '../../../../store/virtual-machine/selectors';
-import Table from '../../../../components/table/primereactTable';
+import { selectBackupsHistory } from 'store/virtual-machine/selectors';
+import Table from 'components/table/primereactTable';
 import { Button } from 'primereact/button';
 import { backupsService } from '../../../../services/backups-service';
 import { CalendarPropsModel } from 'model/time/calendarPropsModel';
 import { Calendar } from 'primereact/calendar';
+import { AdjustRetention } from 'pages/virtual-machines/virtual-machine/components/AdjustRetention';
 
 interface Props extends CalendarPropsModel {
   onRefresh: () => void;
 }
 
-const BackupsHistoryTable = ({ onRefresh, date, setDate }: Props) => {
+export default ({ onRefresh, date, setDate }: Props) => {
   const backupsHistory = useSelector(selectBackupsHistory);
-
+  const [selected, setSelected] = useState([]);
   const markBackupWarningsAsKnowledged = (guid) => {
     backupsService.markBackupWarningsAsKnowledged(guid);
     onRefresh();
@@ -43,6 +44,16 @@ const BackupsHistoryTable = ({ onRefresh, date, setDate }: Props) => {
 
   return (
     <div>
+      <AdjustRetention
+        disabled={selected.length === 0}
+        data={selected.map(
+          ({ backupLocations: [backupLocation] }) => backupLocation,
+        )}
+        onSave={() => {
+          setSelected([]);
+          onRefresh();
+        }}
+      />
       <Calendar
         id="range"
         value={date}
@@ -51,7 +62,13 @@ const BackupsHistoryTable = ({ onRefresh, date, setDate }: Props) => {
         maxDate={new Date()}
         readOnlyInput
       />
-      <Table value={backupsHistory}>
+      <Table
+        value={backupsHistory}
+        selectionMode="checkbox"
+        selection={selected}
+        onSelectionChange={({ value }) => setSelected(value)}
+      >
+        <Column selectionMode="multiple" headerStyle={{ width: '3em' }} />
         <Column
           field="snapshotTime"
           header="Snapshot time"
@@ -87,5 +104,3 @@ const BackupsHistoryTable = ({ onRefresh, date, setDate }: Props) => {
     </div>
   );
 };
-
-export default BackupsHistoryTable;

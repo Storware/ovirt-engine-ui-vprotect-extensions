@@ -4,6 +4,7 @@ import { Filesize } from '../convert/Filesize';
 import { schedulesService } from '../../services/schedules-service';
 import { Button } from 'primereact/button';
 import { OriginEntityType } from 'model/task-panel.model';
+import { RetentionHintsDescription } from 'model/retention-hints';
 
 enum StatusColorHex {
   IN_PROGRESS = '#1f75b1',
@@ -98,15 +99,26 @@ export const permissionTemplate = (rowData, column) => {
 };
 
 export const backupLocationsTemplates = (rowData) =>
-  rowData.backupLocations.map(({ backupDestination: { name }, status }, i) => (
-    <div key={i} className="d-flex align-items-center">
-      <i
-        className="pi pi-circle-on mr-2"
-        style={{ color: StatusColorHex[status.name] }}
-      />
-      {name}
-    </div>
-  ));
+  rowData.backupLocations.map(
+    ({ backupDestination: { name }, status, retentionHint }, i) => (
+      <div key={i} className="d-flex align-items-center">
+        <i
+          className="pi pi-circle-on mr-2"
+          style={{ color: StatusColorHex[status.name] }}
+        />
+        {name}
+        {RetentionHintsDescription?.[retentionHint?.name] && (
+          <Button
+            icon="pi pi-info"
+            className="p-button-rounded p-button-sm p-button-text ml-2"
+            tooltip={RetentionHintsDescription?.[retentionHint?.name]}
+            tooltipOptions={{ position: 'top' }}
+            style={{ height: '24px', width: '24px' }}
+          />
+        )}
+      </div>
+    ),
+  );
 
 export const originTemplate = ({ originEntity }) =>
   originEntity?.type?.description ? (
