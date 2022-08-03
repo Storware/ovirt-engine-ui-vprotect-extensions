@@ -5,13 +5,13 @@ import {
   booleanTemplate,
   scheduleTimeTemplate,
   scheduleDaysTemplate,
-} from '../../../components/table/templates';
+} from 'components/table/templates';
 import { useSelector } from 'react-redux';
-import { selectSchedules } from '../../../store/virtual-machine/selectors';
-import Table from '../../../components/table/primereactTable';
+import { selectSchedules } from 'store/virtual-machine/selectors';
+import Table from 'components/table/primereactTable';
 import { getElementWithoutProjectUuidInName } from 'utils/byProjectFilter';
 
-const SchedulesTable = () => {
+export default () => {
   const schedules = useSelector(selectSchedules);
 
   return (
@@ -36,5 +36,3 @@ const SchedulesTable = () => {
     </div>
   );
 };
-
-export default SchedulesTable;

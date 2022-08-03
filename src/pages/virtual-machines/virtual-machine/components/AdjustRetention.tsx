@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { hideFooterAction, showModalAction } from 'store/modal/actions';
 import { AdjustRetentionModal } from 'components/modal/BackupModal/AdjustRetention/AdjustRetentionModal';
 
-export const AdjustRetention = ({ data = [], ...props }) => {
+export const AdjustRetention = ({ data = [], onSave, ...props }) => {
   const dispatch = useDispatch();
   const openModal = () => {
     dispatch(hideFooterAction());
@@ -12,7 +12,7 @@ export const AdjustRetention = ({ data = [], ...props }) => {
     dispatch(
       showModalAction({
         component: AdjustRetentionModal,
-        props: { value: data },
+        props: { value: data, onSave },
         style: {
           width: '90vw',
         },

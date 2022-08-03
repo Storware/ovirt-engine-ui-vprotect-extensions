@@ -1,14 +1,11 @@
 import React from 'react';
 import { Column } from 'primereact/column';
-import {
-  dateTemplate,
-  booleanTemplate,
-} from '../../../components/table/templates';
+import { dateTemplate, booleanTemplate } from 'components/table/templates';
 import { useSelector } from 'react-redux';
-import { selectSnapshots } from '../../../store/virtual-machine/selectors';
-import Table from '../../../components/table/primereactTable';
+import { selectSnapshots } from 'store/virtual-machine/selectors';
+import Table from 'components/table/primereactTable';
 
-const SnapshotsTable = () => {
+export default () => {
   const snapshots = useSelector(selectSnapshots);
 
   return (
@@ -30,5 +27,3 @@ const SnapshotsTable = () => {
     </div>
   );
 };
-
-export default SnapshotsTable;

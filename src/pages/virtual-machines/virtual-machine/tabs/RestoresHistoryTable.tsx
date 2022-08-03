@@ -1,13 +1,13 @@
 import React from 'react';
 import { Column } from 'primereact/column';
-import { dateTemplate } from '../../../components/table/templates';
+import { dateTemplate } from 'components/table/templates';
 import { useSelector } from 'react-redux';
-import { selectRestoresHistory } from '../../../store/virtual-machine/selectors';
-import Table from '../../../components/table/primereactTable';
+import { selectRestoresHistory } from 'store/virtual-machine/selectors';
+import Table from 'components/table/primereactTable';
 import { CalendarPropsModel } from 'model/time/calendarPropsModel';
 import { Calendar } from 'primereact/calendar';
 
-const RestoresHistoryTable = ({ date, setDate }: CalendarPropsModel) => {
+export default ({ date, setDate }: CalendarPropsModel) => {
   const restoresHistory = useSelector(selectRestoresHistory);
   const restoreTypes = {
     RESTORE: 'Restore',
@@ -43,5 +43,3 @@ const RestoresHistoryTable = ({ date, setDate }: CalendarPropsModel) => {
     </div>
   );
 };
-
-export default RestoresHistoryTable;
