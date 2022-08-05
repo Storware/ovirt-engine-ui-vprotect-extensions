@@ -6,6 +6,9 @@ import Table from 'components/table/primereactTable';
 import { Column } from 'primereact/column';
 import { sizeTemplate } from 'components/table/templates';
 import { DateShow } from 'components/convert/Date';
+import { hideModalAction } from 'store/modal/actions';
+import { useDispatch } from 'react-redux';
+import { alertService } from 'services/alert-service';
 
 interface Props {
   fileSystems: any[];
@@ -18,9 +21,12 @@ export const DetailsModal = ({
   files,
   backup: { description, guid },
 }: Props) => {
+  const dispatch = useDispatch();
   const [descriptionValue, setDescription] = useState<string>(description);
 
   const updateDescription = () => {
+    alertService.info('Description updated');
+    dispatch(hideModalAction())
     backupsService.updateBackupDescription(guid, descriptionValue);
   };
 
