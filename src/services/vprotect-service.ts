@@ -60,13 +60,20 @@ class VprotectService {
     });
   }
 
-  getWorkflowExecution(page = 0, size = 40) {
+  getWorkflowExecution(page = 0, size = 40, filter = '') {
     return vprotectApiService.get('/workflow-executions', {
       params: {
         page,
         size,
+        ...(filter?.length && { filter }),
       },
     });
+  }
+
+  deleteAllFinishedTasksInWorkflow(workflowExecutionGuid: string) {
+    return vprotectApiService.delete(
+      `/workflow-executions/${workflowExecutionGuid}`,
+    );
   }
 
   cancelTask(id, state) {

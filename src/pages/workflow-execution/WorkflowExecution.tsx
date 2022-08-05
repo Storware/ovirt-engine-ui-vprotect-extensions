@@ -2,17 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { vprotectService } from '../../services/vprotect-service';
 import { Column } from 'primereact/column';
 import { VirtualScrollTable } from 'components/table/VirtualScrollTable';
-import { DataTable } from 'primereact/datatable';
 import { convertMilisecondsToHours } from 'utils/convertMilisecondsToHours';
-import { getDateLabel } from 'services/time';
 import { originTemplate } from 'components/table/templates';
+import { Header } from './components/Header';
+import { Button } from 'primereact/button';
+import { ExpandedWorkflowExecutionTable } from 'pages/workflow-execution/components/ExpandedWorkflowExecutionTable';
 
 export const WorkflowExecution = () => {
+  const [globalFilter, setGlobalFilter] = useState<string>('');
   const [workflowExecutionData, setWorkflowExecutionData] = useState([]);
   const [page, setPage] = useState(0);
   const [expandedRows, setExpandedRows] = useState(null);
   const [expandedRowsData, setExpandedRowsData] = useState({});
-  const ITEM_SIZE = 60;
+  const ITEMS_LOAD = 40;
   const [busy, setBusy] = useState<ReturnType<typeof setTimeout>[]>([]);
 
   const clearBusy = () => {
@@ -52,14 +54,18 @@ export const WorkflowExecution = () => {
     });
   const getWorkflowExecutionData = async () => {
     clearBusy();
-    const data = await vprotectService.getWorkflowExecution(page, ITEM_SIZE);
+    const data = await vprotectService.getWorkflowExecution(
+      page,
+      ITEMS_LOAD,
+      globalFilter,
+    );
+    setPage((_page) => _page + 1);
     setWorkflowExecutionData(
       addDurationToTasks(
         [...workflowExecutionData, ...data],
         setWorkflowExecutionData,
       ),
     );
-    setPage((_page) => _page + 1);
   };
 
   const getTaskWorkflowExecutionData = async (guid) => {
@@ -81,65 +87,40 @@ export const WorkflowExecution = () => {
     [],
   );
 
-  const ExpandedWorkflowExecutionTable = (value) => {
-    const taskDuration = (task) => {
-      if (task.state.name !== 'RUNNING' && !task.startTime && task.finishTime) {
-        return '00:00:00';
-      }
-
-      if (task.state.name !== 'RUNNING' && task.startTime && task.finishTime) {
-        return convertMilisecondsToHours(task.finishTime - task.startTime);
-      }
-
-      return '';
-    };
-
-    return (
-      <DataTable
-        value={value}
-        scrollable
-        scrollHeight="300px"
-        style={{ width: '100%' }}
-      >
-        <Column field="state.description" header="State" />
-        <Column field="type.description" header="Type" />
-        <Column field="node.name" header="Node" />
-        <Column
-          field="duration"
-          header="Duration"
-          body={(task) => taskDuration(task)}
-        />
-        <Column
-          field="windowStart"
-          header="Window start"
-          body={({ windowStart }) => getDateLabel(windowStart)}
-        />
-        <Column
-          field="windowEnd"
-          header="Window end"
-          body={({ windowEnd }) => getDateLabel(windowEnd)}
-        />
-      </DataTable>
-    );
-  };
-
   const backupDestinationsBody = ({ backupDestinations }) =>
     backupDestinations.map(({ type: { name } }) => name).join(',');
+
+  const refresh = () => {
+    setPage(0);
+    setWorkflowExecutionData([]);
+  };
+
+  const setFilter = (filter: string) => {
+    setGlobalFilter(filter);
+    refresh();
+  };
+
+  useEffect(() => {
+    if (page !== 0 || workflowExecutionData.length > 0) {
+      return;
+    }
+    getWorkflowExecutionData();
+  }, [page, workflowExecutionData]);
 
   return (
     <VirtualScrollTable
       value={workflowExecutionData}
-      scrollHeight="500px"
+      scrollHeight="1000px"
       getLazyValues={getWorkflowExecutionData}
-      virtualScrollerOptions={{ itemSize: ITEM_SIZE }}
       expandedRows={expandedRows}
       onRowToggle={(e) => setExpandedRows(e.data)}
       onRowExpand={onExpandRow}
       rowExpansionTemplate={({ guid }) =>
         ExpandedWorkflowExecutionTable(expandedRowsData[guid] || [])
       }
+      header={Header(refresh, setFilter)}
     >
-      <Column expander style={{ width: '3em' }} />
+      <Column expander />
       <Column
         field="state.name"
         header="State"
@@ -156,6 +137,19 @@ export const WorkflowExecution = () => {
       <Column field="originEntity" header="Origin" body={originTemplate} />
       <Column field="priority" header="Priority" />
       <Column field="duration" header="Duration" />
+      <Column
+        field="action"
+        header="Action"
+        body={({ guid }) => (
+          <Button
+            icon="pi pi-times"
+            onClick={async () => {
+              await vprotectService.deleteAllFinishedTasksInWorkflow(guid);
+              refresh();
+            }}
+          />
+        )}
+      />
     </VirtualScrollTable>
   );
 };
