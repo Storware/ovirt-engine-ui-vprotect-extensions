@@ -23,7 +23,7 @@ import {
 } from 'pages/virtual-machines/virtual-machine/components/settings';
 
 const isBaseImageConfigAvailable = (model) =>
-  model.hvmType != null && model.hvmType.name === 'AWS';
+    model.hvmType != null && model.hvmType.name === 'AWS';
 
 const inheritableBooleanValues = [
   { name: 'TRUE', description: 'True' },

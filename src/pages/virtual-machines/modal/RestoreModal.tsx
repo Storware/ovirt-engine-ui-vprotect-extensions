@@ -30,6 +30,7 @@ import { selectNetwork } from 'store/network/selectors';
 import { getNetwork, setNetworkAction } from 'store/network/actions';
 import { hideModalAction, showFooterAction } from 'store/modal/actions';
 import SelectStoragesWithDiskName from 'pages/virtual-machines/modal/components/SelectStoragesWithDiskName';
+import { StagingSpace } from '../../dashboard/staging-space/StagingSpace';
 
 export const storageDropdownTemplate = (option) => (
   <div>

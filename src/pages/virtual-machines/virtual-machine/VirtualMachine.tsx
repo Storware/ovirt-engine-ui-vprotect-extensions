@@ -40,6 +40,8 @@ import {
   SnapshotsHistoryTable,
   SnapshotsTable,
 } from 'pages/virtual-machines/virtual-machine/tabs';
+import { alertService } from 'services/alert-service';
+import { policiesService } from 'services/policies-service';
 
 const VirtualMachine = () => {
   const date = new Date();
@@ -138,12 +140,30 @@ const VirtualMachine = () => {
           <Button
             className="mx-2"
             label="Backup"
-            onClick={() => {
+            onClick={async (el) => {
+              if (!virtualMachine.vmBackupPolicy) {
+                alertService.error(
+                  'Virtual machine is not assigned to the backup policy',
+                );
+                return;
+              }
+
+              const policies = await policiesService.getPoliciesByEntities(
+                virtualMachine.guid,
+              );
+
+              if (!policies.length) {
+                alertService.error(
+                  'Virtual machine is not assigned to the backup policy with rules',
+                );
+                return;
+              }
+
               dispatch(
                 showModalAction({
                   component: BackupModal,
                   props: {
-                    virtualEnvironments: [virtualMachine],
+                    virtualEnvironments: [{...virtualMachine, vmBackupPolicy: policies[0]}],
                   },
                   title: 'Backup',
                 }),
@@ -269,7 +289,10 @@ const VirtualMachine = () => {
             />
           </TabPanel>
           <TabPanel header={`Restore History (${restoresHistory.length})`}>
-            <RestoresHistoryTable date={dateRange} setDate={setDateRange} />
+            <RestoresHistoryTable
+              date={dateRange}
+              setDate={setDateRange}
+            />
           </TabPanel>
           <TabPanel header={`Snapshots (${snapshots.length})`}>
             <SnapshotsTable />
