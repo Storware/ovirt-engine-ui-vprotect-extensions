@@ -168,11 +168,7 @@ export const BackupPolicy = ({ type }) => {
         ],
       );
 
-      const _filteredOptions = backupDestinations.filter(
-        ({ guid }) => !_checked.includes(guid),
-      );
-
-      setFilteredBackupDestinations(_filteredOptions);
+      setFilteredBackupDestinations(_checked);
     });
   };
 
@@ -272,6 +268,7 @@ export const BackupPolicy = ({ type }) => {
                   onChange={handle('vms')}
                 />
               </AccordionTab>
+
               {model.rules.map((rule, i) => (
                 <AccordionTab
                   key={rule.name}
@@ -281,10 +278,8 @@ export const BackupPolicy = ({ type }) => {
                     rule={rule}
                     policyType={type}
                     removeRule={() => deleteRule(i)}
-                    filteredBackupDestinations={filteredBackupDestinations}
-                    updateFilteredBackupDestinations={
-                      handleChangeBackupDestination
-                    }
+                    backupDestinations={backupDestinations}
+                    updateBackupDestinations={handleChangeBackupDestination}
                   />
                 </AccordionTab>
               ))}
