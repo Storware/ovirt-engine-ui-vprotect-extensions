@@ -14,7 +14,6 @@ let submitFormikForm;
 export default () => {
   const [model, setModel] = useState(new StringDTO());
   const range = useSelector(selectRange);
-  const projectUuid = getCookie('recent_project');
   const dispatch = useDispatch();
 
   const getEmails = async () => {

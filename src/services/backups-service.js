@@ -79,6 +79,15 @@ class BackupsService {
     return vprotectApiService.get('/backup-files?backup=' + id);
   }
 
+  getBackupFilesDetailed(id) {
+    return vprotectApiService.get('/backup-files/detailed', {
+      params: {
+        backup: id,
+        'with-modified-configs': true,
+      },
+    });
+  }
+
   getRestorableBackups(virtualMachineGuid) {
     return vprotectApiService.get(
       `/backups?protected-entity=${virtualMachineGuid}&status=SUCCESS`,
@@ -107,6 +116,12 @@ class BackupsService {
   markBackupWarningsAsKnowledged(id) {
     return vprotectApiService.put(`/backups/${id}/warnings-acknowledged`, {
       value: true,
+    });
+  }
+
+  updateBackupDescription(guid = '', description = '') {
+    return vprotectApiService.put(`/backups/${guid}/description`, {
+      value: description,
     });
   }
 }

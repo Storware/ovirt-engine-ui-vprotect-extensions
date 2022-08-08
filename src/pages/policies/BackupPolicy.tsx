@@ -210,14 +210,18 @@ export const BackupPolicy = ({ type }) => {
                   label="Scheduled backups enabled"
                   onChange={handle('active')}
                 />
-                {/*
-                TODO: Uncomment and fix with SVP-7720
+                <Field
+                  name="autoRemoveNonPresent"
+                  component={Toggle}
+                  label="Auto remove non-present Virtual Environments"
+                  onChange={handle('autoRemoveNonPresent')}
+                />
                 <Field
                   name="mailingList"
                   component={Toggle}
                   label="Send daily backup/restore report for VMs assigned to this policy "
                   onChange={handle('mailingList')}
-                />*/}
+                />
                 {model.mailingList && (
                   <Field
                     name="mailingList"

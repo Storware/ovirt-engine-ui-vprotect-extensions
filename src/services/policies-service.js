@@ -36,12 +36,16 @@ class PoliciesService {
     );
   }
 
+  getRule(guid) {
+    return vprotectApiService.get(`/rules/vm-backup/${guid}?only-active-destinations=false`);
+  }
+
   createRule(type, rule) {
     return vprotectApiService.post(`/rules/${type}`, rule);
   }
 
-  updateRule(type, guid, rule) {
-    return vprotectApiService.put(`/rules/${type}/${guid}`, rule);
+  updateRule(guid, rule) {
+    return vprotectApiService.put(`/rules/vm-backup/${guid}`, rule);
   }
 
   deletePolicy(type, id) {
