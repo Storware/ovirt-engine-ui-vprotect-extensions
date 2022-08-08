@@ -343,6 +343,9 @@ export const BackupPolicy = ({ type }) => {
                 <AccordionTab
                   key={rule.name}
                   header={'Rule (' + rule.name + ') *'}
+                  headerClassName={
+                    !rule.active && 'p-disabled p-disabled-clickable'
+                  }
                 >
                   <RulesContainer
                     rule={rule}

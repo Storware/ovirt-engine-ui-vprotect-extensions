@@ -124,6 +124,15 @@ export const RulesContainer = ({
         </div>
       )}
 
+      <ToggleButton
+        checked={rule.active}
+        onChange={({ value }) => {
+          rule.active = value;
+          updateBackupDestination();
+        }}
+      />
+      <label className="ml-2">Active</label>
+
       <Text
         inputValue={rule.name}
         change={({ value }) => (rule.name = value)}

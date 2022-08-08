@@ -1,10 +1,20 @@
 .form {
-    .p-dropdown, .p-inputtext {
-        width: 100%;
-    }
+  .p-dropdown, .p-inputtext {
+    width: 100%;
+  }
 
-    .p-listbox {
-        max-height: 500px;
-        overflow: auto;
-    }
+  .p-listbox {
+    max-height: 500px;
+    overflow: auto;
+  }
+}
+
+
+.p-disabled-clickable {
+  cursor: pointer !important;
+
+  &, & > * {
+    pointer-events: unset;
+    user-select: unset;
+  }
 }
