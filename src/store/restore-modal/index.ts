@@ -2,7 +2,7 @@ import {
   BackupModalAction,
   SET_BACKUP_FILES,
   SET_BACKUP_LOCATIONS,
-  SET_FILTERED_HYPERVISOR_STORAGES,
+  SET_FILTERED_HYPERVISOR_STORAGES, SET_FLAVORS,
   SET_HYPERVISOR_CLUSTERS,
   SET_HYPERVISOR_MANAGERS,
   SET_HYPERVISOR_STORAGES,
@@ -18,6 +18,7 @@ export type RestoreModalStore = {
   readonly filteredHypervisorStorages: any[];
   readonly hypervisorClusters: any[];
   readonly backupFiles: any[];
+  readonly flavors: any[];
 };
 
 const initial: RestoreModalStore = {
@@ -28,6 +29,7 @@ const initial: RestoreModalStore = {
   filteredHypervisorStorages: [],
   hypervisorClusters: [],
   backupFiles: [],
+  flavors: [],
 };
 
 export default (state = initial, action: BackupModalAction) => {
@@ -72,6 +74,12 @@ export default (state = initial, action: BackupModalAction) => {
     return {
       ...state,
       backupFiles: action.payload,
+    };
+  }
+  if (action.type === SET_FLAVORS) {
+    return {
+      ...state,
+      flavors: action.payload,
     };
   }
   return state;

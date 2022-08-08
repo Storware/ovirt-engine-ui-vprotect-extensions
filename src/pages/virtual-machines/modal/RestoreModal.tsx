@@ -9,7 +9,7 @@ import {
   getBackupLocations,
   setFilteredHypervisorStoragesAction,
   submitTask,
-  getBackupFiles,
+  getBackupFiles, getFlavorsForHypervisorManager,
 } from 'store/restore-modal/actions';
 import {
   selectBackupFiles,
@@ -19,6 +19,7 @@ import {
   selectHypervisorManagers,
   selectHypervisorStorages,
   selectTask,
+  selectFlavors
 } from 'store/restore-modal/selectors';
 import Select from 'components/input/reactive/Select';
 import { selectSaved } from 'store/modal/selectors';
@@ -30,7 +31,6 @@ import { selectNetwork } from 'store/network/selectors';
 import { getNetwork, setNetworkAction } from 'store/network/actions';
 import { hideModalAction, showFooterAction } from 'store/modal/actions';
 import SelectStoragesWithDiskName from 'pages/virtual-machines/modal/components/SelectStoragesWithDiskName';
-import { StagingSpace } from '../../dashboard/staging-space/StagingSpace';
 
 export const storageDropdownTemplate = (option) => (
   <div>
@@ -60,6 +60,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
   const hypervisorManagers = useSelector(selectHypervisorManagers);
   const storages = useSelector(selectHypervisorStorages);
   const filteredStorages = useSelector(selectFilteredHypervisorStorages);
+  const flavors = useSelector(selectFlavors);
   const clusters = useSelector(selectHypervisorClusters);
   const task = useSelector(selectTask);
   const networkList = useSelector(selectNetwork);
@@ -91,6 +92,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
 
   const onHypervisorChange = ({ value: { guid } }) => {
     dispatch(getHypervisorStoragesForHypervisorManager(guid));
+    dispatch(getFlavorsForHypervisorManager(guid));
   };
 
   const onClusterChange = async (event) => {
@@ -243,6 +245,25 @@ export const RestoreModal = ({ virtualEnvironment }) => {
                 )}
               </>
             )}
+
+            <>
+              <Field
+                name="isFlavorSectionActive"
+                label="Select flavor"
+                component={Toggle}
+              />
+
+              {values.isFlavorSectionActive && (
+                <Field
+                  name="restoreVmFlavor"
+                  component={Select}
+                  optionLabel="name"
+                  required
+                  label="Flavor"
+                  options={flavors}
+                />
+              )}
+            </>
 
             <Field
               name="overwrite"
