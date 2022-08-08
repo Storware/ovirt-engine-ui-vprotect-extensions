@@ -36,7 +36,7 @@ class PoliciesService {
     );
   }
 
-  getRule(guid = '6a5dfb3f-e892-48f2-82a9-e1702a805fe4') {
+  getRule(guid) {
     return vprotectApiService.get(`/rules/vm-backup/${guid}?only-active-destinations=false`);
   }
 
@@ -44,7 +44,7 @@ class PoliciesService {
     return vprotectApiService.post(`/rules/${type}`, rule);
   }
 
-  updateRule(guid = '6a5dfb3f-e892-48f2-82a9-e1702a805fe4', rule) {
+  updateRule(guid, rule) {
     return vprotectApiService.put(`/rules/vm-backup/${guid}`, rule);
   }
 
