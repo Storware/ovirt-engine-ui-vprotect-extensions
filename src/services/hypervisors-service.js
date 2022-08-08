@@ -103,6 +103,12 @@ class HypervisorsService {
       `/hypervisor-clusters?hypervisor-manager=${id}`,
     );
   }
+
+  getFlavorsForHypervisorManager(id) {
+    return vprotectApiService.get(
+      `/virtual-machine-flavors?hypervisor-manager=${id}`,
+    );
+  }
 }
 
 export const hypervisorsService = new HypervisorsService();
