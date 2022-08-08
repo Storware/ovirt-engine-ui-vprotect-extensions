@@ -36,12 +36,16 @@ class PoliciesService {
     );
   }
 
+  getRule(guid = '6a5dfb3f-e892-48f2-82a9-e1702a805fe4') {
+    return vprotectApiService.get(`/rules/vm-backup/${guid}?only-active-destinations=false`);
+  }
+
   createRule(type, rule) {
     return vprotectApiService.post(`/rules/${type}`, rule);
   }
 
-  updateRule(type, guid, rule) {
-    return vprotectApiService.put(`/rules/${type}/${guid}`, rule);
+  updateRule(guid = '6a5dfb3f-e892-48f2-82a9-e1702a805fe4', rule) {
+    return vprotectApiService.put(`/rules/vm-backup/${guid}`, rule);
   }
 
   deletePolicy(type, id) {
