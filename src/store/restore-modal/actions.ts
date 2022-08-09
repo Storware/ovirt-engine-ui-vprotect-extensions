@@ -9,13 +9,13 @@ import {
   SET_HYPERVISOR_STORAGES,
   SET_TASK,
 } from './types';
-import {Dispatch} from 'redux';
-import {backupsService} from 'services/backups-service';
-import {tasksService} from 'services/tasks-service';
-import {hypervisorsService} from 'services/hypervisors-service';
-import {alertService} from 'services/alert-service';
-import {hideModalAction, unsaveModalAction} from '../modal/actions';
-import {RestoreAndImportTask} from 'model/tasks/restore-and-import-task';
+import { Dispatch } from 'redux';
+import { backupsService } from 'services/backups-service';
+import { tasksService } from 'services/tasks-service';
+import { hypervisorsService } from 'services/hypervisors-service';
+import { alertService } from 'services/alert-service';
+import { hideModalAction, unsaveModalAction } from '../modal/actions';
+import { RestoreAndImportTask } from 'model/tasks/restore-and-import-task';
 
 export const setTaskAction = (payload: any): BackupModalAction => ({
   type: SET_TASK,
@@ -113,14 +113,14 @@ export const getHypervisorManagersAvailableForBackupBackupLocation =
     }
     await dispatch(setHypervisorManagersAction(hypervisorManagers));
     const hypervisorInArray = hypervisorManagers?.find(
-      ({guid}) => guid === virtualMachine.hvManager.guid,
+      ({ guid }) => guid === virtualMachine.hvManager.guid,
     );
     const hypervisorManager = hypervisorInArray || hypervisorManagers[0];
     await dispatch(
       setTaskAction({
         ...new RestoreAndImportTask(backupDetails.networkInterfaceCards),
         hypervisorManager,
-        ...(backupFilesFiltered && {taskFiles: backupFiles}),
+        ...(backupFilesFiltered && { taskFiles: backupFiles }),
       }),
     );
 
@@ -148,10 +148,9 @@ export const getHypervisorStoragesForHypervisorManager =
 
 export const getFlavorsForHypervisorManager =
   (hypervisorManagerGuid: string) => async (dispatch: Dispatch) => {
-    const flavors =
-      await hypervisorsService.getFlavorsForHypervisorManager(
-        hypervisorManagerGuid,
-      );
+    const flavors = await hypervisorsService.getFlavorsForHypervisorManager(
+      hypervisorManagerGuid,
+    );
     await dispatch(setHypervisorManagerFlavorsAction(flavors));
   };
 
