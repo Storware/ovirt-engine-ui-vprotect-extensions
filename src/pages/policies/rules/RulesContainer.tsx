@@ -182,14 +182,14 @@ export const RulesContainer = ({
       <div className="my-2">
         <ToggleButton
           checked={
-            rule.ruleBackupDestinations[0].secondaryBackupDestination.active
+            rule.ruleBackupDestinations.secondaryBackupDestination.active
           }
           onChange={({ value: active }) => {
-            if (!rule.ruleBackupDestinations[0].secondaryBackupDestination) {
-              rule.ruleBackupDestinations[0].secondaryBackupDestination =
+            if (!rule.ruleBackupDestinations.secondaryBackupDestination) {
+              rule.ruleBackupDestinations.secondaryBackupDestination =
                 new BackupDestinationRule('SECONDARY');
             }
-            rule.ruleBackupDestinations[0].secondaryBackupDestination.active =
+            rule.ruleBackupDestinations.secondaryBackupDestination.active =
               active;
 
             updateBackupDestinations();
@@ -197,7 +197,7 @@ export const RulesContainer = ({
         />
         <label className="ml-2">Enable Secondary Backup Destination</label>
       </div>
-      {rule.ruleBackupDestinations[0].secondaryBackupDestination?.active && (
+      {rule.ruleBackupDestinations.secondaryBackupDestination?.active && (
         <BackupDestinationComponent
           title="SECONDARY BACKUP DESTINATION"
           selectedBackupDestinationLabel={'Select Secondary Backup Destination'}
@@ -205,7 +205,7 @@ export const RulesContainer = ({
           backupDestinationOptions={backupDestinations.filter(
             ({ guid }) =>
               guid !==
-              rule.ruleBackupDestinations[0].primaryBackupDestination
+              rule.ruleBackupDestinations.primaryBackupDestination
                 .backupDestination.guid,
           )}
           backupDestination={

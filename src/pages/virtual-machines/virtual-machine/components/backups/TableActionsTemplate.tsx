@@ -2,7 +2,9 @@ import React from 'react';
 import { Button } from 'primereact/button';
 import { hideFooterAction, showModalAction } from 'store/modal/actions';
 import { DetailsModal } from 'pages/virtual-machines/modal/DetailsModal';
-import { backupsService } from 'services/backups-service';
+import { backupsService } from 'services/backups-service'
+import { policiesService } from 'services/policies-service';
+import { EditRuleModal } from 'pages/virtual-machines/modal/EditRuleModal';
 
 export const TableActionsTemplate = (backup, dispatch) => {
   dispatch(hideFooterAction());
@@ -20,11 +22,38 @@ export const TableActionsTemplate = (backup, dispatch) => {
     );
   };
 
+  const openEditRuleModal = async () => {
+    const rule = await policiesService.getRule(backup.backupRule)
+    const primaryBackupDestination = rule.ruleBackupDestinations.find(
+      ({ roleType }) => roleType.name === 'PRIMARY'
+    );
+    const secondaryBackupDestination = rule.ruleBackupDestinations.find(
+      ({ roleType }) => roleType.name === 'SECONDARY'
+    )
+
+    dispatch(
+      showModalAction({
+        component: EditRuleModal,
+        title: 'Rule Details',
+        props: { rule, primaryBackupDestination,
+          secondaryBackupDestination },
+        style: { width: '80vw' },
+      }),
+    );
+  }
+
   return (
-    <Button
-      onClick={openDetailsModal}
-      className="p-button-outlined"
-      icon="pi pi-search-plus"
-    />
+    <div className="d-flex justify-content-around">
+      <Button
+        onClick={openEditRuleModal}
+        className="p-button-outlined"
+        icon="pi pi-pencil"
+      />
+      <Button
+        onClick={openDetailsModal}
+        className="p-button-outlined"
+        icon="pi pi-search-plus"
+      />
+    </div>
   );
 };
