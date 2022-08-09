@@ -2,6 +2,7 @@ import {Schedule} from '../schedule';
 import {BackupDestinationRule} from './backup-destination-rule';
 
 export class Rule {
+  active = true;
   guid: string;
   schedules: Schedule[] = [];
   backupDestinations = [];

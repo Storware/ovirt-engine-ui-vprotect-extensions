@@ -4,31 +4,21 @@ import Text from '../../../components/input/Text';
 import { ListBox } from 'primereact/listbox';
 import { ToggleButton } from 'primereact/togglebutton';
 import { Button } from 'primereact/button';
-import { BackupDestination } from '../../../model/backup-destination/backup-destination';
-import { NameAndGuid } from '../../../model/dto/nameAndGuid';
-import { BackupDestinationRetentionFactory } from '../../../model/backup-destination/backup-destination-retention-factory';
+import { BackupDestination } from 'model/backup-destination/backup-destination';
+import { NameAndGuid } from 'model/dto/nameAndGuid';
+import { BackupDestinationRetentionFactory } from 'model/backup-destination/backup-destination-retention-factory';
 import { BackupDestinationComponent } from './BackupDestinationComponent';
-import { BackupDestinationRule } from '../../../model/backup-destination/backup-destination-rule';
+import { BackupDestinationRule } from 'model/backup-destination/backup-destination-rule';
 
 export const RulesContainer = ({
   rule,
-  filteredBackupDestinations,
-  updateFilteredBackupDestinations,
+  backupDestinations,
+  updateBackupDestinations,
   removeRule,
   policyType,
 }) => {
   const [backupDestinationType, setBackupDestinationType] = useState(null);
-  const [
-    secondaryBackupDestinationToggle,
-    setSecondaryBackupDestinationToggle,
-  ] = useState(!!rule.ruleBackupDestinations.secondaryBackupDestination);
-  const [primaryBackupDestinationOptions, setPrimaryBackupDestinationOptions] =
-    useState(filteredBackupDestinations);
-  const [
-    secondaryBackupDestinationOptions,
-    setSecondaryBackupDestinationOptions,
-  ] = useState(filteredBackupDestinations);
-  const [backupDestinationsCopy] = useState(filteredBackupDestinations);
+  const [backupDestinationsCopy] = useState(backupDestinations);
   const [schedules, setSchedules] = useState([]);
   const [factor] = useState(24 * 60 * 60 * 1000);
 
@@ -36,43 +26,20 @@ export const RulesContainer = ({
     schedulesService.getAllTypeSchedules('VM_BACKUP').then((result) => {
       setSchedules(result);
     });
-    updateFilteredBackupDestinations();
-  }, []);
-
-  useEffect(() => {
-    setBackupDestinationOptions();
-  }, [filteredBackupDestinations]);
-
-  useEffect(() => {
     updateBackupDestination();
-  }, [rule]);
+    updateBackupDestinations();
+  }, []);
 
   const updateBackupDestination = (event?) => {
     setBackupRetentionSettings();
-    updateFilteredBackupDestinations();
+    updateBackupDestinations();
 
     event?.preventDefault();
   };
 
-  const setBackupDestinationOptions = () => {
-    setTimeout(() => {
-      if (!!rule.ruleBackupDestinations.primaryBackupDestination) {
-        setPrimaryBackupDestinationOptions([
-          rule.ruleBackupDestinations.primaryBackupDestination
-            .backupDestination,
-          ...filteredBackupDestinations,
-        ]);
-      }
-
-      if (!!rule.ruleBackupDestinations.secondaryBackupDestination) {
-        setSecondaryBackupDestinationOptions([
-          rule.ruleBackupDestinations.secondaryBackupDestination
-            .backupDestination,
-          ...filteredBackupDestinations,
-        ]);
-      }
-    });
-  };
+  useEffect(() => {
+    updateBackupDestination();
+  }, [rule]);
 
   const setBackupRetentionSettings = () => {
     if (
@@ -153,6 +120,15 @@ export const RulesContainer = ({
         </div>
       )}
 
+      <ToggleButton
+        checked={rule.active}
+        onChange={({ value }) => {
+          rule.active = value;
+          updateBackupDestination();
+        }}
+      />
+      <label className="ml-2">Active</label>
+
       <Text
         inputValue={rule.name}
         change={({ value }) => (rule.name = value)}
@@ -162,7 +138,7 @@ export const RulesContainer = ({
       <BackupDestinationComponent
         title="PRIMARY BACKUP DESTINATION"
         policyType={policyType}
-        backupDestinationOptions={primaryBackupDestinationOptions}
+        backupDestinationOptions={backupDestinations}
         backupDestination={
           rule.ruleBackupDestinations.primaryBackupDestination.backupDestination
         }
@@ -203,26 +179,33 @@ export const RulesContainer = ({
 
       <div className="my-2">
         <ToggleButton
-          checked={secondaryBackupDestinationToggle}
-          onChange={({ value }) => {
-            delete rule.ruleBackupDestinations.secondaryBackupDestination;
-            if (value) {
+          checked={
+            rule.ruleBackupDestinations.secondaryBackupDestination.active
+          }
+          onChange={({ value: active }) => {
+            if (!rule.ruleBackupDestinations.secondaryBackupDestination) {
               rule.ruleBackupDestinations.secondaryBackupDestination =
                 new BackupDestinationRule('SECONDARY');
             }
-            updateFilteredBackupDestinations();
-            setBackupDestinationOptions();
-            setSecondaryBackupDestinationToggle(value);
+            rule.ruleBackupDestinations.secondaryBackupDestination.active =
+              active;
+
+            updateBackupDestinations();
           }}
         />
         <label className="ml-2">Enable Secondary Backup Destination</label>
       </div>
-      {secondaryBackupDestinationToggle && (
+      {rule.ruleBackupDestinations.secondaryBackupDestination?.active && (
         <BackupDestinationComponent
           title="SECONDARY BACKUP DESTINATION"
           selectedBackupDestinationLabel={'Select Secondary Backup Destination'}
           policyType={policyType}
-          backupDestinationOptions={secondaryBackupDestinationOptions}
+          backupDestinationOptions={backupDestinations.filter(
+            ({ guid }) =>
+              guid !==
+              rule.ruleBackupDestinations.primaryBackupDestination
+                .backupDestination.guid,
+          )}
           backupDestination={
             rule.ruleBackupDestinations.secondaryBackupDestination
               .backupDestination
