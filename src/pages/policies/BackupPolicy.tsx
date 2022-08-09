@@ -123,9 +123,9 @@ export const BackupPolicy = ({type}) => {
       rules: model.rules.map((rule) => ({
         ...rule,
         ruleBackupDestinations: [
-          rule.ruleBackupDestinations[0].primaryBackupDestination,
-          ...(rule.ruleBackupDestinations[0].secondaryBackupDestination
-            ? [rule.ruleBackupDestinations[0].secondaryBackupDestination]
+          rule.ruleBackupDestinations.primaryBackupDestination,
+          ...(rule.ruleBackupDestinations.secondaryBackupDestination
+            ? [rule.ruleBackupDestinations.secondaryBackupDestination]
             : []),
         ],
       })),

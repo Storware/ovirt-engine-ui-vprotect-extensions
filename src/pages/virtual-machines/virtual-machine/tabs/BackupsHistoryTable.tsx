@@ -15,7 +15,8 @@ import {CalendarPropsModel} from 'model/time/calendarPropsModel';
 import {Calendar} from 'primereact/calendar';
 import {showModalAction} from 'store/modal/actions';
 import {policiesService} from 'services/policies-service';
-import {EditRuleModal} from "../../modal/EditRuleModal";
+import {EditRuleModal} from '../../modal/EditRuleModal';
+import {AdjustRetention} from '../components/AdjustRetention';
 
 interface Props extends CalendarPropsModel {
   onRefresh: () => void;
