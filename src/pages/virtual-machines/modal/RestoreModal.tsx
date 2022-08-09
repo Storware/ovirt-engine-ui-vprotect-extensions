@@ -9,7 +9,8 @@ import {
   getBackupLocations,
   setFilteredHypervisorStoragesAction,
   submitTask,
-  getBackupFiles, getFlavorsForHypervisorManager,
+  getBackupFiles,
+  getFlavorsForHypervisorManager,
 } from 'store/restore-modal/actions';
 import {
   selectBackupFiles,
@@ -19,7 +20,7 @@ import {
   selectHypervisorManagers,
   selectHypervisorStorages,
   selectTask,
-  selectFlavors
+  selectFlavors,
 } from 'store/restore-modal/selectors';
 import Select from 'components/input/reactive/Select';
 import { selectSaved } from 'store/modal/selectors';
@@ -49,6 +50,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
   const formRef = useRef();
   const [clusterCopy, setClusterCopy] = useState(null);
   const [backupFilesFiltered, setBackupFilesFiltered] = useState([]);
+  const [backupLocationCopy, setBackupLocationCopy] = useState();
 
   useEffect(() => {
     dispatch(getBackupLocations(virtualEnvironment));
@@ -80,14 +82,15 @@ export const RestoreModal = ({ virtualEnvironment }) => {
     [],
   );
 
-  const onBackupLocationChange = (e) => {
+  const onBackupLocationChange = (value) => {
     dispatch(
       getHypervisorManagersAvailableForBackupBackupLocation(
-        e.value,
+        value,
         virtualEnvironment,
       ),
     );
-    dispatch(getBackupFiles(e.value));
+    setBackupLocationCopy(value);
+    dispatch(getBackupFiles(value));
   };
 
   const onHypervisorChange = ({ value: { guid } }) => {
@@ -141,9 +144,11 @@ export const RestoreModal = ({ virtualEnvironment }) => {
       <Formik
         // @ts-ignore
         innerRef={formRef}
+        enableReinitialize
         initialValues={{
           ...task,
           taskFiles: backupFilesFiltered,
+          backupLocation: backupLocationCopy ?? task.backupLocation,
           isDiskLayoutActive: false,
           restoredNetworks: task.restoredNetworks.map(
             (networkInterfaceCard) => ({
@@ -173,7 +178,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
               component={Select}
               label="Backup location to restore"
               optionLabel="name"
-              change={onBackupLocationChange}
+              change={({ value }) => onBackupLocationChange(value)}
               required
               options={backupLocations}
             />
@@ -193,7 +198,11 @@ export const RestoreModal = ({ virtualEnvironment }) => {
               valueProperty="uuid"
               optionLabel="name"
               required
-              label={isNotOpenstackBuild ? 'Cluster' : 'Import to an availability zone'}
+              label={
+                isNotOpenstackBuild
+                  ? 'Cluster'
+                  : 'Import to an availability zone'
+              }
               options={clusters}
             />
             {!!filteredStorages.length && (
@@ -268,7 +277,12 @@ export const RestoreModal = ({ virtualEnvironment }) => {
             <Field
               name="overwrite"
               component={Toggle}
-              label={'Delete if virtual environment already exists' + (isNotOpenstackBuild ? '' : ' (all existing VMs with this name in target project)')}
+              label={
+                'Delete if virtual environment already exists' +
+                (isNotOpenstackBuild
+                  ? ''
+                  : ' (all existing VMs with this name in target project)')
+              }
             />
             <Field
               name="restoredPeName"
