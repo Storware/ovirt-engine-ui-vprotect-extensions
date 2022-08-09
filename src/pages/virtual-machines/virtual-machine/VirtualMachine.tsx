@@ -246,6 +246,8 @@ const VirtualMachine = () => {
               {virtualMachine.hvManager?.url}
             </Details>
             <Details title="HYPERVISOR">{hypervisor.host}</Details>
+            <Details title="FLAVOR">{virtualMachine.vmFlavor?.name}</Details>
+            <Details title="CLUSTER">{virtualMachine.hvCluster?.name}</Details>
           </div>
         </div>
       </Card>
