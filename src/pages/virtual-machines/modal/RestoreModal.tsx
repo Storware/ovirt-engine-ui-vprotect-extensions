@@ -196,18 +196,6 @@ export const RestoreModal = ({ virtualEnvironment }) => {
               label={isNotOpenstackBuild ? 'Cluster' : 'Import to an availability zone'}
               options={clusters}
             />
-            {!!filteredStorages.length && (
-              <Field
-                name="restoreStorageId"
-                component={Select}
-                itemTemplate={storageDropdownTemplate}
-                optionLabel="name"
-                valueProperty="guid"
-                required
-                label="Import to storage"
-                options={filteredStorages}
-              />
-            )}
 
             {filteredStorages.length > 0 && (
               <Field
