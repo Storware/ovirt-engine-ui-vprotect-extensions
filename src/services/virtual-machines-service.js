@@ -118,6 +118,13 @@ class VirtualMachinesService {
         hvmWithPrePostSnapActions.includes(vm.hvmType.name))
     );
   }
+
+  getVirtualMachinesNotReadyForIncremental(entities) {
+    return vprotectApiService.post(
+      "/virtual-machines/incremental-not-possible",
+        entities
+    );
+  }
 }
 
 export const virtualMachinesService = new VirtualMachinesService();
