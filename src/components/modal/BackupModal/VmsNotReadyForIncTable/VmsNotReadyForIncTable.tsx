@@ -1,23 +1,34 @@
 import React, {useEffect, useState} from 'react';
 import {Column} from 'primereact/column';
-import {useDispatch} from 'react-redux';
 import Table from 'components/table/primereactTable';
-import {TableActionsTemplate} from 'pages/virtual-machines/virtual-machine/components/backups/TableActionsTemplate';
 import {Button} from 'primereact/button';
 import {virtualMachinesService} from 'services/virtual-machines-service'
+import {showModalAction} from 'store/modal/actions';
+import {useDispatch} from 'react-redux';
+import ScheduleModal from './ScheduleModal';
+import {VirtualMachineBackupPolicy} from 'model/VirtualMachineBackupPolicy';
 
 export default ({vms}) => {
   const dispatch = useDispatch();
-  const [vmsNotReadyForIncTable, setVmsNotReadyForIncTable] = useState([]);
+  const [vmsNotReadyForIncTable, setVmsNotReadyForIncTable] = useState({});
   const [isVmsNotReadyForIncrementalTableActive, setIsVmsNotReadyForIncrementalTableActive] = useState(false);
 
-  const getVmsTable = async () => {
+  const openCreateScheduleModal = (policy: VirtualMachineBackupPolicy) => {
+    dispatch(showModalAction({
+      component: ScheduleModal,
+      title: 'Create schedule',
+      props: { policy },
+      style: { width: '80vw' },
+    }))
+  }
+
+  const getVmsNotReadyForInc = async () => {
     setVmsNotReadyForIncTable(await virtualMachinesService
       .getVirtualMachinesNotReadyForIncremental({entities: vms}))
   }
 
   useEffect(() => {
-    getVmsTable();
+    getVmsNotReadyForInc();
   }, [vms])
 
   return (
@@ -45,21 +56,32 @@ export default ({vms}) => {
 
       {isVmsNotReadyForIncrementalTableActive && (
         <Table value={vmsNotReadyForIncTable}>
-          <Column field="name" header="Name"/>
+          <Column field="virtualMachine.name" header="Name"/>
           <Column
             field="reasons"
             header="Reasons"
             body={(rowData) => (
-              console.log(rowData)
-              // <ul>
-              //   {rowData.map((reason) => (
-              //     <li>{reason.description}</li>
-              //   ))}
-              // </ul>
+              <ul>
+                {rowData.reasons.map((reason, i) => (
+                  <li
+                    key={i}
+                    className="mb-1">
+                    {reason.description}
+                  </li>
+                ))}
+              </ul>
             )}
           />
           <Column
-            body={(data) => TableActionsTemplate(data, dispatch)}
+            body={(data) => (
+              !data.reasons.includes('MISSING_INCREMENTAL_SCHEDULER') &&
+                <>
+                  <Button
+                    label="Create schedule"
+                    onClick={() => openCreateScheduleModal(data.virtualMachine.vmBackupPolicy)}
+                  />
+                </>
+            )}
             style={{width: '10%'}}
           />
         </Table>
