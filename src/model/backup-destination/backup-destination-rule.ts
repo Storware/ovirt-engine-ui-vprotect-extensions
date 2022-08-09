@@ -5,7 +5,7 @@ import { BackupDestinationRuleType } from './backup-destination-rule-type';
 import { BackupRetentionSettings } from './backup-retention-settings';
 
 export class BackupDestinationRule {
-  active: true;
+  active: false;
   roleType: NameAndDescription<BackupDestinationRuleType>;
   backupDestination: NameAndGuid = new BackupDestination();
   backupRetentionSettings: BackupRetentionSettings =

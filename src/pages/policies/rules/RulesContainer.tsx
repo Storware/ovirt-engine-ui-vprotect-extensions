@@ -18,10 +18,6 @@ export const RulesContainer = ({
   policyType,
 }) => {
   const [backupDestinationType, setBackupDestinationType] = useState(null);
-  const [
-    secondaryBackupDestinationToggle,
-    setSecondaryBackupDestinationToggle,
-  ] = useState(!!rule.ruleBackupDestinations[0].secondaryBackupDestination);
   const [backupDestinationsCopy] = useState(backupDestinations);
   const [schedules, setSchedules] = useState([]);
   const [factor] = useState(24 * 60 * 60 * 1000);
@@ -185,20 +181,23 @@ export const RulesContainer = ({
 
       <div className="my-2">
         <ToggleButton
-          checked={secondaryBackupDestinationToggle}
-          onChange={({ value }) => {
-            delete rule.ruleBackupDestinations[0].secondaryBackupDestination;
-            if (value) {
+          checked={
+            rule.ruleBackupDestinations[0].secondaryBackupDestination.active
+          }
+          onChange={({ value: active }) => {
+            if (!rule.ruleBackupDestinations[0].secondaryBackupDestination) {
               rule.ruleBackupDestinations[0].secondaryBackupDestination =
                 new BackupDestinationRule('SECONDARY');
             }
+            rule.ruleBackupDestinations[0].secondaryBackupDestination.active =
+              active;
+
             updateBackupDestinations();
-            setSecondaryBackupDestinationToggle(value);
           }}
         />
         <label className="ml-2">Enable Secondary Backup Destination</label>
       </div>
-      {secondaryBackupDestinationToggle && (
+      {rule.ruleBackupDestinations[0].secondaryBackupDestination?.active && (
         <BackupDestinationComponent
           title="SECONDARY BACKUP DESTINATION"
           selectedBackupDestinationLabel={'Select Secondary Backup Destination'}
