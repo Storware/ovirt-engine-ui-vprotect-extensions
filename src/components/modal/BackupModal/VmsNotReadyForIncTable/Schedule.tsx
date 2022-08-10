@@ -1,13 +1,7 @@
-import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
-import {hideFooterAction, hideModalAction} from 'store/modal/actions'
-import {alertService} from 'services/alert-service';
-import {schedulesService} from 'services/schedules-service';
-import {VirtualMachineSchedule} from 'model/VirtualMachineSchedule';
-import {Field, Form, Formik} from 'formik';
-import {BackButton} from 'utils/backButton';
-import {Button} from 'primereact/button';
-import {Panel} from 'primereact/panel';
+import React, { useEffect, useState } from 'react';
+import { schedulesService } from 'services/schedules-service';
+import { VirtualMachineSchedule } from 'model/VirtualMachineSchedule';
+import { Field, Form, Formik } from 'formik';
 import Text from 'components/input/reactive/Text';
 import Toggle from 'components/input/reactive/Toggle';
 import Select from 'components/input/reactive/Select';
@@ -16,53 +10,38 @@ import Time from 'components/input/reactive/Time';
 import Days from 'components/input/reactive/Days';
 import SchedulePolicies from 'components/input/reactive/SchedulePolicies';
 import InputListBox from 'components/input/reactive/InputListBox';
-import {dayOfWeekOccurrences, months} from 'model/Occurrences';
+import { dayOfWeekOccurrences, months } from 'model/Occurrences';
 
-export default ({policy}) => {
-  const dispatch = useDispatch();
-  dispatch(hideFooterAction());
+export default ({ policy, onModelChange }) => {
   const [model, setModel] = useState(new VirtualMachineSchedule());
+  useEffect(() => {
+    onModelChange(model);
+  }, [model]);
 
-  const handle = (name) => (e) => {
-    setModel({
-      ...model,
-      [name]:
-        e.target && e.target.nodeName === 'INPUT' ? e.target.value : e.value,
-    })
-  };
+  const handle =
+    (name) =>
+    ({ target, value }) => {
+      setModel({
+        ...model,
+        [name]: target?.nodeName === 'INPUT' ? target?.value : value,
+      });
+    };
 
-  const handleIntervalValue = (name) => (e) => {
-    setModel({
-      ...model,
-      interval: {
-        ...model.interval,
-        [name]: e.value,
-      },
-    })
-  };
-
-  const save = async (values) => {
-    console.log(values);
-    await schedulesService.createSchedule({
-      ...values,
-      backupType: {
-        name: 'INCREMENTAL',
-        description: 'Incremental'
-      }
-    });
-    alertService.info('Schedule has been successfully created');
-    dispatch(hideModalAction())
-  };
+  const handleIntervalValue =
+    (name) =>
+    ({ value }) => {
+      setModel({
+        ...model,
+        interval: {
+          ...model.interval,
+          [name]: value,
+        },
+      });
+    };
 
   return (
     <>
-      <Formik
-        enableReinitialize
-        initialValues={model}
-        onSubmit={async (values) => {
-          await save(values);
-        }}
-      >
+      <Formik enableReinitialize initialValues={model} onSubmit={() => {}}>
         <Form>
           <Field
             name="name"
@@ -71,6 +50,7 @@ export default ({policy}) => {
             className="col w-100"
             onChange={handle('name')}
           />
+
           <Field
             name="active"
             component={Toggle}
@@ -175,19 +155,6 @@ export default ({policy}) => {
             options={[policy]}
             change={handle('rules')}
           />
-
-          <div className="d-flex justify-content-between mt-3">
-            <Button
-              type="button"
-              label="Cancel"
-              onClick={() => dispatch(hideModalAction())}/>
-            <Button
-              type="submit"
-              label="Save"
-              className="p-button-success"
-              disabled={!model.name}
-            />
-          </div>
         </Form>
       </Formik>
     </>
