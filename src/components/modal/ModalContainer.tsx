@@ -5,6 +5,7 @@ import { hideModalAction, saveModalAction } from 'store/modal/actions';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 
+// Deprecated
 const ModalContainer = () => {
   const dispatch = useDispatch();
   const modal = useSelector(selectModal);

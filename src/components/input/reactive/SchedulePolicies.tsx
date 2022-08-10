@@ -59,8 +59,8 @@ const SchedulePolicies = ({ field, form: { setFieldValue }, ...props }) => {
           ...el,
           label: (
             <span>
-              {el.name} (<Filesize bytes={el.averageBackupSize} />, {el.vmCount}{' '}
-              Virtual Environments)
+              {el?.name} (<Filesize bytes={el?.averageBackupSize} />,{' '}
+              {el?.vmCount} Virtual Environments)
             </span>
           ),
         }))}

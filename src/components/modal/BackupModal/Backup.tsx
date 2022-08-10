@@ -1,17 +1,11 @@
 import Select from '../../input/Select';
-import {InputText} from 'primereact/inputtext';
-import {Button} from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
 import React from 'react';
-import {InputDate} from '../../input/InputDate';
+import { InputDate } from '../../input/InputDate';
 import VmsNotReadyForIncTable from './VmsNotReadyForIncTable/VmsNotReadyForIncTable';
 
-export const Backup = ({
-                         task,
-                         setTask,
-                         backupTypes,
-                         setPriority,
-                         selectView,
-                       }) => (
+export const Backup = ({ task, setTask, backupTypes, setPriority, selectView }) => (
   <div className="form">
     <Select
       label="Backup type"
@@ -34,7 +28,7 @@ export const Backup = ({
 
     <div className="mt-3">
       <label>Priority</label>
-      <InputText value={task.priority} onChange={setPriority}/>
+      <InputText value={task.priority} onChange={setPriority} />
     </div>
 
     <div className="mt-3">
@@ -42,7 +36,7 @@ export const Backup = ({
       <InputText
         type="number"
         value={task.retryCount}
-        onChange={({target: {value}}) =>
+        onChange={({ target: { value } }) =>
           setTask({
             ...task,
             retryCount: value,
