@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {useRouteMatch} from 'react-router-dom';
-import {Button} from 'primereact/button';
-import {Accordion, AccordionTab} from 'primereact/accordion';
-import {policiesService} from '../../services/policies-service';
-import {hypervisorsService} from '../../services/hypervisors-service';
-import {virtualMachinesService} from '../../services/virtual-machines-service';
-import {mailingService} from '../../services/mailing-list.service';
-import {alertService} from '../../services/alert-service';
-import {VirtualMachineBackupPolicy} from '../../model/VirtualMachineBackupPolicy';
-import {createBrowserHistory} from 'history';
-import {BackButton} from '../../utils/backButton';
-import {Field, Form, Formik} from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useRouteMatch } from 'react-router-dom';
+import { Button } from 'primereact/button';
+import { Accordion, AccordionTab } from 'primereact/accordion';
+import { policiesService } from '../../services/policies-service';
+import { hypervisorsService } from '../../services/hypervisors-service';
+import { virtualMachinesService } from '../../services/virtual-machines-service';
+import { mailingService } from '../../services/mailing-list.service';
+import { alertService } from '../../services/alert-service';
+import { VirtualMachineBackupPolicy } from '../../model/VirtualMachineBackupPolicy';
+import { createBrowserHistory } from 'history';
+import { BackButton } from '../../utils/backButton';
+import { Field, Form, Formik } from 'formik';
 import Toggle from 'components/input/reactive/Toggle';
 import Text from 'components/input/reactive/Text';
 import InputSlider from 'components/input/reactive/InputSlider';
@@ -22,7 +22,7 @@ import { backupDestinationsService } from '../../services/backup-destinations-se
 import { BackupDestinationRule } from '../../model/backup-destination/backup-destination-rule';
 import { AutoAssigment } from 'pages/policies/tabs/auto-assigment/AutoAssigment';
 
-export const BackupPolicy = ({type}) => {
+export const BackupPolicy = ({ type }) => {
   const history = createBrowserHistory();
   const match = useRouteMatch();
   const [model, setModel] = useState(new VirtualMachineBackupPolicy());
@@ -50,8 +50,8 @@ export const BackupPolicy = ({type}) => {
                   ) || new BackupDestinationRule('PRIMARY'),
                 secondaryBackupDestination:
                   rule.ruleBackupDestinations.find(
-                    ({roleType: {name}}) => name === 'SECONDARY',
-                ) || new BackupDestinationRule('SECONDARY')
+                    ({ roleType: { name } }) => name === 'SECONDARY',
+                  ) || new BackupDestinationRule('SECONDARY'),
               },
             })),
           });
@@ -91,7 +91,7 @@ export const BackupPolicy = ({type}) => {
 
   const deleteRule = (index) => {
     model.rules.splice(index, 1);
-    model.rules = [...model.rules.map((rule, i) => ({...rule, position: i}))];
+    model.rules = [...model.rules.map((rule, i) => ({ ...rule, position: i }))];
     setModel(model);
     handleChangeBackupDestination();
   };
@@ -148,13 +148,13 @@ export const BackupPolicy = ({type}) => {
     setTimeout(() => {
       const _checked = model.rules.flatMap(
         ({
-           ruleBackupDestinations: {
-             primaryBackupDestination: {backupDestination: pbd},
-             secondaryBackupDestination: {backupDestination: sbd} = {
-               backupDestination: null,
-             },
-           },
-         }) => [
+          ruleBackupDestinations: {
+            primaryBackupDestination: { backupDestination: pbd },
+            secondaryBackupDestination: { backupDestination: sbd } = {
+              backupDestination: null,
+            },
+          },
+        }) => [
           ...(pbd?.guid ? [pbd?.guid] : []),
           ...(sbd?.guid ? [sbd?.guid] : []),
         ],
@@ -163,18 +163,6 @@ export const BackupPolicy = ({type}) => {
       setFilteredBackupDestinations(_checked);
     });
   };
-
-  const possibleAddRule = () =>
-    model.rules.some(
-      ({
-         ruleBackupDestinations: {
-           primaryBackupDestination: {backupDestination: pbd},
-           secondaryBackupDestination: {backupDestination: sbd} = {
-             backupDestination: null,
-           },
-         },
-       }) => !!pbd === !!pbd?.guid && !!sbd === !!sbd?.guid,
-    );
 
   useEffect(() => {
     handleChangeBackupDestination();
@@ -286,7 +274,7 @@ export const BackupPolicy = ({type}) => {
                   name="failRemainingBackupTasksExportThreshold"
                   component={Toggle}
                   label="Fail rest of the backup tasks if more than X % of EXPORT tasks already failed"
-                  onChange={({value}) => {
+                  onChange={({ value }) => {
                     setModel({
                       ...model,
                       failRemainingBackupTasksExportThreshold: value
@@ -308,7 +296,7 @@ export const BackupPolicy = ({type}) => {
                   name="failRemainingBackupTasksStoreThreshold"
                   component={Toggle}
                   label="Fail rest of the backup tasks if more than X % of STORE tasks already failed"
-                  onChange={({value}) => {
+                  onChange={({ value }) => {
                     setModel({
                       ...model,
                       failRemainingBackupTasksStoreThreshold: value ? 50 : null,
@@ -329,7 +317,7 @@ export const BackupPolicy = ({type}) => {
             <div className="mt-3">
               <Button
                 type="button"
-                disabled={!possibleAddRule()}
+                disabled={backupDestinations.length === 0}
                 label="Add another rule"
                 onClick={addAnotherRule}
               />
@@ -337,7 +325,7 @@ export const BackupPolicy = ({type}) => {
 
             <div className="d-flex justify-content-between mt-3">
               <div>
-                <BackButton/>
+                <BackButton />
               </div>
               <div>
                 <Button
