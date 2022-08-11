@@ -117,19 +117,21 @@ export const BackupPolicy = ({ type }) => {
     );
   };
 
+  const mapModelToPayload = (backupModel) => ({
+    ...backupModel,
+    rules: backupModel.rules.map((rule) => ({
+      ...rule,
+      ruleBackupDestinations: [
+        rule.ruleBackupDestinations.primaryBackupDestination,
+        ...(rule.ruleBackupDestinations.secondaryBackupDestination
+          ? [rule.ruleBackupDestinations.secondaryBackupDestination]
+          : []),
+      ],
+    })),
+  });
+
   const saveBackupPolicy = async () => {
-    const mappedModel = {
-      ...model,
-      rules: model.rules.map((rule) => ({
-        ...rule,
-        ruleBackupDestinations: [
-          rule.ruleBackupDestinations.primaryBackupDestination,
-          ...(rule.ruleBackupDestinations.secondaryBackupDestination
-            ? [rule.ruleBackupDestinations.secondaryBackupDestination]
-            : []),
-        ],
-      })),
-    };
+    const mappedModel = mapModelToPayload(model);
 
     if (model.guid) {
       await policiesService.updatePolicy('vm-backup', model.guid, mappedModel);
@@ -234,6 +236,7 @@ export const BackupPolicy = ({ type }) => {
                   setModel={setModel}
                   handle={handle}
                   hypervisorClusters={hypervisorClusters}
+                  mapModelToPayload={mapModelToPayload}
                   type={type}
                 />
               </AccordionTab>
