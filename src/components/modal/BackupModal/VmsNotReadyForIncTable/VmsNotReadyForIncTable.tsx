@@ -115,11 +115,14 @@ export default ({ vms }) => {
         save={{
           onClick: async () => {
             await scheduleSave(scheduleFormModel);
+            scheduleFormModel(null);
           },
           disabled: !!scheduleFormModel,
         }}
       >
-        <Schedule policy={policy} onModelChange={setScheduleFormModel} />
+        {!!policy && (
+          <Schedule policy={policy} onModelChange={setScheduleFormModel} />
+        )}
       </Modal>
     </div>
   );

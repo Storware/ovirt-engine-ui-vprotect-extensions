@@ -14,7 +14,7 @@ export const Footer: React.FC<FooterProps> = ({ save, cancel }) => (
       label="Cancel"
       icon="pi pi-times"
       className="p-button-text"
-      {...save}
+      {...cancel}
     />
     {/* { children } */}
     <Button
