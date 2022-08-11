@@ -15,6 +15,7 @@ export const AutoAssigment = ({
   handle,
   hypervisorClusters,
   type,
+  mapModelToPayload,
 }) => {
   const dispatch = useDispatch();
 
@@ -92,7 +93,10 @@ export const AutoAssigment = ({
           onClick={async () => {
             dispatch(hideFooterAction());
             const previewAutoAssign =
-              await policiesService.autoAssignmentPreview(type, model);
+              await policiesService.autoAssignmentPreview(
+                type,
+                mapModelToPayload(model),
+              );
 
             dispatch(
               showModalAction({
