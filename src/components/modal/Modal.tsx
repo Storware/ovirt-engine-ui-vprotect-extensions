@@ -14,13 +14,13 @@ export class Modal extends React.Component<Props> {
             save: {
               onClick: (...events) => {
                 modalProps.onHide();
-                save?.onClick(...events);
+                save?.onClick?.(...events);
               },
             },
             cancel: {
               onClick: (...events) => {
                 modalProps.onHide();
-                cancel?.onClick(...events);
+                cancel?.onClick?.(...events);
               },
             },
           })
