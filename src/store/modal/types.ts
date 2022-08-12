@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
 export const HIDE_FOOTER = 'HIDE_FOOTER';
@@ -5,14 +7,19 @@ export const SHOW_FOOTER = 'SHOW_FOOTER';
 export const SAVE_MODAL = 'SAVE_MODAL';
 export const UNSAVE_MODAL = 'UNSAVE_MODAL';
 
+export interface Modal {
+  component: () => JSX.Element;
+  footerChildren: () => JSX.Element;
+  footerClassName: string;
+  props;
+  title: string;
+  buttonLabel: string;
+  style?: { [key: string]: string | number };
+}
+
 export type ShowModalAction = {
   type: typeof SHOW_MODAL;
-  payload: {
-    component: any;
-    props: any;
-    title: string;
-    buttonLabel: string;
-  };
+  payload: Modal;
 };
 
 export type HideModalAction = {
