@@ -38,8 +38,9 @@ import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 import { DateType } from 'model/time/calendarPropsModel';
 import { DateRangeModel } from 'model/time/dateRange.model';
 import { Calendar } from 'primereact/calendar';
-import { alertService } from '../../../services/alert-service';
-import { policiesService } from '../../../services/policies-service';
+import { alertService } from 'services/alert-service';
+import { policiesService } from 'services/policies-service';
+import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
 
 const VirtualMachine = () => {
   const date = new Date();
@@ -160,8 +161,19 @@ const VirtualMachine = () => {
               dispatch(
                 showModalAction({
                   component: BackupModal,
+                  footerChildren: () =>
+                    NoActiveRulesIcon({
+                      entities: [
+                        {
+                          ...virtualMachine,
+                          policy: policies[0],
+                        },
+                      ],
+                    }),
                   props: {
-                    virtualEnvironments: [{...virtualMachine, vmBackupPolicy: policies[0]}],
+                    virtualEnvironments: [
+                      { ...virtualMachine, vmBackupPolicy: policies[0] },
+                    ],
                   },
                   title: 'Backup',
                 }),
