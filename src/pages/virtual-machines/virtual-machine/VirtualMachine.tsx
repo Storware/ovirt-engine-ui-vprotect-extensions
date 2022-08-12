@@ -42,6 +42,7 @@ import {
 } from 'pages/virtual-machines/virtual-machine/tabs';
 import { alertService } from 'services/alert-service';
 import { policiesService } from 'services/policies-service';
+import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
 
 const VirtualMachine = () => {
   const date = new Date();
@@ -162,8 +163,19 @@ const VirtualMachine = () => {
               dispatch(
                 showModalAction({
                   component: BackupModal,
+                  footerChildren: () =>
+                    NoActiveRulesIcon({
+                      entities: [
+                        {
+                          ...virtualMachine,
+                          policy: policies[0],
+                        },
+                      ],
+                    }),
                   props: {
-                    virtualEnvironments: [{...virtualMachine, vmBackupPolicy: policies[0]}],
+                    virtualEnvironments: [
+                      { ...virtualMachine, vmBackupPolicy: policies[0] },
+                    ],
                   },
                   title: 'Backup',
                 }),
@@ -291,10 +303,7 @@ const VirtualMachine = () => {
             />
           </TabPanel>
           <TabPanel header={`Restore History (${restoresHistory.length})`}>
-            <RestoresHistoryTable
-              date={dateRange}
-              setDate={setDateRange}
-            />
+            <RestoresHistoryTable date={dateRange} setDate={setDateRange} />
           </TabPanel>
           <TabPanel header={`Snapshots (${snapshots.length})`}>
             <SnapshotsTable />

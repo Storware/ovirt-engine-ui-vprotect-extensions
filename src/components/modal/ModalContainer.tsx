@@ -12,15 +12,18 @@ const ModalContainer = () => {
   const show = useSelector(selectShow);
   const hideButtonActions = useSelector(hideFooter);
   const { component: Component, buttonLabel } = modal;
+  const { footerChildren: FooterChildren = () => <></>, footerClassName = '' } =
+    modal;
 
   const renderFooter = () => (
-    <div>
+    <div className={footerClassName}>
       <Button
         label="Cancel"
         icon="pi pi-times"
         onClick={() => dispatch(hideModalAction())}
         className="p-button-text"
       />
+      <FooterChildren />
       <Button
         label={buttonLabel ? buttonLabel : 'Save'}
         icon="pi pi-check"

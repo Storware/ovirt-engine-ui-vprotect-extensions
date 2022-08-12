@@ -5,7 +5,13 @@ import React from 'react';
 import { InputDate } from '../../input/InputDate';
 import VmsNotReadyForIncTable from './VmsNotReadyForIncTable/VmsNotReadyForIncTable';
 
-export const Backup = ({ task, setTask, backupTypes, setPriority, selectView }) => (
+export const Backup = ({
+  task,
+  setTask,
+  backupTypes,
+  setPriority,
+  selectView,
+}) => (
   <div className="form">
     <Select
       label="Backup type"

@@ -9,6 +9,8 @@ export const UNSAVE_MODAL = 'UNSAVE_MODAL';
 
 export interface Modal {
   component: () => JSX.Element;
+  footerChildren: () => JSX.Element;
+  footerClassName: string;
   props;
   title: string;
   buttonLabel: string;
@@ -41,9 +43,9 @@ export type UnsaveModalAction = {
 };
 
 export type ModalAction =
-    | ShowFooterAction
-    | ShowModalAction
-    | HideModalAction
-    | HideFooterAction
-    | SaveModalAction
-    | UnsaveModalAction;
+  | ShowFooterAction
+  | ShowModalAction
+  | HideModalAction
+  | HideFooterAction
+  | SaveModalAction
+  | UnsaveModalAction;
