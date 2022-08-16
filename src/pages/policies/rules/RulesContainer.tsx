@@ -13,9 +13,9 @@ import { BackupDestinationRule } from 'model/backup-destination/backup-destinati
 export const RulesContainer = ({
   rule,
   backupDestinations,
-  updateBackupDestinations,
   removeRule,
   policyType,
+  onUpdateRule,
 }) => {
   const [backupDestinationType, setBackupDestinationType] = useState(null);
   const [backupDestinationsCopy] = useState(backupDestinations);
@@ -26,20 +26,8 @@ export const RulesContainer = ({
     schedulesService.getAllTypeSchedules('VM_BACKUP').then((result) => {
       setSchedules(result);
     });
-    updateBackupDestination();
-    updateBackupDestinations();
-  }, []);
-
-  const updateBackupDestination = (event?) => {
     setBackupRetentionSettings();
-    updateBackupDestinations();
-
-    event?.preventDefault();
-  };
-
-  useEffect(() => {
-    updateBackupDestination();
-  }, [rule]);
+  }, []);
 
   const setBackupRetentionSettings = () => {
     if (
@@ -54,6 +42,7 @@ export const RulesContainer = ({
         rule.ruleBackupDestinations.primaryBackupDestination.backupDestination,
       );
     }
+    onUpdateRule(rule);
   };
 
   const setTypeAndRetention = (
@@ -94,8 +83,8 @@ export const RulesContainer = ({
   };
 
   const emitRemoveRule = (event) => {
-    removeRule();
     event.preventDefault();
+    removeRule();
   };
 
   const setRetentionSettingsValue = (key, value) => {
@@ -123,7 +112,7 @@ export const RulesContainer = ({
         checked={rule.active}
         onChange={({ value }) => {
           rule.active = value;
-          updateBackupDestination();
+          setBackupRetentionSettings();
         }}
       />
       <label className="ml-2">Active</label>
@@ -141,11 +130,11 @@ export const RulesContainer = ({
         backupDestination={
           rule.ruleBackupDestinations.primaryBackupDestination.backupDestination
         }
-        updateBackupDestination={(e) => {
-          updateBackupDestination(e);
-
+        updateBackupDestination={({ value: backupDestination }) => {
+          setBackupRetentionSettings();
           rule.ruleBackupDestinations.primaryBackupDestination.backupDestination =
-            e.value;
+            backupDestination;
+          onUpdateRule(rule);
         }}
         getRetentionSettingsValue={getRetentionSettingsValue}
         setRetentionSettingsValue={setRetentionSettingsValue}
@@ -156,7 +145,7 @@ export const RulesContainer = ({
         updateKeepLastBackupWhenSourceStillExists={({ value }) => {
           rule.ruleBackupDestinations.primaryBackupDestination.backupRetentionSettings.keepLastBackupWhenSourceStillExists =
             value;
-          updateBackupDestination();
+          setBackupRetentionSettings();
         }}
         retentionKeepLastNFull={
           rule.ruleBackupDestinations.primaryBackupDestination
@@ -189,7 +178,7 @@ export const RulesContainer = ({
             rule.ruleBackupDestinations.secondaryBackupDestination.active =
               active;
 
-            updateBackupDestinations();
+            setBackupRetentionSettings();
           }}
         />
         <label className="ml-2">Enable Secondary Backup Destination</label>
@@ -209,10 +198,12 @@ export const RulesContainer = ({
             rule.ruleBackupDestinations.secondaryBackupDestination
               .backupDestination
           }
-          updateBackupDestination={(e) => {
+          updateBackupDestination={({ value: backupDestination }) => {
             rule.ruleBackupDestinations.secondaryBackupDestination.backupDestination =
-              e.value;
-            updateBackupDestination(e);
+              backupDestination;
+            onUpdateRule(rule);
+
+            setBackupRetentionSettings();
           }}
           getRetentionSettingsValue={getRetentionSettingsValue}
           setRetentionSettingsValue={setRetentionSettingsValue}
@@ -223,7 +214,7 @@ export const RulesContainer = ({
           updateKeepLastBackupWhenSourceStillExists={({ value }) => {
             rule.ruleBackupDestinations.secondaryBackupDestination.backupRetentionSettings.keepLastBackupWhenSourceStillExists =
               value;
-            updateBackupDestination();
+            setBackupRetentionSettings();
           }}
           retentionKeepLastNFull={
             rule.ruleBackupDestinations.secondaryBackupDestination
@@ -253,7 +244,7 @@ export const RulesContainer = ({
         dataKey="guid"
         onChange={({ value }) => {
           rule.schedules = value;
-          updateBackupDestination();
+          setBackupRetentionSettings();
         }}
       />
     </>
