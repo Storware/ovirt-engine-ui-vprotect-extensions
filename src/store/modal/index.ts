@@ -1,6 +1,7 @@
 import {
   HIDE_FOOTER,
   HIDE_MODAL,
+  Modal,
   ModalAction,
   SAVE_MODAL,
   SHOW_FOOTER,
@@ -9,12 +10,7 @@ import {
 } from './types';
 
 export type ModalStore = {
-  readonly modal: {
-    component: () => JSX.Element;
-    props;
-    title: string;
-    buttonLabel: string;
-  };
+  readonly modal: Modal;
   readonly show: boolean;
   readonly hideFooter: boolean;
   readonly saved: boolean;
