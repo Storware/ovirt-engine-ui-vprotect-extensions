@@ -45,7 +45,10 @@ const BackupsHistoryTable = ({onRefresh, date, setDate}: Props) => {
     );
 
   const openEditRuleModal = async (backup) => {
-    const rule = await policiesService.getRule(backup.backupRule)
+    if (!backup.backupRule) {
+      return;
+    }
+    const rule = await policiesService.getRule(backup.backupRule.guid)
     const primaryBackupDestination = rule.ruleBackupDestinations.find(
       ({roleType}) => roleType.name === 'PRIMARY'
     );
