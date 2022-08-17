@@ -1,7 +1,17 @@
 import { vprotectApiService } from './vprotect-api-service';
 import { ChargebackRequest } from 'model/chargeback/vm-chargeback-request';
 
-const nameParts = (name) => name.split('_');
+function getPositionOfChar(string, subString, index) {
+  return string.split(subString, index).join(subString).length;
+}
+
+const deleteUuidFromName = (name) => {
+  if (!name.startsWith('uuid')) {
+    return name;
+  } else {
+    return name.substring(getPositionOfChar(name, '_', 2) + 1);
+  }
+};
 
 class DashboardService {
   getChargebackBackupSizeReport(params = {}, data: ChargebackRequest) {
@@ -14,7 +24,7 @@ class DashboardService {
       .then((res) =>
         res.map((el) => ({
           ...el,
-          name: nameParts(el.name).slice(2).join('') || el.name,
+          name: deleteUuidFromName(el.name),
         })),
       );
   }
@@ -29,7 +39,7 @@ class DashboardService {
       .then((res) =>
         res.map((el) => ({
           ...el,
-          name: nameParts(el.name).slice(2).join('') || el.name,
+          name: deleteUuidFromName(el.name),
         })),
       );
   }
