@@ -89,7 +89,7 @@ export default ({ vms }) => {
           />
           <Column
             body={(data) =>
-              data.reasons.includes('MISSING_INCREMENTAL_SCHEDULER') && (
+              data.reasons.some(({name}) => name === 'MISSING_INCREMENTAL_SCHEDULER') && (
                 <>
                   <Button
                     label="Create schedule"
