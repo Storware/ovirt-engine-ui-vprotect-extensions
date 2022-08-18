@@ -8,6 +8,7 @@ import { dateTemplate, originTemplate } from 'components/table/templates';
 import { Button } from 'primereact/button';
 import Table from 'components/table/primereactTable';
 import { convertMilisecondsToHours } from 'utils/convertMilisecondsToHours';
+import { WorkflowExecutionStates } from 'model/task-panel.model';
 
 export default () => {
   const [rows, setRows] = useState([]);
@@ -36,17 +37,25 @@ export default () => {
 
   const addDurationToTasks = (tasks = []) =>
     tasks.map((task) => {
-      if (task.state.name !== 'RUNNING' && !task.startTime && task.finishTime) {
+      if (
+        task.state.name !== WorkflowExecutionStates.RUNNING &&
+        !task.startTime &&
+        task.finishTime
+      ) {
         return { ...task, duration: '00:00:00' };
       }
 
-      if (task.state.name !== 'RUNNING' && task.startTime && task.finishTime) {
+      if (
+        task.state.name !== WorkflowExecutionStates.RUNNING &&
+        task.startTime &&
+        task.finishTime
+      ) {
         return {
           ...task,
           duration: convertMilisecondsToHours(task.finishTime - task.startTime),
         };
       }
-      if (task.state.name !== 'RUNNING') {
+      if (task.state.name !== WorkflowExecutionStates.RUNNING) {
         return task;
       }
 
@@ -159,7 +168,7 @@ export default () => {
               <Button
                 label="Remove"
                 onClick={async () => {
-                  if (rowData.state.name === 'RUNNING') {
+                  if (rowData.state.name === WorkflowExecutionStates.RUNNING) {
                     const cancelledStatus = {
                       state: { name: 'CANCELLED' },
                       statusInfo: 'Canceled by user',

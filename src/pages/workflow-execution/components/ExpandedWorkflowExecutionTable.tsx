@@ -3,14 +3,23 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { getDateLabel } from 'services/time';
 import React from 'react';
+import { WorkflowExecutionStates } from 'model/task-panel.model';
 
 export const ExpandedWorkflowExecutionTable = (value) => {
   const taskDuration = (task) => {
-    if (task.state.name !== 'RUNNING' && !task.startTime && task.finishTime) {
+    if (
+      task.state.name !== WorkflowExecutionStates.RUNNING &&
+      !task.startTime &&
+      task.finishTime
+    ) {
       return '00:00:00';
     }
 
-    if (task.state.name !== 'RUNNING' && task.startTime && task.finishTime) {
+    if (
+      task.state.name !== WorkflowExecutionStates.RUNNING &&
+      task.startTime &&
+      task.finishTime
+    ) {
       return convertMilisecondsToHours(task.finishTime - task.startTime);
     }
 
