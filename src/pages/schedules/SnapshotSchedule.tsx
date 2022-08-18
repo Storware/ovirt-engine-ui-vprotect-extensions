@@ -75,7 +75,7 @@ const SnapshotSchedule = () => {
             component={Select}
             label="Schedule execution type"
             optionLabel="description"
-            change={onExecutionTypeChange}
+            onChange={onExecutionTypeChange}
             dataKey="name"
             options={schedulesService.executionTypes}
           />

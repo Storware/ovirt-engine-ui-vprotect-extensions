@@ -1,6 +1,6 @@
 import { AutoAssignSettings } from './AutoAssignSettings';
 import { Rule } from './backup-destination/rule';
-import {NameAndGuid} from './dto/nameAndGuid';
+import { NameAndGuid } from './dto/nameAndGuid';
 
 export class VirtualMachineBackupPolicy {
   vms = [];

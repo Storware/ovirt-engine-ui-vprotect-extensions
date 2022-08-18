@@ -26,7 +26,7 @@ export const AutoAssigment = ({
         options={policiesService.assignModes}
         component={Select}
         optionLabel="description"
-        change={handle('autoAssignSettings.mode')}
+        onChange={handle('autoAssignSettings.mode')}
         dataKey="name"
       />
       <h5 className={'mt-3'}>Include rules</h5>
