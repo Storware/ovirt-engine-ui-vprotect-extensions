@@ -30,9 +30,6 @@ export const BackupPolicy = ({ type }) => {
   const [hypervisorClusters, setHypervisorClusters] = useState([]);
   const [availableMailingLists, setAvailableMailingLists] = useState([]);
   const [backupDestinations, setBackupDestinations] = useState([]);
-  const [filteredBackupDestinations, setFilteredBackupDestinations] = useState(
-    [],
-  );
 
   useEffect(() => {
     if (match.params.guid !== 'create') {
@@ -60,7 +57,6 @@ export const BackupPolicy = ({ type }) => {
 
     backupDestinationsService.getAllBackupDestinations().then((result) => {
       setBackupDestinations(result);
-      setFilteredBackupDestinations(result);
     });
 
     hypervisorsService.getAllHypervisorClusters().then((result) => {
@@ -90,10 +86,11 @@ export const BackupPolicy = ({ type }) => {
   };
 
   const deleteRule = (index) => {
-    model.rules.splice(index, 1);
-    model.rules = [...model.rules.map((rule, i) => ({ ...rule, position: i }))];
-    setModel(model);
-    handleChangeBackupDestination();
+    const _model = { ...model };
+    _model.rules.splice(index, 1);
+    _model.rules = _model.rules.map((rule, i) => ({ ...rule, position: i }));
+
+    setModel(_model);
   };
 
   const handle = (name) => (e) => {
@@ -142,33 +139,6 @@ export const BackupPolicy = ({ type }) => {
     }
     history.back();
   };
-
-  const handleChangeBackupDestination = () => {
-    if (!model.rules.length) {
-      return;
-    }
-    setTimeout(() => {
-      const _checked = model.rules.flatMap(
-        ({
-          ruleBackupDestinations: {
-            primaryBackupDestination: { backupDestination: pbd },
-            secondaryBackupDestination: { backupDestination: sbd } = {
-              backupDestination: null,
-            },
-          },
-        }) => [
-          ...(pbd?.guid ? [pbd?.guid] : []),
-          ...(sbd?.guid ? [sbd?.guid] : []),
-        ],
-      );
-
-      setFilteredBackupDestinations(_checked);
-    });
-  };
-
-  useEffect(() => {
-    handleChangeBackupDestination();
-  }, [model.rules]);
 
   return (
     <div className="form">
@@ -264,10 +234,14 @@ export const BackupPolicy = ({ type }) => {
                 >
                   <RulesContainer
                     rule={rule}
+                    onUpdateRule={(_rule) => {
+                      const _model = { ...model };
+                      _model.rules[i] = { ..._rule };
+                      setModel(_model);
+                    }}
                     policyType={type}
                     removeRule={() => deleteRule(i)}
                     backupDestinations={backupDestinations}
-                    updateBackupDestinations={handleChangeBackupDestination}
                   />
                 </AccordionTab>
               ))}
