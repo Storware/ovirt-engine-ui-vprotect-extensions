@@ -14,7 +14,7 @@ const Select = ({
    * so, for now, we will not provide this property to dropdown
    * and set "value" by first option element by default if !value
    */
-  required,
+  required = false,
   ...props
 }) => {
   const [value, setValue] = useState(field.value);
