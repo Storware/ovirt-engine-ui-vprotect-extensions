@@ -8,6 +8,7 @@ import { Header } from './components/Header';
 import { Button } from 'primereact/button';
 import { ExpandedWorkflowExecutionTable } from 'pages/workflow-execution/components/ExpandedWorkflowExecutionTable';
 import { WorkflowExecutionStates } from 'model/task-panel.model';
+import { Tooltip } from 'primereact/tooltip';
 
 export const WorkflowExecution = () => {
   const [globalFilter, setGlobalFilter] = useState<string>('');
@@ -129,7 +130,7 @@ export const WorkflowExecution = () => {
       }
       header={Header(refresh, setFilter)}
     >
-      <Column expander />
+      <Column expander style={{ maxWidth: '75px' }} />
       <Column
         field="state.name"
         header="State"
@@ -137,7 +138,29 @@ export const WorkflowExecution = () => {
         body={({ state: { name } }) => name.toLowerCase()}
       />
       <Column field="definitionName" header="Type" />
-      <Column field="currentStep" header="Step" />
+      <Column
+        field="currentStep"
+        header="Step"
+        body={(element) => (
+          <>
+            <Tooltip target=".current-workflow-step" />
+            <span
+              className="current-workflow-step"
+              style={{
+                display: '-webkit-box',
+                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: 2,
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                width: '175px',
+              }}
+              data-pr-tooltip={element.currentStep}
+            >
+              {element.currentStep}
+            </span>
+          </>
+        )}
+      />
       <Column
         field="backupDestination.name"
         header="Backup destination"
