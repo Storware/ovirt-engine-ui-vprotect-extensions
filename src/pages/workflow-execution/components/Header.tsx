@@ -9,6 +9,7 @@ export const Header = (refresh, setFilter) => (
       <div className="p-datatable-globalfilter-container">
         <InputText
           type="search"
+          style={{ fontSize: '13px' }}
           onInput={debounce(
             ({ target: { value = '' } }) => setFilter(value),
             500,
@@ -17,7 +18,11 @@ export const Header = (refresh, setFilter) => (
         />
       </div>
       <div>
-        <Button onClick={refresh} label="Refresh" />
+        <Button
+          onClick={refresh}
+          label="Refresh"
+          style={{ fontSize: '13px' }}
+        />
       </div>
     </div>
   </div>
