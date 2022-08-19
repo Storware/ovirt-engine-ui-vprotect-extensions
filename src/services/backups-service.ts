@@ -31,9 +31,7 @@ class BackupsService {
   }
 
   getAllMountedBackups() {
-    return vprotectApiService.get('/mounted-backups', {
-      params: { 'finished-mount': true },
-    });
+    return vprotectApiService.get('/mounted-backups');
   }
 
   getMountedBackup(id) {
@@ -90,13 +88,13 @@ class BackupsService {
 
   getRestorableBackups(virtualMachineGuid) {
     return vprotectApiService.get(
-        `/backups?protected-entity=${virtualMachineGuid}&status=SUCCESS`,
+      `/backups?protected-entity=${virtualMachineGuid}&status=SUCCESS`,
     );
   }
 
   async getBackupLocations(id) {
     const backupLocations = await vprotectApiService.get('/backup-locations', {
-      params: {'protected-entity': id, 'location-status': 'PRESENT'},
+      params: { 'protected-entity': id, 'location-status': 'PRESENT' },
     });
     return backupLocations.map((backupLocation) => ({
       ...backupLocation,

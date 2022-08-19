@@ -14,6 +14,7 @@ import Table from 'components/table/primereactTable';
 import { dateTemplate } from 'components/table/templates';
 import { Button } from 'primereact/button';
 import { Redirect, useRouteMatch } from 'react-router-dom';
+import { WorkflowExecutionStates } from 'model/task-panel.model';
 
 export const MountedBackupsList = () => {
   const dispatch = useDispatch();
@@ -109,17 +110,21 @@ export const MountedBackupsList = () => {
           <Column
             field="action"
             header="Action"
-            body={(rowData) => (
-              <Button
-                icon="pi pi-bars"
-                onClick={(event) => {
-                  this.menu.toggle(event);
-                  setActionsElement(rowData);
-                }}
-                aria-controls="popup_menu"
-                aria-haspopup
-              />
-            )}
+            body={(rowData) =>
+              rowData.state === WorkflowExecutionStates.RUNNING ? (
+                <></>
+              ) : (
+                <Button
+                  icon="pi pi-bars"
+                  onClick={(event) => {
+                    this.menu.toggle(event);
+                    setActionsElement(rowData);
+                  }}
+                  aria-controls="popup_menu"
+                  aria-haspopup
+                />
+              )
+            }
           />
         </Table>
       </div>

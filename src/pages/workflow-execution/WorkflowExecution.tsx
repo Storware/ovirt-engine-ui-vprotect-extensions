@@ -7,6 +7,7 @@ import { originTemplate } from 'components/table/templates';
 import { Header } from './components/Header';
 import { Button } from 'primereact/button';
 import { ExpandedWorkflowExecutionTable } from 'pages/workflow-execution/components/ExpandedWorkflowExecutionTable';
+import { WorkflowExecutionStates } from 'model/task-panel.model';
 
 export const WorkflowExecution = () => {
   const [globalFilter, setGlobalFilter] = useState<string>('');
@@ -26,17 +27,25 @@ export const WorkflowExecution = () => {
 
   const addDurationToTasks = (tasks = [], setRows) =>
     tasks.map((task) => {
-      if (task.state.name !== 'RUNNING' && !task.startTime && task.finishTime) {
+      if (
+        task.state.name !== WorkflowExecutionStates.RUNNING &&
+        !task.startTime &&
+        task.finishTime
+      ) {
         return { ...task, duration: '00:00:00' };
       }
 
-      if (task.state.name !== 'RUNNING' && task.startTime && task.finishTime) {
+      if (
+        task.state.name !== WorkflowExecutionStates.RUNNING &&
+        task.startTime &&
+        task.finishTime
+      ) {
         return {
           ...task,
           duration: convertMilisecondsToHours(task.finishTime - task.startTime),
         };
       }
-      if (task.state.name !== 'RUNNING') {
+      if (task.state.name !== WorkflowExecutionStates.RUNNING) {
         return task;
       }
 

@@ -27,3 +27,14 @@ export const OriginEntityType: {
     privilege: null,
   },
 };
+
+export const enum WorkflowExecutionStates {
+  RUNNING = 'RUNNING',
+  FAILED = 'FAILED',
+  CANCELLED = 'CANCELLED',
+  FINISHED = 'FINISHED',
+  FINISHED_WITH_WARNINGS = 'FINISHED_WITH_WARNINGS',
+  FAILED_WITH_CRITICAL_ERRORS = 'FAILED_WITH_CRITICAL_ERRORS',
+  PARTIALLY_FINISHED = 'PARTIALLY_FINISHED',
+  UNKNOWN = 'UNKNOWN',
+}
