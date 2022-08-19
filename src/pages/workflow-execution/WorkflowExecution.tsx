@@ -134,6 +134,7 @@ export const WorkflowExecution = () => {
       <Column
         field="state.name"
         header="State"
+        style={{ width: '100px' }}
         className="text-capitalize"
         body={({ state: { name } }) => name.toLowerCase()}
       />
@@ -152,7 +153,7 @@ export const WorkflowExecution = () => {
                 WebkitLineClamp: 2,
                 textOverflow: 'ellipsis',
                 overflow: 'hidden',
-                width: '175px',
+                minWidth: '75px',
               }}
               data-pr-tooltip={element.currentStep}
             >
@@ -161,7 +162,29 @@ export const WorkflowExecution = () => {
           </>
         )}
       />
-      <Column field="protectedEntity.name" header="Instance" />
+      <Column
+        field="protectedEntity.name"
+        header="Instance"
+        body={(el) => (
+          <>
+            <Tooltip target=".current-workflow-instance" />
+            <span
+              className="current-workflow-instance"
+              style={{
+                display: '-webkit-box',
+                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: 2,
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                width: '200px',
+              }}
+              data-pr-tooltip={el.protectedEntity && el.protectedEntity.name}
+            >
+              {el.protectedEntity && el.protectedEntity.name}
+            </span>
+          </>
+        )}
+      />
       <Column
         field="backupDestination.name"
         header="Backup destination"
@@ -178,10 +201,10 @@ export const WorkflowExecution = () => {
       <Column
         field="action"
         header="Action"
-        style={{ maxWidth: '75px' }}
+        style={{ maxWidth: '125px' }}
         body={({ guid }) => (
           <Button
-            icon="pi pi-times"
+            label="Remove"
             onClick={async () => {
               await vprotectService.deleteAllFinishedTasksInWorkflow(guid);
               refresh();
