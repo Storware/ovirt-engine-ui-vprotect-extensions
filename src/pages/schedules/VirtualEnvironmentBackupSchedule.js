@@ -146,7 +146,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
               optionLabel="description"
               dataKey="name"
               options={schedulesService.backupTypes}
-              change={this.handle('backupType')}
+              onChange={this.handle('backupType')}
             />
             {this.state.model.backupType.name === 'INCREMENTAL' && (
               <div>
@@ -159,9 +159,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
               component={Select}
               label="Schedule execution type *"
               optionLabel="description"
-              change={(e) => {
-                this.onExecutionTypeChange(e.value);
-              }}
+              onChange={({ value }) => this.onExecutionTypeChange(value)}
               dataKey="name"
               options={schedulesService.executionTypes}
             />

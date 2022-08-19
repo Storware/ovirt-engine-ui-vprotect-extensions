@@ -178,14 +178,14 @@ export const RestoreModal = ({ virtualEnvironment }) => {
               component={Select}
               label="Backup location to restore"
               optionLabel="name"
-              change={({ value }) => onBackupLocationChange(value)}
+              onChange={({ value }) => onBackupLocationChange(value)}
               required
               options={backupLocations}
             />
             <Field
               name="hypervisorManager"
               component={Select}
-              change={onHypervisorChange}
+              onChange={onHypervisorChange}
               optionLabel="url"
               label="Hypervisor Manager"
               required
@@ -194,7 +194,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
             <Field
               name="restoreClusterId"
               component={Select}
-              change={onClusterChange}
+              onChange={onClusterChange}
               valueProperty="uuid"
               optionLabel="name"
               required

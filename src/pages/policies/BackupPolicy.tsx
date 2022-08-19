@@ -182,8 +182,9 @@ export const BackupPolicy = ({ type }) => {
                     component={Select}
                     optionLabel="name"
                     dataKey="name"
-                    required
                     label="Select Mailing List"
+                    required
+                    onChange={handle('mailingList')}
                   />
                 )}
                 <Field
