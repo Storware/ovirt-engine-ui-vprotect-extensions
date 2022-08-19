@@ -161,17 +161,24 @@ export const WorkflowExecution = () => {
           </>
         )}
       />
+      <Column field="protectedEntity.name" header="Instance" />
       <Column
         field="backupDestination.name"
         header="Backup destination"
         body={backupDestinationsBody}
       />
-      <Column field="originEntity" header="Origin" body={originTemplate} />
-      <Column field="priority" header="Priority" />
+      <Column
+        field="originEntity"
+        header="Origin"
+        body={originTemplate}
+        style={{ maxWidth: '75px' }}
+      />
+      <Column field="priority" header="Priority" style={{ maxWidth: '75px' }} />
       <Column field="duration" header="Duration" />
       <Column
         field="action"
         header="Action"
+        style={{ maxWidth: '75px' }}
         body={({ guid }) => (
           <Button
             icon="pi pi-times"
