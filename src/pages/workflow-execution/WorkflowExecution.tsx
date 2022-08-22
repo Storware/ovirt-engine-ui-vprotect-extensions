@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { vprotectService } from '../../services/vprotect-service';
+import { vprotectService } from 'services/vprotect-service';
 import { Column } from 'primereact/column';
 import { VirtualScrollTable } from 'components/table/VirtualScrollTable';
 import { convertMilisecondsToHours } from 'utils/convertMilisecondsToHours';
@@ -9,6 +9,8 @@ import { Button } from 'primereact/button';
 import { ExpandedWorkflowExecutionTable } from 'pages/workflow-execution/components/ExpandedWorkflowExecutionTable';
 import { WorkflowExecutionStates } from 'model/task-panel.model';
 import { Tooltip } from 'primereact/tooltip';
+import { DataNameSets, SortTypes } from './models';
+import { SortDirection } from 'model';
 
 export const WorkflowExecution = () => {
   const [globalFilter, setGlobalFilter] = useState<string>('');
@@ -16,6 +18,10 @@ export const WorkflowExecution = () => {
   const [page, setPage] = useState(0);
   const [expandedRows, setExpandedRows] = useState(null);
   const [expandedRowsData, setExpandedRowsData] = useState({});
+  const [sort, setSort] = useState<SortTypes>({
+    orderBy: 'state',
+    direction: SortDirection.Empty,
+  });
   const ITEMS_LOAD = 40;
   const [busy, setBusy] = useState<ReturnType<typeof setTimeout>[]>([]);
 
@@ -25,6 +31,21 @@ export const WorkflowExecution = () => {
     });
     setBusy([]);
   };
+
+  const handleSort = ({ sortField }) => {
+    const orderByWhat = DataNameSets[sortField];
+    setSort({
+      orderBy: orderByWhat,
+      direction:
+        orderByWhat === sort.orderBy && sort.direction === SortDirection.Asc
+          ? SortDirection.Desc
+          : SortDirection.Asc,
+    });
+  };
+
+  useEffect(() => {
+    refresh();
+  }, [sort]);
 
   const addDurationToTasks = (tasks = [], setRows) =>
     tasks.map((task) => {
@@ -64,11 +85,13 @@ export const WorkflowExecution = () => {
     });
   const getWorkflowExecutionData = async () => {
     clearBusy();
-    const data = await vprotectService.getWorkflowExecution(
+    const data = await vprotectService.getWorkflowExecution({
       page,
-      ITEMS_LOAD,
-      globalFilter,
-    );
+      size: ITEMS_LOAD,
+      orderBy: sort.orderBy,
+      direction: sort.direction,
+      filter: globalFilter,
+    });
     setPage((_page) => _page + 1);
     setWorkflowExecutionData(
       addDurationToTasks(
@@ -97,7 +120,7 @@ export const WorkflowExecution = () => {
     [],
   );
 
-  const backupDestinationsBody = ({ backupDestinations }) =>
+  const backupDestinationsBody = (backupDestinations) =>
     backupDestinations.map(({ type: { name } }) => name).join(',');
 
   const refresh = () => {
@@ -123,7 +146,8 @@ export const WorkflowExecution = () => {
       scrollHeight="1000px"
       getLazyValues={getWorkflowExecutionData}
       expandedRows={expandedRows}
-      onRowToggle={(e) => setExpandedRows(e.data)}
+      onSort={handleSort}
+      onRowToggle={({ data }) => setExpandedRows(data)}
       onRowExpand={onExpandRow}
       rowExpansionTemplate={({ guid }) =>
         ExpandedWorkflowExecutionTable(expandedRowsData[guid] || [])
@@ -132,55 +156,47 @@ export const WorkflowExecution = () => {
     >
       <Column expander style={{ maxWidth: '75px' }} />
       <Column
+        sortable
         field="state.name"
         header="State"
         style={{ width: '100px' }}
         className="text-capitalize"
         body={({ state: { name } }) => name.toLowerCase()}
       />
-      <Column field="definitionName" header="Type" />
+      <Column field="definitionName" header="Type" sortable />
       <Column
+        sortable
         field="currentStep"
         header="Step"
-        body={(element) => (
+        body={({ currentStep }) => (
           <>
             <Tooltip target=".current-workflow-step" />
             <span
-              className="current-workflow-step"
+              className="current-workflow-step column-cut-text"
               style={{
-                display: '-webkit-box',
-                WebkitBoxOrient: 'vertical',
-                WebkitLineClamp: 2,
-                textOverflow: 'ellipsis',
-                overflow: 'hidden',
                 minWidth: '75px',
+                maxWidth: '200px',
               }}
-              data-pr-tooltip={element.currentStep}
+              data-pr-tooltip={currentStep}
             >
-              {element.currentStep}
+              {currentStep}
             </span>
           </>
         )}
       />
       <Column
+        sortable
         field="protectedEntity.name"
         header="Instance"
-        body={(el) => (
+        body={({ protectedEntity }) => (
           <>
             <Tooltip target=".current-workflow-instance" />
             <span
-              className="current-workflow-instance"
-              style={{
-                display: '-webkit-box',
-                WebkitBoxOrient: 'vertical',
-                WebkitLineClamp: 2,
-                textOverflow: 'ellipsis',
-                overflow: 'hidden',
-                width: '200px',
-              }}
-              data-pr-tooltip={el.protectedEntity && el.protectedEntity.name}
+              className="current-workflow-instance column-cut-text"
+              style={{ width: '200px' }}
+              data-pr-tooltip={protectedEntity?.name}
             >
-              {el.protectedEntity && el.protectedEntity.name}
+              {protectedEntity?.name}
             </span>
           </>
         )}
@@ -188,15 +204,34 @@ export const WorkflowExecution = () => {
       <Column
         field="backupDestination.name"
         header="Backup destination"
-        body={backupDestinationsBody}
+        body={({ backupDestinations }) => (
+          <>
+            <Tooltip target=".current-workflow-backup-destination" />
+            <span
+              className="current-workflow-backup-destination column-cut-text"
+              style={{ width: '150px' }}
+              data-pr-tooltip={
+                backupDestinations && backupDestinationsBody(backupDestinations)
+              }
+            >
+              {backupDestinations && backupDestinationsBody(backupDestinations)}
+            </span>
+          </>
+        )}
       />
       <Column
+        sortable
         field="originEntity"
         header="Origin"
         body={originTemplate}
+        style={{ maxWidth: '100px' }}
+      />
+      <Column
+        field="priority"
+        sortable
+        header="Priority"
         style={{ maxWidth: '75px' }}
       />
-      <Column field="priority" header="Priority" style={{ maxWidth: '75px' }} />
       <Column field="duration" header="Duration" />
       <Column
         field="action"

@@ -1,5 +1,7 @@
 import { vprotectApiService } from './vprotect-api-service';
 import { DashboardProtectionInfoModel } from '../model/dashboard/dashboard-protection-info.model';
+import { GetWorkflowExecutionObject } from 'pages/workflow-execution/models';
+import { SortDirection } from 'model';
 
 class VprotectService {
   _hvWithIncremental = ['KVM', 'CITRIX', 'ESXI', 'HYPERV'];
@@ -60,11 +62,19 @@ class VprotectService {
     });
   }
 
-  getWorkflowExecution(page = 0, size = 40, filter = '') {
+  getWorkflowExecution({
+    page = 0,
+    size = 40,
+    orderBy = '',
+    direction = SortDirection.Empty,
+    filter = '',
+  }: GetWorkflowExecutionObject) {
     return vprotectApiService.get('/workflow-executions', {
       params: {
         page,
         size,
+        ...(orderBy?.length && { orderBy }),
+        ...(direction?.length && { direction }),
         ...(filter?.length && { filter }),
       },
     });
