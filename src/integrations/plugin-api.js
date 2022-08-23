@@ -4,7 +4,7 @@ class getPluginApi {
   configObject = () => ({
     username: 'admin',
     password: 'vPr0tect',
-    vProtectURL: 'http://localhost:8080/api',
+    vProtectURL: 'https://10.30.1.240:8181/api',
   });
   showToast = (toastType, text) => {
     Store.addNotification({
