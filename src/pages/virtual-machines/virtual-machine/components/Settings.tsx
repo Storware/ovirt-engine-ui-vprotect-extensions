@@ -185,7 +185,7 @@ const Settings = () => {
           </AccordionTab>
         )}
         {arePreProSnapTabAvailable(model) && (
-          <AccordionTab header="SSH access (for pre/post snapshot command execution)">
+          <AccordionTab header="Remote access">
             <SshAccess model={model} setModel={setModel} />
           </AccordionTab>
         )}
