@@ -36,7 +36,8 @@ export const BackupPolicy = ({ type }) => {
       policiesService
         .getPolicy('vm-backup', match.params.guid)
         .then((result) => {
-          setModel({
+          setModel((_model) => ({
+            ..._model,
             ...result,
             rules: result.rules.map((rule) => ({
               ...rule,
@@ -51,7 +52,7 @@ export const BackupPolicy = ({ type }) => {
                   ) || new BackupDestinationRule('SECONDARY'),
               },
             })),
-          });
+          }));
         });
     }
 
