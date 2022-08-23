@@ -121,7 +121,7 @@ export const WorkflowExecution = () => {
   );
 
   const backupDestinationsBody = (backupDestinations) =>
-    backupDestinations.map(({ type: { name } }) => name).join(',');
+    backupDestinations.map(({ name }) => name).join('-');
 
   const refresh = () => {
     setPage(0);
