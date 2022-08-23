@@ -1,6 +1,6 @@
 {
   "name": "ovirt-engine-vprotect-extension",
-  "version": "5.1.0-11",
+  "version": "5.1.0-12",
   "license": "Apache-2.0",
   "repository": {
     "type": "git"
@@ -16,7 +16,8 @@
     "prebuild:openstack": "rm -rf dist/openstack",
     "build:openstack": "webpack --config webpack.openstack.prod.js",
     "build-n-zip:oVirt": "yarn build:oVirt && yarn zip:oVirt",
-    "build-n-zip:openstack": "yarn build:openstack && yarn zip:openstack"
+    "build-n-zip:openstack": "yarn build:openstack && yarn zip:openstack",
+    "build-n-zip": "yarn build-n-zip:oVirt && yarn build-n-zip:openstack"
   },
   "dependencies": {
     "@patternfly/react-charts": "^6.67.1",
