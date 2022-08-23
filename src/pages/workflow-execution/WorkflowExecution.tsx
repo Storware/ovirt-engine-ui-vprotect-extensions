@@ -134,9 +134,9 @@ export const WorkflowExecution = () => {
       <Column
         field="state.name"
         header="State"
-        style={{ width: '100px' }}
+        style={{ width: '100px', textAlign: 'center' }}
         className="text-capitalize"
-        body={({ state: { name } }) => name.toLowerCase()}
+        body={({ state: { description } }) => description.toLowerCase()}
       />
       <Column field="definitionName" header="Type" />
       <Column
