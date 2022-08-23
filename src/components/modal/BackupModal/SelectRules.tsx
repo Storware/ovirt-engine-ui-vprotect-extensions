@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { BackupTask } from '../../../model/tasks/backup-task';
 import { Splitter, SplitterPanel } from 'primereact/splitter';
 import { RadioButton } from 'primereact/radiobutton';

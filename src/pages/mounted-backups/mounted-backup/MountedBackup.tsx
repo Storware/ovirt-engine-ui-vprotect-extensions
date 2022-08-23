@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {Link, useParams} from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getMountedBackup } from '../../../store/mounted-backups/actions';
 import { selectMountedBackup } from '../../../store/mounted-backups/selectors';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { Card } from 'primereact/card';
 import { Panel } from 'primereact/panel';
 import { DateShow } from '../../../components/convert/Date';

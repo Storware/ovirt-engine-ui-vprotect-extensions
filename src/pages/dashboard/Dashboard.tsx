@@ -9,7 +9,7 @@ import ActivityChart from './activity/ActivityChart';
 import { Card } from 'primereact/card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { TIMEZONES } from 'model/time/timezones';
 import { user } from '../../utils/user';
 import { version } from '../../../package.json';

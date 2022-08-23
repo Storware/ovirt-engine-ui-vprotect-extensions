@@ -6,7 +6,7 @@ import { selectMailing } from 'store/mailing/selectors';
 import Text from 'components/input/reactive/Text';
 import { useParams } from 'react-router-dom';
 import { BackButton } from 'utils/backButton';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { Panel } from 'primereact/panel';
 import { MailingListModel } from 'model/mailing/mailing';
 import { InputList } from 'components/input/reactive/InputList';

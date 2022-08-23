@@ -1,6 +1,6 @@
 import { InputText } from 'primereact/inputtext';
 import React from 'react';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 
 export const InputList = ({
   field,

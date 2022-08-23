@@ -10,7 +10,7 @@ import { InputText } from 'primereact/inputtext';
 import { Column } from 'primereact/column';
 import { booleanTemplate } from 'components/table/templates';
 import Table from 'components/table/primereactTable';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 
 const typeMap = {
   'vm-backup': 'VM_BACKUP',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { InputText } from 'primereact/inputtext';
 import { debounce } from 'utils/input.utils';
 import { vprotectService } from 'services/vprotect-service';

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Panel } from 'primereact/panel';
 import { Card } from 'primereact/card';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { DateShow } from '../../../components/convert/Date';
 import { Filesize } from '../../../components/convert/Filesize';
 import { BackupModal } from 'components/modal/BackupModal/BackupModal';

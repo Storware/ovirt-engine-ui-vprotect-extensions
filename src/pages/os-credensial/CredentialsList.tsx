@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Table from '../../components/table/primereactTable';
 import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCredentials } from '../../store/credentials/selectors';
 import { CredentialModel } from '../../model';

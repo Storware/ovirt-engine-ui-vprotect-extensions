@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Accordion, AccordionTab } from 'primereact/accordion';
 import { policiesService } from 'services/policies-service';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { Field, Form, Formik } from 'formik';
 import Text from 'components/input/reactive/Text';
 import { PolicySnapshot } from 'model/policies/policy-snapshot';

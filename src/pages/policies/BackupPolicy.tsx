@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { Accordion, AccordionTab } from 'primereact/accordion';
 import { policiesService } from '../../services/policies-service';
 import { hypervisorsService } from '../../services/hypervisors-service';

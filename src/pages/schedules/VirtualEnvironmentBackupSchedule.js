@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { policiesService } from '../../services/policies-service';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { schedulesService } from '../../services/schedules-service';
 import { alertService } from '../../services/alert-service';
 import { Panel } from 'primereact/panel';

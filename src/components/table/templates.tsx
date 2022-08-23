@@ -2,7 +2,7 @@ import React from 'react';
 import { DateShow } from '../convert/Date';
 import { Filesize } from '../convert/Filesize';
 import { schedulesService } from '../../services/schedules-service';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { OriginEntityType } from 'model/task-panel.model';
 import { RetentionHintsDescription } from 'model/retention-hints';
 

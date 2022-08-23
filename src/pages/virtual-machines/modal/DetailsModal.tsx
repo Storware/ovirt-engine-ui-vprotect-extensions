@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import InputText from 'components/input/Text';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { backupsService } from 'services/backups-service';
 import Table from 'components/table/primereactTable';
 import { Column } from 'primereact/column';
@@ -26,7 +26,7 @@ export const DetailsModal = ({
 
   const updateDescription = () => {
     alertService.info('Description updated');
-    dispatch(hideModalAction())
+    dispatch(hideModalAction());
     backupsService.updateBackupDescription(guid, descriptionValue);
   };
 

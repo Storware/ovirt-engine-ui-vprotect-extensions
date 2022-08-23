@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Column } from 'primereact/column';
 import Table from 'components/table/primereactTable';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { virtualMachinesService } from 'services/virtual-machines-service';
 import { Modal } from 'components/modal/Modal';
 import Schedule from './Schedule';
@@ -89,7 +89,9 @@ export default ({ vms }) => {
           />
           <Column
             body={(data) =>
-              data.reasons.some(({name}) => name === 'MISSING_INCREMENTAL_SCHEDULER') && (
+              data.reasons.some(
+                ({ name }) => name === 'MISSING_INCREMENTAL_SCHEDULER',
+              ) && (
                 <>
                   <Button
                     label="Create schedule"

@@ -5,7 +5,7 @@ import { VirtualScrollTable } from 'components/table/VirtualScrollTable';
 import { convertMilisecondsToHours } from 'utils/convertMilisecondsToHours';
 import { originTemplate } from 'components/table/templates';
 import { Header } from './components/Header';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { ExpandedWorkflowExecutionTable } from 'pages/workflow-execution/components/ExpandedWorkflowExecutionTable';
 import { WorkflowExecutionStates } from 'model/task-panel.model';
 import { Tooltip } from 'primereact/tooltip';

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Field, Form, Formik } from 'formik';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import Select from 'components/input/reactive/Select';
 import { ChargebackRequest } from 'model/chargeback/vm-chargeback-request';
 import { ToggleButton } from 'primereact/togglebutton';

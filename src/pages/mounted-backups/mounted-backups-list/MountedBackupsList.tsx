@@ -12,7 +12,7 @@ import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import Table from 'components/table/primereactTable';
 import { dateTemplate } from 'components/table/templates';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { Redirect, useRouteMatch } from 'react-router-dom';
 import { WorkflowExecutionStates } from 'model/task-panel.model';
 

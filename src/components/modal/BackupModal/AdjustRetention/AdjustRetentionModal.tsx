@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { hideModalAction, saveModalAction } from 'store/modal/actions';
 import { useDispatch } from 'react-redux';
 import { GeneralTable, PreviewTable } from './table';

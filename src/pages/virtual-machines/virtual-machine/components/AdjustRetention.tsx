@@ -1,4 +1,4 @@
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { hideFooterAction, showModalAction } from 'store/modal/actions';

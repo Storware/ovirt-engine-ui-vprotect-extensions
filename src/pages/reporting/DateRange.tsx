@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field, Form, Formik } from 'formik';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import Calendar from 'components/input/reactive/Calendar';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectRange } from 'store/reporting/selectors';
@@ -20,27 +20,26 @@ export default () => {
         }}
       >
         <Form className="mb-4">
-            <div className='d-flex align-items-center'>
-                <Field
-                    name="from"
-                    component={Calendar}
-                    label="From"
-                    className="d-inline-block"
-                />
-                <Field
-                    name="to"
-                    component={Calendar}
-                    label="To"
-                    className="d-inline-block ml-4"
-                />
+          <div className="d-flex align-items-center">
+            <Field
+              name="from"
+              component={Calendar}
+              label="From"
+              className="d-inline-block"
+            />
+            <Field
+              name="to"
+              component={Calendar}
+              label="To"
+              className="d-inline-block ml-4"
+            />
 
-                <Button
-                    type="submit"
-                    label="Apply"
-                    className="p-button-success ml-4"
-                />
-            </div>
-
+            <Button
+              type="submit"
+              label="Apply"
+              className="p-button-success ml-4"
+            />
+          </div>
         </Form>
       </Formik>
     </div>

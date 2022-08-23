@@ -13,7 +13,7 @@ import { Calendar } from 'primereact/calendar';
 import { CalendarPropsModel } from 'model/time/calendarPropsModel';
 import { AdjustRetention } from 'pages/virtual-machines/virtual-machine/components/AdjustRetention';
 import { TableActionsTemplate } from 'pages/virtual-machines/virtual-machine/components/backups/TableActionsTemplate';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 
 export default ({
   date,

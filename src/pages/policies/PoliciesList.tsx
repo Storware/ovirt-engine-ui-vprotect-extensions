@@ -15,7 +15,7 @@ import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { sizeTemplate } from 'components/table/templates';
 import { Menu } from 'primereact/menu';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import Table from 'components/table/primereactTable';
 import { booleanTemplate } from 'components/table/templates';
 

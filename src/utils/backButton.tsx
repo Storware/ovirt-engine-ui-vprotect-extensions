@@ -1,4 +1,4 @@
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import React from 'react';
 import { Link } from 'react-router-dom';
 

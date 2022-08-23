@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectPolicies } from 'store/virtual-machine/selectors';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { Field, Form, Formik } from 'formik';
 import Text from 'components/input/reactive/Text';
 import Toggle from 'components/input/reactive/Toggle';

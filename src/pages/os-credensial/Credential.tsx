@@ -9,7 +9,7 @@ import { selectSelectedCredential } from '../../store/credentials/selectors';
 import { CredentialModel } from '../../model';
 import { useParams } from 'react-router-dom';
 import { getCredential, saveCredential } from '../../store/credentials/actions';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 
 interface Props {
   type: 'Edit' | 'Create';

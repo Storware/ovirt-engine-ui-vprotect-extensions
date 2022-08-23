@@ -1,6 +1,6 @@
 import Select from '../../input/Select';
 import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import React from 'react';
 import { InputDate } from '../../input/InputDate';
 import VmsNotReadyForIncTable from './VmsNotReadyForIncTable/VmsNotReadyForIncTable';

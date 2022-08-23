@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { commonSizeOptions } from 'pages/dashboard/chargeback/commonSizeOptions';
 import BarChart from 'components/chart/BarChart';
 import { ChartData } from 'model/ChartData';

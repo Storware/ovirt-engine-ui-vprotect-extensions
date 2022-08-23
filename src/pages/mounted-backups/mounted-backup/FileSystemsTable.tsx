@@ -9,7 +9,7 @@ import { showModalAction } from '../../../store/modal/actions';
 import FileSystemModal from './FileSystemModal';
 import { Dispatch } from 'redux';
 import { sizeTemplate } from '../../../components/table/templates';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 
 const actionTemplate = (dispatch: Dispatch) => (rowData) =>
   (

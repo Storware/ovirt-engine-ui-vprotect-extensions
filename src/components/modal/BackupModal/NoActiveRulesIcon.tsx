@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 
 export const NoActiveRulesIcon = ({ entities }) => {
   const isRuleWarning = entities.every(

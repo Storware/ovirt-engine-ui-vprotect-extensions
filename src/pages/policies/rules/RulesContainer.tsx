@@ -3,7 +3,7 @@ import { schedulesService } from '../../../services/schedules-service';
 import Text from '../../../components/input/Text';
 import { ListBox } from 'primereact/listbox';
 import { ToggleButton } from 'primereact/togglebutton';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { BackupDestination } from 'model/backup-destination/backup-destination';
 import { NameAndGuid } from 'model/dto/nameAndGuid';
 import { BackupDestinationRetentionFactory } from 'model/backup-destination/backup-destination-retention-factory';

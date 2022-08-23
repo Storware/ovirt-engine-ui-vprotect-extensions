@@ -20,7 +20,7 @@ import {
   sizeTemplate,
 } from 'components/table/templates';
 import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { Menu } from 'primereact/menu';
 import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 import HeaderTable from '../../../components/table/HeaderTable';

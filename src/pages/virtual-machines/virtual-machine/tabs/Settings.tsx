@@ -12,7 +12,7 @@ import { alertService } from 'services/alert-service';
 import { virtualMachinesService } from 'services/virtual-machines-service';
 import { ToggleButton } from 'primereact/togglebutton';
 import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { createBrowserHistory } from 'history';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 import {
@@ -23,7 +23,7 @@ import {
 } from 'pages/virtual-machines/virtual-machine/components/settings';
 
 const isBaseImageConfigAvailable = (model) =>
-    model.hvmType != null && model.hvmType.name === 'AWS';
+  model.hvmType != null && model.hvmType.name === 'AWS';
 
 const inheritableBooleanValues = [
   { name: 'TRUE', description: 'True' },
@@ -221,8 +221,7 @@ export default () => {
             second: e.index,
           })
         }
-      >
-      </Accordion>
+      ></Accordion>
     </div>
   );
 };

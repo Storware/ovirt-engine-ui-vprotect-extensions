@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideFooter, selectModal, selectShow } from 'store/modal/selectors';
 import { hideModalAction, saveModalAction } from 'store/modal/actions';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { Dialog } from 'primereact/dialog';
 
 // Deprecated

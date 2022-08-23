@@ -4,7 +4,7 @@ import { alertService } from 'services/alert-service';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { dateTemplate, originTemplate } from 'components/table/templates';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import Table from 'components/table/primereactTable';
 import { convertMilisecondsToHours } from 'utils/convertMilisecondsToHours';
 import { WorkflowExecutionStates } from 'model/task-panel.model';

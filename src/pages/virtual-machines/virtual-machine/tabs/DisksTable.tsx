@@ -7,7 +7,7 @@ import Table from 'components/table/primereactTable';
 import { ToggleButton } from 'primereact/togglebutton';
 import { virtualMachinesService } from 'services/virtual-machines-service';
 import { alertService } from 'services/alert-service';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { setDisks } from 'store/virtual-machine/actions';
 import { Tooltip } from 'primereact/tooltip';
 

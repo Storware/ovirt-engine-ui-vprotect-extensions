@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
+import { Button } from 'components/button';
 import { Link } from 'react-router-dom';
 import Table from 'components/table/primereactTable';
 import { Column } from 'primereact/column';
