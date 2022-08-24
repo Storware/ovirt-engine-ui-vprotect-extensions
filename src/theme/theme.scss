@@ -105,12 +105,7 @@ body {
 }
 
 .p-button:focus{
-  background: #3F51B5 !important;
-  outline: 2px solid #3F51B577 !important;
-  outline-offset: 1px;
+  outline: 3px solid #9997 !important;
+  outline-offset: 2px;
   transition: .1s all ease-in-out;
-}
-.p-button:active{
-  background: #5F71D5 !important;
-  transition: .15s all ease-in-out;
 }
