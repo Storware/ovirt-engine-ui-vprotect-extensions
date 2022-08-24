@@ -78,7 +78,7 @@ export default () => {
           })
         }
       >
-        <AccordionTab header="GeneralTable">
+        <AccordionTab header="General">
           <div>
             <h6>Backup policy</h6>
             <Dropdown
@@ -194,7 +194,7 @@ export default () => {
           </AccordionTab>
         )}
         {arePreProSnapTabAvailable(model) && (
-          <AccordionTab header="SSH access (for pre/post snapshot command execution)">
+          <AccordionTab header="Remote access">
             <SshAccess model={model} setModel={setModel} />
           </AccordionTab>
         )}
