@@ -7,13 +7,15 @@ import { Field, Form, Formik } from 'formik';
 import Text from 'components/input/reactive/Text';
 import { selectRange } from 'store/reporting/selectors';
 import { hideModalAction } from 'store/modal/actions';
-import getCookie from '../../../utils/getCookie';
+import { selectExportRequest } from 'store/export-report/selectors';
+import { mapPropertiesObjectListToStringOfGuids } from '../../reporting/components/ReportSizeContainer';
 
 let submitFormikForm;
 
-export default () => {
+export const SendReportViaEmailModal = () => {
   const [model, setModel] = useState(new StringDTO());
   const range = useSelector(selectRange);
+  const exportRequest = useSelector(selectExportRequest);
   const dispatch = useDispatch();
 
   const getEmails = async () => {
@@ -23,9 +25,21 @@ export default () => {
 
   const sendEmail = async (email: StringDTO) => {
     dispatch(hideModalAction());
-    await globalSettingsService.sendDashboardInfoEmail(email, {
-      ...range,
-    });
+    const exportRequestGuids = {
+      backupSize: mapPropertiesObjectListToStringOfGuids(
+        exportRequest.backupSize,
+      ),
+      transferSize: mapPropertiesObjectListToStringOfGuids(
+        exportRequest.transferSize,
+      ),
+      value: email.value,
+    };
+    if (exportRequestGuids.value.length > 0) {
+      await globalSettingsService.sendDashboardInfoEmail(
+        range,
+        exportRequestGuids,
+      );
+    }
   };
 
   useEffect(() => {
@@ -57,3 +71,5 @@ export default () => {
     </div>
   );
 };
+
+export default SendReportViaEmailModal;

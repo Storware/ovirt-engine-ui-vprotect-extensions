@@ -1,19 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react';
-import { showModalAction } from '../../store/modal/actions';
+import { showModalAction } from 'store/modal/actions';
 import SendReportViaEmailModal from '../dashboard/chargeback/SendReportViaEmailModal';
 import { Dropdown } from 'primereact/dropdown';
-import { NameAndDescription } from '../../model/dto/nameAndDescription';
-import { fileSaverService } from '../../services/file-saver-service';
+import { NameAndDescription } from 'model/dto/nameAndDescription';
+import { fileSaverService } from 'services/file-saver-service';
 import dashboardService from 'services/dashboard-service';
-import { selectRange } from '../../store/reporting/selectors';
-import getCookie from '../../utils/getCookie';
+import { selectRange } from 'store/reporting/selectors';
+import { selectExportRequest } from 'store/export-report/selectors';
+import { mapPropertiesObjectListToStringOfGuids } from './components/ReportSizeContainer';
 
 export const ExportAs = () => {
   const dispatch = useDispatch();
   const range = useSelector(selectRange);
-  const projectUuid = getCookie('recent_project');
   const [selectedExportType] = useState(null);
+  const exportRequest = useSelector(selectExportRequest);
   const exportTypes: NameAndDescription<string>[] = [
     { description: 'Send report via e-mail', name: 'sendReportViaEmail' },
     { description: 'Export as PDF', name: 'exportAsPdf' },
@@ -29,22 +30,27 @@ export const ExportAs = () => {
     );
   };
 
+  const exportRequestGuids = {
+    backupSize: mapPropertiesObjectListToStringOfGuids(
+      exportRequest.backupSize,
+    ),
+    transferSize: mapPropertiesObjectListToStringOfGuids(
+      exportRequest.transferSize,
+    ),
+    value: '',
+  };
+
+  const getPdf = () =>
+    dashboardService.getDashboardInfoPdf(range, exportRequestGuids);
+  const getHtml = () =>
+    dashboardService.getDashboardInfoHtml(range, exportRequestGuids);
+
   const getReportPdf = async () => {
-    fileSaverService.saveFile(
-      await dashboardService.getDashboardInfoPdf({
-        ...range,
-        'project-uuid': projectUuid,
-      }),
-    );
+    await fileSaverService.saveFile(await getPdf());
   };
 
   const getReportHtml = async () => {
-    fileSaverService.saveFile(
-      await dashboardService.getDashboardInfoHtml({
-        ...range,
-        'project-uuid': projectUuid,
-      }),
-    );
+    await fileSaverService.saveFile(await getHtml());
   };
 
   const downloadReport = {

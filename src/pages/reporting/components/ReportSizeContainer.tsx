@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Field, Form, Formik } from 'formik';
+import { useRouteMatch } from 'react-router-dom';
+import { Field, Form, Formik, useFormikContext } from 'formik';
 import { Button } from 'primereact/button';
 import Select from 'components/input/reactive/Select';
 import { ChargebackRequest } from 'model/chargeback/vm-chargeback-request';
@@ -14,6 +15,15 @@ import InputListBox from 'components/input/reactive/InputListBox';
 import ChargebackChart from 'components/chart/ChargebackChart';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 import { selectRange } from 'store/reporting/selectors';
+import {
+  setBackupFilter,
+  setTransferFilter,
+} from 'store/export-report/actions';
+import {
+  selectBackupSizeFilters,
+  selectTransferSizeFilters,
+} from 'store/export-report/selectors';
+import { FilterState } from '../../../model/export-report/filterState';
 
 const groupByOptions = [
   {
@@ -76,7 +86,7 @@ const filterByFieldOptions = {
   }),
 };
 
-const mapPropertiesObjectListToStringOfGuids = (
+export const mapPropertiesObjectListToStringOfGuids = (
   chargebackRequest: ChargebackRequest,
 ) =>
   Object.keys(chargebackRequest).reduce(
@@ -90,11 +100,31 @@ const mapPropertiesObjectListToStringOfGuids = (
     {} as ChargebackRequest,
   );
 
+const FormikChangeHandler = ({ isItBackupSizeTab }) => {
+  const formik = useFormikContext();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const newState: FilterState = formik.values as FilterState;
+    dispatch(
+      isItBackupSizeTab
+        ? setBackupFilter(newState)
+        : setTransferFilter(newState),
+    );
+  }, [formik.values]);
+  return <></>;
+};
+
 export const ReportSizeContainer = ({ chartData, getChargebackData }) => {
   const propertyOptions = useSelector(selectPropertyOptions);
   const dispatch = useDispatch();
   const chargeBackRequest = new ChargebackRequest();
   const range = useSelector(selectRange);
+  const { url } = useRouteMatch();
+  const isItBackupSizeTab: boolean = url.includes('backup-size');
+  const previousFilterStates = isItBackupSizeTab
+    ? useSelector(selectBackupSizeFilters)
+    : useSelector(selectTransferSizeFilters);
 
   useEffect(() => {
     dispatch(
@@ -105,22 +135,22 @@ export const ReportSizeContainer = ({ chartData, getChargebackData }) => {
     );
   }, [range]);
 
+  const handleOnSubmit = (value) => {
+    dispatch(
+      getChargebackData(range, mapPropertiesObjectListToStringOfGuids(value)),
+    );
+  };
+
   return (
     <div>
       <Formik
         enableReinitialize
-        initialValues={chargeBackRequest}
-        onSubmit={(values) => {
-          dispatch(
-            getChargebackData(
-              range,
-              mapPropertiesObjectListToStringOfGuids(values),
-            ),
-          );
-        }}
+        initialValues={previousFilterStates}
+        onSubmit={handleOnSubmit}
       >
         {(props) => (
           <Form className="mb-4">
+            <FormikChangeHandler isItBackupSizeTab={isItBackupSizeTab} />
             <Field
               name="groupBy"
               component={Select}
@@ -133,11 +163,13 @@ export const ReportSizeContainer = ({ chartData, getChargebackData }) => {
 
             <h3 className="mt-3">Filter</h3>
 
-            {Object.keys(filterByFieldOptions).map((el) => {
-              const [show, setShow] = useState(false);
+            {Object.keys(filterByFieldOptions).map((key) => {
+              const [show, setShow] = useState(
+                previousFilterStates[key].length > 0,
+              );
               return (
-                <div className="mt-2" key={el}>
-                  <label>{filterByFieldOptions[el].label}</label>
+                <div className="mt-2" key={key}>
+                  <label>{filterByFieldOptions[key].label}</label>
                   <ToggleButton
                     className="ml-2"
                     checked={show}
@@ -145,34 +177,33 @@ export const ReportSizeContainer = ({ chartData, getChargebackData }) => {
                       setShow(value);
                       dispatch(
                         value
-                          ? getPropertyOptions(el, propertyOptions)
+                          ? getPropertyOptions(key, propertyOptions)
                           : setPropertyOptions({
                               ...propertyOptions,
-                              [el]: [],
+                              [key]: [],
                             }),
                       );
 
                       if (!value) {
-                        props.setFieldValue(el, []);
+                        props.setFieldValue(key, []);
                       }
                     }}
                   />
                   {show && (
                     <Field
-                      name={el}
+                      name={key}
                       component={InputListBox}
-                      options={propertyOptions[el]}
+                      options={propertyOptions[key]}
                       optionLabel={
-                        filterByFieldOptions[el].optionsLabelProperty
+                        filterByFieldOptions[key].optionsLabelProperty
                       }
-                      label={filterByFieldOptions[el].label}
+                      label={filterByFieldOptions[key].label}
                       multiple
                     />
                   )}
                 </div>
               );
             })}
-
             <Button
               type="submit"
               label="Generate report"

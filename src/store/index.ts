@@ -24,6 +24,7 @@ import mailingTable from './mailingTable';
 import mailing from './mailing';
 import credentials from './credentials';
 import network from './network';
+import exportReport from './export-report';
 
 export const rootReducer = combineReducers({
   user,
@@ -46,6 +47,7 @@ export const rootReducer = combineReducers({
   mailing,
   credentials,
   network,
+  exportReport,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));

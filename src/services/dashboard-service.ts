@@ -1,5 +1,6 @@
 import { vprotectApiService } from './vprotect-api-service';
 import { ChargebackRequest } from 'model/chargeback/vm-chargeback-request';
+import { ExportRequest } from 'model/export-report';
 
 const uuidRemover = (name: string) => name.replace(/^uuid_[^_]+_/, '');
 
@@ -53,20 +54,32 @@ class DashboardService {
     });
   }
 
-  getDashboardInfoPdf(params = {}) {
-    return vprotectApiService.get('/dashboard/report-pdf', {
-      responseType: 'blob',
-      observe: 'response',
-      params: { ...params, protectedEntityType: 'VM' },
-    });
+  getDashboardInfoPdf(params = {}, exportBody: ExportRequest) {
+    const httpOptions = {
+      params: {
+        ...params,
+        protectedEntityType: 'VM',
+      },
+    };
+    return vprotectApiService.post(
+      '/dashboard/report-pdf',
+      exportBody,
+      httpOptions,
+    );
   }
 
-  getDashboardInfoHtml(params = {}) {
-    return vprotectApiService.get('/dashboard/report-html', {
-      responseType: 'blob',
-      observe: 'response',
-      params: { ...params, protectedEntityType: 'VM' },
-    });
+  getDashboardInfoHtml(params = {}, exportBody: ExportRequest) {
+    const httpOptions = {
+      params: {
+        ...params,
+        protectedEntityType: 'VM',
+      },
+    };
+    return vprotectApiService.post(
+      '/dashboard/report-html',
+      exportBody,
+      httpOptions,
+    );
   }
 }
 
