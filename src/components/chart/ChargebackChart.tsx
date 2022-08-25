@@ -58,10 +58,16 @@ export default ({ chartData }) => {
     );
   }
 
+  const cutLabel = (label: string, maxLengthOfLabel: number) =>
+    label.length > maxLengthOfLabel
+      ? label.substring(0, maxLengthOfLabel) + '...'
+      : label;
+
   const options = {
     indexAxis: 'y',
     responsive: true,
     maintainAspectRatio: false,
+    aspectRatio: 1,
     plugins: {
       legend: {
         position: 'right',
@@ -70,6 +76,15 @@ export default ({ chartData }) => {
     ...commonSizeOptions('x'),
     scales: {
       x: tickSizeOptions(chartData.datasets[0].data),
+      y: {
+        ticks: {
+          callback: (label, index) =>
+            cutLabel(
+              getPaginatedAndSortedData(chartData, sortBy, page).labels[index],
+              25,
+            ),
+        },
+      },
     },
   };
 
