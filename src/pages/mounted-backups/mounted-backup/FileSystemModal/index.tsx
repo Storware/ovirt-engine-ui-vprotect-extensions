@@ -13,7 +13,7 @@ import {
 import { Button } from 'primereact/button';
 import { fileSaverService } from '../../../../services/file-saver-service';
 import { backupsService } from '../../../../services/backups-service';
-import {hideFooterAction} from '../../../../store/modal/actions';
+import { hideFooterAction } from '../../../../store/modal/actions';
 
 const icon = {
   DIRECTORY: 'pi-folder',
@@ -24,7 +24,7 @@ const icon = {
 
 const FileSystemModal = ({ guid }) => {
   const dispatch = useDispatch();
-  dispatch(hideFooterAction())
+  dispatch(hideFooterAction());
 
   useEffect(() => {
     dispatch(getFilesystemListing(guid, currentPath));
@@ -100,6 +100,7 @@ const FileSystemModal = ({ guid }) => {
         <Column
           field="name"
           header="Name"
+          sortable
           body={(rowData, column) => (
             <div>
               <i className={'mr-2 pi ' + icon[rowData.fileType.name]} />
@@ -123,14 +124,20 @@ const FileSystemModal = ({ guid }) => {
             </div>
           )}
         />
-        <Column field="fileType.description" header="Type" />
-        <Column field="size" header="Size" body={sizeTemplate} />
-        <Column field="modified" header="Modified" body={dateTemplate} />
-        <Column field="owner" header="Owner" />
-        <Column field="group" header="Group" />
+        <Column field="fileType.description" header="Type" sortable />
+        <Column field="size" header="Size" body={sizeTemplate} sortable />
+        <Column
+          field="modified"
+          header="Modified"
+          body={dateTemplate}
+          sortable
+        />
+        <Column field="owner" header="Owner" sortable />
+        <Column field="group" header="Group" sortable />
         <Column
           field="permissions"
           header="Permissions"
+          sortable
           body={permissionTemplate}
         />
       </Table>

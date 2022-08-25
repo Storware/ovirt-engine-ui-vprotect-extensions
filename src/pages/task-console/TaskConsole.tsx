@@ -113,6 +113,7 @@ export default () => {
           <Column
             field="progress"
             header="Progress"
+            sortable
             body={(rowData) => (
               <div></div>
               // <ProgressBar
@@ -130,8 +131,8 @@ export default () => {
             header=""
             className="text-center"
           />
-          <Column field="type.description" header="Type" />
-          <Column field="hypervisorManager.name" header="Hypervisor" />
+          <Column field="type.description" header="Type" sortable />
+          <Column field="hypervisorManager.name" header="Hypervisor" sortable />
           <Column
             field="protectedEntity.name"
             header="Virtual Machine"
@@ -141,19 +142,30 @@ export default () => {
                 : res.protectedEntityDisplayName
             }
           />
-          <Column field="node.name" header="Node" />
-          <Column field="backupDestination.name" header="Backup destination" />
-          <Column field="priority" header="Priority" />
-          <Column field="duration" header="Duration" />
+          <Column field="node.name" header="Node" sortable />
+          <Column
+            field="backupDestination.name"
+            header="Backup destination"
+            sortable
+          />
+          <Column field="priority" header="Priority" sortable />
+          <Column field="duration" header="Duration" sortable />
           <Column
             field="windowStart"
             header="Window start"
             body={dateTemplate}
+            sortable
           />
-          <Column field="windowEnd" header="Window end" body={dateTemplate} />
+          <Column
+            field="windowEnd"
+            header="Window end"
+            body={dateTemplate}
+            sortable
+          />
           <Column
             field="action"
             header="Action"
+            sortable
             body={(rowData) => (
               <Button
                 label="Remove"

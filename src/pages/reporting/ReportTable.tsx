@@ -53,11 +53,13 @@ export default () => {
           field="protectedEntity"
           header="Virtual Environment"
           body={nameLink}
+          sortable
         />
         <Column
           style={{ width: '10%' }}
           field="policy"
           header="Policy"
+          sortable
           body={(rowData) =>
             rowData.policy &&
             getElementWithoutProjectUuidInName({ name: rowData.policy }).name
@@ -77,6 +79,7 @@ export default () => {
             field="restoreTime"
             header="Restore Time"
             body={dateTemplate}
+            sortable
           />
         )}
         <Column
@@ -84,6 +87,7 @@ export default () => {
           field="size"
           header="Size"
           body={sizeTemplate}
+          sortable
         />
         <Column style={{ width: '10%' }} field="type" header="Type" />
         <Column
@@ -91,6 +95,7 @@ export default () => {
           field="status"
           header="Status"
           body={virtualEnvironmentStatus}
+          sortable
         />
         <Column field="statusInfo" header="Status Info" />
       </Table>
