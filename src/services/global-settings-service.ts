@@ -1,12 +1,12 @@
 import { vprotectApiService } from './vprotect-api-service';
-import { StringDTO } from 'model/dto/string';
+import { ExportRequest } from 'model/export-report';
 
 class GlobalSettingsService {
   getGlobalSettings() {
     return vprotectApiService.get('/global-settings');
   }
 
-  sendDashboardInfoEmail(emails: StringDTO, params = {}) {
+  sendDashboardInfoEmail(params = {}, exportBody: ExportRequest) {
     const httpOptions = {
       params: {
         ...params,
@@ -15,7 +15,7 @@ class GlobalSettingsService {
     };
     return vprotectApiService.post(
       '/dashboard/report-email',
-      emails,
+      exportBody,
       httpOptions,
     );
   }

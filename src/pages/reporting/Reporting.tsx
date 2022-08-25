@@ -13,7 +13,7 @@ import {
   TransferSize,
 } from 'pages/reporting/Tabs';
 
-const tabs: Tab[] = [
+export const tabs: Tab[] = [
   { label: 'Summary', path: 'summary' },
   { label: 'Virtual Environment Backup', path: 'backups' },
   { label: 'Virtual Environment Restore', path: 'restores' },
