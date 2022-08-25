@@ -41,12 +41,22 @@ const FileSystemsTable = () => {
   return (
     <div>
       <Table value={fileSystems}>
-        <Column field="fileSystem.volume" header="Volume" />
-        <Column field="mountPath" header="Mount path" />
-        <Column field="fileSystem.size" header="Size" body={sizeTemplate} />
-        <Column field="fileSystem.type" header="Type" />
-        <Column field="fileSystem.label" header="Label" />
-        <Column field="guid" header="Action" body={actionTemplate(dispatch)} />
+        <Column field="fileSystem.volume" header="Volume" sortable />
+        <Column field="mountPath" header="Mount path" sortable />
+        <Column
+          field="fileSystem.size"
+          header="Size"
+          body={sizeTemplate}
+          sortable
+        />
+        <Column field="fileSystem.type" header="Type" sortable />
+        <Column field="fileSystem.label" header="Label" sortable />
+        <Column
+          field="guid"
+          header="Action"
+          body={actionTemplate(dispatch)}
+          sortable
+        />
       </Table>
     </div>
   );

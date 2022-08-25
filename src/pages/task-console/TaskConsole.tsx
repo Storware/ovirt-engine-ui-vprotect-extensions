@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { vprotectService } from 'services/vprotect-service';
-import { alertService } from 'services/alert-service';
+// import { ProgressBar } from 'patternfly-react';
+import { vprotectService } from '../../services/vprotect-service';
+import { alertService } from '../../services/alert-service';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
-import { dateTemplate, originTemplate } from 'components/table/templates';
+import { dateTemplate } from 'components/table/templates';
 import { Button } from 'primereact/button';
 import Table from 'components/table/primereactTable';
 import { convertMilisecondsToHours } from 'utils/convertMilisecondsToHours';
-import { WorkflowExecutionStates } from 'model/task-panel.model';
-import { Progress } from '@patternfly/react-core';
 
 export default () => {
   const [rows, setRows] = useState([]);
@@ -37,25 +36,17 @@ export default () => {
 
   const addDurationToTasks = (tasks = []) =>
     tasks.map((task) => {
-      if (
-        task.state.name !== WorkflowExecutionStates.RUNNING &&
-        !task.startTime &&
-        task.finishTime
-      ) {
+      if (task.state.name !== 'RUNNING' && !task.startTime && task.finishTime) {
         return { ...task, duration: '00:00:00' };
       }
 
-      if (
-        task.state.name !== WorkflowExecutionStates.RUNNING &&
-        task.startTime &&
-        task.finishTime
-      ) {
+      if (task.state.name !== 'RUNNING' && task.startTime && task.finishTime) {
         return {
           ...task,
           duration: convertMilisecondsToHours(task.finishTime - task.startTime),
         };
       }
-      if (task.state.name !== WorkflowExecutionStates.RUNNING) {
+      if (task.state.name !== 'RUNNING') {
         return task;
       }
 
@@ -122,11 +113,17 @@ export default () => {
           <Column
             field="progress"
             header="Progress"
-            body={({ progress }) => (
-              <Progress
-                value={progress}
-                label={progress > 20 ? `${progress} %` : ''}
-              />
+            sortable
+            body={(rowData) => (
+              <div></div>
+              // <ProgressBar
+              //   now={rowData.progress}
+              //   label={
+              //     <span className={'text-center'}>
+              //       {rowData.progress > 20 ? `${rowData.progress} %` : ''}
+              //     </span>
+              //   }
+              // />
             )}
           />
           <Column
@@ -134,8 +131,8 @@ export default () => {
             header=""
             className="text-center"
           />
-          <Column field="type.description" header="Type" />
-          <Column field="hypervisorManager.name" header="Hypervisor" />
+          <Column field="type.description" header="Type" sortable />
+          <Column field="hypervisorManager.name" header="Hypervisor" sortable />
           <Column
             field="protectedEntity.name"
             header="Virtual Machine"
@@ -145,25 +142,35 @@ export default () => {
                 : res.protectedEntityDisplayName
             }
           />
-          <Column field="node.name" header="Node" />
-          <Column field="backupDestination.name" header="Backup destination" />
-          <Column header="Origin" body={originTemplate} />
-          <Column field="priority" header="Priority" />
-          <Column field="duration" header="Duration" />
+          <Column field="node.name" header="Node" sortable />
+          <Column
+            field="backupDestination.name"
+            header="Backup destination"
+            sortable
+          />
+          <Column field="priority" header="Priority" sortable />
+          <Column field="duration" header="Duration" sortable />
           <Column
             field="windowStart"
             header="Window start"
             body={dateTemplate}
+            sortable
           />
-          <Column field="windowEnd" header="Window end" body={dateTemplate} />
+          <Column
+            field="windowEnd"
+            header="Window end"
+            body={dateTemplate}
+            sortable
+          />
           <Column
             field="action"
             header="Action"
+            sortable
             body={(rowData) => (
               <Button
                 label="Remove"
                 onClick={async () => {
-                  if (rowData.state.name === WorkflowExecutionStates.RUNNING) {
+                  if (rowData.state.name === 'RUNNING') {
                     const cancelledStatus = {
                       state: { name: 'CANCELLED' },
                       statusInfo: 'Canceled by user',

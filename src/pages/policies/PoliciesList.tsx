@@ -111,14 +111,25 @@ export const PoliciesList = () => {
       />
       {type === 'vm-backup' ? (
         <Table value={rows} header={header()} globalFilter={globalFilter}>
-          <Column field="name" header="Name" body={nameTemplate(history)} />
-          <Column field="active" header="Active" body={booleanTemplate} />
-          <Column field="priority" header="Priority" />
+          <Column
+            field="name"
+            header="Name"
+            body={nameTemplate(history)}
+            sortable
+          />
+          <Column
+            field="active"
+            header="Active"
+            body={booleanTemplate}
+            sortable
+          />
+          <Column field="priority" header="Priority" sortable />
           <Column field="vmCount" header="VM Count" />
           <Column
             field="averageBackupSize"
             header="Average Backup Size"
             body={sizeTemplate}
+            sortable
           />
           <Column
             field="action"
@@ -138,12 +149,18 @@ export const PoliciesList = () => {
         </Table>
       ) : (
         <Table value={rows} header={header()} globalFilter={globalFilter}>
-          <Column field="name" header="Name" body={nameTemplate(history)} />
-          <Column field="priority" header="Priority" />
-          <Column field="ruleCount" header="Rule Count" />
+          <Column
+            field="name"
+            header="Name"
+            body={nameTemplate(history)}
+            sortable
+          />
+          <Column field="priority" header="Priority" sortable />
+          <Column field="ruleCount" header="Rule Count" sortable />
           <Column
             field="action"
             header="Action"
+            sortable
             body={(rowData) => (
               <Button
                 icon="pi pi-bars"
