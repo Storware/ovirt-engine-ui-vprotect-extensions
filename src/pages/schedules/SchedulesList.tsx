@@ -55,8 +55,13 @@ const SchedulesList = () => {
 
   return (
     <Table value={rows} header={header()} globalFilter={globalFilter}>
-      <Column field="name" header="Name" body={nameTemplate(history)} />
-      <Column field="active" header="Active" body={booleanTemplate} />
+      <Column
+        field="name"
+        header="Name"
+        body={nameTemplate(history)}
+        sortable
+      />
+      <Column field="active" header="Active" body={booleanTemplate} sortable />
       <Column
         field="hour"
         header="Schedule"
@@ -71,11 +76,12 @@ const SchedulesList = () => {
           rowData.daysOfWeek.map((el) => <span>{el.name} </span>)
         }
       />
-      <Column field="backupType.description" header="Backup Type" />
+      <Column field="backupType.description" header="Backup Type" sortable />
       <Column field="rules.length" header="Policies" />
       <Column
         field="startWindowLength"
         header="Start window [min]"
+        sortable
         body={(rowData) => rowData.startWindowLength / 1000 / 60}
       />
       <Column
