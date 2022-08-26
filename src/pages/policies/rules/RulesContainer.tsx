@@ -102,21 +102,26 @@ export const RulesContainer = ({
 
   return (
     <>
-      {rule.position !== 0 && (
-        <div className="text-right">
-          <Button type="button" label="Remove rule" onClick={emitRemoveRule} />
+      <div className="d-flex flex-row justify-content-between">
+        <div className="my-2 w-6">
+          <ToggleButton
+            checked={rule.active}
+            onChange={({ value }) => {
+              rule.active = value;
+              setBackupRetentionSettings();
+            }}
+          />
+          <label className="ml-2">Active</label>
         </div>
-      )}
-
-      <ToggleButton
-        checked={rule.active}
-        onChange={({ value }) => {
-          rule.active = value;
-          setBackupRetentionSettings();
-        }}
-      />
-      <label className="ml-2">Active</label>
-
+        {rule.position !== 0 && (
+          <Button
+            style={{ height: '50px', margin: '10px 25px 0 0' }}
+            type="button"
+            label="Remove rule"
+            onClick={emitRemoveRule}
+          />
+        )}
+      </div>
       <Text
         inputValue={rule.name}
         change={({ value }) => (rule.name = value)}
