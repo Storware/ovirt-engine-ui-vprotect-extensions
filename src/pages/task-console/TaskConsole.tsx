@@ -118,8 +118,9 @@ export default () => {
     <div>
       <div>
         <Table value={rows} header={header()} globalFilter={globalFilter}>
-          <Column field="state.description" header="State" />
+          <Column field="state.description" header="State" sortable />
           <Column
+            sortable
             field="progress"
             header="Progress"
             body={({ progress }) => (
@@ -130,13 +131,15 @@ export default () => {
             )}
           />
           <Column
+            sortable
             field="backupType.description"
             header=""
             className="text-center"
           />
-          <Column field="type.description" header="Type" />
-          <Column field="hypervisorManager.name" header="Hypervisor" />
+          <Column field="type.description" header="Type" sortable />
+          <Column field="hypervisorManager.name" header="Hypervisor" sortable />
           <Column
+            sortable
             field="protectedEntity.name"
             header="Virtual Machine"
             body={(res) =>
@@ -145,10 +148,10 @@ export default () => {
                 : res.protectedEntityDisplayName
             }
           />
-          <Column field="node.name" header="Node" />
+          <Column field="node.name" header="Node" sortable />
           <Column field="backupDestination.name" header="Backup destination" />
-          <Column header="Origin" body={originTemplate} />
-          <Column field="priority" header="Priority" />
+          <Column header="Origin" body={originTemplate} sortable />
+          <Column field="priority" header="Priority" sortable />
           <Column field="duration" header="Duration" />
           <Column
             field="windowStart"
