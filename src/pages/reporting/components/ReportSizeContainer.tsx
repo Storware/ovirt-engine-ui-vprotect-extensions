@@ -161,7 +161,15 @@ export const ReportSizeContainer = ({ chartData, getChargebackData }) => {
               placeholder="Choose an option"
             />
 
-            <h3 className="mt-3">Filter</h3>
+            <b
+              style={{
+                fontSize: '1.25rem',
+                display: 'block',
+                marginTop: '1.5rem',
+              }}
+            >
+              Filters
+            </b>
 
             {Object.keys(filterByFieldOptions).map((key) => {
               const [show, setShow] = useState(
