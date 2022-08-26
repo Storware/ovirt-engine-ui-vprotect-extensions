@@ -1,6 +1,8 @@
 td {
   text-align: center;
   overflow-wrap: break-word;
+
+  padding: 0.2rem 1rem !important;
 }
 
 .form .p-datatable .p-dropdown,
@@ -23,14 +25,6 @@ table .p-muted {
 
 .c-table .p-paginator .p-inputtext {
   padding: 0.75rem 0 0.75rem 0.75rem;
-}
-
-.c-table .p-component, .p-datatable-scrollable {
-  font-size: 13px;
-}
-
-.p-datatable{
-  & .p-button, & .p-inputtext{ font-size: 13px; }
 }
 
 .text-capitalize-from-uppercase {
