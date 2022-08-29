@@ -86,6 +86,11 @@ export default ({ chartData }) => {
         },
       },
     },
+    interaction: {
+      mode: 'nearest',
+      axis: 'y',
+      intersect: false,
+    },
   };
 
   const SortBy = ({ type }: { type: SortType }) => (
