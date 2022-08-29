@@ -44,7 +44,7 @@ export const VirtualScrollTable = ({
       virtualScrollerOptions={{
         lazy: true,
         delay: 200,
-        itemSize: 75,
+        itemSize: 50,
         onLazyLoad: loadValuesLazy,
         ...props.virtualScrollerOptions,
       }}
