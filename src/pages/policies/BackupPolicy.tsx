@@ -335,7 +335,6 @@ export const BackupPolicy = ({ type }) => {
                   name="vms"
                   options={virtualMachines}
                   component={InputListBox}
-                  // optionLabel="name"
                   itemTemplate={itemVWTemplate}
                   multiple
                   dataKey="guid"
