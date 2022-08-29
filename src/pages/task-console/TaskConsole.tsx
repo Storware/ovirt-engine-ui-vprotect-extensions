@@ -149,16 +149,26 @@ export default () => {
             }
           />
           <Column field="node.name" header="Node" sortable />
-          <Column field="backupDestination.name" header="Backup destination" />
+          <Column
+            field="backupDestination.name"
+            header="Backup destination"
+            sortable
+          />
           <Column header="Origin" body={originTemplate} sortable />
           <Column field="priority" header="Priority" sortable />
-          <Column field="duration" header="Duration" />
+          <Column field="duration" header="Duration" sortable />
           <Column
             field="windowStart"
             header="Window start"
             body={dateTemplate}
+            sortable
           />
-          <Column field="windowEnd" header="Window end" body={dateTemplate} />
+          <Column
+            field="windowEnd"
+            header="Window end"
+            body={dateTemplate}
+            sortable
+          />
           <Column
             field="action"
             header="Action"
