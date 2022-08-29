@@ -21,14 +21,6 @@ export const tabs: Tab[] = [
   { label: 'Transfer size', path: 'transfer-size' },
 ];
 
-const inkStyle = {
-  summary: { width: '117px', left: '0' },
-  backups: { width: '246px', left: '117px' },
-  restores: { width: '247px', left: '363px' },
-  'backup-size': { width: '138px', left: '610px' },
-  'transfer-size': { width: '140px', left: '748px' },
-};
-
 const routes: RouteList = [
   { path: 'summary', component: Summary },
   { path: 'backups', component: ReportTable },
@@ -45,7 +37,7 @@ export default () => {
         <DateRange />
         <ExportAs />
       </div>
-      <Tabs items={{ tabs, inkStyle }} />
+      <Tabs items={{ tabs }} />
       <Switch>
         <Routes items={routes} absolutePathPart={match.path} />
       </Switch>
