@@ -16,7 +16,8 @@
     "prebuild:openstack": "rm -rf dist/openstack",
     "build:openstack": "webpack --config webpack.openstack.prod.js",
     "build-n-zip:oVirt": "yarn build:oVirt && yarn zip:oVirt",
-    "build-n-zip:openstack": "yarn build:openstack && yarn zip:openstack"
+    "build-n-zip:openstack": "yarn build:openstack && yarn zip:openstack",
+    "build-n-zip": "yarn build-n-zip:oVirt && yarn build-n-zip:openstack"
   },
   "dependencies": {
     "@patternfly/react-charts": "^6.67.1",
