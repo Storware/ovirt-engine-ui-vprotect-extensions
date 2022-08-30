@@ -180,13 +180,6 @@ export const BackupPolicy = ({ type }) => {
     handleChangeBackupDestination();
   }, [model.rules]);
 
-  const itemVWTemplate = (option) => (
-    <div>
-      <p>{option.name}</p>
-      <p style={{ fontSize: '0.8em', color: 'grey' }}>{option.guid}</p>
-    </div>
-  );
-
   return (
     <div className="form">
       <Formik
@@ -311,7 +304,6 @@ export const BackupPolicy = ({ type }) => {
                   name="autoAssignSettings.hvClusters"
                   options={hypervisorClusters}
                   component={InputListBox}
-                  itemTemplate={itemVWTemplate}
                   multiple
                   dataKey="guid"
                   onChange={(e) => {
@@ -335,7 +327,6 @@ export const BackupPolicy = ({ type }) => {
                   name="vms"
                   options={virtualMachines}
                   component={InputListBox}
-                  itemTemplate={itemVWTemplate}
                   multiple
                   dataKey="guid"
                   label="Choose Virtual Environments"
