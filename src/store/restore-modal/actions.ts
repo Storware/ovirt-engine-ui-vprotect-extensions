@@ -7,6 +7,7 @@ import {
   SET_HYPERVISOR_CLUSTERS,
   SET_HYPERVISOR_MANAGERS,
   SET_HYPERVISOR_STORAGES,
+  SET_RESTORE_CLUSTER_ID,
   SET_TASK,
 } from './types';
 import { Dispatch } from 'redux';
@@ -185,3 +186,8 @@ export const getBackupFiles =
 
     dispatch(setBackupFilesAction(data));
   };
+
+export const setRestoreClusterId = (payload: any[]): BackupModalAction => ({
+  type: SET_RESTORE_CLUSTER_ID,
+  payload,
+});

@@ -2,10 +2,12 @@ import {
   BackupModalAction,
   SET_BACKUP_FILES,
   SET_BACKUP_LOCATIONS,
-  SET_FILTERED_HYPERVISOR_STORAGES, SET_FLAVORS,
+  SET_FILTERED_HYPERVISOR_STORAGES,
+  SET_FLAVORS,
   SET_HYPERVISOR_CLUSTERS,
   SET_HYPERVISOR_MANAGERS,
   SET_HYPERVISOR_STORAGES,
+  SET_RESTORE_CLUSTER_ID,
   SET_TASK,
 } from './types';
 import { RestoreAndImportTask } from '../../model/tasks/restore-and-import-task';
@@ -80,6 +82,12 @@ export default (state = initial, action: BackupModalAction) => {
     return {
       ...state,
       flavors: action.payload,
+    };
+  }
+  if (action.type === SET_RESTORE_CLUSTER_ID) {
+    return {
+      ...state,
+      task: { ...state.task, restoreClusterId: action.payload },
     };
   }
   return state;

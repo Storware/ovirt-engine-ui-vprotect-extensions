@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { vprotectService } from '../../../services/vprotect-service';
-import { Filesize } from '../../../components/convert/Filesize';
+import { vprotectService } from 'services/vprotect-service';
+import { Filesize } from 'components/convert/Filesize';
 import { Field, Form, Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -11,6 +11,7 @@ import {
   submitTask,
   getBackupFiles,
   getFlavorsForHypervisorManager,
+  setRestoreClusterId,
 } from 'store/restore-modal/actions';
 import {
   selectBackupFiles,
@@ -75,12 +76,9 @@ export const RestoreModal = ({ virtualEnvironment }) => {
     }
   }, [task]);
 
-  useEffect(
-    () => () => {
-      dispatch(setNetworkAction([]));
-    },
-    [],
-  );
+  useEffect(() => {
+    dispatch(setNetworkAction([]));
+  }, []);
 
   const onBackupLocationChange = (value) => {
     dispatch(
@@ -101,17 +99,18 @@ export const RestoreModal = ({ virtualEnvironment }) => {
   const onClusterChange = async (event) => {
     const cluster = clusters.find((el) => el.uuid === event.value);
     setClusterCopy(cluster);
-    dispatch(
-      setFilteredHypervisorStoragesAction(
-        !!cluster
-          ? storages.filter(
-              (storage) =>
-                !!storage.clusters &&
-                !!storage.clusters.find((el) => cluster.guid === el.guid),
-            )
-          : [],
-      ),
-    );
+    if (!!cluster) {
+      dispatch(
+        setFilteredHypervisorStoragesAction(
+          storages.filter(
+            (storage) =>
+              !!storage.clusters &&
+              !!storage.clusters.find((el) => cluster.guid === el.guid),
+          ),
+        ),
+      );
+      dispatch(setRestoreClusterId(cluster.uuid));
+    }
   };
 
   const filterTaskFiles = (arr) =>
