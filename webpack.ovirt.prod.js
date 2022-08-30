@@ -77,6 +77,39 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.(svg|ttf|eot|woff|woff2)$/,
+        // only process modules with this loader
+        // if they live under a 'fonts' or 'pficon' directory
+        include: [
+          path.resolve(__dirname, 'node_modules/patternfly/dist/fonts'),
+          path.resolve(
+            __dirname,
+            'node_modules/@patternfly/react-core/dist/styles/assets/fonts',
+          ),
+          path.resolve(
+            __dirname,
+            'node_modules/@patternfly/react-core/dist/styles/assets/pficon',
+          ),
+          path.resolve(
+            __dirname,
+            'node_modules/@patternfly/patternfly/assets/fonts',
+          ),
+          path.resolve(
+            __dirname,
+            'node_modules/@patternfly/patternfly/assets/pficon',
+          ),
+        ],
+        use: {
+          loader: 'file-loader',
+          options: {
+            // Limit at 50k. larger files emited into separate files
+            limit: 5000,
+            outputPath: 'fonts',
+            name: '[name].[ext]',
+          },
+        },
+      },
     ],
   },
 
@@ -92,9 +125,12 @@ module.exports = {
     minimizer: [
       new TerserPlugin({
         // minify JS with source maps
-        cache: true,
+        // cache: true,
         parallel: true,
-        sourceMap: true,
+        terserOptions: {
+          // cache: true,
+          sourceMap: true,
+        },
       }),
       new OptimizeCSSAssetsPlugin({
         // minify CSS with source maps
@@ -119,9 +155,7 @@ module.exports = {
     }),
 
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(env),
-      },
+      'process.env.NODE_ENV': JSON.stringify(env),
       __DEV__: JSON.stringify(env === 'development'),
     }),
 
@@ -149,14 +183,14 @@ module.exports = {
       inject: true,
       chunks: ['webpack-manifest', 'vendor', 'index'],
     }),
-    new InlineManifestWebpackPlugin('webpack-manifest'),
+    // new InlineManifestWebpackPlugin('webpack-manifest'),
 
     // This pulls all of the depends on modules out of the entry chunks and puts them
     // together here.  Every entry then shares this chunk and it can be cached between
     // them.  The HtmlWebpackPlugins just need to reference it so the script tag is
     // written correctly.  HashedModuleIdsPlugin keeps the chunk id stable as long
     // as the contents of the chunk stay the same (i.e. no new modules are used).
-    new webpack.HashedModuleIdsPlugin(),
+    new webpack.ids.HashedModuleIdsPlugin(),
   ],
 
   bail: true,
