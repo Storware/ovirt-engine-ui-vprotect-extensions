@@ -150,6 +150,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
           taskFiles: backupFilesFiltered,
           backupLocation: backupLocationCopy ?? task.backupLocation,
           isDiskLayoutActive: false,
+          restoreToOriginalVolumeType: true,
           restoredNetworks: task.restoredNetworks.map(
             (networkInterfaceCard) => ({
               ...networkInterfaceCard,
