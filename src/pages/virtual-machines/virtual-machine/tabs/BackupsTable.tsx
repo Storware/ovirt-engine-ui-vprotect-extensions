@@ -83,7 +83,7 @@ export default ({
         <Column field="type.description" header="Type" />
         <Column field="size" header="Size" body={sizeTemplate} />
         <Column
-          body={(data) => TableActionsTemplate(data, dispatch)}
+          body={(data) => TableActionsTemplate(data, dispatch, onRefresh)}
           style={{ width: '10%' }}
         />
       </Table>

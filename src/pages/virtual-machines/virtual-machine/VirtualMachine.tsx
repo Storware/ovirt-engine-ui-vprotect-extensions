@@ -292,7 +292,10 @@ const VirtualMachine = () => {
             <BackupsTable
               date={dateRange}
               setDate={setDateRange}
-              onRefresh={() => loadPage()}
+              onRefresh={() => {
+                loadPage();
+                loadTabs();
+              }}
             />
           </TabPanel>
           <TabPanel header={`Backup History (${backupsHistory.length})`}>
