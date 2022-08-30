@@ -2,11 +2,11 @@ import React from 'react';
 import { Button } from 'primereact/button';
 import { hideFooterAction, showModalAction } from 'store/modal/actions';
 import { DetailsModal } from 'pages/virtual-machines/modal/DetailsModal';
-import { backupsService } from 'services/backups-service'
+import { backupsService } from 'services/backups-service';
 import { policiesService } from 'services/policies-service';
 import { EditRuleModal } from 'pages/virtual-machines/modal/EditRuleModal';
 
-export const TableActionsTemplate = (backup, dispatch) => {
+export const TableActionsTemplate = (backup, dispatch, onRefresh) => {
   dispatch(hideFooterAction());
 
   const openDetailsModal = async () => {
@@ -16,7 +16,7 @@ export const TableActionsTemplate = (backup, dispatch) => {
       showModalAction({
         component: DetailsModal,
         title: 'Backup Details',
-        props: { fileSystems, files, backup },
+        props: { fileSystems, files, backup, onRefresh },
         style: { width: '80vw' },
       }),
     );
@@ -26,24 +26,23 @@ export const TableActionsTemplate = (backup, dispatch) => {
     if (!backup.backupRule) {
       return;
     }
-    const rule = await policiesService.getRule(backup.backupRule.guid)
+    const rule = await policiesService.getRule(backup.backupRule.guid);
     const primaryBackupDestination = rule.ruleBackupDestinations.find(
-      ({ roleType }) => roleType.name === 'PRIMARY'
+      ({ roleType }) => roleType.name === 'PRIMARY',
     );
     const secondaryBackupDestination = rule.ruleBackupDestinations.find(
-      ({ roleType }) => roleType.name === 'SECONDARY'
-    )
+      ({ roleType }) => roleType.name === 'SECONDARY',
+    );
 
     dispatch(
       showModalAction({
         component: EditRuleModal,
         title: 'Rule Details',
-        props: { rule, primaryBackupDestination,
-          secondaryBackupDestination },
+        props: { rule, primaryBackupDestination, secondaryBackupDestination },
         style: { width: '80vw' },
       }),
     );
-  }
+  };
 
   return (
     <div className="d-flex justify-content-around">

@@ -14,20 +14,22 @@ interface Props {
   fileSystems: any[];
   files: any[];
   backup: any;
+  onRefresh: () => void;
 }
 
 export const DetailsModal = ({
   fileSystems,
   files,
   backup: { description, guid },
+  onRefresh,
 }: Props) => {
-  const dispatch = useDispatch();
   const [descriptionValue, setDescription] = useState<string>(description);
-
-  const updateDescription = () => {
+  const dispatch = useDispatch();
+  const updateDescription = async () => {
     alertService.info('Description updated');
-    dispatch(hideModalAction())
-    backupsService.updateBackupDescription(guid, descriptionValue);
+    await backupsService.updateBackupDescription(guid, descriptionValue);
+    onRefresh();
+    dispatch(hideModalAction());
   };
 
   return (
