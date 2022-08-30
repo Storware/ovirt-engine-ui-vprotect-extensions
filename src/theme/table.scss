@@ -1,6 +1,8 @@
 td {
   text-align: center;
   overflow-wrap: break-word;
+
+  padding: 0.2rem 1rem !important;
 }
 
 .form .p-datatable .p-dropdown,
@@ -21,6 +23,22 @@ table .p-row-tooltip [data-pr-tooltip] {
   padding: 0.75rem 0 0.75rem 0.75rem;
 }
 
-.c-table .p-component {
-  font-size: 13px;
+.text-capitalize-from-uppercase {
+  text-transform: lowercase;
+
+  &:first-letter {
+    text-transform: uppercase;
+  }
+}
+
+%text-ellipsis{
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.column-cut-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  @extend %text-ellipsis
 }

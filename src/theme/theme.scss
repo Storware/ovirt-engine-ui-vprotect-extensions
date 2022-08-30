@@ -5,8 +5,15 @@
 @import "filesystem-table";
 @import "protection-doughnut";
 
+html {
+  font-size: 13px !important;
+}
 label, input {
   display: block;
+}
+
+h6{
+  font-size: 1.3rem;
 }
 
 .modal-footer button {
@@ -102,4 +109,21 @@ body {
 
 .pf-c-progress__indicator {
   background-color: var(--pf-c-progress__indicator--BackgroundColor);
+}
+
+.p-button{
+  padding: 0.7rem 1rem;
+}
+
+.p-button:focus{
+  outline: 3px solid #9997 !important;
+  outline-offset: 2px;
+  transition: .1s all ease-in-out;
+}
+
+.p-inputtext,
+.p-menuitem-link,
+.p-listbox .p-listbox-list .p-listbox-item,
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item{
+  padding: 0.65rem 1rem;
 }
