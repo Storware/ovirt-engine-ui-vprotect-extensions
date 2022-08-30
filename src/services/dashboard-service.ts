@@ -56,6 +56,8 @@ class DashboardService {
 
   getDashboardInfoPdf(params = {}, exportBody: ExportRequest) {
     const httpOptions = {
+      responseType: 'blob',
+      observe: 'response',
       params: {
         ...params,
         protectedEntityType: 'VM',
@@ -70,6 +72,8 @@ class DashboardService {
 
   getDashboardInfoHtml(params = {}, exportBody: ExportRequest) {
     const httpOptions = {
+      responseType: 'blob',
+      observe: 'response',
       params: {
         ...params,
         protectedEntityType: 'VM',
