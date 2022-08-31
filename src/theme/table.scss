@@ -42,3 +42,17 @@ table .p-muted {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
+.reporting-summary-table-body {
+  width: 75%;
+  tr {
+    border-top: 1px solid #0002;
+  }
+  td {
+    padding: .8rem 1rem !important;
+    font-size: 1rem;
+  }
+  &+& {
+    margin-top: 140px;
+  }
+}
