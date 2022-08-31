@@ -29,6 +29,7 @@ export const ChartSection = ({
         <div className="d-flex flex-column">
           <h6 className={'text-center card-pf-title'}>{chartHeader}</h6>
           <ChartDonut
+            innerRadius={80}
             data={data}
             labels={({ datum }) => `${datum.x}: ${datum.y}%`}
             {...props}
