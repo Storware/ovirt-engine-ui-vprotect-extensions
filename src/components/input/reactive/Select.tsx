@@ -17,7 +17,7 @@ const Select = ({
   required = false,
   ...props
 }) => {
-  const [value, setValue] = useState(field.value);
+  const [value, setValue] = useState({});
 
   const setFieldValueAndEmitChangeEvent = (v) => {
     setValue(v);
