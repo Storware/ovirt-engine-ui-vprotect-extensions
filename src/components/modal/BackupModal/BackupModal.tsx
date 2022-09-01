@@ -44,9 +44,7 @@ export const BackupModal = ({ virtualEnvironments, rules = [], ...props }) => {
   }, []);
 
   useEffect(() => {
-    task.rules.length > 0
-      ? dispatch(setIsSelectedRulesZero(false))
-      : dispatch(setIsSelectedRulesZero(true));
+    dispatch(setIsSelectedRulesZero(task.rules.length > 0));
   }, [task]);
 
   const backupTypes = useSelector(selectBackupTypes);
