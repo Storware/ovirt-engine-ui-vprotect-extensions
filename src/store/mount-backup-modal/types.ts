@@ -6,7 +6,7 @@ export const SET_NODES = 'SET_NODES';
 export const SET_MANUAL_MOUNT_FILESYSTEMS = 'SET_MANUAL_MOUNT_FILESYSTEMS';
 export const SET_ISCSI_MOUNTABLE = 'SET_ISCSI_MOUNTABLE';
 export const SET_BACKUP_FILES = 'SET_BACKUP_FILES';
-export const SET_TASK = 'SET_BACKUP_TASK';
+export const SET_TASK = 'SET_IS_SELECTED_RULES_ZERO';
 
 export const RESET_TASK = 'RESET_TASK';
 
@@ -39,7 +39,6 @@ export type SetTask = {
   type: typeof SET_TASK;
   payload?: RestoreAndMountTask;
 };
-
 
 export type ResetTask = {
   type: typeof RESET_TASK;

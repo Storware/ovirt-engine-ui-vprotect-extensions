@@ -27,6 +27,7 @@ import HeaderTable from '../../../components/table/HeaderTable';
 import { backupsService } from '../../../services/backups-service';
 import { resetTaskAction } from '../../../store/mount-backup-modal/actions';
 import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
+import { selectIsSelectedRulesZero } from 'store/backup-modal/selectors';
 
 const VirtualMachinesList = () => {
   const dispatch = useDispatch();
@@ -92,12 +93,12 @@ const VirtualMachinesList = () => {
         dispatch(
           showModalAction({
             component: BackupModal,
-            footerChildren: () =>
+            FooterContent: () =>
               NoActiveRulesIcon({
                 entities: [
                   {
                     ...actionsElement,
-                    policy: policies[0],
+                    policy: useSelector(selectIsSelectedRulesZero),
                   },
                 ],
               }),

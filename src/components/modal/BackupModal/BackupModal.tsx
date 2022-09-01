@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getBackupDestinationsAndBackupTypes,
+  setIsSelectedRulesZero,
   submitTask,
 } from 'store/backup-modal/actions';
 import { selectBackupTypes } from 'store/backup-modal/selectors';
@@ -41,6 +42,12 @@ export const BackupModal = ({ virtualEnvironments, rules = [], ...props }) => {
       ),
     );
   }, []);
+
+  useEffect(() => {
+    task.rules.length > 0
+      ? dispatch(setIsSelectedRulesZero(false))
+      : dispatch(setIsSelectedRulesZero(true));
+  }, [task]);
 
   const backupTypes = useSelector(selectBackupTypes);
 
