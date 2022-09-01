@@ -1,15 +1,16 @@
 import React from 'react';
 import { ListBox } from 'primereact/listbox';
 
-const listBoxElement = (underline) => (option) =>
-  (
-    <div>
-      <p>{option.name}</p>
-      {option[underline] && (
-        <p style={{ fontSize: '0.8em', color: 'grey' }}>{option[underline]}</p>
-      )}
-    </div>
-  );
+const listBoxElement = (option, { optionLabel, underlinetext }) => (
+  <div>
+    <p>{option[optionLabel]}</p>
+    {underlinetext && (
+      <p style={{ fontSize: '0.8em', color: 'grey' }}>
+        {option[underlinetext]}
+      </p>
+    )}
+  </div>
+);
 
 const InputListBox = ({ field, ...props }) => {
   return (
@@ -19,7 +20,7 @@ const InputListBox = ({ field, ...props }) => {
         {...field}
         {...props}
         listStyle={{ maxHeight: '250px' }}
-        itemTemplate={listBoxElement(props.underlinetext)}
+        itemTemplate={(e) => listBoxElement(e, props as any)}
       />
     </div>
   );
