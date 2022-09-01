@@ -168,14 +168,25 @@ const VirtualMachinesList = () => {
         id="popup_menu"
       />
       <Table value={rows} header={header()} globalFilter={globalFilter}>
-        <Column field="name" header="Name" body={nameTemplate(history)} />
-        <Column field="uuid" header="Uuid" />
-        <Column field="present" header="Present" body={booleanTemplate} />
-        <Column field="hypervisor.name" header="Hypervisor" />
+        <Column
+          field="name"
+          header="Name"
+          body={nameTemplate(history)}
+          sortable
+        />
+        <Column field="uuid" header="Uuid" sortable />
+        <Column
+          field="present"
+          header="Present"
+          body={booleanTemplate}
+          sortable
+        />
+        <Column field="hypervisor.name" header="Hypervisor" sortable />
         <Column
           field="vmBackupPolicy"
           header="Policy"
           filterField="vmBackupPolicy.name"
+          sortable
           body={(rowData) =>
             rowData.vmBackupPolicy &&
             getElementWithoutProjectUuidInName(rowData.vmBackupPolicy).name
@@ -184,6 +195,7 @@ const VirtualMachinesList = () => {
         <Column
           field="backupUpToDate"
           header="Backup status"
+          sortable
           body={(rowData) =>
             rowData.backupUpToDate ? (
               <span className="text-success">Backup up to date</span>
@@ -198,16 +210,19 @@ const VirtualMachinesList = () => {
           field="lastBackup"
           header="Last backup date"
           body={dateTemplate}
+          sortable
         />
         <Column
           field="lastSuccessfulBackupSize"
           header="Last backup size"
           body={sizeTemplate}
+          sortable
         />
 
         <Column
           field="action"
           header="Action"
+          sortable
           body={(rowData) => (
             <Button
               icon="pi pi-bars"
