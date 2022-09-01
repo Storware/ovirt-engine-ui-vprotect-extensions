@@ -12,8 +12,16 @@ const ModalContainer = () => {
   const show = useSelector(selectShow);
   const hideButtonActions = useSelector(hideFooter);
   const { component: Component, buttonLabel } = modal;
-  const { FooterContent: FooterContent = () => <></>, footerClassName = '' } =
-    modal;
+  const {
+    FooterContent: FooterContent = () => (
+      <Button
+        label={buttonLabel ? buttonLabel : 'Save'}
+        icon="pi pi-check"
+        onClick={() => dispatch(saveModalAction())}
+      />
+    ),
+    footerClassName = '',
+  } = modal;
 
   const renderFooter = () => (
     <div className={footerClassName}>
@@ -24,11 +32,6 @@ const ModalContainer = () => {
         className="p-button-text"
       />
       <FooterContent />
-      <Button
-        label={buttonLabel ? buttonLabel : 'Save'}
-        icon="pi pi-check"
-        onClick={() => dispatch(saveModalAction())}
-      />
     </div>
   );
 
