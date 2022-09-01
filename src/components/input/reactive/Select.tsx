@@ -17,7 +17,7 @@ const Select = ({
   required = false,
   ...props
 }) => {
-  const [value, setValue] = useState({});
+  const [value, setValue] = useState(field.value);
 
   const setFieldValueAndEmitChangeEvent = (v) => {
     setValue(v);
@@ -45,7 +45,7 @@ const Select = ({
       setValue(option);
       return;
     }
-  }, [props.options, field.value]);
+  }, [props.options]);
 
   return (
     <div className="pt-3" hidden={hidden}>

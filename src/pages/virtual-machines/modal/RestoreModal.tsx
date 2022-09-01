@@ -99,18 +99,15 @@ export const RestoreModal = ({ virtualEnvironment }) => {
   const onClusterChange = async (event) => {
     const cluster = clusters.find((el) => el.uuid === event.value);
     setClusterCopy(cluster);
-    if (!!cluster) {
-      dispatch(
-        setFilteredHypervisorStoragesAction(
-          storages.filter(
-            (storage) =>
-              !!storage.clusters &&
-              !!storage.clusters.find((el) => cluster.guid === el.guid),
-          ),
+    dispatch(
+      setFilteredHypervisorStoragesAction(
+        storages.filter(
+          (storage) =>
+            !!storage.clusters &&
+            !!storage.clusters.find((el) => cluster.guid === el.guid),
         ),
-      );
-      dispatch(setRestoreClusterId(cluster.uuid));
-    }
+      ),
+    );
   };
 
   const filterTaskFiles = (arr) =>
@@ -148,6 +145,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
           ...task,
           taskFiles: backupFilesFiltered,
           backupLocation: backupLocationCopy ?? task.backupLocation,
+          restoreClusterId: clusterCopy?.uuid,
           isDiskLayoutActive: false,
           restoreToOriginalVolumeType: true,
           restoredNetworks: task.restoredNetworks.map(
