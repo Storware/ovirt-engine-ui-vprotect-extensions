@@ -89,7 +89,9 @@ export default ({ vms }) => {
           />
           <Column
             body={(data) =>
-              data.reasons.some(({name}) => name === 'MISSING_INCREMENTAL_SCHEDULER') && (
+              data.reasons.some(
+                ({ name }) => name === 'MISSING_INCREMENTAL_SCHEDULER',
+              ) && (
                 <>
                   <Button
                     label="Create schedule"
@@ -109,13 +111,13 @@ export default ({ vms }) => {
         visible={!!policy}
         onHide={() => {
           setPolicy(null);
-          scheduleFormModel(null);
+          setScheduleFormModel(null);
         }}
         style={{ width: '80vw' }}
         save={{
           onClick: async () => {
             await scheduleSave(scheduleFormModel);
-            scheduleFormModel(null);
+            setScheduleFormModel(null);
           },
           disabled: !!scheduleFormModel,
         }}
