@@ -80,6 +80,12 @@ export const RestoreModal = ({ virtualEnvironment }) => {
     dispatch(setNetworkAction([]));
   }, []);
 
+  useEffect(() => {
+    if (clusters.length > 0 && task.restoreClusterId === '') {
+      dispatch(setRestoreClusterId(clusters[0].uuid));
+    }
+  }, [clusters]);
+
   const onBackupLocationChange = (value) => {
     dispatch(
       getHypervisorManagersAvailableForBackupBackupLocation(
