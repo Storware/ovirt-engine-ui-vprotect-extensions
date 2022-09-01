@@ -1,9 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  Dropdown,
-  DropdownChangeParams,
-  DropdownProps,
-} from 'primereact/dropdown';
+import { Dropdown, DropdownProps } from 'primereact/dropdown';
 
 interface Props extends DropdownProps {
   value: unknown;
