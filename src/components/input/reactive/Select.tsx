@@ -27,7 +27,7 @@ const Select = ({
   };
 
   useEffect(() => {
-    if (!props.options[0] || !field.value) {
+    if (!props.options[0]) {
       return;
     }
 
