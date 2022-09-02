@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { vprotectService } from 'services/vprotect-service';
 import { alertService } from 'services/alert-service';
 import { Column } from 'primereact/column';
@@ -8,7 +8,7 @@ import { Button } from 'primereact/button';
 import Table from 'components/table/primereactTable';
 import { convertMilisecondsToHours } from 'utils/convertMilisecondsToHours';
 import { WorkflowExecutionStates } from 'model/task-panel.model';
-import { Progress } from '@patternfly/react-core';
+import { ProgressBar } from 'primereact/progressbar';
 
 export default () => {
   const [rows, setRows] = useState([]);
@@ -124,9 +124,10 @@ export default () => {
             field="progress"
             header="Progress"
             body={({ progress }) => (
-              <Progress
+              <ProgressBar
+                className="progress-bar-element"
                 value={progress}
-                label={progress > 20 ? `${progress} %` : ''}
+                showValue={true}
               />
             )}
           />
