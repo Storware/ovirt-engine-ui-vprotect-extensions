@@ -1,5 +1,6 @@
 export const SET_BACKUP_DESTINATIONS = 'SET_BACKUP_DESTINATIONS';
 export const SET_BACKUP_TYPES = 'SET_BACKUP_TYPES';
+export const SET_IS_SELECTED_RULES_ZERO = 'SET_IS_SELECTED_RULES_ZERO';
 
 export type SetBackupDestinations = {
   type: typeof SET_BACKUP_DESTINATIONS;
@@ -11,4 +12,12 @@ export type SetBackupTypes = {
   payload?: any;
 };
 
-export type BackupModalAction = SetBackupDestinations | SetBackupTypes;
+export type SetIsSelectedRulesZero = {
+  type: typeof SET_IS_SELECTED_RULES_ZERO;
+  payload?: boolean;
+};
+
+export type BackupModalAction =
+  | SetBackupDestinations
+  | SetBackupTypes
+  | SetIsSelectedRulesZero;

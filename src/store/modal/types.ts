@@ -9,7 +9,7 @@ export const UNSAVE_MODAL = 'UNSAVE_MODAL';
 
 export interface Modal {
   component: () => JSX.Element;
-  footerChildren: () => JSX.Element;
+  FooterContent: () => JSX.Element;
   footerClassName: string;
   props;
   title: string;

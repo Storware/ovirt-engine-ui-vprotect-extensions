@@ -163,7 +163,7 @@ const VirtualMachine = () => {
               dispatch(
                 showModalAction({
                   component: BackupModal,
-                  footerChildren: () =>
+                  FooterContent: () =>
                     NoActiveRulesIcon({
                       entities: [
                         {

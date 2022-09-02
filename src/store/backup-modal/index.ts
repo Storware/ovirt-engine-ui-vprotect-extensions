@@ -2,16 +2,19 @@ import {
   BackupModalAction,
   SET_BACKUP_DESTINATIONS,
   SET_BACKUP_TYPES,
+  SET_IS_SELECTED_RULES_ZERO,
 } from './types';
 
 export type PoliciesStore = {
   readonly backupTypes: any[];
   readonly backupDestinations: any[];
+  readonly isSelectedRulesZero: boolean;
 };
 
 const initial: PoliciesStore = {
   backupTypes: [],
   backupDestinations: [],
+  isSelectedRulesZero: false,
 };
 
 export default (state = initial, action: BackupModalAction) => {
@@ -25,6 +28,12 @@ export default (state = initial, action: BackupModalAction) => {
     return {
       ...state,
       backupTypes: action.payload,
+    };
+  }
+  if (action.type === SET_IS_SELECTED_RULES_ZERO) {
+    return {
+      ...state,
+      isSelectedRulesZero: action.payload,
     };
   }
 
