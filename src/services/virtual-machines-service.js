@@ -15,7 +15,6 @@ class VirtualMachinesService {
     return vprotectApiService.get('/virtual-machines');
   }
   getFilteredVirtualMachines(param) {
-    console.log(param);
     return vprotectApiService.get('/virtual-machines/detailed?filter=' + param);
   }
 
