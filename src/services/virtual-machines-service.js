@@ -14,6 +14,10 @@ class VirtualMachinesService {
   getVirtualMachines() {
     return vprotectApiService.get('/virtual-machines');
   }
+  getFilteredVirtualMachines(param) {
+    console.log(param);
+    return vprotectApiService.get('/virtual-machines/detailed?filter=' + param);
+  }
 
   getVirtualMachine(id) {
     return vprotectApiService.get('/virtual-machines/' + id);
@@ -121,8 +125,8 @@ class VirtualMachinesService {
 
   getVirtualMachinesNotReadyForIncremental(entities) {
     return vprotectApiService.post(
-      "/virtual-machines/incremental-not-possible",
-        entities
+      '/virtual-machines/incremental-not-possible',
+      entities,
     );
   }
 }
