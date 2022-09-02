@@ -304,6 +304,7 @@ export const BackupPolicy = ({ type }) => {
                   name="autoAssignSettings.hvClusters"
                   options={hypervisorClusters}
                   component={InputListBox}
+                  optionLabel="name"
                   multiple
                   dataKey="guid"
                   onChange={(e) => {
@@ -327,6 +328,8 @@ export const BackupPolicy = ({ type }) => {
                   name="vms"
                   options={virtualMachines}
                   component={InputListBox}
+                  optionLabel="name"
+                  underlinetext="uuid"
                   multiple
                   dataKey="guid"
                   label="Choose Virtual Environments"
