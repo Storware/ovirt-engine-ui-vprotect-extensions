@@ -4,17 +4,17 @@ import { Dropdown, DropdownProps } from 'primereact/dropdown';
 interface Props extends DropdownProps {
   value: unknown;
   label: string;
+  isRequired?: boolean;
 }
 
 const Select = ({ value, ...props }: Props) => {
   useEffect(() => {
-    if (!props.options[0] || !props.required || value) {
+    if (!props.options[0] || !props.isRequired || value) {
       return;
     }
 
     const optionalValue = props.options[0];
-    // @ts-ignore
-    props.onChange({ value: optionalValue });
+    props.onChange({ value: optionalValue } as any);
   }, [props.options, value]);
 
   return (
