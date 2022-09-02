@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { vprotectService } from 'services/vprotect-service';
 import { alertService } from 'services/alert-service';
 import { Column } from 'primereact/column';
