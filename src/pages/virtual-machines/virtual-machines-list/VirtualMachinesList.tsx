@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getVirtualMachinesPage } from 'store/virtual-machines/actions';
+import {
+  getVirtualMachinesPage,
+  getFilteredVirtualMachinesPage,
+} from 'store/virtual-machines/actions';
 import { selectVirtualMachines } from 'store/virtual-machines/selectors';
 import { showModalAction } from 'store/modal/actions';
 import { MountBackupModal } from 'components/modal/MountBackupModal';
@@ -47,13 +50,18 @@ const VirtualMachinesList = () => {
     alertService.info('Absent virtual machines have been deleted');
   };
 
+  const filteredVirtualMachines = async (param) => {
+    await virtualMachinesService.getFilteredVirtualMachines(param);
+    dispatch(getFilteredVirtualMachinesPage(param));
+  };
+
   const header = () => (
     <HeaderTable>
       <div className="p-datatable-globalfilter-container">
         <InputText
           type="search"
           onInput={({ target }) =>
-            setGlobalFilter((target as HTMLInputElement).value)
+            filteredVirtualMachines((target as HTMLInputElement).value)
           }
           placeholder="Global Search"
         />
@@ -168,7 +176,7 @@ const VirtualMachinesList = () => {
         ref={(el) => (this.menu = el)}
         id="popup_menu"
       />
-      <Table value={rows} header={header()} globalFilter={globalFilter}>
+      <Table value={rows} header={header()}>
         <Column
           field="name"
           header="Name"
