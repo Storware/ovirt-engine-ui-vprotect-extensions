@@ -56,3 +56,12 @@ table .p-muted {
     margin-top: 140px;
   }
 }
+
+.progress-bar-element {
+  height: 15px;
+
+  .p-progressbar-label {
+    display: block;
+    line-height: 15px;
+  }
+}
