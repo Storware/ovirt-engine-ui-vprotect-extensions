@@ -11,7 +11,6 @@ import {
   submitTask,
   getBackupFiles,
   getFlavorsForHypervisorManager,
-  setRestoreClusterId,
 } from 'store/restore-modal/actions';
 import {
   selectBackupFiles,
@@ -134,11 +133,9 @@ export const RestoreModal = ({ virtualEnvironment }) => {
     // @ts-ignore
     formRef.current.handleSubmit();
   }
-  // @ts-ignore
   return (
     <div className="form">
       <Formik
-        // @ts-ignore
         innerRef={formRef}
         enableReinitialize
         initialValues={{
@@ -148,6 +145,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
           restoreClusterId: clusterCopy?.uuid,
           isDiskLayoutActive: false,
           restoreToOriginalVolumeType: true,
+          restoreVmFlavor: virtualEnvironment.vmFlavor,
           restoredNetworks: task.restoredNetworks.map(
             (networkInterfaceCard) => ({
               ...networkInterfaceCard,
@@ -158,13 +156,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
           ),
         }}
         onSubmit={(values, { setSubmitting }) => {
-          // tslint:disable-next-line:no-shadowed-variable
-          const { isDiskLayoutActive, ...rest } = values;
-          dispatch(
-            submitTask({
-              ...rest,
-            }),
-          );
+          dispatch(submitTask(values));
           setSubmitting(false);
           dispatch(hideModalAction());
         }}
@@ -244,8 +236,13 @@ export const RestoreModal = ({ virtualEnvironment }) => {
             <>
               <Field
                 name="isFlavorSectionActive"
-                label="Select flavor"
-                component={Toggle}
+                component={(props) => (
+                  <Toggle
+                    onLabel="Hide Flavor Selection"
+                    offLabel="Show Flavor Selection"
+                    {...props}
+                  />
+                )}
               />
 
               {values.isFlavorSectionActive && (
