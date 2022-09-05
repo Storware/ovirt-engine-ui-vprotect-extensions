@@ -127,3 +127,26 @@ body {
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item{
   padding: 0.65rem 1rem;
 }
+
+@keyframes selected-tab {
+  0% { width: 0%; }
+  100% { width: 100%;}
+}
+
+.tab-active-ink {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &::after {
+    content: '';
+    display: block;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    animation: selected-tab .47s ease-in-out;
+    height: 2px;
+    background-color: #3F51B5;
+  }
+}

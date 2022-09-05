@@ -13,7 +13,7 @@ import {
   TransferSize,
 } from 'pages/reporting/Tabs';
 
-export const tabs: Tab[] = [
+const tabs: Tab[] = [
   { label: 'Summary', path: 'summary' },
   { label: 'Virtual Environment Backup', path: 'backups' },
   { label: 'Virtual Environment Restore', path: 'restores' },
@@ -37,7 +37,7 @@ export default () => {
         <DateRange />
         <ExportAs />
       </div>
-      <Tabs items={{ tabs }} />
+      <Tabs items={tabs} />
       <Switch>
         <Routes items={routes} absolutePathPart={match.path} />
       </Switch>
