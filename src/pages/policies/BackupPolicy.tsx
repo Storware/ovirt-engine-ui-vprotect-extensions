@@ -14,13 +14,14 @@ import { Field, Form, Formik } from 'formik';
 import Toggle from 'components/input/reactive/Toggle';
 import Text from 'components/input/reactive/Text';
 import InputSlider from 'components/input/reactive/InputSlider';
-import Select from 'components/input/reactive/Select';
+// import Select from 'components/input/reactive/Select';
 import InputListBox from 'components/input/reactive/InputListBox';
 import { RulesContainer } from './rules/RulesContainer';
 import { Rule } from '../../model/backup-destination/rule';
 import { backupDestinationsService } from '../../services/backup-destinations-service';
 import { BackupDestinationRule } from '../../model/backup-destination/backup-destination-rule';
 import { AutoAssigment } from 'pages/policies/tabs/auto-assigment/AutoAssigment';
+import Select from 'components/input/Select';
 
 export const BackupPolicy = ({ type }) => {
   const history = createBrowserHistory();
@@ -33,27 +34,29 @@ export const BackupPolicy = ({ type }) => {
 
   useEffect(() => {
     if (match.params.guid !== 'create') {
-      policiesService
-        .getPolicy('vm-backup', match.params.guid)
-        .then((result) => {
-          setModel((_model) => ({
-            ..._model,
-            ...result,
-            rules: result.rules.map((rule) => ({
-              ...rule,
-              ruleBackupDestinations: {
-                primaryBackupDestination:
-                  rule.ruleBackupDestinations.find(
-                    (el) => el.roleType.name === 'PRIMARY',
-                  ) || new BackupDestinationRule('PRIMARY'),
-                secondaryBackupDestination:
-                  rule.ruleBackupDestinations.find(
-                    ({ roleType: { name } }) => name === 'SECONDARY',
-                  ) || new BackupDestinationRule('SECONDARY'),
-              },
-            })),
-          }));
-        });
+      setTimeout(() => {
+        policiesService
+          .getPolicy('vm-backup', match.params.guid)
+          .then((result) => {
+            setModel((_model) => ({
+              ..._model,
+              ...result,
+              rules: result.rules.map((rule) => ({
+                ...rule,
+                ruleBackupDestinations: {
+                  primaryBackupDestination:
+                    rule.ruleBackupDestinations.find(
+                      (el) => el.roleType.name === 'PRIMARY',
+                    ) || new BackupDestinationRule('PRIMARY'),
+                  secondaryBackupDestination:
+                    rule.ruleBackupDestinations.find(
+                      ({ roleType: { name } }) => name === 'SECONDARY',
+                    ) || new BackupDestinationRule('SECONDARY'),
+                },
+              })),
+            }));
+          })
+      }, 1000)
     }
 
     backupDestinationsService.getAllBackupDestinations().then((result) => {
@@ -177,14 +180,13 @@ export const BackupPolicy = ({ type }) => {
                   onChange={handle('dailyReportEnabled')}
                 />
                 {model.dailyReportEnabled && (
-                  <Field
-                    name="mailingList"
-                    options={availableMailingLists}
-                    component={Select}
+                  <Select
+                    value={model.mailingList}
+                    label="Select Mailing List"
                     optionLabel="name"
                     dataKey="name"
-                    label="Select Mailing List"
-                    required
+                    isRequired={true}
+                    options={availableMailingLists}
                     onChange={handle('mailingList')}
                   />
                 )}
