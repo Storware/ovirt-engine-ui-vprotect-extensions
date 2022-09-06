@@ -99,6 +99,7 @@ export default () => {
   return (
     <div>
       <Chart
+        className={'w-100'}
         type="bar"
         data={getPaginatedAndSortedData(chartData, sortBy, page)}
         options={options}
