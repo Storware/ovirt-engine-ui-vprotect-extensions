@@ -41,7 +41,7 @@ export default () => {
 
   // Restore options https://github.com/reactchartjs/react-chartjs-2
   return (
-    <Card className="w-100 ml-2 mt-3 ">
+    <Card className="w-100 h-100 mt-3">
       <div className={'card-pf-heading'}>
         <h5 className={'font-weight-light'}>Activity</h5>
       </div>

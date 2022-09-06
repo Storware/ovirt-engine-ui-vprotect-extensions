@@ -145,9 +145,12 @@ export const Dashboard = () => {
         />
       )}
       <div className="d-flex w-100">
-        <Chargeback />
-
-        <ActivityChart />
+        <div className="w-50 ml-2 flex-grow-1">
+          <Chargeback />
+        </div>
+        <div className="w-50 ml-2 flex-grow-1">
+          <ActivityChart />
+        </div>
       </div>
     </>
   );

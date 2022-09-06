@@ -19,14 +19,13 @@ export default () => {
   }, []);
 
   return (
-    <Card className="w-100 ml-2 mt-3">
+    <Card className="w-100 h-100 mt-3">
       <div className={'card-pf-heading'}>
         <h5 className={'font-weight-light'}>Last 24h backup size</h5>
       </div>
       <hr />
-      <div className="d-flex w-100">
-        <ChargebackChart />
-      </div>
+
+      <ChargebackChart />
     </Card>
   );
 };

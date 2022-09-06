@@ -66,7 +66,6 @@ export default () => {
   const options = {
     indexAxis: 'y',
     responsive: true,
-    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'right',
