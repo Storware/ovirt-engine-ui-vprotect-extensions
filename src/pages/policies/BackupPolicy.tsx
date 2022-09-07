@@ -14,7 +14,6 @@ import { Field, Form, Formik } from 'formik';
 import Toggle from 'components/input/reactive/Toggle';
 import Text from 'components/input/reactive/Text';
 import InputSlider from 'components/input/reactive/InputSlider';
-// import Select from 'components/input/reactive/Select';
 import InputListBox from 'components/input/reactive/InputListBox';
 import { RulesContainer } from './rules/RulesContainer';
 import { Rule } from '../../model/backup-destination/rule';
@@ -34,29 +33,27 @@ export const BackupPolicy = ({ type }) => {
 
   useEffect(() => {
     if (match.params.guid !== 'create') {
-      setTimeout(() => {
-        policiesService
-          .getPolicy('vm-backup', match.params.guid)
-          .then((result) => {
-            setModel((_model) => ({
-              ..._model,
-              ...result,
-              rules: result.rules.map((rule) => ({
-                ...rule,
-                ruleBackupDestinations: {
-                  primaryBackupDestination:
-                    rule.ruleBackupDestinations.find(
-                      (el) => el.roleType.name === 'PRIMARY',
-                    ) || new BackupDestinationRule('PRIMARY'),
-                  secondaryBackupDestination:
-                    rule.ruleBackupDestinations.find(
-                      ({ roleType: { name } }) => name === 'SECONDARY',
-                    ) || new BackupDestinationRule('SECONDARY'),
-                },
-              })),
-            }));
-          })
-      }, 1000)
+      policiesService
+        .getPolicy('vm-backup', match.params.guid)
+        .then((result) => {
+          setModel((_model) => ({
+            ..._model,
+            ...result,
+            rules: result.rules.map((rule) => ({
+              ...rule,
+              ruleBackupDestinations: {
+                primaryBackupDestination:
+                  rule.ruleBackupDestinations.find(
+                    (el) => el.roleType.name === 'PRIMARY',
+                  ) || new BackupDestinationRule('PRIMARY'),
+                secondaryBackupDestination:
+                  rule.ruleBackupDestinations.find(
+                    ({ roleType: { name } }) => name === 'SECONDARY',
+                  ) || new BackupDestinationRule('SECONDARY'),
+              },
+            })),
+          }));
+        });
     }
 
     backupDestinationsService.getAllBackupDestinations().then((result) => {
