@@ -23,7 +23,7 @@ export const RetentionHintKeysWithDescription = {
   },
   [RetentionHintKeys.STANDARD_RETENTION]: {
     name: RetentionHintKeys.STANDARD_RETENTION,
-    description: 'Use retention settings from the poicy',
+    description: 'Use retention settings from the policy',
   },
 };
 
@@ -35,6 +35,6 @@ export const RetentionHintsDescription = {
   [RetentionHintKeys.TO_REMOVE]: 'Mark as expired',
   [RetentionHintKeys.ARCHIVE]: 'Mark to keep',
   [RetentionHintKeys.STANDARD_RETENTION]:
-    'Use retention settings from the poicy',
+    'Use retention settings from the policy',
   RECREATE: 'Recreate',
 };
