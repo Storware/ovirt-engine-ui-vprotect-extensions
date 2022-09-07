@@ -73,102 +73,83 @@ export const Dashboard = () => {
           )}
         </div>
       </Toolbar>
-      <div className={'container-fluid pt-4'}>
-        <div className="d-flex w-100">
-          <ChartSection
-            header={'Protection stats'}
-            chartHeader={'VIRTUAL MACHINES'}
-            data={
-              protection && [
-                {
-                  x: 'Protected',
-                  y: protection.vm.protectedNo,
-                },
-                {
-                  x: 'Not Protected',
-                  y: protection.vm.notProtected,
-                },
-                {
-                  x: 'Not Scheduled',
-                  y: protection.vm.noSchedule,
-                },
-              ]
-            }
-            colorScale={['#34bfa3', '#f22d4e', '#b2b2b2']}
-            title={
-              protection &&
-              `${getSumChartData([
-                protection.vm.protectedNo,
-                protection.vm.notProtected,
-                protection.vm.noSchedule,
-              ])}`
-            }
-            subTitle={'VMs'}
-          />
-          <ChartSection
-            header={'Success Rate'}
-            chartHeader={'VIRTUAL MACHINES'}
-            data={
-              backupStats && [
-                {
-                  x: 'Success',
-                  y: backupStats.successful,
-                },
-                {
-                  x: 'Failed',
-                  y: backupStats.failed,
-                },
-                {
-                  x: 'In progress',
-                  y: backupStats.inProgress,
-                },
-              ]
-            }
-            colorScale={['#34bfa3', '#f22d4e', '#b2b2b2']}
-            subTitle={'tasks'}
-            title={
-              backupStats &&
-              `${getSumChartData([
-                backupStats.successful,
-                backupStats.failed,
-                backupStats.inProgress,
-              ])}`
-            }
-            additionalText={`Total data protected: ${backupStats?.totalData}`}
-          />
+      <div className="d-flex w-100">
+        <ChartSection
+          header={'Protection stats'}
+          chartHeader={'VIRTUAL MACHINES'}
+          data={
+            protection && [
+              {
+                x: 'Protected',
+                y: protection.vm.protectedNo,
+              },
+              {
+                x: 'Not Protected',
+                y: protection.vm.notProtected,
+              },
+              {
+                x: 'Not Scheduled',
+                y: protection.vm.noSchedule,
+              },
+            ]
+          }
+          colorScale={['#34bfa3', '#f22d4e', '#b2b2b2']}
+          title={
+            protection &&
+            `${getSumChartData([
+              protection.vm.protectedNo,
+              protection.vm.notProtected,
+              protection.vm.noSchedule,
+            ])}`
+          }
+          subTitle={'VMs'}
+        />
+        <ChartSection
+          header={'Success Rate'}
+          chartHeader={'VIRTUAL MACHINES'}
+          data={
+            backupStats && [
+              {
+                x: 'Success',
+                y: backupStats.successful,
+              },
+              {
+                x: 'Failed',
+                y: backupStats.failed,
+              },
+              {
+                x: 'In progress',
+                y: backupStats.inProgress,
+              },
+            ]
+          }
+          colorScale={['#34bfa3', '#f22d4e', '#b2b2b2']}
+          subTitle={'tasks'}
+          title={
+            backupStats &&
+            `${getSumChartData([
+              backupStats.successful,
+              backupStats.failed,
+              backupStats.inProgress,
+            ])}`
+          }
+          additionalText={`Total data protected: ${backupStats?.totalData}`}
+        />
+      </div>
+
+      {isNotOpenstackBuild && <StagingSpace stagingSpace={stagingSpace} />}
+
+      {isNotOpenstackBuild && (
+        <BackupDestinationStatsComponent
+          backupDestinationStats={backupDestinationStats}
+        />
+      )}
+      <div className="d-flex w-100">
+        <div className="w-50 ml-2 flex-grow-1">
+          <Chargeback />
         </div>
-
-        {isNotOpenstackBuild && <StagingSpace stagingSpace={stagingSpace} />}
-
-        {isNotOpenstackBuild && (
-          <BackupDestinationStatsComponent
-            backupDestinationStats={backupDestinationStats}
-          />
-        )}
-
-        <div className="d-flex align-items-stretch">
-          <Card className="w-100 mr-3 mt-3">
-            <div>
-              <div className={'card-pf-heading'}>
-                <h5 className={'font-weight-light'}>Last 24h backup size</h5>
-              </div>
-              <hr />
-              <div>
-                <Chargeback />
-              </div>
-            </div>
-          </Card>
-          <Card className="w-100 mt-3">
-            <div>
-              <div className={'card-pf-heading'}>
-                <h5 className={'font-weight-light'}>Activity</h5>
-              </div>
-              <hr />
-              <div>
-                <ActivityChart />
-              </div>
-            </div>
-          </Card>
+        <div className="w-50 ml-2 flex-grow-1">
+          <ActivityChart />
         </div>
       </div>
     </>
