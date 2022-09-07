@@ -6,17 +6,20 @@ import { GeneralTable, PreviewTable } from './table';
 import { Step } from './table/tables-types';
 import { retentionService } from 'services/retention-service';
 import { alertService } from 'services/alert-service';
+import { RetentionHintKeys } from '../../../../model/retention-hints';
 
 const Footer = ({
   step,
   setStep,
   getData,
   onSave,
+  isFormInvalid,
 }: {
   step: Step;
   setStep: (val: Step) => void;
   getData: () => void;
   onSave: () => void;
+  isFormInvalid: boolean;
 }) => {
   const dispatch = useDispatch();
   return (
@@ -28,6 +31,7 @@ const Footer = ({
       />
       {step === Step.GENERAL ? (
         <Button
+          disabled={isFormInvalid}
           label="PreviewTable"
           onClick={() => {
             getData();
@@ -97,17 +101,25 @@ export const AdjustRetentionModal = ({ value: data, onSave: onSaveEmit }) => {
     }
   }, [step]);
 
+  const isFormInvalid = () =>
+    backupLocations.some(
+      ({ archiveExpire, retentionHint }) =>
+        retentionHint.name === RetentionHintKeys.ARCHIVE && !archiveExpire,
+    );
+
   return (
     <div>
       {step === Step.GENERAL && (
         <GeneralTable value={backupLocations} setValue={setBackupLocations} />
       )}
       {step === Step.PREVIEW && <PreviewTable value={previewData} />}
+
       <Footer
         step={step}
         setStep={setStep}
         getData={getPreviewData}
         onSave={onSave}
+        isFormInvalid={isFormInvalid()}
       />
     </div>
   );
