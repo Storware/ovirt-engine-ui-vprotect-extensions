@@ -6,19 +6,20 @@ import { GeneralTable, PreviewTable } from './table';
 import { Step } from './table/tables-types';
 import { retentionService } from 'services/retention-service';
 import { alertService } from 'services/alert-service';
+import { RetentionHintKeys } from '../../../../model/retention-hints';
 
 const Footer = ({
   step,
   setStep,
   getData,
   onSave,
-  isDatePicked,
+  isFormInvalid,
 }: {
   step: Step;
   setStep: (val: Step) => void;
   getData: () => void;
   onSave: () => void;
-  isDatePicked: boolean;
+  isFormInvalid: boolean;
 }) => {
   const dispatch = useDispatch();
   return (
@@ -30,7 +31,7 @@ const Footer = ({
       />
       {step === Step.GENERAL ? (
         <Button
-          disabled={!isDatePicked}
+          disabled={isFormInvalid}
           label="PreviewTable"
           onClick={() => {
             getData();
@@ -100,17 +101,11 @@ export const AdjustRetentionModal = ({ value: data, onSave: onSaveEmit }) => {
     }
   }, [step]);
 
-  const isDatePicked = () => {
-    if (backupLocations) {
-      const markedToKeepLocation = backupLocations.filter(
-        (el) => el?.retentionHint.description === 'Mark to keep',
-      );
-
-      return markedToKeepLocation.every(
-        (el) => el.hasOwnProperty('archiveExpire') && el.archiveExpire !== null,
-      );
-    }
-  };
+  const isFormInvalid = () =>
+    backupLocations.some(
+      ({ archiveExpire, retentionHint }) =>
+        retentionHint.name === RetentionHintKeys.ARCHIVE && !archiveExpire,
+    );
 
   return (
     <div>
@@ -124,7 +119,7 @@ export const AdjustRetentionModal = ({ value: data, onSave: onSaveEmit }) => {
         setStep={setStep}
         getData={getPreviewData}
         onSave={onSave}
-        isDatePicked={isDatePicked()}
+        isFormInvalid={isFormInvalid()}
       />
     </div>
   );
