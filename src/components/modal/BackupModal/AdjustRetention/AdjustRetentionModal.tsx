@@ -12,11 +12,13 @@ const Footer = ({
   setStep,
   getData,
   onSave,
+  isDatePicked,
 }: {
   step: Step;
   setStep: (val: Step) => void;
   getData: () => void;
   onSave: () => void;
+  isDatePicked: boolean;
 }) => {
   const dispatch = useDispatch();
   return (
@@ -28,6 +30,7 @@ const Footer = ({
       />
       {step === Step.GENERAL ? (
         <Button
+          disabled={!isDatePicked}
           label="PreviewTable"
           onClick={() => {
             getData();
@@ -97,17 +100,31 @@ export const AdjustRetentionModal = ({ value: data, onSave: onSaveEmit }) => {
     }
   }, [step]);
 
+  const isDatePicked = () => {
+    if (backupLocations) {
+      const markedToKeepLocation = backupLocations.filter(
+        (el) => el?.retentionHint.description === 'Mark to keep',
+      );
+
+      return markedToKeepLocation.every(
+        (el) => el.hasOwnProperty('archiveExpire') && el.archiveExpire !== null,
+      );
+    }
+  };
+
   return (
     <div>
       {step === Step.GENERAL && (
         <GeneralTable value={backupLocations} setValue={setBackupLocations} />
       )}
       {step === Step.PREVIEW && <PreviewTable value={previewData} />}
+
       <Footer
         step={step}
         setStep={setStep}
         getData={getPreviewData}
         onSave={onSave}
+        isDatePicked={isDatePicked()}
       />
     </div>
   );
