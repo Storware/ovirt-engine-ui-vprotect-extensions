@@ -31,10 +31,6 @@ const Select = ({
       return;
     }
 
-    if (required && !value) {
-      setFieldValueAndEmitChangeEvent(props.options[0]);
-    }
-
     const option =
       field.value &&
       props.options.find((el) =>
@@ -45,7 +41,11 @@ const Select = ({
       setValue(option);
       return;
     }
-  }, [props.options]);
+
+    if (props.required) {
+      setFieldValueAndEmitChangeEvent(props.options[0]);
+    }
+  }, [props.options, field.value]);
 
   return (
     <div className="pt-3" hidden={hidden}>

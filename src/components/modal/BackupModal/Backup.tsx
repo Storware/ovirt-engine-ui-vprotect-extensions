@@ -15,7 +15,7 @@ export const Backup = ({
   <div className="form">
     <Select
       label="Backup type"
-      required
+      isRequired={true}
       dataKey="name"
       optionLabel="name"
       value={task.backupType}
