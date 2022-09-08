@@ -153,7 +153,7 @@ export const MountBackupModal = ({ virtualEnvironment, backups }) => {
             value={task.node}
             options={nodes}
             dataKey="guid"
-            required
+            isRequired={true}
             onChange={(event) =>
               dispatch(
                 setTaskAction({

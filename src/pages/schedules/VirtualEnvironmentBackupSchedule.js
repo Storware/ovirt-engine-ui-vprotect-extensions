@@ -14,13 +14,13 @@ import { BackButton } from '../../utils/backButton';
 import { Field, Form, Formik } from 'formik';
 import Text from 'components/input/reactive/Text';
 import Toggle from 'components/input/reactive/Toggle';
-import Select from 'components/input/reactive/Select';
 import Convert from 'components/input/reactive/Convert';
 import Time from 'components/input/reactive/Time';
 import Days from 'components/input/reactive/Days';
 import SchedulePolicies from 'components/input/reactive/SchedulePolicies';
 import InputListBox from 'components/input/reactive/InputListBox';
 import { save } from 'store/schedule/actions';
+import Select from 'components/input/Select';
 
 const history = createBrowserHistory();
 
@@ -139,10 +139,10 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
               offLabel="Inactive"
               onChange={this.handle('active')}
             />
-            <Field
-              name="backupType"
-              component={Select}
+            <Select
+              value={this.state.model.backupType}
               label="Backup type *"
+              isRequired={true}
               optionLabel="description"
               dataKey="name"
               options={schedulesService.backupTypes}
@@ -154,9 +154,8 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
               </div>
             )}
 
-            <Field
-              name="executionType"
-              component={Select}
+            <Select
+              value={this.state.model.executionType}
               label="Schedule execution type *"
               optionLabel="description"
               onChange={({ value }) => this.onExecutionTypeChange(value)}

@@ -32,7 +32,7 @@ const InputSections = ({ element }) => {
           optionLabel="description"
           label="Retention"
           disabled={true}
-          required={true}
+          isRequired={true}
           className="w-100"
         />
         {element.previousArchiveExpire && (
@@ -53,7 +53,7 @@ const InputSections = ({ element }) => {
           optionLabel="description"
           label="Retention"
           disabled={true}
-          required={true}
+          isRequired={true}
           className="w-100"
         />
         <Calendar
