@@ -1,9 +1,9 @@
 const sufixes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-export default (bytes) => {
-  if (isNaN(parseFloat(String(bytes))) || !isFinite(bytes)) {
-    return 0;
-  }
 
+export default (bytes = 0, precision = 2) => {
+  if (isNaN(parseFloat(String(bytes))) || !isFinite(bytes)) {
+    return '?';
+  }
   let unit = 0;
 
   while (bytes >= 1024) {
@@ -11,5 +11,5 @@ export default (bytes) => {
     unit++;
   }
 
-  return bytes.toFixed(2) + ' ' + sufixes[unit];
+  return bytes.toFixed(+precision) + ' ' + sufixes[unit];
 };
