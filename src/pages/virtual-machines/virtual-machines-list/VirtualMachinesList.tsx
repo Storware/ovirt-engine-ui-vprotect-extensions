@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getVirtualMachinesPage } from 'store/virtual-machines/actions';
+import {
+  getVirtualMachines,
+  getVirtualMachinesPage,
+} from 'store/virtual-machines/actions';
 import { selectVirtualMachines } from 'store/virtual-machines/selectors';
 import { showModalAction } from 'store/modal/actions';
 import { MountBackupModal } from 'components/modal/MountBackupModal';
 import { nameTemplate } from '../../policies/PoliciesList';
 import { createBrowserHistory } from 'history';
-import { deleteVirtualMachine } from '../../../store/virtual-machines/actions';
-import { getElementWithoutProjectUuidInName } from '../../../utils/byProjectFilter';
+import { deleteVirtualMachine } from 'store/virtual-machines/actions';
+import { getElementWithoutProjectUuidInName } from 'utils/byProjectFilter';
 import { virtualMachinesService } from '../../../services/virtual-machines-service';
 import { policiesService } from '../../../services/policies-service';
 import { alertService } from '../../../services/alert-service';
@@ -25,25 +28,49 @@ import { Menu } from 'primereact/menu';
 import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 import HeaderTable from '../../../components/table/HeaderTable';
 import { backupsService } from '../../../services/backups-service';
-import { resetTaskAction } from '../../../store/mount-backup-modal/actions';
+import { resetTaskAction } from 'store/mount-backup-modal/actions';
 import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
 
 const VirtualMachinesList = () => {
   const dispatch = useDispatch();
   const history = createBrowserHistory();
-  const [globalFilter, setGlobalFilter] = useState(null);
   const [actionsElement, setActionsElement] = useState(null);
 
+  const [apiRequestData, setApiRequestData] = useState({
+    filter: '',
+    currentPage: 0,
+    perPage: 10,
+  });
+
+  const { filter, currentPage, perPage } = apiRequestData;
+
   useEffect(() => {
-    dispatch(getVirtualMachinesPage);
-  }, []);
+    dispatch(getVirtualMachinesPage(filter, currentPage, perPage));
+  }, [apiRequestData]);
 
   const rows = useSelector(selectVirtualMachines);
-
+  {
+    console.log(rows);
+  }
   const deleteNonPresent = async () => {
     await virtualMachinesService.deleteAllNonPresentAndWithoutBackup();
-    dispatch(getVirtualMachinesPage);
+    dispatch(getVirtualMachines);
     alertService.info('Absent virtual machines have been deleted');
+  };
+
+  const handleFilterChange = (e) => {
+    setApiRequestData((prevState) => ({
+      ...prevState,
+      filter: e.target.value,
+    }));
+  };
+
+  const handlePageAndPerPageChange = (currPage, page) => {
+    setApiRequestData((prevState) => ({
+      ...prevState,
+      currentPage: currPage,
+      perPage: page,
+    }));
   };
 
   const header = () => (
@@ -51,9 +78,8 @@ const VirtualMachinesList = () => {
       <div className="p-datatable-globalfilter-container">
         <InputText
           type="search"
-          onInput={({ target }) =>
-            setGlobalFilter((target as HTMLInputElement).value)
-          }
+          value={apiRequestData.filter}
+          onInput={handleFilterChange}
           placeholder="Global Search"
         />
       </div>
@@ -158,7 +184,9 @@ const VirtualMachinesList = () => {
       },
     },
   ];
-
+  {
+    console.log(apiRequestData);
+  }
   return (
     <div>
       <Menu
@@ -167,7 +195,12 @@ const VirtualMachinesList = () => {
         ref={(el) => (this.menu = el)}
         id="popup_menu"
       />
-      <Table value={rows} header={header()} globalFilter={globalFilter}>
+      <Table
+        value={rows}
+        header={header()}
+        passChildData={handlePageAndPerPageChange}
+        rows={apiRequestData.perPage}
+      >
         <Column
           field="name"
           header="Name"

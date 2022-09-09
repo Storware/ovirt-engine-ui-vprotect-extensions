@@ -47,6 +47,7 @@ class VprotectApiService {
       headers: {
         'Content-Type': 'application/json',
         ...getCsrfTokenHeader(),
+        ...options?.headers,
       },
       ...options,
       ...(['POST', 'PUT'].includes(method)

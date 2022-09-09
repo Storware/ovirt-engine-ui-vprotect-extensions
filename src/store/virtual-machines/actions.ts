@@ -9,19 +9,28 @@ export const setVirtualMachines = (payload: any): VirtualMachinesAction => ({
   payload,
 });
 
-export const getVirtualMachinesPage = async (dispatch: Dispatch) => {
+export const getVirtualMachines = async (dispatch: Dispatch) => {
   const virtualMachine = await virtualMachinesService.getVirtualMachines();
   await dispatch(setVirtualMachines(virtualMachine));
 };
 
-export const deleteVirtualMachine = (virtualMachine) => async (
-  dispatch: Dispatch,
-) => {
-  const res = await tasksService.submitTaskDelete(virtualMachine.guid);
-  if (res.length) {
-    alertService.info('Delete task has been submitted');
-  } else {
-    await getVirtualMachinesPage(dispatch);
-    alertService.info('Virtual environment has been deleted');
-  }
-};
+export const getVirtualMachinesPage =
+  (filter, page, size) => async (dispatch: Dispatch) => {
+    const virtualMachine = await virtualMachinesService.getVirtualMachinesPage(
+      filter,
+      page,
+      size,
+    );
+    await dispatch(setVirtualMachines(virtualMachine));
+  };
+
+export const deleteVirtualMachine =
+  (virtualMachine) => async (dispatch: Dispatch) => {
+    const res = await tasksService.submitTaskDelete(virtualMachine.guid);
+    if (res.length) {
+      alertService.info('Delete task has been submitted');
+    } else {
+      await getVirtualMachines(dispatch);
+      alertService.info('Virtual environment has been deleted');
+    }
+  };
