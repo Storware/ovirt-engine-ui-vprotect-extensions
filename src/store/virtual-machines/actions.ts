@@ -15,12 +15,13 @@ export const getVirtualMachines = async (dispatch: Dispatch) => {
 };
 
 export const getVirtualMachinesPage =
-  (filter, page, size) => async (dispatch: Dispatch) => {
-    const virtualMachine = await virtualMachinesService.getVirtualMachinesPage(
+  ({ filter, page, perPage }) =>
+  async (dispatch: Dispatch) => {
+    const virtualMachine = await virtualMachinesService.getVirtualMachinesPage({
       filter,
       page,
-      size,
-    );
+      perPage,
+    });
     await dispatch(setVirtualMachines(virtualMachine));
   };
 

@@ -45,7 +45,7 @@ const VirtualMachinesList = () => {
   const { filter, currentPage, perPage } = apiRequestData;
 
   useEffect(() => {
-    dispatch(getVirtualMachinesPage(filter, currentPage, perPage));
+    dispatch(getVirtualMachinesPage({ filter, page: currentPage, perPage }));
   }, [apiRequestData]);
 
   const rows = useSelector(selectVirtualMachines);
