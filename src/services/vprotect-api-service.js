@@ -30,7 +30,7 @@ const addParameters = (url = '', parameters = {}) => {
 class VprotectApiService {
   vprotectURL;
 
-  async request(method, path, body, options) {
+  async request(method, path, body, options, paginate) {
     if (!this.vprotectURL) {
       const config = await getPluginApi.configObject();
       this.vprotectURL = config.vProtectURL;
@@ -64,16 +64,22 @@ class VprotectApiService {
         return response;
       }
       if (response.statusText !== 'No Content') {
+        const totalCountHeader = response.headers.get('X-Total-Count');
+
         const r = await response.text();
         if (r !== '') {
-          return JSON.parse(r);
+          const json = JSON.parse(r);
+          if (paginate) {
+            return { body: json, totalCount: totalCountHeader };
+          }
+          return json;
         }
       }
     });
   }
 
-  get(path, options = {}) {
-    return this.request('GET', path, {}, options);
+  get(path, options = {}, paginate = false) {
+    return this.request('GET', path, {}, options, paginate);
   }
 
   post(path, body, options) {

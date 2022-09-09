@@ -20,10 +20,13 @@ class VirtualMachinesService {
   }
 
   getVirtualMachinesPage(filter, page, size) {
-    return vprotectApiService.get(
-      `/virtual-machines?filter=${filter}&page=${page}&size=${size}`,
-      { headers: {} },
-    );
+    vprotectApiService
+      .get(
+        `/virtual-machines?filter=${filter}&page=${page}&size=${size}`,
+        { headers: {} },
+        true,
+      )
+      .then((res) => console.log(res));
   }
 
   getVirtualMachineSnapshots(id, standAlone) {
