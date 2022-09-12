@@ -49,9 +49,7 @@ const VirtualMachinesList = () => {
   }, [apiRequestData]);
 
   const rows = useSelector(selectVirtualMachines);
-  {
-    console.log(rows);
-  }
+
   const deleteNonPresent = async () => {
     await virtualMachinesService.deleteAllNonPresentAndWithoutBackup();
     dispatch(getVirtualMachines);
@@ -196,10 +194,13 @@ const VirtualMachinesList = () => {
         id="popup_menu"
       />
       <Table
-        value={rows}
+        value={rows.body}
         header={header()}
         passChildData={handlePageAndPerPageChange}
         rows={apiRequestData.perPage}
+        apiPagination={true}
+        currentPage={apiRequestData.currentPage}
+        totalValues={rows.totalCount}
       >
         <Column
           field="name"

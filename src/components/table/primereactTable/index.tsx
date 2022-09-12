@@ -42,21 +42,33 @@ const Paginator = {
   ),
 } as PaginatorTemplate;
 
-const Table = ({ children, ...props }) => {
-  const passData = ({ page, rows }) => {
-    props.passChildData(page, rows);
+const Table = ({
+  children,
+  apiPagination = false,
+  totalValues,
+  passChildData,
+  currentPage,
+  perPage,
+  rows,
+  ...props
+}) => {
+  const passData = ({ page, rows: newRows }) => {
+    passChildData(page, newRows);
   };
   return (
     <div className={'c-table'}>
       <DataTable
         paginator
         paginatorTemplate={Paginator}
-        rows={20}
-        {...props}
+        rows={rows}
+        first={currentPage * rows}
+        lazy={apiPagination}
         paginatorClassName="justify-content-end"
         className="mt-6"
         removableSort
+        totalRecords={apiPagination ? totalValues : null}
         onPage={(e) => passData(e as any)}
+        {...props}
       >
         {children}
       </DataTable>
