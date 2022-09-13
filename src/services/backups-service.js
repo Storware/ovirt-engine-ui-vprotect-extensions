@@ -31,9 +31,7 @@ class BackupsService {
   }
 
   getAllMountedBackups() {
-    return vprotectApiService.get('/mounted-backups', {
-      params: { 'finished-mount': true },
-    });
+    return vprotectApiService.get('/mounted-backups');
   }
 
   getMountedBackup(id) {

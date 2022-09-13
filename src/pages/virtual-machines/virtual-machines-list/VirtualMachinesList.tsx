@@ -158,7 +158,12 @@ const VirtualMachinesList = () => {
       },
     },
   ];
-
+  // {
+  //   rows.map((row) => {
+  //     console.log(row?.vmBackupPolicy?.name);
+  //   });
+  // }
+  console.log(rows);
   return (
     <div>
       <Menu
@@ -222,7 +227,6 @@ const VirtualMachinesList = () => {
         <Column
           field="action"
           header="Action"
-          sortable
           body={(rowData) => (
             <Button
               icon="pi pi-bars"
