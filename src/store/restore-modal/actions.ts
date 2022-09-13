@@ -169,6 +169,7 @@ export const submitTask = (task) => async (dispatch: Dispatch) => {
     await tasksService.submitTaskRestoreAndImportWithProjectAssign(task);
     alertService.info('Restore task has been submitted');
     await dispatch(hideModalAction());
+    await dispatch(setTaskAction(new RestoreAndImportTask()));
   } catch (e) {
     await dispatch(unsaveModalAction());
   }
