@@ -3,6 +3,8 @@ import { SET_VIRTUAL_MACHINES, VirtualMachinesAction } from './types';
 import { virtualMachinesService } from '../../services/virtual-machines-service';
 import { tasksService } from '../../services/tasks-service';
 import { alertService } from '../../services/alert-service';
+import { TableParams } from 'components/table/primereactTable/TableParams';
+import { getElementWithoutProjectUuidInName } from 'utils/byProjectFilter';
 
 export const setVirtualMachines = (payload: any): VirtualMachinesAction => ({
   type: SET_VIRTUAL_MACHINES,
@@ -15,13 +17,12 @@ export const getVirtualMachines = async (dispatch: Dispatch) => {
 };
 
 export const getVirtualMachinesPage =
-  ({ filter, page, perPage }) =>
-  async (dispatch: Dispatch) => {
-    const virtualMachine = await virtualMachinesService.getVirtualMachinesPage({
-      filter,
-      page,
-      perPage,
-    });
+  (params: Partial<TableParams>) => async (dispatch: Dispatch) => {
+    const virtualMachine = await virtualMachinesService.getVirtualMachinesPage(
+      params,
+    );
+
+    console.log('action', virtualMachine);
     await dispatch(setVirtualMachines(virtualMachine));
   };
 

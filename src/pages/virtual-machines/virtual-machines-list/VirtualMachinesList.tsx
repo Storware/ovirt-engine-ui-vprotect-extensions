@@ -30,23 +30,16 @@ import HeaderTable from '../../../components/table/HeaderTable';
 import { backupsService } from '../../../services/backups-service';
 import { resetTaskAction } from 'store/mount-backup-modal/actions';
 import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
+import { TableParams } from 'components/table/primereactTable/TableParams';
 
 const VirtualMachinesList = () => {
   const dispatch = useDispatch();
   const history = createBrowserHistory();
   const [actionsElement, setActionsElement] = useState(null);
 
-  const [apiRequestData, setApiRequestData] = useState({
-    filter: '',
-    currentPage: 0,
-    perPage: 10,
-  });
-
-  const { filter, currentPage, perPage } = apiRequestData;
-
   useEffect(() => {
-    dispatch(getVirtualMachinesPage({ filter, page: currentPage, perPage }));
-  }, [apiRequestData]);
+    dispatch(getVirtualMachinesPage(new TableParams()));
+  }, []);
 
   const rows = useSelector(selectVirtualMachines);
 
@@ -56,28 +49,12 @@ const VirtualMachinesList = () => {
     alertService.info('Absent virtual machines have been deleted');
   };
 
-  const handleFilterChange = (e) => {
-    setApiRequestData((prevState) => ({
-      ...prevState,
-      filter: e.target.value,
-    }));
-  };
-
-  const handlePageAndPerPageChange = (currPage, page) => {
-    setApiRequestData((prevState) => ({
-      ...prevState,
-      currentPage: currPage,
-      perPage: page,
-    }));
-  };
-
   const header = () => (
     <HeaderTable>
       <div className="p-datatable-globalfilter-container">
         <InputText
           type="search"
-          value={apiRequestData.filter}
-          onInput={handleFilterChange}
+          onInput={() => {}}
           placeholder="Global Search"
         />
       </div>
@@ -182,9 +159,7 @@ const VirtualMachinesList = () => {
       },
     },
   ];
-  {
-    console.log(apiRequestData);
-  }
+
   return (
     <div>
       <Menu
@@ -194,13 +169,13 @@ const VirtualMachinesList = () => {
         id="popup_menu"
       />
       <Table
-        value={rows.body}
+        value={rows}
         header={header()}
-        passChildData={handlePageAndPerPageChange}
-        rows={apiRequestData.perPage}
         apiPagination={true}
-        currentPage={apiRequestData.currentPage}
-        totalValues={rows.totalCount}
+        onPageChange={(e) => {
+          dispatch(getVirtualMachinesPage(e));
+          console.log(e);
+        }}
       >
         <Column
           field="name"

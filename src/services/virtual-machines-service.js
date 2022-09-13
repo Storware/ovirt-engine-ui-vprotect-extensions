@@ -19,14 +19,12 @@ class VirtualMachinesService {
     return vprotectApiService.get('/virtual-machines/' + id);
   }
 
-  getVirtualMachinesPage({ filter, page, perPage }) {
-    return vprotectApiService.get(
-      `/virtual-machines?filter=${filter}&page=${page}&size=${perPage}&orderBy=name&direction=asc`,
-      {
-        headers: {},
-        paginate: true,
-      },
-    );
+  getVirtualMachinesPage(params) {
+    return vprotectApiService.get(`/virtual-machines`, {
+      params,
+      headers: {},
+      paginate: true,
+    });
   }
 
   getVirtualMachineSnapshots(id, standAlone) {

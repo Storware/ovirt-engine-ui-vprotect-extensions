@@ -1,7 +1,30 @@
 import React, { useState } from 'react';
-import { DataTable } from 'primereact/datatable';
+import {
+  DataTable,
+  DataTableSelectionChangeParams,
+  DataTableSelectionModeType,
+} from 'primereact/datatable';
 import { Dropdown } from 'primereact/dropdown';
 import { PaginatorTemplate } from 'primereact/paginator';
+import { TableParams } from 'components/table/primereactTable/TableParams';
+
+type ApiResponse = {
+  body: any[];
+  totalCount?: number;
+};
+
+type Props = {
+  children: any[];
+  apiPagination?: boolean;
+  value: any;
+  onPageChange?: (event: any) => void;
+  header?: JSX.Element | string;
+  globalFilter?: string;
+  selection?: any;
+  onSelectionChange?: (event: any) => void;
+  selectionMode?: DataTableSelectionModeType;
+  rowClassName?: any;
+};
 
 const Paginator = {
   layout: 'RowsPerPageDropdown CurrentPageReport PrevPageLink NextPageLink',
@@ -45,29 +68,31 @@ const Paginator = {
 const Table = ({
   children,
   apiPagination = false,
-  totalValues,
-  passChildData,
-  currentPage,
-  perPage,
-  rows,
+  onPageChange,
+  value,
   ...props
-}) => {
-  const passData = ({ page, rows: newRows }) => {
-    passChildData(page, newRows);
-  };
+}: Props) => {
+  const { page, size } = new TableParams();
+
+  // @ts-ignore
+  const { body, totalCount } = value;
+
   return (
     <div className={'c-table'}>
       <DataTable
+        value={body}
         paginator
         paginatorTemplate={Paginator}
-        rows={rows}
-        first={currentPage * rows}
+        rows={apiPagination ? size : 20}
+        first={page * size}
         lazy={apiPagination}
         paginatorClassName="justify-content-end"
         className="mt-6"
         removableSort
-        totalRecords={apiPagination ? totalValues : null}
-        onPage={(e) => passData(e as any)}
+        totalRecords={apiPagination ? totalCount : null}
+        onPage={(e) => {
+          onPageChange(e);
+        }}
         {...props}
       >
         {children}
