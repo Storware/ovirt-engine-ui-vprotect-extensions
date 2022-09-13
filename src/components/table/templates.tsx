@@ -5,6 +5,7 @@ import { schedulesService } from '../../services/schedules-service';
 import { Button } from 'primereact/button';
 import { OriginEntityType } from 'model/task-panel.model';
 import { RetentionHintsDescription } from 'model/retention-hints';
+import { Tooltip } from 'primereact/tooltip';
 
 enum StatusColorHex {
   IN_PROGRESS = '#1f75b1',
@@ -107,14 +108,23 @@ export const backupLocationsTemplates = (rowData) =>
           style={{ color: StatusColorHex[status.name] }}
         />
         {name}
-        {RetentionHintsDescription?.[retentionHint?.name] && (
-          <Button
-            icon="pi pi-info"
-            className="p-button-rounded p-button-sm p-button-text ml-2"
-            tooltip={RetentionHintsDescription?.[retentionHint?.name]}
-            tooltipOptions={{ position: 'top' }}
-            style={{ height: '24px', width: '24px' }}
-          />
+        {RetentionHintsDescription[retentionHint.name] && (
+          <>
+            <Tooltip target=".retentionHint-name" position="top" />
+            {/* for some reason retentionHint doesn't update as
+                tooltip on <Button/> element, it's just going back
+                to the previous value - as a separate it works correctly */}
+            <span
+              className="retentionHint-name"
+              data-pr-tooltip={RetentionHintsDescription[retentionHint.name]}
+            >
+              <Button
+                icon="pi pi-info"
+                className="p-button-rounded p-button-sm p-button-text ml-2"
+                style={{ height: '24px', width: '24px' }}
+              />
+            </span>
+          </>
         )}
       </div>
     ),
