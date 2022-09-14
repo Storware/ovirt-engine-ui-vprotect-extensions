@@ -8,11 +8,6 @@ import { Dropdown } from 'primereact/dropdown';
 import { PaginatorTemplate } from 'primereact/paginator';
 import { TableParams } from 'components/table/primereactTable/TableParams';
 
-type ApiResponse = {
-  body: any[];
-  totalCount?: number;
-};
-
 type Props = {
   children: any[];
   apiPagination?: boolean;
