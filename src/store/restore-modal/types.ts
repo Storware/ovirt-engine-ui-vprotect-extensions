@@ -8,6 +8,7 @@ export const SET_FILTERED_HYPERVISOR_STORAGES =
 export const SET_HYPERVISOR_CLUSTERS = 'SET_HYPERVISOR_CLUSTERS';
 export const SET_FLAVORS = 'SET_FLAVORS';
 export const SET_RESTORE_CLUSTER_ID = 'SET_RESTORE_CLUSTER_ID';
+export const RESET_TASK = 'RESET_TASK';
 
 export type SetTaskAction = {
   type: typeof SET_TASK;
@@ -54,6 +55,10 @@ export type SetRestoreClusterId = {
   payload?: any;
 };
 
+export type ResetTask = {
+  type: typeof RESET_TASK;
+};
+
 export type BackupModalAction =
   | SetTaskAction
   | SetBackupLocationsAction
@@ -63,4 +68,5 @@ export type BackupModalAction =
   | SetFilteredHypervisorStoragesAction
   | SetHypervisorClustersAction
   | SetFlavors
+  | ResetTask
   | SetRestoreClusterId;

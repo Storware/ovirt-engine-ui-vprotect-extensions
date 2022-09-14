@@ -28,14 +28,14 @@ import { Menu } from 'primereact/menu';
 import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 import HeaderTable from '../../../components/table/HeaderTable';
 import { backupsService } from '../../../services/backups-service';
-import { resetTaskAction } from '../../../store/mount-backup-modal/actions';
+import { resetMountTaskAction } from '../../../store/mount-backup-modal/actions';
 import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
 import { selectIsSelectedRulesZero } from 'store/backup-modal/selectors';
+import { resetRestoreTaskAction } from '../../../store/restore-modal/actions';
 
 const VirtualMachinesList = () => {
   const dispatch = useDispatch();
   const history = createBrowserHistory();
-  const [globalFilter, setGlobalFilter] = useState(null);
   const [actionsElement, setActionsElement] = useState(null);
 
   useEffect(() => {
@@ -123,7 +123,7 @@ const VirtualMachinesList = () => {
     {
       label: 'Mount',
       command: async () => {
-        dispatch(resetTaskAction());
+        dispatch(resetMountTaskAction());
         const mountableBackups = await backupsService.getMountableBackups(
           actionsElement.guid,
         );
@@ -149,6 +149,7 @@ const VirtualMachinesList = () => {
     {
       label: 'Restore',
       command: () => {
+        dispatch(resetRestoreTaskAction());
         dispatch(
           showModalAction({
             component: RestoreModal,

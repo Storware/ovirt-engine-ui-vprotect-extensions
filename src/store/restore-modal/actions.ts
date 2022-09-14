@@ -1,5 +1,6 @@
 import {
   BackupModalAction,
+  RESET_TASK,
   SET_BACKUP_FILES,
   SET_BACKUP_LOCATIONS,
   SET_FILTERED_HYPERVISOR_STORAGES,
@@ -169,7 +170,6 @@ export const submitTask = (task) => async (dispatch: Dispatch) => {
     await tasksService.submitTaskRestoreAndImportWithProjectAssign(task);
     alertService.info('Restore task has been submitted');
     await dispatch(hideModalAction());
-    await dispatch(setTaskAction(new RestoreAndImportTask()));
   } catch (e) {
     await dispatch(unsaveModalAction());
   }
@@ -191,4 +191,8 @@ export const getBackupFiles =
 export const setRestoreClusterId = (payload: any[]): BackupModalAction => ({
   type: SET_RESTORE_CLUSTER_ID,
   payload,
+});
+
+export const resetRestoreTaskAction = (): BackupModalAction => ({
+  type: RESET_TASK,
 });
