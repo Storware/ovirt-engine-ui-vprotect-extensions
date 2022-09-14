@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   DataTable,
   DataTableSelectionChangeParams,
@@ -63,14 +63,29 @@ const Paginator = {
 const Table = ({
   children,
   apiPagination = false,
-  onPageChange,
+  onPageChange = () => {},
   value,
   ...props
 }: Props) => {
-  const { page, size } = new TableParams();
+  const [tableParams, setTableParams] = useState<TableParams>(
+    new TableParams(),
+  );
 
-  // @ts-ignore
-  const { body, totalCount } = value;
+  useEffect(() => {
+    onPageChange(tableParams);
+  }, [tableParams]);
+
+  const handleOnPage = (e) => {
+    setTableParams((prevState) => ({
+      ...prevState,
+      page: e.page,
+      size: e.rows,
+    }));
+  };
+
+  const { body, totalCount } = apiPagination
+    ? value
+    : { body: value, totalCount: null };
 
   return (
     <div className={'c-table'}>
@@ -78,16 +93,14 @@ const Table = ({
         value={body}
         paginator
         paginatorTemplate={Paginator}
-        rows={apiPagination ? size : 20}
-        first={page * size}
+        rows={tableParams.size}
+        first={tableParams.page * tableParams.size}
         lazy={apiPagination}
         paginatorClassName="justify-content-end"
         className="mt-6"
         removableSort
-        totalRecords={apiPagination ? totalCount : null}
-        onPage={(e) => {
-          onPageChange(e);
-        }}
+        totalRecords={totalCount}
+        onPage={(e) => handleOnPage(e)}
         {...props}
       >
         {children}

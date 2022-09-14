@@ -21,7 +21,6 @@ export const getVirtualMachinesPage =
       params,
     );
 
-    console.log('action', virtualMachine);
     await dispatch(setVirtualMachines(virtualMachine));
   };
 

@@ -174,7 +174,6 @@ const VirtualMachinesList = () => {
         apiPagination={true}
         onPageChange={(e) => {
           dispatch(getVirtualMachinesPage(e));
-          console.log(e);
         }}
       >
         <Column
