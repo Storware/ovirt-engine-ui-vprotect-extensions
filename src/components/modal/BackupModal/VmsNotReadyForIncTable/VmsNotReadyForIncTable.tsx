@@ -10,7 +10,7 @@ import { alertService } from 'services/alert-service';
 import { VirtualMachineSchedule } from 'model/VirtualMachineSchedule';
 
 export default ({ vms }) => {
-  const [vmsNotReadyForIncTable, setVmsNotReadyForIncTable] = useState({});
+  const [vmsNotReadyForIncTable, setVmsNotReadyForIncTable] = useState([]);
   const [
     isVmsNotReadyForIncrementalTableActive,
     setIsVmsNotReadyForIncrementalTableActive,
@@ -44,32 +44,34 @@ export default ({ vms }) => {
 
   return (
     <div>
-      <div className="d-flex align-items-center">
-        <Button
-          icon="pi pi-exclamation-triangle"
-          className={'p-button-rounded p-button-text'}
-          style={{
-            color: '#ffb236',
-          }}
-        />
+      {!!vmsNotReadyForIncTable.length && (
+        <div className="d-flex align-items-center">
+          <Button
+            icon="pi pi-exclamation-triangle"
+            className={'p-button-rounded p-button-text'}
+            style={{
+              color: '#ffb236',
+            }}
+          />
 
-        <p>
-          One or more VMs is not ready for incremental backup
-          <span
-            style={{ color: '#3F51B5' }}
-            className="cursor-pointer"
-            onClick={() =>
-              setIsVmsNotReadyForIncrementalTableActive(
-                !isVmsNotReadyForIncrementalTableActive,
-              )
-            }
-          >
-            {isVmsNotReadyForIncrementalTableActive
-              ? ' (See less)'
-              : ' (See more)'}
-          </span>
-        </p>
-      </div>
+          <p>
+            One or more VMs is not ready for incremental backup
+            <span
+              style={{ color: '#3F51B5' }}
+              className="cursor-pointer"
+              onClick={() =>
+                setIsVmsNotReadyForIncrementalTableActive(
+                  !isVmsNotReadyForIncrementalTableActive,
+                )
+              }
+            >
+              {isVmsNotReadyForIncrementalTableActive
+                ? ' (See less)'
+                : ' (See more)'}
+            </span>
+          </p>
+        </div>
+      )}
 
       {isVmsNotReadyForIncrementalTableActive && (
         <Table value={vmsNotReadyForIncTable}>
