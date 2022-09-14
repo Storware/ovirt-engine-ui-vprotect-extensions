@@ -11,8 +11,19 @@ export const setVirtualMachines = (payload: any): VirtualMachinesAction => ({
 
 export const getVirtualMachinesPage = async (dispatch: Dispatch) => {
   const virtualMachine = await virtualMachinesService.getVirtualMachines();
-  //przemapować policy
-  await dispatch(setVirtualMachines(virtualMachine));
+
+  const virtualMachinesWithoutUuidName = virtualMachine.map((vm) =>
+    vm.vmBackupPolicy
+      ? {
+          ...vm,
+          vmBackupPolicy: {
+            ...vm.vmBackupPolicy,
+            name: vm.vmBackupPolicy.name.split('_').slice(2).join(''),
+          },
+        }
+      : vm,
+  );
+  await dispatch(setVirtualMachines(virtualMachinesWithoutUuidName));
 };
 
 export const deleteVirtualMachine =

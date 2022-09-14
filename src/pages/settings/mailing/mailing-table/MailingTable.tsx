@@ -50,7 +50,12 @@ const MailingTable = () => {
   return (
     <div>
       <Table value={rows} header={header()} globalFilter={globalFilter}>
-        <Column field="name" header="Name" body={nameTemplate(history)} />
+        <Column
+          field="name"
+          header="Name"
+          body={nameTemplate(history)}
+          sortable
+        />
         <Column
           field="action"
           header="Action"
