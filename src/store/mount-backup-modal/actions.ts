@@ -52,7 +52,7 @@ export const setBackupFilesAction = (
   payload,
 });
 
-export const resetTaskAction = (): MountBackupModalAction => ({
+export const resetMountTaskAction = (): MountBackupModalAction => ({
   type: RESET_TASK,
 });
 
