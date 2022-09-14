@@ -182,7 +182,7 @@ const VirtualMachinesList = () => {
           body={nameTemplate(history)}
           sortable
         />
-        <Column field="uuid" header="Uuid" sortable />
+        <Column field="uuid" header="Uuid" />
         <Column
           field="present"
           header="Present"
@@ -230,7 +230,6 @@ const VirtualMachinesList = () => {
         <Column
           field="action"
           header="Action"
-          sortable
           body={(rowData) => (
             <Button
               icon="pi pi-bars"

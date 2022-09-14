@@ -3,6 +3,7 @@ import {
   DataTable,
   DataTableSelectionChangeParams,
   DataTableSelectionModeType,
+  DataTableSortOrderType,
 } from 'primereact/datatable';
 import { Dropdown } from 'primereact/dropdown';
 import { PaginatorTemplate } from 'primereact/paginator';
@@ -83,7 +84,31 @@ const Table = ({
     }));
   };
 
-  const { body, totalCount } = apiPagination
+  const unmappedDirection: { [key: string]: DataTableSortOrderType } = {
+    asc: 1,
+    null: 0,
+    desc: -1,
+  };
+  const mappedDirection: { [key: string]: string | null } = {
+    '1': 'asc',
+    '0': null,
+    '-1': 'desc',
+  };
+
+  const handleOnSort = (e) => {
+    if (e.sortOrder !== 0) {
+      setTableParams((prevState) => ({
+        ...prevState,
+        orderBy: e.sortField,
+        direction: mappedDirection[e.sortOrder],
+      }));
+    } else {
+      const { orderBy, direction, ...newTableParams } = tableParams;
+      setTableParams(newTableParams);
+    }
+  };
+
+  const { body, totalCount } = !!apiPagination
     ? value
     : { body: value, totalCount: null };
 
@@ -95,12 +120,16 @@ const Table = ({
         paginatorTemplate={Paginator}
         rows={tableParams.size}
         first={tableParams.page * tableParams.size}
-        lazy={apiPagination}
+        lazy={!!apiPagination}
         paginatorClassName="justify-content-end"
         className="mt-6"
         removableSort
         totalRecords={totalCount}
         onPage={(e) => handleOnPage(e)}
+        onSort={(e) => handleOnSort(e)}
+        sortField={tableParams.orderBy}
+        // sortOrder={Object.entries(mappedDirection).find(([key, value]) => value === tableParams.direction);}
+        sortOrder={unmappedDirection[tableParams.direction]}
         {...props}
       >
         {children}
