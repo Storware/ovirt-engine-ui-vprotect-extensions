@@ -1,5 +1,5 @@
 export class TableParams {
-  filter: string;
+  filter?: string;
   page = 0;
   size = 10;
   orderBy?: string;

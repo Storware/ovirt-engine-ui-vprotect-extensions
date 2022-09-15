@@ -36,6 +36,7 @@ const VirtualMachinesList = () => {
   const dispatch = useDispatch();
   const history = createBrowserHistory();
   const [actionsElement, setActionsElement] = useState(null);
+  const [globalFilter, setGlobalFilter] = useState(null);
 
   useEffect(() => {
     dispatch(getVirtualMachinesPage(new TableParams()));
@@ -54,8 +55,10 @@ const VirtualMachinesList = () => {
       <div className="p-datatable-globalfilter-container">
         <InputText
           type="search"
-          onInput={() => {}}
           placeholder="Global Search"
+          onInput={({ target }) =>
+            setGlobalFilter((target as HTMLInputElement).value)
+          }
         />
       </div>
       <Button
@@ -171,6 +174,7 @@ const VirtualMachinesList = () => {
       <Table
         value={rows}
         header={header()}
+        globalFilter={globalFilter}
         apiPagination={(e) => {
           dispatch(getVirtualMachinesPage(e));
         }}

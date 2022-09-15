@@ -68,7 +68,7 @@ const Table = ({ children, apiPagination, value, ...props }: Props) => {
     useState<DataTableSortOrderType>(0);
 
   useEffect(() => {
-    apiPagination(tableParams);
+    !!apiPagination ? apiPagination(tableParams) : () => {};
   }, [tableParams]);
 
   const handleOnPage = (e) => {
@@ -77,6 +77,17 @@ const Table = ({ children, apiPagination, value, ...props }: Props) => {
       page: e.page,
       size: e.rows,
     }));
+  };
+  const handleOnFilter = (e) => {
+    if (e?.filters?.globalFilter?.value) {
+      setTableParams((prevState) => ({
+        ...prevState,
+        filter: e.filters.globalFilter.value,
+      }));
+    } else {
+      const { filter, ...newTableParams } = tableParams;
+      setTableParams(newTableParams);
+    }
   };
 
   const mappedDirection: { [key: string]: string | null } = {
@@ -120,6 +131,8 @@ const Table = ({ children, apiPagination, value, ...props }: Props) => {
         onSort={(e) => handleOnSort(e)}
         sortField={tableParams.orderBy}
         sortOrder={unmappedDirection}
+        onFilter={(e) => handleOnFilter(e)}
+        globalFilter={tableParams.filter}
         {...props}
       >
         {children}
