@@ -11,9 +11,8 @@ import { TableParams } from 'components/table/primereactTable/TableParams';
 
 type Props = {
   children: any[];
-  apiPagination?: boolean;
+  apiPagination?: (event: any) => void;
   value: any;
-  onPageChange?: (event: any) => void;
   header?: JSX.Element | string;
   globalFilter?: string;
   selection?: any;
@@ -61,19 +60,15 @@ const Paginator = {
   ),
 } as PaginatorTemplate;
 
-const Table = ({
-  children,
-  apiPagination = false,
-  onPageChange = () => {},
-  value,
-  ...props
-}: Props) => {
+const Table = ({ children, apiPagination, value, ...props }: Props) => {
   const [tableParams, setTableParams] = useState<TableParams>(
     new TableParams(),
   );
+  const [unmappedDirection, setUnmappedDirection] =
+    useState<DataTableSortOrderType>(0);
 
   useEffect(() => {
-    onPageChange(tableParams);
+    apiPagination(tableParams);
   }, [tableParams]);
 
   const handleOnPage = (e) => {
@@ -84,11 +79,6 @@ const Table = ({
     }));
   };
 
-  const unmappedDirection: { [key: string]: DataTableSortOrderType } = {
-    asc: 1,
-    null: 0,
-    desc: -1,
-  };
   const mappedDirection: { [key: string]: string | null } = {
     '1': 'asc',
     '0': null,
@@ -102,6 +92,7 @@ const Table = ({
         orderBy: e.sortField,
         direction: mappedDirection[e.sortOrder],
       }));
+      setUnmappedDirection(e.sortOrder);
     } else {
       const { orderBy, direction, ...newTableParams } = tableParams;
       setTableParams(newTableParams);
@@ -128,8 +119,7 @@ const Table = ({
         onPage={(e) => handleOnPage(e)}
         onSort={(e) => handleOnSort(e)}
         sortField={tableParams.orderBy}
-        // sortOrder={Object.entries(mappedDirection).find(([key, value]) => value === tableParams.direction);}
-        sortOrder={unmappedDirection[tableParams.direction]}
+        sortOrder={unmappedDirection}
         {...props}
       >
         {children}

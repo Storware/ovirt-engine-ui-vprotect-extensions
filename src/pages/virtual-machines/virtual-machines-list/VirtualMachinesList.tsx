@@ -171,8 +171,7 @@ const VirtualMachinesList = () => {
       <Table
         value={rows}
         header={header()}
-        apiPagination={true}
-        onPageChange={(e) => {
+        apiPagination={(e) => {
           dispatch(getVirtualMachinesPage(e));
         }}
       >
