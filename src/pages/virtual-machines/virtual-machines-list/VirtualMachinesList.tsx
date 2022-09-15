@@ -5,10 +5,9 @@ import { getVirtualMachinesPage } from 'store/virtual-machines/actions';
 import { selectVirtualMachines } from 'store/virtual-machines/selectors';
 import { showModalAction } from 'store/modal/actions';
 import { MountBackupModal } from 'components/modal/MountBackupModal';
-import { nameTemplate } from '../../policies/PoliciesList';
+import { nameTemplate } from 'components/table/templates';
 import { createBrowserHistory } from 'history';
 import { deleteVirtualMachine } from '../../../store/virtual-machines/actions';
-import { getElementWithoutProjectUuidInName } from '../../../utils/byProjectFilter';
 import { virtualMachinesService } from '../../../services/virtual-machines-service';
 import { policiesService } from '../../../services/policies-service';
 import { alertService } from '../../../services/alert-service';
@@ -170,10 +169,9 @@ const VirtualMachinesList = () => {
         <Column
           field="name"
           header="Name"
-          body={nameTemplate(history)}
+          body={nameTemplate(history, 'uuid')}
           sortable
         />
-        <Column field="uuid" header="Uuid" sortable />
         <Column
           field="present"
           header="Present"

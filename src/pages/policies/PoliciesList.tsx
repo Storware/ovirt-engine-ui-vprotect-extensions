@@ -13,18 +13,11 @@ import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { createBrowserHistory } from 'history';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
-import { sizeTemplate } from 'components/table/templates';
+import { nameTemplate, sizeTemplate } from 'components/table/templates';
 import { Menu } from 'primereact/menu';
 import { Button } from 'primereact/button';
 import Table from 'components/table/primereactTable';
 import { booleanTemplate } from 'components/table/templates';
-
-export const nameTemplate = (history) => (rowData, column) =>
-  (
-    <Link to={`${history.location.pathname}/${rowData.guid}`}>
-      {rowData[column.field]}
-    </Link>
-  );
 
 export const PoliciesList = () => {
   const dispatch = useDispatch();

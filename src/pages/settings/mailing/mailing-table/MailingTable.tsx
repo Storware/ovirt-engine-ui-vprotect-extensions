@@ -8,13 +8,7 @@ import { createBrowserHistory } from 'history';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMailingTable } from 'store/mailingTable/selectors';
 import { getMailingTable, removeMailingList } from 'store/mailingTable/actions';
-
-export const nameTemplate = (history) => (rowData, column) =>
-  (
-    <Link to={`${history.location.pathname}/${rowData.guid}`}>
-      {rowData[column.field]}
-    </Link>
-  );
+import { nameTemplate } from 'components/table/templates';
 
 const MailingTable = () => {
   const dispatch = useDispatch();

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSchedules, removeSchedule } from 'store/schedules/actions';
 import { Link, useParams } from 'react-router-dom';
 import { selectSchedules } from 'store/schedules/selectors';
-import { nameTemplate } from 'pages/policies/PoliciesList';
+import { nameTemplate } from 'components/table/templates';
 import { createBrowserHistory } from 'history';
 import { InputText } from 'primereact/inputtext';
 import { Column } from 'primereact/column';
