@@ -9,6 +9,7 @@ import { selectVirtualMachines } from 'store/virtual-machines/selectors';
 import { showModalAction } from 'store/modal/actions';
 import { MountBackupModal } from 'components/modal/MountBackupModal';
 import { nameTemplate } from 'components/table/templates';
+import { getElementWithoutProjectUuidInName } from '../../../utils/byProjectFilter';
 import { createBrowserHistory } from 'history';
 import { deleteVirtualMachine } from '../../../store/virtual-machines/actions';
 import { virtualMachinesService } from '../../../services/virtual-machines-service';
