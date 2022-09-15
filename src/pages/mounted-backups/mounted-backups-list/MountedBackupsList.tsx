@@ -73,7 +73,7 @@ export const MountedBackupsList = () => {
         />
         <Table value={rows} header={header()} globalFilter={globalFilter}>
           <Column
-            field="protectedEntity"
+            field="backup.protectedEntity.name"
             header="Virtual Machine"
             sortable
             body={(rowData) => (
