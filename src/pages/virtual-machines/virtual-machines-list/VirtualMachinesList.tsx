@@ -158,7 +158,6 @@ const VirtualMachinesList = () => {
       },
     },
   ];
-
   return (
     <div>
       <Menu
@@ -183,14 +182,10 @@ const VirtualMachinesList = () => {
         />
         <Column field="hypervisor.name" header="Hypervisor" sortable />
         <Column
-          field="vmBackupPolicy"
+          field="vmBackupPolicy.name"
           header="Policy"
-          filterField="vmBackupPolicy.name"
           sortable
-          body={(rowData) =>
-            rowData.vmBackupPolicy &&
-            getElementWithoutProjectUuidInName(rowData.vmBackupPolicy).name
-          }
+          body={(rowData) => rowData?.vmBackupPolicy?.name}
         />
         <Column
           field="backupUpToDate"
@@ -222,7 +217,6 @@ const VirtualMachinesList = () => {
         <Column
           field="action"
           header="Action"
-          sortable
           body={(rowData) => (
             <Button
               icon="pi pi-bars"

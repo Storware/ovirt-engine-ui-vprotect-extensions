@@ -70,6 +70,7 @@ export default () => {
             style={{ width: '15%' }}
             field="snapshotTime"
             header="Snapshot Time"
+            sortable
             body={dateTemplate}
           />
         )}
@@ -89,7 +90,7 @@ export default () => {
           body={sizeTemplate}
           sortable
         />
-        <Column style={{ width: '10%' }} field="type" header="Type" />
+        <Column style={{ width: '10%' }} field="type" header="Type" sortable />
         <Column
           style={{ width: '10%' }}
           field="status"
