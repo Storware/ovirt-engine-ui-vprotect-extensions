@@ -15,7 +15,6 @@ export const ListContainer = () => {
 
   return (
     <div>
-      <Tabs items={items} />
       <Tabs items={tabs} />
 
       <Switch>
