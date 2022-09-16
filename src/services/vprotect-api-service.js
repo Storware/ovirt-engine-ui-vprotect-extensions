@@ -47,6 +47,7 @@ class VprotectApiService {
       headers: {
         'Content-Type': 'application/json',
         ...getCsrfTokenHeader(),
+        ...options?.headers,
       },
       ...options,
       ...(['POST', 'PUT'].includes(method)
@@ -65,7 +66,12 @@ class VprotectApiService {
       if (response.statusText !== 'No Content') {
         const r = await response.text();
         if (r !== '') {
-          return JSON.parse(r);
+          const json = JSON.parse(r);
+          if (options?.paginate) {
+            const totalCountHeader = response.headers.get('X-Total-Count');
+            return { body: json, totalCount: totalCountHeader };
+          }
+          return json;
         }
       }
     });
