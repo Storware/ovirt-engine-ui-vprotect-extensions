@@ -74,8 +74,9 @@ export const MountedBackupsList = () => {
         />
         <Table value={rows} header={header()} globalFilter={globalFilter}>
           <Column
-            field="protectedEntity"
+            field="backup.protectedEntity.name"
             header="Virtual Machine"
+            sortable
             body={(rowData) => (
               <Link
                 to={`virtual_environments/${rowData.backup?.protectedEntity?.guid}`}
@@ -84,13 +85,14 @@ export const MountedBackupsList = () => {
               </Link>
             )}
           />
-          <Column field="mode.description" header="Mode" />
+          <Column field="mode.description" header="Mode" sortable />
           <Column field="state" header="State" />
-          <Column field="node.name" header="Node" />
+          <Column field="node.name" header="Node" sortable />
           <Column
             field="backup.snapshotTime"
             header="Snapshot Date"
             body={dateTemplate}
+            sortable
           />
           <Column field="mountedFileSystemCount" header="File systems" />
 

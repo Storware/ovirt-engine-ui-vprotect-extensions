@@ -5,7 +5,7 @@ import PoliciesList from 'pages/policies/PoliciesList';
 import { Tab } from 'components/tabs/Tab';
 import Tabs from 'components/tabs/Tabs';
 
-const items: Tab[] = [
+const tabs: Tab[] = [
   { label: 'Policies', path: 'policies' },
   { label: 'Schedules', path: 'schedules' },
 ];
@@ -16,6 +16,7 @@ export const ListContainer = () => {
   return (
     <div>
       <Tabs items={items} />
+      <Tabs items={tabs} />
 
       <Switch>
         <Route path={`${match.path}/policies`}>

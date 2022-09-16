@@ -3,22 +3,25 @@ import { SET_VIRTUAL_MACHINES, VirtualMachinesAction } from './types';
 import { virtualMachinesService } from '../../services/virtual-machines-service';
 import { tasksService } from '../../services/tasks-service';
 import { alertService } from '../../services/alert-service';
+import { TableParams } from 'components/table/primereactTable/TableParams';
 
 export const setVirtualMachines = (payload: any): VirtualMachinesAction => ({
   type: SET_VIRTUAL_MACHINES,
   payload,
 });
 
-export const getVirtualMachinesPage = async (dispatch: Dispatch) => {
+export const getVirtualMachines = async (dispatch: Dispatch) => {
   const virtualMachine = await virtualMachinesService.getVirtualMachines();
   await dispatch(setVirtualMachines(virtualMachine));
 };
 
-export const getFilteredVirtualMachinesPage =
-  (param) => async (dispatch: Dispatch) => {
-    const filteredVirtualMachines =
-      await virtualMachinesService.getFilteredVirtualMachines(param);
-    await dispatch(setVirtualMachines(filteredVirtualMachines));
+export const getVirtualMachinesPage =
+  (params: Partial<TableParams>) => async (dispatch: Dispatch) => {
+    const virtualMachine = await virtualMachinesService.getVirtualMachinesPage(
+      params,
+    );
+
+    await dispatch(setVirtualMachines(virtualMachine));
   };
 
 export const deleteVirtualMachine =
@@ -27,7 +30,7 @@ export const deleteVirtualMachine =
     if (res.length) {
       alertService.info('Delete task has been submitted');
     } else {
-      await getVirtualMachinesPage(dispatch);
+      await getVirtualMachines(dispatch);
       alertService.info('Virtual environment has been deleted');
     }
   };

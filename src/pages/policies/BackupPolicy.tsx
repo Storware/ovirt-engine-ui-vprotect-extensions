@@ -218,6 +218,7 @@ export const BackupPolicy = ({ type }) => {
                   options={virtualMachines}
                   component={InputListBox}
                   optionLabel="name"
+                  underlinetext="uuid"
                   multiple
                   dataKey="guid"
                   label="Choose Virtual Environments"
