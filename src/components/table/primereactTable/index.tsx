@@ -81,10 +81,10 @@ const Table = ({ children, apiPagination, value, ...props }: Props) => {
     }));
   };
   const handleOnFilter = (e) => {
-    if (e?.filters?.globalFilter?.value) {
+    if (e?.filters?.global?.value) {
       setTableParams((prevState) => ({
         ...prevState,
-        filter: e.filters.globalFilter.value,
+        filter: e.filters.global.value,
       }));
     } else {
       const { filter, ...newTableParams } = tableParams;
