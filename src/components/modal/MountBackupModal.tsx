@@ -96,6 +96,15 @@ export const MountBackupModal = ({ virtualEnvironment, backups }) => {
     useSelector(selectIscsiMountable),
   ];
 
+  useEffect(() => {
+    dispatch(
+      setTaskAction({
+        ...task,
+        backupLocation: backupsLocations[0],
+      }),
+    );
+  }, [backupsLocations]);
+
   let filteredModes = modes;
   if (manualMountFileSystems.length === 0) {
     filteredModes = modes.filter((el) => el.value.name !== 'MANUAL');
