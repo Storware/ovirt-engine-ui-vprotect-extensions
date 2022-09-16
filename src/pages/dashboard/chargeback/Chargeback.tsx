@@ -27,7 +27,7 @@ export default () => {
         <h5 className={'font-weight-light'}>Last 24h backup size</h5>
       </div>
       <hr />
-      <ChargebackChart chartData={chartData} />;
+      <ChargebackChart chartData={chartData} />
     </Card>
   );
 };

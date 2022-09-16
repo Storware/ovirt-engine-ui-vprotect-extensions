@@ -146,31 +146,15 @@ export const Dashboard = () => {
           />
         )}
 
-        <div className="d-flex align-items-stretch">
-          <Card className="w-100 mr-3 mt-3">
-            <div>
-              <div className={'card-pf-heading'}>
-                <h5 className={'font-weight-light'}>Last 24h backup size</h5>
-              </div>
-              <hr />
-              <div>
-                <Chargeback />
-              </div>
-            </div>
-          </Card>
-          <Card className="w-100 mt-3">
-            <div>
-              <div className={'card-pf-heading'}>
-                <h5 className={'font-weight-light'}>Activity</h5>
-              </div>
-              <hr />
-              <div>
-                <ActivityChart />
-              </div>
-            </div>
-          </Card>
+        <div className="d-flex w-100">
+          <div className="w-50 ml-2 flex-grow-1">
+            <Chargeback />
+          </div>
+          <div className="w-50 ml-2 flex-grow-1">
+            <ActivityChart />
+          </div>
         </div>
       </div>
     </>
-  );
+  )
 };
