@@ -1,5 +1,6 @@
 import { Doughnut } from 'react-chartjs-2';
 import React from 'react';
+import { chartBackgroundColors } from '../dashboard/ChartSection/branding-config';
 
 const options = {
   responsive: true,
@@ -15,7 +16,7 @@ const options = {
   },
 };
 
-const backgroundColor = ['#0f9d58', '#38689E', '#c70015'];
+const backgroundColor = chartBackgroundColors;
 
 export default ({ report, type }) => {
   const label = {
