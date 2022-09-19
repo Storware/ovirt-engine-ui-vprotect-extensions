@@ -17,9 +17,9 @@ export default ({ chartData }) => {
   const page = useSelector(selectPage);
 
   const onSortClick = (property: SortType) => () => {
-    Object.keys(sortBy).forEach((el) => {
-      if (el !== property) {
-        sortBy[el] = null;
+    Object.keys(sortBy).forEach((key) => {
+      if (key !== property) {
+        sortBy[key] = null;
       }
     });
 
@@ -114,6 +114,7 @@ export default ({ chartData }) => {
   return (
     <div>
       <Chart
+        className={'w-100'}
         type="bar"
         data={getPaginatedAndSortedData(chartData, sortBy, page)}
         options={options}

@@ -7,6 +7,7 @@ import {
 import moment from 'moment-timezone';
 import dashboardService from 'services/dashboard-service';
 import { colors } from 'pages/dashboard/chargeback/colors';
+import { Card } from 'primereact/card';
 
 const emptyChartData = {
   labels: [],
@@ -40,17 +41,24 @@ export default () => {
 
   // Restore options https://github.com/reactchartjs/react-chartjs-2
   return (
-    <div>
-      <Bar
-        data={chartData}
-        options={{
-          ...commonSizeOptions('y'),
-          scales: {
-            y: tickSizeOptions(chartData.datasets[0].data),
-          },
-        }}
-        redraw={true}
-      />
-    </div>
+    <Card className="w-100 h-100 mt-3">
+      <div className={'card-pf-heading'}>
+        <h5 className={'font-weight-light'}>Activity</h5>
+      </div>
+      <hr />
+      <div>
+        <Bar
+          className="w-100"
+          data={chartData}
+          options={{
+            ...commonSizeOptions('y'),
+            scales: {
+              y: tickSizeOptions(chartData.datasets[0].data),
+            },
+          }}
+          redraw={true}
+        />
+      </div>
+    </Card>
   );
 };

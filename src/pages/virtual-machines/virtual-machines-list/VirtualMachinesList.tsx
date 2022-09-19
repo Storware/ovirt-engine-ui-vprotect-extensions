@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  getVirtualMachines,
   getVirtualMachinesPage,
-  getFilteredVirtualMachinesPage,
 } from 'store/virtual-machines/actions';
 import { selectVirtualMachines } from 'store/virtual-machines/selectors';
 import { showModalAction } from 'store/modal/actions';
 import { MountBackupModal } from 'components/modal/MountBackupModal';
 import { nameTemplate } from 'components/table/templates';
-import { getElementWithoutProjectUuidInName } from '../../../utils/byProjectFilter';
 import { createBrowserHistory } from 'history';
-import { deleteVirtualMachine } from '../../../store/virtual-machines/actions';
+import { deleteVirtualMachine } from 'store/virtual-machines/actions';
 import { virtualMachinesService } from '../../../services/virtual-machines-service';
 import { policiesService } from '../../../services/policies-service';
 import { alertService } from '../../../services/alert-service';
@@ -28,31 +27,28 @@ import { Menu } from 'primereact/menu';
 import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 import HeaderTable from '../../../components/table/HeaderTable';
 import { backupsService } from '../../../services/backups-service';
-import { resetMountTaskAction } from '../../../store/mount-backup-modal/actions';
 import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
 import { selectIsSelectedRulesZero } from 'store/backup-modal/selectors';
 import { resetRestoreTaskAction } from '../../../store/restore-modal/actions';
+import { resetMountTaskAction } from '../../../store/mount-backup-modal/actions';
+import { TableParams } from 'components/table/primereactTable/TableParams';
 
 const VirtualMachinesList = () => {
   const dispatch = useDispatch();
   const history = createBrowserHistory();
   const [actionsElement, setActionsElement] = useState(null);
+  const [globalFilter, setGlobalFilter] = useState(null);
 
   useEffect(() => {
-    dispatch(getVirtualMachinesPage);
+    dispatch(getVirtualMachinesPage(new TableParams()));
   }, []);
 
   const rows = useSelector(selectVirtualMachines);
 
   const deleteNonPresent = async () => {
     await virtualMachinesService.deleteAllNonPresentAndWithoutBackup();
-    dispatch(getVirtualMachinesPage);
+    dispatch(getVirtualMachines);
     alertService.info('Absent virtual machines have been deleted');
-  };
-
-  const filteredVirtualMachines = async (param) => {
-    await virtualMachinesService.getFilteredVirtualMachines(param);
-    dispatch(getFilteredVirtualMachinesPage(param));
   };
 
   const header = () => (
@@ -60,10 +56,10 @@ const VirtualMachinesList = () => {
       <div className="p-datatable-globalfilter-container">
         <InputText
           type="search"
-          onInput={({ target }) =>
-            filteredVirtualMachines((target as HTMLInputElement).value)
-          }
           placeholder="Global Search"
+          onInput={({ target }) =>
+            setGlobalFilter((target as HTMLInputElement).value)
+          }
         />
       </div>
       <Button
@@ -177,7 +173,14 @@ const VirtualMachinesList = () => {
         ref={(el) => (this.menu = el)}
         id="popup_menu"
       />
-      <Table value={rows} header={header()}>
+      <Table
+        value={rows}
+        header={header()}
+        globalFilter={globalFilter}
+        apiPagination={(e) => {
+          dispatch(getVirtualMachinesPage(e));
+        }}
+      >
         <Column
           field="name"
           header="Name"
@@ -192,14 +195,10 @@ const VirtualMachinesList = () => {
         />
         <Column field="hypervisor.name" header="Hypervisor" sortable />
         <Column
-          field="vmBackupPolicy"
+          field="vmBackupPolicy.name"
           header="Policy"
-          filterField="vmBackupPolicy.name"
           sortable
-          body={(rowData) =>
-            rowData.vmBackupPolicy &&
-            getElementWithoutProjectUuidInName(rowData.vmBackupPolicy).name
-          }
+          body={(rowData) => rowData?.vmBackupPolicy?.name}
         />
         <Column
           field="backupUpToDate"
@@ -231,7 +230,6 @@ const VirtualMachinesList = () => {
         <Column
           field="action"
           header="Action"
-          sortable
           body={(rowData) => (
             <Button
               icon="pi pi-bars"

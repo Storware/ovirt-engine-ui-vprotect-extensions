@@ -18,7 +18,6 @@ import { DashboardBackupStatsModel } from 'model/dashboard/dashboard-backup-stat
 import { BackupDestinationStatsComponent } from 'pages/dashboard/backup-destination/BackupDestinationStats';
 import { StagingSpace } from 'pages/dashboard/staging-space/StagingSpace';
 import { ChartSection } from 'pages/dashboard/ChartSection/ChartSection';
-import { protectionBackgroundColors } from 'pages/dashboard/ChartSection/branding-config';
 
 const fullTimeZoneName =
   user &&
@@ -95,7 +94,7 @@ export const Dashboard = () => {
                 },
               ]
             }
-            colorScale={protectionBackgroundColors}
+            colorScale={['#34bfa3', '#f22d4e', '#b2b2b2']}
             title={
               protection &&
               `${getSumChartData([
@@ -125,7 +124,7 @@ export const Dashboard = () => {
                 },
               ]
             }
-            colorScale={protectionBackgroundColors}
+            colorScale={['#34bfa3', '#f22d4e', '#b2b2b2']}
             subTitle={'tasks'}
             title={
               backupStats &&
@@ -139,60 +138,23 @@ export const Dashboard = () => {
           />
         </div>
 
+        {isNotOpenstackBuild && <StagingSpace stagingSpace={stagingSpace} />}
+
         {isNotOpenstackBuild && (
-          <div className="d-flex align-items-stretch">
-            <Card className="w-100 mr-3 mt-3">
-              <div>
-                <div className={'card-pf-heading'}>
-                  <h5 className={'font-weight-light'}>Staging Space</h5>
-                </div>
-                <hr />
-                <div>
-                  <StagingSpace stagingSpace={stagingSpace} />
-                </div>
-              </div>
-            </Card>
-            <Card className="w-100 mt-3">
-              <div>
-                <div className={'card-pf-heading'}>
-                  <h5 className={'font-weight-light'}>Backup Destinations</h5>
-                </div>
-                <hr />
-                <div>
-                  <BackupDestinationStatsComponent
-                    backupDestinationStats={backupDestinationStats}
-                  />
-                </div>
-              </div>
-            </Card>
-          </div>
+          <BackupDestinationStatsComponent
+            backupDestinationStats={backupDestinationStats}
+          />
         )}
 
-        <div className="d-flex align-items-stretch">
-          <Card className="w-100 mr-3 mt-3">
-            <div>
-              <div className={'card-pf-heading'}>
-                <h5 className={'font-weight-light'}>Last 24h backup size</h5>
-              </div>
-              <hr />
-              <div>
-                <Chargeback />
-              </div>
-            </div>
-          </Card>
-          <Card className="w-100 mt-3">
-            <div>
-              <div className={'card-pf-heading'}>
-                <h5 className={'font-weight-light'}>Activity</h5>
-              </div>
-              <hr />
-              <div>
-                <ActivityChart />
-              </div>
-            </div>
-          </Card>
+        <div className="d-flex w-100">
+          <div className="w-50 ml-2 flex-grow-1">
+            <Chargeback />
+          </div>
+          <div className="w-50 ml-2 flex-grow-1">
+            <ActivityChart />
+          </div>
         </div>
       </div>
     </>
-  );
+  )
 };

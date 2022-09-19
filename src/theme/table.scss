@@ -35,14 +35,17 @@ table .p-muted {
   }
 }
 
-.column-cut-text {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+%text-ellipsis{
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
+.column-cut-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  @extend %text-ellipsis
+}
 .reporting-summary-table-body {
   width: 75%;
   tr {
