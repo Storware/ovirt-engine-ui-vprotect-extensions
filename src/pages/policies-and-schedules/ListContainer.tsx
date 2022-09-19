@@ -9,16 +9,13 @@ import {
 } from 'react-router-dom';
 import SchedulesList from 'pages/schedules/SchedulesList';
 import PoliciesList from 'pages/policies/PoliciesList';
+import { Tab } from 'components/tabs/Tab';
+import Tabs from '../../components/tabs/Tabs';
 
-const items = [
+const tabs: Tab[] = [
   { label: 'Policies', path: 'policies' },
   { label: 'Schedules', path: 'schedules' },
 ];
-
-const inkStyle = {
-  policies: { width: '105px', left: '0px' },
-  schedules: { width: '122px', left: '105px' },
-};
 
 export const ListContainer = () => {
   const match = useRouteMatch();
@@ -29,25 +26,7 @@ export const ListContainer = () => {
 
   return (
     <div>
-      <div className="p-tabmenu p-component">
-        <ul className="p-tabmenu-nav p-reset">
-          {items.map((el) => (
-            <Link to={`${pathWithoutTab}/${el.path}`} key={el.path}>
-              <li
-                className={`p-tabmenuitem ${
-                  (path === el.path && 'p-highlight') || ''
-                } `}
-                key={el.path}
-              >
-                <a className="p-menuitem-link">
-                  <span className="p-menuitem-text">{el.label}</span>
-                </a>
-              </li>
-            </Link>
-          ))}
-          <li className="p-tabmenu-ink-bar" style={inkStyle[path]} />
-        </ul>
-      </div>
+      <Tabs items={tabs} />
 
       <Switch>
         <Route path={`${match.path}/policies`}>

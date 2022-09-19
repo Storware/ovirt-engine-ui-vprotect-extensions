@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getVirtualMachinesPage } from 'store/virtual-machines/actions';
+import {
+  getVirtualMachines,
+  getVirtualMachinesPage,
+} from 'store/virtual-machines/actions';
 import { selectVirtualMachines } from 'store/virtual-machines/selectors';
 import { showModalAction } from 'store/modal/actions';
 import { MountBackupModal } from 'components/modal/MountBackupModal';
 import { nameTemplate } from 'components/table/templates';
 import { createBrowserHistory } from 'history';
-import { deleteVirtualMachine } from '../../../store/virtual-machines/actions';
+import { deleteVirtualMachine } from 'store/virtual-machines/actions';
+import { getElementWithoutProjectUuidInName } from 'utils/byProjectFilter';
 import { virtualMachinesService } from '../../../services/virtual-machines-service';
 import { policiesService } from '../../../services/policies-service';
 import { alertService } from '../../../services/alert-service';
@@ -24,24 +28,25 @@ import { Menu } from 'primereact/menu';
 import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 import HeaderTable from '../../../components/table/HeaderTable';
 import { backupsService } from '../../../services/backups-service';
-import { resetTaskAction } from '../../../store/mount-backup-modal/actions';
+import { resetTaskAction } from 'store/mount-backup-modal/actions';
 import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
+import { TableParams } from 'components/table/primereactTable/TableParams';
 
 const VirtualMachinesList = () => {
   const dispatch = useDispatch();
   const history = createBrowserHistory();
-  const [globalFilter, setGlobalFilter] = useState(null);
   const [actionsElement, setActionsElement] = useState(null);
+  const [globalFilter, setGlobalFilter] = useState(null);
 
   useEffect(() => {
-    dispatch(getVirtualMachinesPage);
+    dispatch(getVirtualMachinesPage(new TableParams()));
   }, []);
 
   const rows = useSelector(selectVirtualMachines);
 
   const deleteNonPresent = async () => {
     await virtualMachinesService.deleteAllNonPresentAndWithoutBackup();
-    dispatch(getVirtualMachinesPage);
+    dispatch(getVirtualMachines);
     alertService.info('Absent virtual machines have been deleted');
   };
 
@@ -50,10 +55,10 @@ const VirtualMachinesList = () => {
       <div className="p-datatable-globalfilter-container">
         <InputText
           type="search"
+          placeholder="Global Search"
           onInput={({ target }) =>
             setGlobalFilter((target as HTMLInputElement).value)
           }
-          placeholder="Global Search"
         />
       </div>
       <Button
@@ -165,7 +170,14 @@ const VirtualMachinesList = () => {
         ref={(el) => (this.menu = el)}
         id="popup_menu"
       />
-      <Table value={rows} header={header()} globalFilter={globalFilter}>
+      <Table
+        value={rows}
+        header={header()}
+        globalFilter={globalFilter}
+        apiPagination={(e) => {
+          dispatch(getVirtualMachinesPage(e));
+        }}
+      >
         <Column
           field="name"
           header="Name"

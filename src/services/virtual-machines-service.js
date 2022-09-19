@@ -19,6 +19,14 @@ class VirtualMachinesService {
     return vprotectApiService.get('/virtual-machines/' + id);
   }
 
+  getVirtualMachinesPage(params) {
+    return vprotectApiService.get(`/virtual-machines`, {
+      params,
+      headers: {},
+      paginate: true,
+    });
+  }
+
   getVirtualMachineSnapshots(id, standAlone) {
     return vprotectApiService.get('/snapshots', {
       params: {
