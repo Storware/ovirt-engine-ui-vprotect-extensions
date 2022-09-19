@@ -18,6 +18,7 @@ import { DashboardBackupStatsModel } from 'model/dashboard/dashboard-backup-stat
 import { BackupDestinationStatsComponent } from 'pages/dashboard/backup-destination/BackupDestinationStats';
 import { StagingSpace } from 'pages/dashboard/staging-space/StagingSpace';
 import { ChartSection } from 'pages/dashboard/ChartSection/ChartSection';
+import { protectionBackgroundColors } from './ChartSection/branding-config';
 
 const fullTimeZoneName =
   user &&
@@ -94,7 +95,7 @@ export const Dashboard = () => {
                 },
               ]
             }
-            colorScale={['#34bfa3', '#f22d4e', '#b2b2b2']}
+            colorScale={protectionBackgroundColors}
             title={
               protection &&
               `${getSumChartData([
@@ -124,7 +125,7 @@ export const Dashboard = () => {
                 },
               ]
             }
-            colorScale={['#34bfa3', '#f22d4e', '#b2b2b2']}
+            colorScale={protectionBackgroundColors}
             subTitle={'tasks'}
             title={
               backupStats &&
@@ -156,5 +157,5 @@ export const Dashboard = () => {
         </div>
       </div>
     </>
-  )
+  );
 };
