@@ -2,6 +2,7 @@ import React from 'react';
 import { DateShow } from '../convert/Date';
 import { Filesize } from '../convert/Filesize';
 import { schedulesService } from '../../services/schedules-service';
+import { Link } from 'react-router-dom';
 
 enum StatusColorHex {
   IN_PROGRESS = '#1f75b1',
@@ -105,3 +106,17 @@ export const backupLocationsTemplates = (rowData) =>
       {name}
     </div>
   ));
+
+export const nameTemplate =
+  (history, underlineText = '') =>
+  (rowData, column) =>
+    (
+      <Link to={`${history.location.pathname}/${rowData.guid}`}>
+        {rowData[column.field]}
+        {underlineText.length > 0 && (
+          <p style={{ fontSize: '0.8em', color: 'grey' }}>
+            {rowData[underlineText]}
+          </p>
+        )}
+      </Link>
+    );
