@@ -12,9 +12,14 @@ class PoliciesService {
     {name: 'ASSIGN_AND_REMOVE', description: 'Assign and remove'},
   ];
 
-  async getPolicies(type) {
-    const res = await vprotectApiService.get(`/policies/${type}?extended=true`);
-    return getElementsWithoutProjectUuidInName(res);
+  async getPoliciesPage(type, params) {
+    const res = await vprotectApiService.get(`/policies/${type}`, {
+      params,
+      headers: {},
+      paginate: true,
+    })
+
+    return {body: getElementsWithoutProjectUuidInName(res.body), totalCount: res.totalCount}
   }
 
   async getPolicy(type, guid) {
