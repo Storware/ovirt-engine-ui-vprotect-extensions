@@ -9,6 +9,7 @@ import {
 import { Dispatch } from 'redux';
 import { backupsService } from '../../services/backups-service';
 import { startLoading, stopLoading } from '../loading/actions';
+import { TableParams } from 'components/table/primereactTable/TableParams';
 
 export const setMountedBackups = (payload: any): MountedBackupsAction => ({
   type: SET_MOUNTED_BACKUPS,
@@ -43,6 +44,11 @@ export const getMountedBackupsListPage = async (dispatch: Dispatch) => {
 export const getMountedBackup = (guid) => async (dispatch: Dispatch) => {
   const mountedBackup = await backupsService.getMountedBackup(guid);
   await dispatch(setMountedBackup(mountedBackup));
+};
+
+export const getMountedBackupPage = (params: Partial<TableParams>) => async (dispatch: Dispatch) => {
+  const mountedBackup = await backupsService.getMountedBackupPage(params);
+  await dispatch(setMountedBackups(mountedBackup));
 };
 
 export const getFileSystems = (guid) => async (dispatch: Dispatch) => {
