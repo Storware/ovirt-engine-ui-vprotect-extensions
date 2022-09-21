@@ -6,6 +6,14 @@ class MailingListService {
     return vprotectApiService.get('/mailing-lists');
   }
 
+  getMailingListPage(params) {
+    return vprotectApiService.get('/mailing-lists', {
+      params,
+      headers: {},
+      paginate: true
+    });
+  }
+
   getMailingList(guid: string) {
     return vprotectApiService.get(`/mailing-lists/${guid}`);
   }
