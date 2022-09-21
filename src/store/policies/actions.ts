@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 import { alertService } from '../../services/alert-service';
 import { policiesService } from '../../services/policies-service';
 import { SnapshotTask } from '../../model/tasks/snapshot-task';
+import { TableParams } from 'components/table/primereactTable/TableParams';
 
 export const setPolicies = (payload: any[]): PoliciesAction => ({
   type: SET_POLICIES,
@@ -11,6 +12,11 @@ export const setPolicies = (payload: any[]): PoliciesAction => ({
 
 export const getPolicies = (type: string) => async (dispatch: Dispatch) => {
   const policies = await policiesService.getPolicies(type);
+  await dispatch(setPolicies(policies));
+};
+
+export const getPoliciesPage = (type: string, params: Partial<TableParams>) => async (dispatch: Dispatch) => {
+  const policies = await policiesService.getPoliciesPage(type, params);
   await dispatch(setPolicies(policies));
 };
 

@@ -3,7 +3,7 @@ import { policiesService } from 'services/policies-service';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getPolicies,
+  getPoliciesPage,
   removePolicy,
   snapshotPolicy,
 } from 'store/policies/actions';
@@ -18,6 +18,7 @@ import { Menu } from 'primereact/menu';
 import { Button } from 'primereact/button';
 import Table from 'components/table/primereactTable';
 import { booleanTemplate } from 'components/table/templates';
+import { TableParams } from 'components/table/primereactTable/TableParams';
 
 export const PoliciesList = () => {
   const dispatch = useDispatch();
@@ -27,8 +28,8 @@ export const PoliciesList = () => {
   const [actionsElement, setActionsElement] = useState(null);
 
   useEffect(() => {
-    dispatch(getPolicies(type));
-  }, [type]);
+    dispatch(getPoliciesPage(type, new TableParams()));
+  }, []);
 
   const rows = useSelector(selectPolicies);
 
@@ -44,7 +45,7 @@ export const PoliciesList = () => {
       {
         label: 'Backup',
         command: async () => {
-          const policy = await policiesService.getPolicy(
+          const policy = await policiesService.getPolicyPage(
             'vm-backup',
             actionsElement.guid,
           );
@@ -103,7 +104,9 @@ export const PoliciesList = () => {
         id="popup_menu"
       />
       {type === 'vm-backup' ? (
-        <Table value={rows} header={header()} globalFilter={globalFilter}>
+        <Table value={rows} header={header()} globalFilter={globalFilter} apiPagination={(e) => {
+          dispatch(getPoliciesPage(type,e));
+        }}>
           <Column
             field="name"
             header="Name"
