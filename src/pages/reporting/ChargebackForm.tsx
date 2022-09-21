@@ -15,6 +15,8 @@ import ChargebackChart from 'components/chart/ChargebackChart';
 import { getChargebackData } from 'store/chargeback-chart/actions';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 import { selectRange } from 'store/reporting/selectors';
+import { TableParams } from '../../components/table/primereactTable/TableParams';
+import { Paginator } from 'primereact/paginator';
 
 const groupByOptions = [
   {
@@ -144,6 +146,19 @@ export default () => {
 
             {Object.keys(filterByFieldOptions).map((key) => {
               const [show, setShow] = useState(false);
+              const [showSelected, setShowSelected] = useState(false);
+              const [listParams, setListParams] = useState<TableParams>(
+                new TableParams(),
+              );
+
+              useEffect(() => {
+                dispatch(getPropertyOptions(key, propertyOptions, listParams));
+              }, [listParams, showSelected]);
+
+              const handlePaginateChange = (e) => {
+                setListParams({ size: e.rows, page: e.page });
+              };
+
               return (
                 <div className="mt-2" key={key}>
                   <label>{filterByFieldOptions[key].label}</label>
@@ -154,7 +169,7 @@ export default () => {
                       setShow(value);
                       dispatch(
                         value
-                          ? getPropertyOptions(key, propertyOptions)
+                          ? getPropertyOptions(key, propertyOptions, listParams)
                           : setPropertyOptions({
                               ...propertyOptions,
                               [key]: [],
@@ -167,16 +182,38 @@ export default () => {
                     }}
                   />
                   {show && (
-                    <Field
-                      name={key}
-                      component={InputListBox}
-                      options={propertyOptions[key]}
-                      optionLabel={
-                        filterByFieldOptions[key].optionsLabelProperty
-                      }
-                      label={filterByFieldOptions[key].label}
-                      multiple
-                    />
+                    <>
+                      <Button
+                        className={
+                          'ml-2 ' + (showSelected ? '' : 'p-button-outlined')
+                        }
+                        label={'Selected: ' + props.values[key].length}
+                        onClick={() => setShowSelected(!showSelected)}
+                      />
+                      <Field
+                        name={key}
+                        component={InputListBox}
+                        options={
+                          showSelected
+                            ? props.values[key]
+                            : propertyOptions[key]
+                        }
+                        optionLabel={
+                          filterByFieldOptions[key].optionsLabelProperty
+                        }
+                        label={filterByFieldOptions[key].label}
+                        multiple
+                      />
+                      {propertyOptions[key + 'Total'] > 10 && (
+                        <Paginator
+                          first={listParams.size * listParams.page}
+                          rowsPerPageOptions={[5, 10, 20]}
+                          rows={listParams.size}
+                          totalRecords={propertyOptions[key + 'Total']}
+                          onPageChange={(e) => handlePaginateChange(e)}
+                        ></Paginator>
+                      )}
+                    </>
                   )}
                 </div>
               );

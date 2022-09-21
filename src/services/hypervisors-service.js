@@ -88,6 +88,30 @@ class HypervisorsService {
     return vprotectApiService.get('/hypervisors');
   }
 
+  getHypervisorsPage(params) {
+    return vprotectApiService.get(`/hypervisors`, {
+      params,
+      headers: {},
+      paginate: true,
+    });
+  }
+
+  getHypervisorManagersPage(params) {
+    return vprotectApiService.get(`/hypervisor-managers`, {
+      params,
+      headers: {},
+      paginate: true,
+    });
+  }
+
+  getAllHypervisorClustersPage(params) {
+    return vprotectApiService.get(`/hypervisor-clusters`, {
+      params,
+      headers: {},
+      paginate: true,
+    });
+  }
+
   getHypervisor(id) {
     return vprotectApiService.get('/hypervisors/' + id);
   }

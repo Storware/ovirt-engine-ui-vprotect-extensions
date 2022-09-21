@@ -21,6 +21,14 @@ class BackupDestinationsService {
   getAllBackupDestinations() {
     return vprotectApiService.get('/backup-destinations');
   }
+
+  getBackupDestinationsPage(params) {
+    return vprotectApiService.get(`/backup-destinations`, {
+      params,
+      headers: {},
+      paginate: true,
+    });
+  }
 }
 
 export const backupDestinationsService = new BackupDestinationsService();
