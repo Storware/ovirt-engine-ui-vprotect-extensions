@@ -38,6 +38,14 @@ class BackupsService {
     return vprotectApiService.get('/mounted-backups/' + id);
   }
 
+  getMountedBackupPage(params) {
+    return vprotectApiService.get('/mounted-backups', {
+      params,
+      headers: {},
+      paginate:true,
+    } );
+  }
+
   getMountedBackupFilesystemsDetailed(id) {
     return vprotectApiService.get(
       '/mounted-file-systems/detailed?mounted-backup=' + id,

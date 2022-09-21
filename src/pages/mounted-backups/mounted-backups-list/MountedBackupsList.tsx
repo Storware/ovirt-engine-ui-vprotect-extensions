@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMountedBackupsListPage } from '../../../store/mounted-backups/actions';
+import { getMountedBackupPage, getMountedBackupsListPage } from '../../../store/mounted-backups/actions';
 import { selectMountedBackups } from '../../../store/mounted-backups/selectors';
-import { MountTask } from '../../../model/tasks/mount-task';
 import { tasksService } from '../../../services/tasks-service';
 import { alertService } from '../../../services/alert-service';
 import { UnmountTask } from '../../../model/tasks/unmount-task';
@@ -14,13 +13,14 @@ import Table from 'components/table/primereactTable';
 import { dateTemplate } from 'components/table/templates';
 import { Button } from 'primereact/button';
 import { Redirect, useRouteMatch } from 'react-router-dom';
+import { TableParams } from 'components/table/primereactTable/TableParams';
 
 export const MountedBackupsList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getMountedBackupsListPage);
-  }, [dispatch]);
+    dispatch(getMountedBackupPage(new TableParams()));
+  }, []);
 
   const rows = useSelector(selectMountedBackups);
   const [globalFilter, setGlobalFilter] = useState(null);
@@ -54,8 +54,7 @@ export const MountedBackupsList = () => {
       <div className="p-datatable-globalfilter-container">
         <InputText
           type="search"
-          // @ts-ignore
-          onInput={(e) => setGlobalFilter(e.target.value)}
+          onInput={({target}) => setGlobalFilter((target as HTMLInputElement).value)}
           placeholder="Global Search"
         />
       </div>
@@ -71,7 +70,9 @@ export const MountedBackupsList = () => {
           ref={(el) => (this.menu = el)}
           id="popup_menu"
         />
-        <Table value={rows} header={header()} globalFilter={globalFilter}>
+        <Table value={rows} header={header()} globalFilter={globalFilter}  apiPagination={(e) => {
+          dispatch(getMountedBackupPage(e));
+        }}>
           <Column
             field="backup.protectedEntity.name"
             header="Virtual Machine"
