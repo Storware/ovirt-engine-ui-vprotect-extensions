@@ -14,7 +14,7 @@ class PoliciesService {
 
   async getPoliciesPage(type, params) {
     const res = await vprotectApiService.get(`/policies/${type}`, {
-      params,
+      params: {...params, showLoader:'true', extended: 'true'},
       headers: {},
       paginate: true,
     })
