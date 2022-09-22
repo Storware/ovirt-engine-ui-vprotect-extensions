@@ -238,8 +238,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
                 name="isFlavorSectionActive"
                 component={(props) => (
                   <Toggle
-                    onLabel="Hide Flavor Selection"
-                    offLabel="Show Flavor Selection"
+                    label="Select flavor"
                     {...props}
                   />
                 )}
