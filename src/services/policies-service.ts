@@ -1,15 +1,16 @@
-import {vprotectApiService} from './vprotect-api-service';
+import { vprotectApiService } from './vprotect-api-service';
 import {
   getElementsWithoutProjectUuidInName,
   getElementWithoutProjectUuidInName,
   getElementWithProjectUuidInName,
 } from '../utils/byProjectFilter';
+import { TableParams } from '../components/table/primereactTable/TableParams';
 
 class PoliciesService {
   assignModes = [
-    {name: 'DISABLED', description: 'Disabled'},
-    {name: 'ASSIGN_ONLY', description: 'Assign only'},
-    {name: 'ASSIGN_AND_REMOVE', description: 'Assign and remove'},
+    { name: 'DISABLED', description: 'Disabled' },
+    { name: 'ASSIGN_ONLY', description: 'Assign only' },
+    { name: 'ASSIGN_AND_REMOVE', description: 'Assign and remove' },
   ];
 
   async getPoliciesPage(type, params) {
@@ -27,6 +28,15 @@ class PoliciesService {
     return getElementWithoutProjectUuidInName(res);
   }
 
+  async getVmBackupPoliciesPage(params: TableParams) {
+    const res = await vprotectApiService.get(`/policies/vm-backup`, {
+      params,
+      paginate: true,
+    });
+    res.body = getElementsWithoutProjectUuidInName(res.body);
+    return res;
+  }
+
   updatePolicy(type, id, policy) {
     return vprotectApiService.put(
       `/policies/${type}/${id}`,
@@ -42,7 +52,9 @@ class PoliciesService {
   }
 
   getRule(guid) {
-    return vprotectApiService.get(`/rules/vm-backup/${guid}?only-active-destinations=false`);
+    return vprotectApiService.get(
+      `/rules/vm-backup/${guid}?only-active-destinations=false`,
+    );
   }
 
   createRule(type, rule) {
@@ -81,15 +93,10 @@ class PoliciesService {
     );
   }
 
-  getPoliciesByEntities(
-    guids
-  ) {
-    return vprotectApiService.post(
-      `/policies/vm-backup/list-by-entities`,
-      {
-        protectedEntities: [guids],
-      }
-    );
+  getPoliciesByEntities(guids) {
+    return vprotectApiService.post(`/policies/vm-backup/list-by-entities`, {
+      protectedEntities: [guids],
+    });
   }
 }
 
