@@ -16,7 +16,7 @@ export const getVirtualMachines = async (dispatch: Dispatch) => {
 };
 
 export const getVirtualMachinesPage =
-  (params: Partial<TableParams>) => async (dispatch: Dispatch) => {
+  (params: TableParams) => async (dispatch: Dispatch) => {
     const virtualMachine = await virtualMachinesService.getVirtualMachinesPage(
       params,
     );
@@ -24,6 +24,7 @@ export const getVirtualMachinesPage =
     await dispatch(setVirtualMachines(virtualMachine));
   };
 
+// @ts-ignore
 export const deleteVirtualMachine =
   (virtualMachine) => async (dispatch: Dispatch) => {
     const res = await tasksService.submitTaskDelete(virtualMachine.guid);
