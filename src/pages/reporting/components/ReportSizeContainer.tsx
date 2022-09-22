@@ -1,4 +1,4 @@
-import React, { useEffect, useState, FormEvent } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 import { Field, Form, Formik, useFormikContext } from 'formik';
@@ -23,7 +23,9 @@ import {
   selectBackupSizeFilters,
   selectTransferSizeFilters,
 } from 'store/export-report/selectors';
-import { FilterState } from '../../../model/export-report/filterState';
+import { FilterState } from 'model/export-report/filterState';
+import { TableParams } from 'components/table/primereactTable/TableParams';
+import { Paginator } from 'primereact/paginator';
 
 const groupByOptions = [
   {
@@ -175,6 +177,19 @@ export const ReportSizeContainer = ({ chartData, getChargebackData }) => {
               const [show, setShow] = useState(
                 previousFilterStates[key].length > 0,
               );
+              const [showSelected, setShowSelected] = useState(false);
+              const [listParams, setListParams] = useState<TableParams>(
+                new TableParams(),
+              );
+
+              useEffect(() => {
+                dispatch(getPropertyOptions(key, propertyOptions, listParams));
+              }, [listParams, showSelected]);
+
+              const handlePaginateChange = (e) => {
+                setListParams({ size: e.rows, page: e.page });
+              };
+
               return (
                 <div className="mt-2" key={key}>
                   <label>{filterByFieldOptions[key].label}</label>
@@ -185,7 +200,7 @@ export const ReportSizeContainer = ({ chartData, getChargebackData }) => {
                       setShow(value);
                       dispatch(
                         value
-                          ? getPropertyOptions(key, propertyOptions)
+                          ? getPropertyOptions(key, propertyOptions, listParams)
                           : setPropertyOptions({
                               ...propertyOptions,
                               [key]: [],
@@ -198,16 +213,38 @@ export const ReportSizeContainer = ({ chartData, getChargebackData }) => {
                     }}
                   />
                   {show && (
-                    <Field
-                      name={key}
-                      component={InputListBox}
-                      options={propertyOptions[key]}
-                      optionLabel={
-                        filterByFieldOptions[key].optionsLabelProperty
-                      }
-                      label={filterByFieldOptions[key].label}
-                      multiple
-                    />
+                    <>
+                      <Button
+                        className={
+                          'ml-2 ' + (showSelected ? '' : 'p-button-outlined')
+                        }
+                        label={'Selected: ' + props.values[key].length}
+                        onClick={() => setShowSelected(!showSelected)}
+                      />
+                      <Field
+                        name={key}
+                        component={InputListBox}
+                        options={
+                          showSelected
+                            ? props.values[key]
+                            : propertyOptions[key]
+                        }
+                        optionLabel={
+                          filterByFieldOptions[key].optionsLabelProperty
+                        }
+                        label={filterByFieldOptions[key].label}
+                        multiple
+                      />
+                      {propertyOptions[key + 'Total'] > 10 && (
+                        <Paginator
+                          first={listParams.size * listParams.page}
+                          rowsPerPageOptions={[5, 10, 20]}
+                          rows={listParams.size}
+                          totalRecords={propertyOptions[key + 'Total']}
+                          onPageChange={(e) => handlePaginateChange(e)}
+                        ></Paginator>
+                      )}
+                    </>
                   )}
                 </div>
               );

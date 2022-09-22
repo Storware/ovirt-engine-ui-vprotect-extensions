@@ -19,7 +19,6 @@ const InputListBox = ({ field, ...props }) => {
       <ListBox
         {...field}
         {...props}
-        listStyle={{ maxHeight: '250px' }}
         itemTemplate={(e) => listBoxElement(e, props as any)}
       />
     </div>

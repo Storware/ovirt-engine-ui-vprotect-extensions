@@ -16,21 +16,22 @@ export const setPropertyOptions = (
 });
 
 const getFilterEntitiesOptionsMethod = {
-  backupDestinationGuids: backupDestinationsService.getAllBackupDestinations,
-  backupPolicyGuids: () => policiesService.getPolicies('vm-backup'),
-  hypervisorClusterGuids: hypervisorsService.getAllHypervisorClusters,
-  hypervisorManagerGuids: hypervisorsService.getAllHypervisorManagers,
-  hypervisorGuids: hypervisorsService.getHypervisors,
-  virtualMachineGuids: virtualMachinesService.getVirtualMachines,
+  backupDestinationGuids: backupDestinationsService.getBackupDestinationsPage,
+  backupPolicyGuids: policiesService.getVmBackupPoliciesPage,
+  hypervisorClusterGuids: hypervisorsService.getHypervisorClustersPage,
+  hypervisorManagerGuids: hypervisorsService.getHypervisorManagersPage,
+  hypervisorGuids: hypervisorsService.getHypervisorsPage,
+  virtualMachineGuids: virtualMachinesService.getVirtualMachinesPage,
 };
 
-export const getPropertyOptions = (property: string, propertyOptions) => async (
-  dispatch: Dispatch,
-) => {
-  await dispatch(
-    setPropertyOptions({
-      ...propertyOptions,
-      [property]: await getFilterEntitiesOptionsMethod[property](),
-    }),
-  );
-};
+export const getPropertyOptions =
+  (property: string, propertyOptions, params) => async (dispatch: Dispatch) => {
+    const apiResult = await getFilterEntitiesOptionsMethod[property](params);
+    await dispatch(
+      setPropertyOptions({
+        ...propertyOptions,
+        [property]: apiResult.body,
+        [property + 'Total']: apiResult.totalCount,
+      }),
+    );
+  };
