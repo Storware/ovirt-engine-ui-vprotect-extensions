@@ -103,7 +103,7 @@ class HypervisorsService {
     });
   }
 
-  getAllHypervisorClustersPage(params: TableParams) {
+  getHypervisorClustersPage(params: TableParams) {
     return vprotectApiService.get(`/hypervisor-clusters`, {
       params,
       paginate: true,
