@@ -4,14 +4,15 @@ import {
   MailingTableAction,
   SET_MAILING_TABLE,
 } from 'store/mailingTable/types';
+import { TableParams } from 'components/table/primereactTable/TableParams';
 
 export const setMailing = (payload: any[]): MailingTableAction => ({
   type: SET_MAILING_TABLE,
   payload,
 });
 
-export const getMailingTable = () => async (dispatch: Dispatch) => {
-  const mailingList = await mailingService.getMailingLists();
+export const getMailingTablePage = (params: Partial<TableParams>) => async (dispatch: Dispatch) => {
+  const mailingList = await mailingService.getMailingListPage(params);
   await dispatch(setMailing(mailingList));
 };
 

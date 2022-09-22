@@ -74,70 +74,69 @@ export const Dashboard = () => {
           )}
         </div>
       </Toolbar>
-      <div className={'container-fluid pt-4'}>
-        <div className="d-flex w-100">
-          <ChartSection
-            header={'Protection stats'}
-            chartHeader={'VIRTUAL MACHINES'}
-            data={
-              protection && [
-                {
-                  x: 'Protected',
-                  y: protection.vm.protectedNo,
-                },
-                {
-                  x: 'Not Protected',
-                  y: protection.vm.notProtected,
-                },
-                {
-                  x: 'Not Scheduled',
-                  y: protection.vm.noSchedule,
-                },
-              ]
-            }
-            colorScale={protectionBackgroundColors}
-            title={
-              protection &&
-              `${getSumChartData([
-                protection.vm.protectedNo,
-                protection.vm.notProtected,
-                protection.vm.noSchedule,
-              ])}`
-            }
-            subTitle={'VMs'}
-          />
-          <ChartSection
-            header={'Success Rate'}
-            chartHeader={'VIRTUAL MACHINES'}
-            data={
-              backupStats && [
-                {
-                  x: 'Success',
-                  y: backupStats.successful,
-                },
-                {
-                  x: 'Failed',
-                  y: backupStats.failed,
-                },
-                {
-                  x: 'In progress',
-                  y: backupStats.inProgress,
-                },
-              ]
-            }
-            colorScale={protectionBackgroundColors}
-            subTitle={'tasks'}
-            title={
-              backupStats &&
-              `${getSumChartData([
-                backupStats.successful,
-                backupStats.failed,
-                backupStats.inProgress,
-              ])}`
-            }
-            additionalText={`Total data protected: ${backupStats?.totalData}`}
-          />
-        </div>
+      <div className="d-flex w-100">
+        <ChartSection
+          header={'Protection stats'}
+          chartHeader={'VIRTUAL MACHINES'}
+          data={
+            protection && [
+              {
+                x: 'Protected',
+                y: protection.vm.protectedNo,
+              },
+              {
+                x: 'Not Protected',
+                y: protection.vm.notProtected,
+              },
+              {
+                x: 'Not Scheduled',
+                y: protection.vm.noSchedule,
+              },
+            ]
+          }
+          colorScale={protectionBackgroundColors}
+          title={
+            protection &&
+            `${getSumChartData([
+              protection.vm.protectedNo,
+              protection.vm.notProtected,
+              protection.vm.noSchedule,
+            ])}`
+          }
+          subTitle={'VMs'}
+        />
+        <ChartSection
+          header={'Success Rate'}
+          chartHeader={'VIRTUAL MACHINES'}
+          data={
+            backupStats && [
+              {
+                x: 'Success',
+                y: backupStats.successful,
+              },
+              {
+                x: 'Failed',
+                y: backupStats.failed,
+              },
+              {
+                x: 'In progress',
+                y: backupStats.inProgress,
+              },
+            ]
+          }
+          colorScale={protectionBackgroundColors}
+          subTitle={'tasks'}
+          title={
+            backupStats &&
+            `${getSumChartData([
+              backupStats.successful,
+              backupStats.failed,
+              backupStats.inProgress,
+            ])}`
+          }
+          additionalText={`Total data protected: ${backupStats?.totalData}`}
+        />
+      </div>
 
         {isNotOpenstackBuild && <StagingSpace stagingSpace={stagingSpace} />}
 
@@ -155,7 +154,6 @@ export const Dashboard = () => {
             <ActivityChart />
           </div>
         </div>
-      </div>
     </>
   );
 };
