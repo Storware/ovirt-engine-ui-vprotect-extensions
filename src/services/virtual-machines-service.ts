@@ -3,6 +3,7 @@ import {
   hypervisorManagerImportExportModes,
   hypervisorImportExportModes,
 } from './hypervisors-service';
+import { TableParams } from '../components/table/primereactTable/TableParams';
 
 export const preAndPostSnapStdErrorHandlingOptions = [
   { name: 'DONT_IGNORE', description: "Don't ignore" },
@@ -22,10 +23,9 @@ class VirtualMachinesService {
     return vprotectApiService.get('/virtual-machines/' + id);
   }
 
-  getVirtualMachinesPage(params) {
+  getVirtualMachinesPage(params: TableParams) {
     return vprotectApiService.get(`/virtual-machines`, {
       params,
-      headers: {},
       paginate: true,
     });
   }
