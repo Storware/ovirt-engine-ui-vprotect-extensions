@@ -45,7 +45,7 @@ export const PoliciesList = () => {
       {
         label: 'Backup',
         command: async () => {
-          const policy = await policiesService.getPolicyPage(
+          const policy = await policiesService.getPolicy(
             'vm-backup',
             actionsElement.guid,
           );
@@ -104,9 +104,14 @@ export const PoliciesList = () => {
         id="popup_menu"
       />
       {type === 'vm-backup' ? (
-        <Table value={rows} header={header()} globalFilter={globalFilter} apiPagination={(e) => {
-          dispatch(getPoliciesPage(type,e));
-        }}>
+        <Table
+          value={rows}
+          header={header()}
+          globalFilter={globalFilter}
+          apiPagination={(e) => {
+            dispatch(getPoliciesPage(type, e));
+          }}
+        >
           <Column
             field="name"
             header="Name"

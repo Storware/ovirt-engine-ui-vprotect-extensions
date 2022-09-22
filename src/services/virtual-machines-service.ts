@@ -30,7 +30,7 @@ class VirtualMachinesService {
     });
   }
 
-  getVirtualMachineSnapshots(id, standAlone) {
+  getVirtualMachineSnapshots(id, standAlone = null) {
     return vprotectApiService.get('/snapshots', {
       params: {
         'protected-entity': id,
