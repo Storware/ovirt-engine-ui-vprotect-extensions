@@ -1,4 +1,5 @@
 import { vprotectApiService } from './vprotect-api-service';
+import { TableParams } from '../components/table/primereactTable/TableParams';
 
 export const hypervisorManagerImportExportModes = {
   AWS: [
@@ -88,26 +89,23 @@ class HypervisorsService {
     return vprotectApiService.get('/hypervisors');
   }
 
-  getHypervisorsPage(params) {
+  getHypervisorsPage(params: TableParams) {
     return vprotectApiService.get(`/hypervisors`, {
       params,
-      headers: {},
       paginate: true,
     });
   }
 
-  getHypervisorManagersPage(params) {
+  getHypervisorManagersPage(params: TableParams) {
     return vprotectApiService.get(`/hypervisor-managers`, {
       params,
-      headers: {},
       paginate: true,
     });
   }
 
-  getAllHypervisorClustersPage(params) {
+  getHypervisorClustersPage(params: TableParams) {
     return vprotectApiService.get(`/hypervisor-clusters`, {
       params,
-      headers: {},
       paginate: true,
     });
   }

@@ -4,6 +4,7 @@ import {
   getElementWithoutProjectUuidInName,
   getElementWithProjectUuidInName,
 } from '../utils/byProjectFilter';
+import { TableParams } from '../components/table/primereactTable/TableParams';
 
 class PoliciesService {
   assignModes = [
@@ -27,10 +28,9 @@ class PoliciesService {
     return getElementWithoutProjectUuidInName(res);
   }
 
-  async getVmBackuptPoliciesPage(params) {
+  async getVmBackupPoliciesPage(params: TableParams) {
     const res = await vprotectApiService.get(`/policies/vm-backup`, {
       params,
-      headers: {},
       paginate: true,
     });
     res.body = getElementsWithoutProjectUuidInName(res.body);

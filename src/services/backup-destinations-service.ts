@@ -1,4 +1,5 @@
 import { vprotectApiService } from './vprotect-api-service';
+import { TableParams } from '../components/table/primereactTable/TableParams';
 
 class BackupDestinationsService {
   // backupDestinationTypes = [
@@ -22,10 +23,9 @@ class BackupDestinationsService {
     return vprotectApiService.get('/backup-destinations');
   }
 
-  getBackupDestinationsPage(params) {
+  getBackupDestinationsPage(params: TableParams) {
     return vprotectApiService.get(`/backup-destinations`, {
       params,
-      headers: {},
       paginate: true,
     });
   }

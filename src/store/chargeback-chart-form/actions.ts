@@ -17,7 +17,7 @@ export const setPropertyOptions = (
 
 const getFilterEntitiesOptionsMethod = {
   backupDestinationGuids: backupDestinationsService.getBackupDestinationsPage,
-  backupPolicyGuids: policiesService.getVmBackuptPoliciesPage,
+  backupPolicyGuids: policiesService.getVmBackupPoliciesPage,
   hypervisorClusterGuids: hypervisorsService.getHypervisorClustersPage,
   hypervisorManagerGuids: hypervisorsService.getHypervisorManagersPage,
   hypervisorGuids: hypervisorsService.getHypervisorsPage,
