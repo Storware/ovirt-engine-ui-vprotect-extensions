@@ -156,6 +156,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
           ),
         }}
         onSubmit={(values, { setSubmitting }) => {
+          if(!values.isFlavorSectionActive) {values.restoreVmFlavor = virtualEnvironment.vmFlavor; }
           dispatch(submitTask(values));
           setSubmitting(false);
           dispatch(hideModalAction());
