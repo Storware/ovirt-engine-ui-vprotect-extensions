@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
   DataTable,
-  DataTableSelectionChangeParams,
   DataTableSelectionModeType,
   DataTableSortOrderType,
 } from 'primereact/datatable';
 import { Dropdown } from 'primereact/dropdown';
 import { PaginatorTemplate } from 'primereact/paginator';
 import { TableParams } from 'components/table/primereactTable/TableParams';
+import useDebounce from 'utils/debounce';
 
 type Props = {
   children: any[];
@@ -68,7 +68,9 @@ const Table = ({ children, apiPagination, value, ...props }: Props) => {
     useState<DataTableSortOrderType>(0);
 
   useEffect(() => {
-    !!apiPagination ? apiPagination(tableParams) : () => {};
+    if (!!apiPagination) {
+      apiPagination(tableParams);
+    }
   }, [tableParams]);
 
   const handleOnPage = (e) => {
@@ -78,16 +80,23 @@ const Table = ({ children, apiPagination, value, ...props }: Props) => {
       size: e.rows,
     }));
   };
-  const handleOnFilter = (e) => {
-    if (e?.filters?.globalFilter?.value) {
+
+  const debouncedFilter = useDebounce(props.globalFilter, 400);
+
+  useEffect(() => {
+    handleOnFilter(props.globalFilter);
+  }, [debouncedFilter]);
+
+  const handleOnFilter = (prop) => {
+    if (prop !== '' && prop !== undefined) {
       setTableParams((prevState) => ({
         ...prevState,
-        filter: e.filters.globalFilter.value,
+        filter: prop,
       }));
-    } else {
-      const { filter, ...newTableParams } = tableParams;
-      setTableParams(newTableParams);
+      return;
     }
+    const { filter, ...newTableParams } = tableParams;
+    setTableParams(newTableParams);
   };
 
   const mappedDirection: { [key: string]: string | null } = {
@@ -131,8 +140,7 @@ const Table = ({ children, apiPagination, value, ...props }: Props) => {
         onSort={(e) => handleOnSort(e)}
         sortField={tableParams.orderBy}
         sortOrder={unmappedDirection}
-        onFilter={(e) => handleOnFilter(e)}
-        globalFilter={tableParams.filter}
+        globalFilter={props.globalFilter}
         {...props}
       >
         {children}

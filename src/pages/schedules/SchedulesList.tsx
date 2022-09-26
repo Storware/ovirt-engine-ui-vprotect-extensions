@@ -21,7 +21,7 @@ const SchedulesList = () => {
   const dispatch = useDispatch();
   const { type } = useParams();
   const history = createBrowserHistory();
-  const [globalFilter, setGlobalFilter] = useState(null);
+  const [globalFilter, setGlobalFilter] = useState('');
 
   useEffect(() => {
     dispatch(getSchedules(typeMap[type]));
@@ -39,6 +39,7 @@ const SchedulesList = () => {
         <div className="p-datatable-globalfilter-container">
           <InputText
             type="search"
+            value={globalFilter}
             // @ts-ignore
             onInput={(e) => setGlobalFilter(e.target.value)}
             placeholder="Global Search"

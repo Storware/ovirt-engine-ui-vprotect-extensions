@@ -7,27 +7,27 @@ import { Column } from 'primereact/column';
 import { createBrowserHistory } from 'history';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMailingTable } from 'store/mailingTable/selectors';
-import { getMailingTablePage, removeMailingList } from 'store/mailingTable/actions';
+import {
+  getMailingTablePage,
+  removeMailingList,
+} from 'store/mailingTable/actions';
 import { nameTemplate } from 'components/table/templates';
-import { TableParams } from 'components/table/primereactTable/TableParams';
 
 const MailingTable = () => {
   const dispatch = useDispatch();
-  const [globalFilter, setGlobalFilter] = useState(null);
+  const [globalFilter, setGlobalFilter] = useState(undefined);
   const history = createBrowserHistory();
   const rows = useSelector(selectMailingTable);
 
-  useEffect(() => {
-    dispatch(getMailingTablePage(new TableParams()));
-  }, []);
   const header = () => (
     <div>
       <div className="d-flex justify-content-between mt-2">
         <div className="p-datatable-globalfilter-container">
           <InputText
             type="search"
-            // @ts-ignore
-            onInput={({target}) => setGlobalFilter((target as HTMLInputElement).value)}
+            onInput={({ target }) =>
+              setGlobalFilter((target as HTMLInputElement).value)
+            }
             placeholder="Global Search"
           />
         </div>
@@ -42,9 +42,14 @@ const MailingTable = () => {
 
   return (
     <div>
-      <Table value={rows} header={header()} globalFilter={globalFilter} apiPagination={(e) => {
-        dispatch(getMailingTablePage(e));
-      }}>
+      <Table
+        value={rows}
+        header={header()}
+        globalFilter={globalFilter}
+        apiPagination={(e) => {
+          dispatch(getMailingTablePage(e));
+        }}
+      >
         <Column
           field="name"
           header="Name"
