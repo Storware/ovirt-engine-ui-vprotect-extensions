@@ -3,7 +3,8 @@ import { Dispatch } from 'redux';
 import { alertService } from '../../services/alert-service';
 import { policiesService } from '../../services/policies-service';
 import { SnapshotTask } from '../../model/tasks/snapshot-task';
-import { TableParams } from 'components/table/primereactTable/TableParams';
+import { TableParams } from 'model/pagination/TableParams';
+import { store } from '../index';
 
 export const setPolicies = (payload: any): PoliciesAction => ({
   type: SET_POLICIES,
@@ -23,12 +24,12 @@ export const getPoliciesPage =
   };
 
 export const removePolicy =
-  (type: string, guid: string, policies) => async (dispatch: Dispatch) => {
-    policies = {
-      body: policies.body.filter((item) => item.guid !== guid),
-      totalCount: policies.totalCount - 1,
-    };
+  (type: string, guid: string) => async (dispatch: Dispatch) => {
     await policiesService.deletePolicy(type, guid);
+    const policies = await policiesService.getPoliciesPage(
+      type,
+      store.getState().tableParams,
+    );
     await dispatch(setPolicies(policies));
     alertService.info('Policy removed');
   };

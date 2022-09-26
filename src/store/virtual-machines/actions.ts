@@ -3,7 +3,7 @@ import { SET_VIRTUAL_MACHINES, VirtualMachinesAction } from './types';
 import { virtualMachinesService } from '../../services/virtual-machines-service';
 import { tasksService } from '../../services/tasks-service';
 import { alertService } from '../../services/alert-service';
-import { TableParams } from 'components/table/primereactTable/TableParams';
+import { TableParams } from 'model/pagination/TableParams';
 
 export const setVirtualMachines = (payload: any): VirtualMachinesAction => ({
   type: SET_VIRTUAL_MACHINES,

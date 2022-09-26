@@ -30,7 +30,7 @@ import HeaderTable from '../../../components/table/HeaderTable';
 import { backupsService } from '../../../services/backups-service';
 import { resetTaskAction } from 'store/mount-backup-modal/actions';
 import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
-import { TableParams } from 'components/table/primereactTable/TableParams';
+import { TableParams } from 'model/pagination/TableParams';
 
 const VirtualMachinesList = () => {
   const dispatch = useDispatch();
