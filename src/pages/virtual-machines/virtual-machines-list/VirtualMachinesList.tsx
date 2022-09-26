@@ -192,7 +192,7 @@ const VirtualMachinesList = () => {
         />
         <Column field="hypervisor.name" header="Hypervisor" sortable />
         <Column
-          field="vmBackupPolicy.name"
+          field="vmBackupPolicy"
           header="Policy"
           sortable
           body={(rowData) => rowData?.vmBackupPolicy?.name}
