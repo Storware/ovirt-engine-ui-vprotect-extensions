@@ -8,6 +8,7 @@ import {
   Progress,
 } from '@patternfly/react-core';
 import { BorderBox } from 'components/border-box/BorderBox';
+import { ProgressBar } from 'primereact/progressbar';
 
 export const BackupDestinationStatsComponent = ({ backupDestinationStats }) => {
   const [expanded, setExpanded] = React.useState<string[]>([]);
@@ -73,6 +74,7 @@ export const BackupDestinationStatsComponent = ({ backupDestinationStats }) => {
                         isHidden={!expanded.includes(el.guid)}
                         isFixed
                         className="border-box"
+                        style={{ maxHeight: '300px' }}
                       >
                         {!(el.totalUsedSpace || el.totalAvailableSpace) && (
                           <BorderBox heading={'No data'}></BorderBox>
@@ -108,7 +110,12 @@ export const BackupDestinationStatsComponent = ({ backupDestinationStats }) => {
                                     <Filesize bytes={el.totalAvailableSpace} />
                                   </span>
                                 </div>
-                                <Progress value={usedSpace} />
+
+                                <ProgressBar
+                                  className="progress-bar-element"
+                                  value={usedSpace.toFixed(2)}
+                                  showValue={true}
+                                />
                               </div>
                             </BorderBox>
                             {el.totalDedupUsedSpace && (
@@ -138,7 +145,11 @@ export const BackupDestinationStatsComponent = ({ backupDestinationStats }) => {
                                         />
                                       </span>
                                     </div>
-                                    <Progress value={usedDedupSpace} />
+                                    <ProgressBar
+                                      className="progress-bar-element"
+                                      value={usedDedupSpace.toFixed(2)}
+                                      showValue={true}
+                                    />
                                   </div>
                                 </BorderBox>
                               </div>
@@ -161,7 +172,12 @@ export const BackupDestinationStatsComponent = ({ backupDestinationStats }) => {
                                           {reductionRatio.toFixed(2)}%
                                         </span>
                                       </div>
-                                      <Progress value={reductionRatio} />
+
+                                      <ProgressBar
+                                        className="progress-bar-element"
+                                        value={reductionRatio.toFixed(2)}
+                                        showValue={true}
+                                      />
                                     </div>
                                   </BorderBox>
                                 </div>
