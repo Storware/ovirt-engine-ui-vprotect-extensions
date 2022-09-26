@@ -138,12 +138,33 @@ export const Dashboard = () => {
         />
       </div>
 
-        {isNotOpenstackBuild && <StagingSpace stagingSpace={stagingSpace} />}
-
         {isNotOpenstackBuild && (
-          <BackupDestinationStatsComponent
-            backupDestinationStats={backupDestinationStats}
-          />
+          <div className="d-flex align-items-stretch">
+            <Card className="w-100 mr-3 mt-3">
+              <div>
+                <div className={'card-pf-heading'}>
+                  <h5 className={'font-weight-light'}>Staging Space</h5>
+                </div>
+                <hr />
+                <div>
+                  <StagingSpace stagingSpace={stagingSpace} />
+                </div>
+              </div>
+            </Card>
+            <Card className="w-100 mt-3">
+              <div>
+                <div className={'card-pf-heading'}>
+                  <h5 className={'font-weight-light'}>Backup Destinations</h5>
+                </div>
+                <hr />
+                <div>
+                  <BackupDestinationStatsComponent
+                    backupDestinationStats={backupDestinationStats}
+                  />
+                </div>
+              </div>
+            </Card>
+          </div>
         )}
 
         <div className="d-flex w-100">
