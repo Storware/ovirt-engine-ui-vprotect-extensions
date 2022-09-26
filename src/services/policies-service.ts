@@ -53,10 +53,7 @@ class PoliciesService {
   }
 
   createPolicy(type, policy) {
-    return vprotectApiService.post(
-      `/policies/${type}`,
-      getElementWithProjectUuidInName(policy),
-    );
+    return vprotectApiService.post(`/policies/${type}`, policy);
   }
 
   getRule(guid) {
