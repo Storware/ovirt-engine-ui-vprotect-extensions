@@ -3,7 +3,7 @@ import {
   hypervisorManagerImportExportModes,
   hypervisorImportExportModes,
 } from './hypervisors-service';
-import { TableParams } from '../components/table/primereactTable/TableParams';
+import { TableParams } from '../model/pagination/TableParams';
 
 export const preAndPostSnapStdErrorHandlingOptions = [
   { name: 'DONT_IGNORE', description: "Don't ignore" },

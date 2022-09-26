@@ -1,5 +1,5 @@
 import { vprotectApiService } from './vprotect-api-service';
-import { TableParams } from '../components/table/primereactTable/TableParams';
+import { TableParams } from '../model/pagination/TableParams';
 
 export const hypervisorManagerImportExportModes = {
   AWS: [

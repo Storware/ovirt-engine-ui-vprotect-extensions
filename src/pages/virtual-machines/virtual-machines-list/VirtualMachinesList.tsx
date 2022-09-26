@@ -28,10 +28,10 @@ import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 import HeaderTable from '../../../components/table/HeaderTable';
 import { backupsService } from '../../../services/backups-service';
 import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
+import { TableParams } from 'model/pagination/TableParams';
 import { selectIsSelectedRulesZero } from 'store/backup-modal/selectors';
 import { resetRestoreTaskAction } from '../../../store/restore-modal/actions';
 import { resetMountTaskAction } from '../../../store/mount-backup-modal/actions';
-import { TableParams } from 'components/table/primereactTable/TableParams';
 
 const VirtualMachinesList = () => {
   const dispatch = useDispatch();

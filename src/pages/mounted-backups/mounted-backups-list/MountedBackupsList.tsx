@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMountedBackupPage, getMountedBackupsListPage } from '../../../store/mounted-backups/actions';
+import {
+  getMountedBackupPage,
+  getMountedBackupsListPage,
+} from '../../../store/mounted-backups/actions';
 import { selectMountedBackups } from '../../../store/mounted-backups/selectors';
 import { tasksService } from '../../../services/tasks-service';
 import { alertService } from '../../../services/alert-service';
@@ -13,7 +16,7 @@ import Table from 'components/table/primereactTable';
 import { dateTemplate } from 'components/table/templates';
 import { Button } from 'primereact/button';
 import { Redirect, useRouteMatch } from 'react-router-dom';
-import { TableParams } from 'components/table/primereactTable/TableParams';
+import { TableParams } from 'model/pagination/TableParams';
 import { WorkflowExecutionStates } from 'model/task-panel.model';
 
 export const MountedBackupsList = () => {
@@ -55,7 +58,9 @@ export const MountedBackupsList = () => {
       <div className="p-datatable-globalfilter-container">
         <InputText
           type="search"
-          onInput={({target}) => setGlobalFilter((target as HTMLInputElement).value)}
+          onInput={({ target }) =>
+            setGlobalFilter((target as HTMLInputElement).value)
+          }
           placeholder="Global Search"
         />
       </div>
@@ -71,9 +76,14 @@ export const MountedBackupsList = () => {
           ref={(el) => (this.menu = el)}
           id="popup_menu"
         />
-        <Table value={rows} header={header()} globalFilter={globalFilter}  apiPagination={(e) => {
-          dispatch(getMountedBackupPage(e));
-        }}>
+        <Table
+          value={rows}
+          header={header()}
+          globalFilter={globalFilter}
+          apiPagination={(e) => {
+            dispatch(getMountedBackupPage(e));
+          }}
+        >
           <Column
             field="backup.protectedEntity.name"
             header="Virtual Machine"
