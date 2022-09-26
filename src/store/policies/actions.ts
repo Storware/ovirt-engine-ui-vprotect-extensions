@@ -23,9 +23,12 @@ export const getPoliciesPage =
   };
 
 export const removePolicy =
-  (type: string, guid: string) => async (dispatch: Dispatch) => {
+  (type: string, guid: string, policies) => async (dispatch: Dispatch) => {
+    policies = {
+      body: policies.body.filter((item) => item.guid !== guid),
+      totalCount: policies.totalCount - 1,
+    };
     await policiesService.deletePolicy(type, guid);
-    const policies = await policiesService.getPolicies(type);
     await dispatch(setPolicies(policies));
     alertService.info('Policy removed');
   };
