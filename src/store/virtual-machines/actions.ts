@@ -20,20 +20,13 @@ export const getVirtualMachinesPage =
     const virtualMachine = await virtualMachinesService.getVirtualMachinesPage(
       params,
     );
-    // delete guid from policy
-    const body = virtualMachine.body.map((vm) =>
 
-        vm.vmBackupPolicy
-        ? {
-          ...vm,
-          vmBackupPolicy: {
-            ...vm.vmBackupPolicy,
-            name: vm.vmBackupPolicy.name.split('_').slice(2).join(''),
-          },
-        }
-        : vm,
+    await dispatch(
+      setVirtualMachines({
+        body: virtualMachine.body,
+        totalCount: virtualMachine.totalCount,
+      }),
     );
-    await dispatch(setVirtualMachines({ body, totalCount: virtualMachine.totalCount}));
   };
 
 // @ts-ignore
