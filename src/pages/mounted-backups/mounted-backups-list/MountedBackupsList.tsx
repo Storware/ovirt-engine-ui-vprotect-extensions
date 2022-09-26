@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMountedBackupPage, getMountedBackupsListPage } from '../../../store/mounted-backups/actions';
+import {
+  getMountedBackupPage,
+  getMountedBackupsListPage,
+} from '../../../store/mounted-backups/actions';
 import { selectMountedBackups } from '../../../store/mounted-backups/selectors';
 import { tasksService } from '../../../services/tasks-service';
 import { alertService } from '../../../services/alert-service';
@@ -19,12 +22,8 @@ import { WorkflowExecutionStates } from 'model/task-panel.model';
 export const MountedBackupsList = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getMountedBackupPage(new TableParams()));
-  }, []);
-
   const rows = useSelector(selectMountedBackups);
-  const [globalFilter, setGlobalFilter] = useState(null);
+  const [globalFilter, setGlobalFilter] = useState(undefined);
   const [actionsElement, setActionsElement] = useState(null);
   const [detailsRedirect, setDetailsRedirect] = useState(false);
   const match = useRouteMatch();
@@ -55,7 +54,9 @@ export const MountedBackupsList = () => {
       <div className="p-datatable-globalfilter-container">
         <InputText
           type="search"
-          onInput={({target}) => setGlobalFilter((target as HTMLInputElement).value)}
+          onInput={({ target }) =>
+            setGlobalFilter((target as HTMLInputElement).value)
+          }
           placeholder="Global Search"
         />
       </div>
@@ -71,9 +72,14 @@ export const MountedBackupsList = () => {
           ref={(el) => (this.menu = el)}
           id="popup_menu"
         />
-        <Table value={rows} header={header()} globalFilter={globalFilter}  apiPagination={(e) => {
-          dispatch(getMountedBackupPage(e));
-        }}>
+        <Table
+          value={rows}
+          header={header()}
+          globalFilter={globalFilter}
+          apiPagination={(e) => {
+            dispatch(getMountedBackupPage(e));
+          }}
+        >
           <Column
             field="backup.protectedEntity.name"
             header="Virtual Machine"
