@@ -9,7 +9,7 @@ import {
 import { Dispatch } from 'redux';
 import { backupsService } from '../../services/backups-service';
 import { startLoading, stopLoading } from '../loading/actions';
-import { TableParams } from 'components/table/primereactTable/TableParams';
+import { TableParams } from 'model/pagination/TableParams';
 
 export const setMountedBackups = (payload: any): MountedBackupsAction => ({
   type: SET_MOUNTED_BACKUPS,
@@ -46,10 +46,11 @@ export const getMountedBackup = (guid) => async (dispatch: Dispatch) => {
   await dispatch(setMountedBackup(mountedBackup));
 };
 
-export const getMountedBackupPage = (params: Partial<TableParams>) => async (dispatch: Dispatch) => {
-  const mountedBackup = await backupsService.getMountedBackupPage(params);
-  await dispatch(setMountedBackups(mountedBackup));
-};
+export const getMountedBackupPage =
+  (params: Partial<TableParams>) => async (dispatch: Dispatch) => {
+    const mountedBackup = await backupsService.getMountedBackupPage(params);
+    await dispatch(setMountedBackups(mountedBackup));
+  };
 
 export const getFileSystems = (guid) => async (dispatch: Dispatch) => {
   const fileSystems = await backupsService.getMountedBackupFilesystemsDetailed(
@@ -63,19 +64,18 @@ export const getFiles = (guid) => async (dispatch: Dispatch) => {
   await dispatch(setFiles(files));
 };
 
-export const getFilesystemListing = (guid, path) => async (
-  dispatch: Dispatch,
-) => {
-  await dispatch(startLoading());
-  try {
-    const files = await backupsService.getMountedBackupFilesystemsListing(
-      guid,
-      path,
-    );
-    await dispatch(setFileSystemListing(files));
-  } catch (e) {
-    await dispatch(setFileSystemListing([]));
-  } finally {
-    await dispatch(stopLoading());
-  }
-};
+export const getFilesystemListing =
+  (guid, path) => async (dispatch: Dispatch) => {
+    await dispatch(startLoading());
+    try {
+      const files = await backupsService.getMountedBackupFilesystemsListing(
+        guid,
+        path,
+      );
+      await dispatch(setFileSystemListing(files));
+    } catch (e) {
+      await dispatch(setFileSystemListing([]));
+    } finally {
+      await dispatch(stopLoading());
+    }
+  };

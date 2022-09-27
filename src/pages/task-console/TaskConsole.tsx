@@ -12,7 +12,7 @@ import { ProgressBar } from 'primereact/progressbar';
 
 export default () => {
   const [rows, setRows] = useState([]);
-  const [globalFilter, setGlobalFilter] = useState(null);
+  const [globalFilter, setGlobalFilter] = useState('');
   const [busy, setBusy] = useState<ReturnType<typeof setTimeout>[]>([]);
 
   useEffect(() => {

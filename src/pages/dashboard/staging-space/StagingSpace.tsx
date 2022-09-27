@@ -1,13 +1,7 @@
 import React from 'react';
 import { BorderBox } from 'components/border-box/BorderBox';
-import {
-  AccordionContent,
-  AccordionItem,
-  AccordionToggle,
-  Progress,
-} from '@patternfly/react-core';
 import { Filesize } from '../../../components/convert/Filesize';
-import { Accordion } from 'primereact/accordion';
+import { ProgressBar } from 'primereact/progressbar';
 
 export const StagingSpace = ({ stagingSpace }) => (
   <div className="card-pf">
@@ -32,7 +26,12 @@ export const StagingSpace = ({ stagingSpace }) => (
                     <Filesize bytes={el.totalSpace} />
                   </span>
                 </div>
-                <Progress value={percentage} />
+
+                <ProgressBar
+                  className="progress-bar-element"
+                  value={percentage.toFixed(2)}
+                  showValue={true}
+                />
               </div>
             </BorderBox>
           );

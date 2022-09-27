@@ -24,7 +24,7 @@ import {
   selectTransferSizeFilters,
 } from 'store/export-report/selectors';
 import { FilterState } from 'model/export-report/filterState';
-import { TableParams } from 'components/table/primereactTable/TableParams';
+import { TableParams } from 'model/pagination/TableParams';
 import { Paginator } from 'primereact/paginator';
 
 const groupByOptions = [

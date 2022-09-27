@@ -16,14 +16,14 @@ import Table from 'components/table/primereactTable';
 import { dateTemplate } from 'components/table/templates';
 import { Button } from 'primereact/button';
 import { Redirect, useRouteMatch } from 'react-router-dom';
-import { TableParams } from 'components/table/primereactTable/TableParams';
+import { TableParams } from 'model/pagination/TableParams';
 import { WorkflowExecutionStates } from 'model/task-panel.model';
 
 export const MountedBackupsList = () => {
   const dispatch = useDispatch();
 
   const rows = useSelector(selectMountedBackups);
-  const [globalFilter, setGlobalFilter] = useState(undefined);
+  const [globalFilter, setGlobalFilter] = useState('');
   const [actionsElement, setActionsElement] = useState(null);
   const [detailsRedirect, setDetailsRedirect] = useState(false);
   const match = useRouteMatch();

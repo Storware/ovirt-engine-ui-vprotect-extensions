@@ -2,9 +2,8 @@ import { vprotectApiService } from './vprotect-api-service';
 import {
   getElementsWithoutProjectUuidInName,
   getElementWithoutProjectUuidInName,
-  getElementWithProjectUuidInName,
 } from '../utils/byProjectFilter';
-import { TableParams } from '../components/table/primereactTable/TableParams';
+import { TableParams } from '../model/pagination/TableParams';
 
 class PoliciesService {
   assignModes = [
@@ -46,10 +45,7 @@ class PoliciesService {
   }
 
   updatePolicy(type, id, policy) {
-    return vprotectApiService.put(
-      `/policies/${type}/${id}`,
-      getElementWithProjectUuidInName(policy),
-    );
+    return vprotectApiService.put(`/policies/${type}/${id}`, policy);
   }
 
   createPolicy(type, policy) {

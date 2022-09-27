@@ -1,4 +1,3 @@
-import getCookie from 'utils/getCookie';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 
 const nameParts = (name) => name.split('_');
@@ -12,13 +11,6 @@ export const getElementWithoutProjectUuidInName = (element) => {
   }
   return { ...element, name: nameParts(element.name).slice(2).join('') };
 };
-
-export const getElementWithProjectUuidInName = (policy) => ({
-  ...policy,
-  ...(!isNotOpenstackBuild && {
-    name: `uuid_${getCookie('recent_project')}_${policy.name}`,
-  }),
-});
 
 export const getElementsWithoutProjectUuidInName = (elements: any[]) =>
   elements.map(getElementWithoutProjectUuidInName);
