@@ -4,7 +4,7 @@ import {
   getElementWithoutProjectUuidInName,
   getElementWithProjectUuidInName,
 } from '../utils/byProjectFilter';
-import { TableParams } from '../components/table/primereactTable/TableParams';
+import { TableParams } from '../model/pagination/TableParams';
 
 class PoliciesService {
   assignModes = [

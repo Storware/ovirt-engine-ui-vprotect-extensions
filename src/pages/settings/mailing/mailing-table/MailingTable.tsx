@@ -12,10 +12,11 @@ import {
   removeMailingList,
 } from 'store/mailingTable/actions';
 import { nameTemplate } from 'components/table/templates';
+import { TableParams } from 'model/pagination/TableParams';
 
 const MailingTable = () => {
   const dispatch = useDispatch();
-  const [globalFilter, setGlobalFilter] = useState(undefined);
+  const [globalFilter, setGlobalFilter] = useState('');
   const history = createBrowserHistory();
   const rows = useSelector(selectMailingTable);
 

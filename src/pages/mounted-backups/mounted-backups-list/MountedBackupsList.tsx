@@ -16,7 +16,7 @@ import Table from 'components/table/primereactTable';
 import { dateTemplate } from 'components/table/templates';
 import { Button } from 'primereact/button';
 import { Redirect, useRouteMatch } from 'react-router-dom';
-import { TableParams } from 'components/table/primereactTable/TableParams';
+import { TableParams } from 'model/pagination/TableParams';
 
 export const MountedBackupsList = () => {
   const dispatch = useDispatch();
@@ -91,8 +91,18 @@ export const MountedBackupsList = () => {
               </Link>
             )}
           />
-          <Column field="mode.description" header="Mode" sortable />
-          <Column field="node.name" header="Node" sortable />
+          <Column
+            field="mode"
+            header="Mode"
+            sortable
+            body={(rowData) => rowData.mode.description}
+          />
+          <Column
+            field="node"
+            header="Node"
+            sortable
+            body={(rowData) => rowData.node.name}
+          />
           <Column
             field="backup.snapshotTime"
             header="Snapshot Date"
