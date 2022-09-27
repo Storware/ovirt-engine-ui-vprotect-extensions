@@ -7,9 +7,12 @@ import { Column } from 'primereact/column';
 import { createBrowserHistory } from 'history';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMailingTable } from 'store/mailingTable/selectors';
-import { getMailingTablePage, removeMailingList } from 'store/mailingTable/actions';
+import {
+  getMailingTablePage,
+  removeMailingList,
+} from 'store/mailingTable/actions';
 import { nameTemplate } from 'components/table/templates';
-import { TableParams } from 'components/table/primereactTable/TableParams';
+import { TableParams } from 'model/pagination/TableParams';
 
 const MailingTable = () => {
   const dispatch = useDispatch();
@@ -27,7 +30,9 @@ const MailingTable = () => {
           <InputText
             type="search"
             // @ts-ignore
-            onInput={({target}) => setGlobalFilter((target as HTMLInputElement).value)}
+            onInput={({ target }) =>
+              setGlobalFilter((target as HTMLInputElement).value)
+            }
             placeholder="Global Search"
           />
         </div>
@@ -42,9 +47,14 @@ const MailingTable = () => {
 
   return (
     <div>
-      <Table value={rows} header={header()} globalFilter={globalFilter} apiPagination={(e) => {
-        dispatch(getMailingTablePage(e));
-      }}>
+      <Table
+        value={rows}
+        header={header()}
+        globalFilter={globalFilter}
+        apiPagination={(e) => {
+          dispatch(getMailingTablePage(e));
+        }}
+      >
         <Column
           field="name"
           header="Name"
