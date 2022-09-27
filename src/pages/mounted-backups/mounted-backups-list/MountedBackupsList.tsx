@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMountedBackupPage, getMountedBackupsListPage } from '../../../store/mounted-backups/actions';
+import {
+  getMountedBackupPage,
+  getMountedBackupsListPage,
+} from '../../../store/mounted-backups/actions';
 import { selectMountedBackups } from '../../../store/mounted-backups/selectors';
 import { tasksService } from '../../../services/tasks-service';
 import { alertService } from '../../../services/alert-service';
@@ -54,7 +57,9 @@ export const MountedBackupsList = () => {
       <div className="p-datatable-globalfilter-container">
         <InputText
           type="search"
-          onInput={({target}) => setGlobalFilter((target as HTMLInputElement).value)}
+          onInput={({ target }) =>
+            setGlobalFilter((target as HTMLInputElement).value)
+          }
           placeholder="Global Search"
         />
       </div>
@@ -70,9 +75,14 @@ export const MountedBackupsList = () => {
           ref={(el) => (this.menu = el)}
           id="popup_menu"
         />
-        <Table value={rows} header={header()} globalFilter={globalFilter}  apiPagination={(e) => {
-          dispatch(getMountedBackupPage(e));
-        }}>
+        <Table
+          value={rows}
+          header={header()}
+          globalFilter={globalFilter}
+          apiPagination={(e) => {
+            dispatch(getMountedBackupPage(e));
+          }}
+        >
           <Column
             field="backup.protectedEntity.name"
             header="Virtual Machine"
@@ -85,8 +95,18 @@ export const MountedBackupsList = () => {
               </Link>
             )}
           />
-          <Column field="mode.description" header="Mode" sortable />
-          <Column field="node.name" header="Node" sortable />
+          <Column
+            field="mode"
+            header="Mode"
+            sortable
+            body={(rowData) => rowData.mode.description}
+          />
+          <Column
+            field="node"
+            header="Node"
+            sortable
+            body={(rowData) => rowData.node.name}
+          />
           <Column
             field="backup.snapshotTime"
             header="Snapshot Date"
