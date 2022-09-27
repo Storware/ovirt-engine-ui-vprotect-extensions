@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { policiesService } from 'services/policies-service';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,7 +23,7 @@ export const PoliciesList = () => {
   const dispatch = useDispatch();
   const { type } = useParams();
   const history = createBrowserHistory();
-  const [globalFilter, setGlobalFilter] = useState(null);
+  const [globalFilter, setGlobalFilter] = useState('');
   const [actionsElement, setActionsElement] = useState(null);
 
   const rows = useSelector(selectPolicies);
@@ -76,8 +76,9 @@ export const PoliciesList = () => {
         <div className="p-datatable-globalfilter-container">
           <InputText
             type="search"
-            // @ts-ignore
-            onInput={(e) => setGlobalFilter(e.target.value)}
+            onInput={({ target }) =>
+              setGlobalFilter((target as HTMLInputElement).value)
+            }
             placeholder="Global Search"
           />
         </div>

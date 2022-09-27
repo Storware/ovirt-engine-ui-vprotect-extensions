@@ -37,11 +37,7 @@ const VirtualMachinesList = () => {
   const dispatch = useDispatch();
   const history = createBrowserHistory();
   const [actionsElement, setActionsElement] = useState(null);
-  const [globalFilter, setGlobalFilter] = useState(null);
-
-  useEffect(() => {
-    dispatch(getVirtualMachinesPage(new TableParams()));
-  }, []);
+  const [globalFilter, setGlobalFilter] = useState('');
 
   const rows = useSelector(selectVirtualMachines);
 
@@ -195,7 +191,7 @@ const VirtualMachinesList = () => {
         />
         <Column field="hypervisor.name" header="Hypervisor" sortable />
         <Column
-          field="vmBackupPolicy.name"
+          field="vmBackupPolicy"
           header="Policy"
           sortable
           body={(rowData) => rowData?.vmBackupPolicy?.name}

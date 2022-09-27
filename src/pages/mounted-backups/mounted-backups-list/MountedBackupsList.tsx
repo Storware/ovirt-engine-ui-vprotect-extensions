@@ -22,12 +22,8 @@ import { WorkflowExecutionStates } from 'model/task-panel.model';
 export const MountedBackupsList = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getMountedBackupPage(new TableParams()));
-  }, []);
-
   const rows = useSelector(selectMountedBackups);
-  const [globalFilter, setGlobalFilter] = useState(null);
+  const [globalFilter, setGlobalFilter] = useState('');
   const [actionsElement, setActionsElement] = useState(null);
   const [detailsRedirect, setDetailsRedirect] = useState(false);
   const match = useRouteMatch();
