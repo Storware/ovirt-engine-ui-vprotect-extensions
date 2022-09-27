@@ -15,7 +15,7 @@ import ChargebackChart from 'components/chart/ChargebackChart';
 import { getChargebackData } from 'store/chargeback-chart/actions';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 import { selectRange } from 'store/reporting/selectors';
-import { TableParams } from '../../components/table/primereactTable/TableParams';
+import { TableParams } from '../../model/pagination/TableParams';
 import { Paginator } from 'primereact/paginator';
 
 const groupByOptions = [

@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import {
   DataTable,
-  DataTableSelectionChangeParams,
   DataTableSelectionModeType,
   DataTableSortOrderType,
 } from 'primereact/datatable';
 import { Dropdown } from 'primereact/dropdown';
 import { PaginatorTemplate } from 'primereact/paginator';
-import { TableParams } from 'components/table/primereactTable/TableParams';
+import { TableParams } from 'model/pagination/TableParams';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectPagination } from '../../../store/pagination/selectors';
+import {
+  resetPagination,
+  setPaginationDirection,
+  setPaginationFilter,
+  setPaginationOrderBy,
+  setPaginationPage,
+  setPaginationSize,
+} from '../../../store/pagination/actions';
 
 type Props = {
   children: any[];
@@ -61,33 +70,31 @@ const Paginator = {
 } as PaginatorTemplate;
 
 const Table = ({ children, apiPagination, value, ...props }: Props) => {
-  const [tableParams, setTableParams] = useState<TableParams>(
-    new TableParams(),
-  );
+  const tableParams = useSelector(selectPagination);
+  const dispatch = useDispatch();
+
   const [unmappedDirection, setUnmappedDirection] =
     useState<DataTableSortOrderType>(0);
 
   useEffect(() => {
-    !!apiPagination ? apiPagination(tableParams) : () => {};
+    dispatch(resetPagination());
+  }, []);
+
+  useEffect(() => {
+    if (!!apiPagination) apiPagination(tableParams);
   }, [tableParams]);
 
   const handleOnPage = (e) => {
-    setTableParams((prevState) => ({
-      ...prevState,
-      page: e.page,
-      size: e.rows,
-    }));
+    dispatch(setPaginationPage(e.page));
+    dispatch(setPaginationSize(e.rows));
   };
+
   const handleOnFilter = (e) => {
     if (e?.filters?.globalFilter?.value) {
-      setTableParams((prevState) => ({
-        ...prevState,
-        filter: e.filters.globalFilter.value,
-      }));
-    } else {
-      const { filter, ...newTableParams } = tableParams;
-      setTableParams(newTableParams);
+      dispatch(setPaginationFilter(e.filters.globalFilter.value));
+      return;
     }
+    dispatch(setPaginationFilter(''));
   };
 
   const mappedDirection: { [key: string]: string | null } = {
@@ -98,16 +105,13 @@ const Table = ({ children, apiPagination, value, ...props }: Props) => {
 
   const handleOnSort = (e) => {
     if (e.sortOrder !== 0) {
-      setTableParams((prevState) => ({
-        ...prevState,
-        orderBy: e.sortField,
-        direction: mappedDirection[e.sortOrder],
-      }));
+      dispatch(setPaginationOrderBy(e.sortField));
+      dispatch(setPaginationDirection(mappedDirection[e.sortOrder]));
       setUnmappedDirection(e.sortOrder);
-    } else {
-      const { orderBy, direction, ...newTableParams } = tableParams;
-      setTableParams(newTableParams);
+      return;
     }
+    dispatch(setPaginationOrderBy(''));
+    dispatch(setPaginationDirection(''));
   };
 
   const { body, totalCount } = !!apiPagination

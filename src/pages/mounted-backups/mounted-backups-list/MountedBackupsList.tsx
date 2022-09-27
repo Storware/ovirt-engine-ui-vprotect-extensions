@@ -16,7 +16,7 @@ import Table from 'components/table/primereactTable';
 import { dateTemplate } from 'components/table/templates';
 import { Button } from 'primereact/button';
 import { Redirect, useRouteMatch } from 'react-router-dom';
-import { TableParams } from 'components/table/primereactTable/TableParams';
+import { TableParams } from 'model/pagination/TableParams';
 
 export const MountedBackupsList = () => {
   const dispatch = useDispatch();

@@ -18,7 +18,6 @@ import { Menu } from 'primereact/menu';
 import { Button } from 'primereact/button';
 import Table from 'components/table/primereactTable';
 import { booleanTemplate } from 'components/table/templates';
-import { TableParams } from 'components/table/primereactTable/TableParams';
 
 export const PoliciesList = () => {
   const dispatch = useDispatch();
@@ -26,10 +25,6 @@ export const PoliciesList = () => {
   const history = createBrowserHistory();
   const [globalFilter, setGlobalFilter] = useState(null);
   const [actionsElement, setActionsElement] = useState(null);
-
-  useEffect(() => {
-    dispatch(getPoliciesPage(type, new TableParams()));
-  }, []);
 
   const rows = useSelector(selectPolicies);
 
