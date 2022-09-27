@@ -16,20 +16,16 @@ import { TableParams } from 'model/pagination/TableParams';
 
 const MailingTable = () => {
   const dispatch = useDispatch();
-  const [globalFilter, setGlobalFilter] = useState(null);
+  const [globalFilter, setGlobalFilter] = useState('');
   const history = createBrowserHistory();
   const rows = useSelector(selectMailingTable);
 
-  useEffect(() => {
-    dispatch(getMailingTablePage(new TableParams()));
-  }, []);
   const header = () => (
     <div>
       <div className="d-flex justify-content-between mt-2">
         <div className="p-datatable-globalfilter-container">
           <InputText
             type="search"
-            // @ts-ignore
             onInput={({ target }) =>
               setGlobalFilter((target as HTMLInputElement).value)
             }

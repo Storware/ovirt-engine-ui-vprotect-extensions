@@ -6,6 +6,7 @@ import {
 } from 'primereact/datatable';
 import { Dropdown } from 'primereact/dropdown';
 import { PaginatorTemplate } from 'primereact/paginator';
+import useDebounce from 'utils/debounce';
 import { TableParams } from 'model/pagination/TableParams';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectPagination } from '../../../store/pagination/selectors';
@@ -81,7 +82,9 @@ const Table = ({ children, apiPagination, value, ...props }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (!!apiPagination) apiPagination(tableParams);
+    if (!!apiPagination) {
+      apiPagination(tableParams);
+    };
   }, [tableParams]);
 
   const handleOnPage = (e) => {
@@ -89,9 +92,16 @@ const Table = ({ children, apiPagination, value, ...props }: Props) => {
     dispatch(setPaginationSize(e.rows));
   };
 
-  const handleOnFilter = (e) => {
-    if (e?.filters?.globalFilter?.value) {
-      dispatch(setPaginationFilter(e.filters.globalFilter.value));
+  const debouncedFilter = useDebounce(props.globalFilter, 400);
+
+  useEffect(() => {
+    handleOnFilter(props.globalFilter);
+  }, [debouncedFilter]);
+
+  const handleOnFilter = (prop) => {
+    if (prop !== '') {
+      dispatch(setPaginationFilter(prop));
+
       return;
     }
     dispatch(setPaginationFilter(''));
@@ -135,8 +145,7 @@ const Table = ({ children, apiPagination, value, ...props }: Props) => {
         onSort={(e) => handleOnSort(e)}
         sortField={tableParams.orderBy}
         sortOrder={unmappedDirection}
-        onFilter={(e) => handleOnFilter(e)}
-        globalFilter={tableParams.filter}
+        globalFilter={props.globalFilter}
         {...props}
       >
         {children}

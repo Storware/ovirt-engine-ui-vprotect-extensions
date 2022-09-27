@@ -13,7 +13,7 @@ import { Link, useHistory } from 'react-router-dom';
 const CredentialsList = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [globalFilter, setGlobalFilter] = useState(null);
+  const [globalFilter, setGlobalFilter] = useState('');
 
   const rows = useSelector(selectCredentials);
   const locationPath = location.pathname.replace(/\//g, '');

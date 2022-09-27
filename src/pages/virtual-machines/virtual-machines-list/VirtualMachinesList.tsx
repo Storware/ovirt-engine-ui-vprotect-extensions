@@ -36,11 +36,7 @@ const VirtualMachinesList = () => {
   const dispatch = useDispatch();
   const history = createBrowserHistory();
   const [actionsElement, setActionsElement] = useState(null);
-  const [globalFilter, setGlobalFilter] = useState(null);
-
-  useEffect(() => {
-    dispatch(getVirtualMachinesPage(new TableParams()));
-  }, []);
+  const [globalFilter, setGlobalFilter] = useState('');
 
   const rows = useSelector(selectVirtualMachines);
 
