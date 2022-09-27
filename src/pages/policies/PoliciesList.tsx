@@ -23,7 +23,7 @@ export const PoliciesList = () => {
   const dispatch = useDispatch();
   const { type } = useParams();
   const history = createBrowserHistory();
-  const [globalFilter, setGlobalFilter] = useState(undefined);
+  const [globalFilter, setGlobalFilter] = useState('');
   const [actionsElement, setActionsElement] = useState(null);
 
   const rows = useSelector(selectPolicies);

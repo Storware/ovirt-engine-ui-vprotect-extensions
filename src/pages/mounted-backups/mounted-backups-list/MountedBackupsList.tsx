@@ -22,7 +22,7 @@ export const MountedBackupsList = () => {
   const dispatch = useDispatch();
 
   const rows = useSelector(selectMountedBackups);
-  const [globalFilter, setGlobalFilter] = useState(undefined);
+  const [globalFilter, setGlobalFilter] = useState('');
   const [actionsElement, setActionsElement] = useState(null);
   const [detailsRedirect, setDetailsRedirect] = useState(false);
   const match = useRouteMatch();

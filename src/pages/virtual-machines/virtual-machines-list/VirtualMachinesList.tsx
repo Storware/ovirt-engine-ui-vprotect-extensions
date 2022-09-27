@@ -36,7 +36,7 @@ const VirtualMachinesList = () => {
   const dispatch = useDispatch();
   const history = createBrowserHistory();
   const [actionsElement, setActionsElement] = useState(null);
-  const [globalFilter, setGlobalFilter] = useState(undefined);
+  const [globalFilter, setGlobalFilter] = useState('');
 
   const rows = useSelector(selectVirtualMachines);
 

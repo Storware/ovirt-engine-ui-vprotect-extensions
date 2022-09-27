@@ -11,7 +11,7 @@ import { convertMilisecondsToHours } from 'utils/convertMilisecondsToHours';
 
 export default () => {
   const [rows, setRows] = useState([]);
-  const [globalFilter, setGlobalFilter] = useState(null);
+  const [globalFilter, setGlobalFilter] = useState('');
   const [busy, setBusy] = useState<ReturnType<typeof setTimeout>[]>([]);
 
   useEffect(() => {
