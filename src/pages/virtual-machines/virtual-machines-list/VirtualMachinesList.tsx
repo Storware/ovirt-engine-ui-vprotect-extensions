@@ -28,7 +28,6 @@ import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 import HeaderTable from '../../../components/table/HeaderTable';
 import { backupsService } from '../../../services/backups-service';
 import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
-import { TableParams } from 'model/pagination/TableParams';
 import { selectIsSelectedRulesZero } from 'store/backup-modal/selectors';
 import { resetRestoreTaskAction } from '../../../store/restore-modal/actions';
 import { resetMountTaskAction } from '../../../store/mount-backup-modal/actions';
@@ -194,7 +193,14 @@ const VirtualMachinesList = () => {
           field="vmBackupPolicy"
           header="Policy"
           sortable
-          body={(rowData) => rowData?.vmBackupPolicy?.name}
+          body={(rowData) => {
+            const policyName: string | undefined =
+              rowData?.vmBackupPolicy?.name;
+            if(!policyName) return ''
+            return policyName.startsWith('uuid_')
+              ? policyName.split('_').slice(2).join('')
+              : policyName;
+          }}
         />
         <Column
           field="backupUpToDate"
