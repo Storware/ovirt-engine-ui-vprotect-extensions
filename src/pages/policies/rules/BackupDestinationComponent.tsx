@@ -50,7 +50,6 @@ export const BackupDestinationComponent = ({
         label={selectedBackupDestinationLabel}
         optionLabel="name"
         dataKey="guid"
-        required={true}
         value={backupDestination}
         options={backupDestinationOptions}
         onChange={updateBackupDestination}
