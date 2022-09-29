@@ -26,11 +26,12 @@ import { Menu } from 'primereact/menu';
 import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 import HeaderTable from '../../../components/table/HeaderTable';
 import { backupsService } from '../../../services/backups-service';
+import { resetTaskAction as MountBackupModalResetTaskAction } from 'store/mount-backup-modal/actions';
+import { resetTaskAction as RestoreModalResetTaskAction } from 'store/restore-modal/actions';
 import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
 import { selectPagination } from 'store/pagination/selectors';
 import { selectIsSelectedRulesZero } from 'store/backup-modal/selectors';
 import { resetRestoreTaskAction } from 'store/restore-modal/actions';
-import { resetMountTaskAction } from 'store/mount-backup-modal/actions';
 
 const VirtualMachinesList = () => {
   const dispatch = useDispatch();
@@ -122,7 +123,8 @@ const VirtualMachinesList = () => {
     {
       label: 'Mount',
       command: async () => {
-        dispatch(resetMountTaskAction());
+        dispatch(MountBackupModalResetTaskAction());
+        dispatch(RestoreModalResetTaskAction());
         const mountableBackups = await backupsService.getMountableBackups(
           actionsElement.guid,
         );
