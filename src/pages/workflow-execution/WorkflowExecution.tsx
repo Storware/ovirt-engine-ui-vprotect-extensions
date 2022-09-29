@@ -126,6 +126,7 @@ export const WorkflowExecution = () => {
   const refresh = () => {
     setPage(0);
     setWorkflowExecutionData([]);
+    expandedRows?.forEach(({ guid }) => getTaskWorkflowExecutionData(guid));
   };
 
   const setFilter = (filter: string) => {
