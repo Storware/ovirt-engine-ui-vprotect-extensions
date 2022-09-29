@@ -127,6 +127,13 @@ export const WorkflowExecution = () => {
     setPage(0);
     setWorkflowExecutionData([]);
     expandedRows?.forEach(({ guid }) => getTaskWorkflowExecutionData(guid));
+
+    if ( expandedRows && expandedRows.length > 0 && workflowExecutionData && workflowExecutionData.length > 0) {
+      setExpandedRows(workflowExecutionData.filter((workflow) =>
+          expandedRows.find((item) => item.guid === workflow.guid) ? true : false,
+        )
+      );
+    }
   };
 
   const setFilter = (filter: string) => {
