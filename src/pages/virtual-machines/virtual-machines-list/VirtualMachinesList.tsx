@@ -193,14 +193,11 @@ const VirtualMachinesList = () => {
           field="vmBackupPolicy"
           header="Policy"
           sortable
-          body={(rowData) => {
-            const policyName: string | undefined =
-              rowData?.vmBackupPolicy?.name;
-            if(!policyName) return ''
-            return policyName.startsWith('uuid_')
-              ? policyName.split('_').slice(2).join('')
-              : policyName;
-          }}
+          body={({ vmBackupPolicy }) =>
+            vmBackupPolicy && vmBackupPolicy.name.startsWith('uuid_')
+              ? vmBackupPolicy.name.split('_').slice(2).join('')
+              : vmBackupPolicy.name
+          }
         />
         <Column
           field="backupUpToDate"
