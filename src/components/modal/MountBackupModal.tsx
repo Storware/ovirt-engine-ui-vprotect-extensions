@@ -150,6 +150,8 @@ export const MountBackupModal = ({ virtualEnvironment, backups }) => {
               setTaskAction({
                 ...task,
                 backupLocation: event,
+                mode: { name: 'AUTO' },
+                mountedFileSystems: [autoMountFileSystem],
               }),
             );
           }}
