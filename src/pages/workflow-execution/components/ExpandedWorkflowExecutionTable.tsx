@@ -4,6 +4,7 @@ import { Column } from 'primereact/column';
 import { getDateLabel } from 'services/time';
 import React from 'react';
 import { WorkflowExecutionStates } from 'model/task-panel.model';
+import { ProgressBar } from 'primereact/progressbar';
 
 export const ExpandedWorkflowExecutionTable = (value) => {
   const taskDuration = (task) => {
@@ -34,6 +35,19 @@ export const ExpandedWorkflowExecutionTable = (value) => {
       style={{ width: '100%' }}
     >
       <Column field="state.description" header="State" />
+
+      <Column
+        sortable
+        field="progress"
+        header="Progress"
+        body={({ progress }) => (
+          <ProgressBar
+            className="progress-bar-element"
+            value={progress}
+            showValue={true}
+          />
+        )}
+      />
       <Column field="type.description" header="Type" />
       <Column field="node.name" header="Node" />
       <Column
