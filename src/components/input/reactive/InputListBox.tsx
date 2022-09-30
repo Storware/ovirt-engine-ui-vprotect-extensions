@@ -3,9 +3,9 @@ import { ListBox } from 'primereact/listbox';
 
 const listBoxElement = (option, { optionLabel, underlinetext }) => (
   <div>
-    <p style={{ marginBottom: '0 important!' }}>{option[optionLabel]}</p>
+    <p style={{ marginBottom: '0 !important' }}>{option[optionLabel]}</p>
     {underlinetext && (
-      <p style={{ color: 'grey', marginBottom: '0 important!' }}>
+      <p style={{ color: 'grey', marginBottom: '0 !important' }}>
         {option[underlinetext]}
       </p>
     )}
