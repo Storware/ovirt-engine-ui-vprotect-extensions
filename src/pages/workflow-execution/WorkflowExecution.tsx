@@ -11,6 +11,7 @@ import { WorkflowExecutionStates } from 'model/task-panel.model';
 import { Tooltip } from 'primereact/tooltip';
 import { DataNameSets, SortTypes } from './models';
 import { SortDirection } from 'model';
+import { ProgressBar } from 'primereact/progressbar';
 
 export const WorkflowExecution = () => {
   const [globalFilter, setGlobalFilter] = useState<string>('');
@@ -24,6 +25,7 @@ export const WorkflowExecution = () => {
   });
   const ITEMS_LOAD = 40;
   const [busy, setBusy] = useState<ReturnType<typeof setTimeout>[]>([]);
+  const [durationList, setDurationList] = useState([]);
 
   const clearBusy = () => {
     busy.filter(Boolean).forEach((interval) => {
@@ -47,14 +49,20 @@ export const WorkflowExecution = () => {
     refresh();
   }, [sort]);
 
-  const addDurationToTasks = (tasks = [], setRows) =>
-    tasks.map((task) => {
+  const addDurationToTask = (task) => {
+    if (
+      task.duration !==
+      durationList.find((item) => item.guid === task.guid).duration
+    ) {
       if (
         task.state.name !== WorkflowExecutionStates.RUNNING &&
         !task.startTime &&
         task.finishTime
       ) {
-        return { ...task, duration: '00:00:00' };
+        setDurationList((prev) => [
+          ...prev,
+          { guid: task.guid, duration: '00:00:00' },
+        ]);
       }
 
       if (
@@ -62,13 +70,18 @@ export const WorkflowExecution = () => {
         task.startTime &&
         task.finishTime
       ) {
-        return {
-          ...task,
-          duration: convertMilisecondsToHours(task.finishTime - task.startTime),
-        };
+        setDurationList((prev) => [
+          ...prev,
+          {
+            guid: task.guid,
+            duration: convertMilisecondsToHours(
+              task.finishTime - task.startTime,
+            ),
+          },
+        ]);
       }
       if (task.state.name !== WorkflowExecutionStates.RUNNING) {
-        return task;
+        setDurationList((prev) => [...prev, { guid: task.guid, duration: '' }]);
       }
 
       setTimeout(() => {
@@ -76,13 +89,24 @@ export const WorkflowExecution = () => {
           task.duration = convertMilisecondsToHours(
             +new Date() - task.startTime,
           );
-          setRows((t) => [...t]);
+          if (!task.finishTime && !task.duration.includes('NaN')) {
+            setDurationList((prev) =>
+              prev.map((item) =>
+                item.guid === task.guid
+                  ? {
+                      duration: task.duration,
+                      guid: item.guid,
+                    }
+                  : item,
+              ),
+            );
+          }
         }, 1000);
         setBusy((b) => [...b, interval]);
       }, 1000);
+    }
+  };
 
-      return task;
-    });
   const getWorkflowExecutionData = async () => {
     clearBusy();
     const data = await vprotectService.getWorkflowExecution({
@@ -93,14 +117,14 @@ export const WorkflowExecution = () => {
       filter: globalFilter,
     });
     setPage((_page) => _page + 1);
-    setWorkflowExecutionData(
-      addDurationToTasks(
-        [...workflowExecutionData, ...data],
-        setWorkflowExecutionData,
-      ),
-    );
+    if (data && data.length > 0) {
+      setWorkflowExecutionData(data);
+      data.forEach((we) => addDurationToTask(we));
+    }
   };
-
+  {
+    console.log(durationList);
+  }
   const getTaskWorkflowExecutionData = async (guid) => {
     const data = await vprotectService.getTaskWorkflowExecution(guid);
     setExpandedRowsData((prevState) => ({ ...prevState, [guid]: data }));
@@ -125,13 +149,21 @@ export const WorkflowExecution = () => {
 
   const refresh = () => {
     setPage(0);
+    setDurationList([]);
     setWorkflowExecutionData([]);
     expandedRows?.forEach(({ guid }) => getTaskWorkflowExecutionData(guid));
 
-    if ( expandedRows && expandedRows.length > 0 && workflowExecutionData && workflowExecutionData.length > 0) {
-      setExpandedRows(workflowExecutionData.filter((workflow) =>
-          expandedRows.find((item) => item.guid === workflow.guid) ? true : false,
-        )
+    if (
+      expandedRows &&
+      expandedRows.length > 0 &&
+      workflowExecutionData &&
+      workflowExecutionData.length > 0
+    ) {
+      setExpandedRows(
+        workflowExecutionData.filter(
+          (workflow) =>
+            !!expandedRows.find((item) => item.guid === workflow.guid),
+        ),
       );
     }
   };
@@ -148,6 +180,7 @@ export const WorkflowExecution = () => {
     getWorkflowExecutionData();
   }, [page, workflowExecutionData]);
 
+  // @ts-ignore
   return (
     <VirtualScrollTable
       value={workflowExecutionData}
@@ -158,7 +191,7 @@ export const WorkflowExecution = () => {
       onRowToggle={({ data }) => setExpandedRows(data)}
       onRowExpand={onExpandRow}
       rowExpansionTemplate={({ guid }) =>
-        ExpandedWorkflowExecutionTable(expandedRowsData[guid] || [])
+        ExpandedWorkflowExecutionTable(expandedRowsData[guid])
       }
       header={Header(refresh, setFilter)}
     >
@@ -172,6 +205,18 @@ export const WorkflowExecution = () => {
         body={({ state: { description } }) => description.toLowerCase()}
       />
       <Column field="definitionName" header="Type" sortable />
+
+      <Column
+        field="averageProgress"
+        header="Progress"
+        body={({ averageProgress }) => (
+          <ProgressBar
+            className="progress-bar-element"
+            value={averageProgress}
+            showValue={true}
+          />
+        )}
+      />
       <Column
         sortable
         field="currentStep"
@@ -240,7 +285,14 @@ export const WorkflowExecution = () => {
         header="Priority"
         style={{ maxWidth: '75px' }}
       />
-      <Column field="duration" header="Duration" />
+      <Column
+        body={(data) =>
+          durationList && durationList.length > 0
+            ? durationList.find((item) => item.guid === data.guid)?.duration
+            : ''
+        }
+        header="Duration"
+      />
       <Column
         field="action"
         header="Action"
