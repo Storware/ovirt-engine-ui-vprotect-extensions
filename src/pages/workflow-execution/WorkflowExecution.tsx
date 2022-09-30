@@ -11,6 +11,7 @@ import { WorkflowExecutionStates } from 'model/task-panel.model';
 import { Tooltip } from 'primereact/tooltip';
 import { DataNameSets, SortTypes } from './models';
 import { SortDirection } from 'model';
+import { ProgressBar } from 'primereact/progressbar';
 
 export const WorkflowExecution = () => {
   const [globalFilter, setGlobalFilter] = useState<string>('');
@@ -164,6 +165,18 @@ export const WorkflowExecution = () => {
         body={({ state: { description } }) => description.toLowerCase()}
       />
       <Column field="definitionName" header="Type" sortable />
+
+      <Column
+        field="averageProgress"
+        header="Progress"
+        body={({ averageProgress }) => (
+          <ProgressBar
+            className="progress-bar-element"
+            value={averageProgress}
+            showValue={true}
+          />
+        )}
+      />
       <Column
         sortable
         field="currentStep"
