@@ -25,7 +25,6 @@ export const WorkflowExecution = () => {
   });
   const ITEMS_LOAD = 40;
   const [busy, setBusy] = useState<ReturnType<typeof setTimeout>[]>([]);
-  const [durationList, setDurationList] = useState([]);
 
   const clearBusy = () => {
     busy.filter(Boolean).forEach((interval) => {
@@ -49,20 +48,14 @@ export const WorkflowExecution = () => {
     refresh();
   }, [sort]);
 
-  const addDurationToTask = (task) => {
-    if (
-      task.duration !==
-      durationList.find((item) => item.guid === task.guid).duration
-    ) {
+  const addDurationToTasks = (tasks = [], setRows) =>
+    tasks.map((task) => {
       if (
         task.state.name !== WorkflowExecutionStates.RUNNING &&
         !task.startTime &&
         task.finishTime
       ) {
-        setDurationList((prev) => [
-          ...prev,
-          { guid: task.guid, duration: '00:00:00' },
-        ]);
+        return { ...task, duration: '00:00:00' };
       }
 
       if (
@@ -70,18 +63,13 @@ export const WorkflowExecution = () => {
         task.startTime &&
         task.finishTime
       ) {
-        setDurationList((prev) => [
-          ...prev,
-          {
-            guid: task.guid,
-            duration: convertMilisecondsToHours(
-              task.finishTime - task.startTime,
-            ),
-          },
-        ]);
+        return {
+          ...task,
+          duration: convertMilisecondsToHours(task.finishTime - task.startTime),
+        };
       }
       if (task.state.name !== WorkflowExecutionStates.RUNNING) {
-        setDurationList((prev) => [...prev, { guid: task.guid, duration: '' }]);
+        return task;
       }
 
       setTimeout(() => {
@@ -89,22 +77,22 @@ export const WorkflowExecution = () => {
           task.duration = convertMilisecondsToHours(
             +new Date() - task.startTime,
           );
-          if (!task.finishTime && !task.duration.includes('NaN')) {
-            setDurationList((prev) =>
-              prev.map((item) =>
-                item.guid === task.guid
-                  ? {
-                      duration: task.duration,
-                      guid: item.guid,
-                    }
-                  : item,
-              ),
-            );
-          }
+          setRows((t) => [...t]);
         }, 1000);
         setBusy((b) => [...b, interval]);
       }, 1000);
+
+      return task;
+    });
+
+  const getWExecutionDuration = (data) => {
+    if (data.finishTime && data.startTime) {
+      return convertMilisecondsToHours(data.finishTime - data.startTime);
     }
+    if (data.startTime) {
+      return convertMilisecondsToHours(+new Date() - data.startTime);
+    }
+    return '';
   };
 
   const getWorkflowExecutionData = async () => {
@@ -117,14 +105,14 @@ export const WorkflowExecution = () => {
       filter: globalFilter,
     });
     setPage((_page) => _page + 1);
-    if (data && data.length > 0) {
-      setWorkflowExecutionData(data);
-      data.forEach((we) => addDurationToTask(we));
-    }
+    setWorkflowExecutionData(
+      addDurationToTasks(
+        [...workflowExecutionData, ...data],
+        setWorkflowExecutionData,
+      ),
+    );
   };
-  {
-    console.log(durationList);
-  }
+
   const getTaskWorkflowExecutionData = async (guid) => {
     const data = await vprotectService.getTaskWorkflowExecution(guid);
     setExpandedRowsData((prevState) => ({ ...prevState, [guid]: data }));
@@ -149,7 +137,6 @@ export const WorkflowExecution = () => {
 
   const refresh = () => {
     setPage(0);
-    setDurationList([]);
     setWorkflowExecutionData([]);
     expandedRows?.forEach(({ guid }) => getTaskWorkflowExecutionData(guid));
 
@@ -180,7 +167,6 @@ export const WorkflowExecution = () => {
     getWorkflowExecutionData();
   }, [page, workflowExecutionData]);
 
-  // @ts-ignore
   return (
     <VirtualScrollTable
       value={workflowExecutionData}
@@ -285,14 +271,7 @@ export const WorkflowExecution = () => {
         header="Priority"
         style={{ maxWidth: '75px' }}
       />
-      <Column
-        body={(data) =>
-          durationList && durationList.length > 0
-            ? durationList.find((item) => item.guid === data.guid)?.duration
-            : ''
-        }
-        header="Duration"
-      />
+      <Column body={getWExecutionDuration} header="Duration" />
       <Column
         field="action"
         header="Action"
