@@ -167,7 +167,6 @@ export const WorkflowExecution = () => {
       <Column field="definitionName" header="Type" sortable />
 
       <Column
-        sortable
         field="averageProgress"
         header="Progress"
         body={({ averageProgress }) => (

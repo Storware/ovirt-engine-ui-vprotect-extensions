@@ -37,7 +37,6 @@ export const ExpandedWorkflowExecutionTable = (value) => {
       <Column field="state.description" header="State" />
 
       <Column
-        sortable
         field="progress"
         header="Progress"
         body={({ progress }) => (
