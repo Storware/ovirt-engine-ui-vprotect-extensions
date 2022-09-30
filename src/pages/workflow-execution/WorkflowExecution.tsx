@@ -13,6 +13,20 @@ import { DataNameSets, SortTypes } from './models';
 import { SortDirection } from 'model';
 import { ProgressBar } from 'primereact/progressbar';
 
+export const calculateDuration = (task) => {
+  if (
+    task.startTime &&
+    !task.finishTime &&
+    task.state.name === WorkflowExecutionStates.RUNNING
+  ) {
+    return convertMilisecondsToHours(+new Date() - task.startTime);
+  }
+  if (task.finishTime && task.startTime) {
+    return convertMilisecondsToHours(task.finishTime - task.startTime);
+  }
+  return '';
+};
+
 export const WorkflowExecution = () => {
   const [globalFilter, setGlobalFilter] = useState<string>('');
   const [workflowExecutionData, setWorkflowExecutionData] = useState([]);
@@ -24,14 +38,8 @@ export const WorkflowExecution = () => {
     direction: SortDirection.Empty,
   });
   const ITEMS_LOAD = 40;
-  const [busy, setBusy] = useState<ReturnType<typeof setTimeout>[]>([]);
-
-  const clearBusy = () => {
-    busy.filter(Boolean).forEach((interval) => {
-      clearInterval(interval);
-    });
-    setBusy([]);
-  };
+  const [durationTimes, setDurationTimes] = useState([]);
+  const [tick, setTick] = useState<boolean>(false);
 
   const handleSort = ({ sortField }) => {
     const orderByWhat = DataNameSets[sortField];
@@ -48,55 +56,7 @@ export const WorkflowExecution = () => {
     refresh();
   }, [sort]);
 
-  const addDurationToTasks = (tasks = [], setRows) =>
-    tasks.map((task) => {
-      if (
-        task.state.name !== WorkflowExecutionStates.RUNNING &&
-        !task.startTime &&
-        task.finishTime
-      ) {
-        return { ...task, duration: '00:00:00' };
-      }
-
-      if (
-        task.state.name !== WorkflowExecutionStates.RUNNING &&
-        task.startTime &&
-        task.finishTime
-      ) {
-        return {
-          ...task,
-          duration: convertMilisecondsToHours(task.finishTime - task.startTime),
-        };
-      }
-      if (task.state.name !== WorkflowExecutionStates.RUNNING) {
-        return task;
-      }
-
-      setTimeout(() => {
-        const interval = setInterval(() => {
-          task.duration = convertMilisecondsToHours(
-            +new Date() - task.startTime,
-          );
-          setRows((t) => [...t]);
-        }, 1000);
-        setBusy((b) => [...b, interval]);
-      }, 1000);
-
-      return task;
-    });
-
-  const getWExecutionDuration = (data) => {
-    if (data.finishTime && data.startTime) {
-      return convertMilisecondsToHours(data.finishTime - data.startTime);
-    }
-    if (data.startTime) {
-      return convertMilisecondsToHours(+new Date() - data.startTime);
-    }
-    return '';
-  };
-
   const getWorkflowExecutionData = async () => {
-    clearBusy();
     const data = await vprotectService.getWorkflowExecution({
       page,
       size: ITEMS_LOAD,
@@ -105,12 +65,25 @@ export const WorkflowExecution = () => {
       filter: globalFilter,
     });
     setPage((_page) => _page + 1);
-    setWorkflowExecutionData(
-      addDurationToTasks(
-        [...workflowExecutionData, ...data],
-        setWorkflowExecutionData,
-      ),
-    );
+    if (data && data.length > 0) {
+      setWorkflowExecutionData(data);
+
+      if (expandedRows && expandedRows.length > 0) {
+        const newExpandedRows = data
+          .filter(
+            (workflow) =>
+              !!expandedRows.find((item) => item.guid === workflow.guid),
+          )
+          .filter((v, i, a) => a.findIndex((v2) => v2.guid === v.guid) === i);
+
+        if (newExpandedRows && newExpandedRows.length > 0) {
+          newExpandedRows.forEach(({ guid }) =>
+            getTaskWorkflowExecutionData(guid),
+          );
+        }
+        setExpandedRows(newExpandedRows);
+      }
+    }
   };
 
   const getTaskWorkflowExecutionData = async (guid) => {
@@ -125,12 +98,28 @@ export const WorkflowExecution = () => {
     getTaskWorkflowExecutionData(guid);
   };
 
-  useEffect(
-    () => () => {
-      clearBusy();
-    },
-    [],
-  );
+  const updateDurationTimes = () => {
+    if (workflowExecutionData && workflowExecutionData.length > 0) {
+      setDurationTimes(
+        workflowExecutionData.map((we) => ({
+          guid: we.guid,
+          duration: calculateDuration(we),
+        })),
+      );
+    }
+  };
+
+  useEffect(() => {
+    const durationInterval = setInterval(() => {
+      setTick((prev) => !prev);
+    }, 1000);
+
+    return () => clearInterval(durationInterval);
+  }, []);
+
+  useEffect(() => {
+    updateDurationTimes();
+  }, [tick]);
 
   const backupDestinationsBody = (backupDestinations) =>
     backupDestinations.map(({ name }) => name).join('-');
@@ -138,21 +127,6 @@ export const WorkflowExecution = () => {
   const refresh = () => {
     setPage(0);
     setWorkflowExecutionData([]);
-    expandedRows?.forEach(({ guid }) => getTaskWorkflowExecutionData(guid));
-
-    if (
-      expandedRows &&
-      expandedRows.length > 0 &&
-      workflowExecutionData &&
-      workflowExecutionData.length > 0
-    ) {
-      setExpandedRows(
-        workflowExecutionData.filter(
-          (workflow) =>
-            !!expandedRows.find((item) => item.guid === workflow.guid),
-        ),
-      );
-    }
   };
 
   const setFilter = (filter: string) => {
@@ -198,7 +172,7 @@ export const WorkflowExecution = () => {
         body={({ averageProgress }) => (
           <ProgressBar
             className="progress-bar-element"
-            value={averageProgress}
+            value={averageProgress?.toFixed(0)}
             showValue={true}
           />
         )}
@@ -271,7 +245,14 @@ export const WorkflowExecution = () => {
         header="Priority"
         style={{ maxWidth: '75px' }}
       />
-      <Column body={getWExecutionDuration} header="Duration" />
+      <Column
+        body={(we) =>
+          durationTimes && durationTimes.length > 0
+            ? durationTimes.find((item) => item.guid === we.guid)?.duration
+            : ''
+        }
+        header="Duration"
+      />
       <Column
         field="action"
         header="Action"
