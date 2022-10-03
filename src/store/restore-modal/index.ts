@@ -1,17 +1,14 @@
 import {
   BackupModalAction,
-  SET_BACKUP_FILES,
   SET_BACKUP_LOCATIONS,
   SET_FILTERED_HYPERVISOR_STORAGES,
-  SET_FLAVORS,
   SET_HYPERVISOR_CLUSTERS,
   SET_HYPERVISOR_MANAGERS,
   SET_HYPERVISOR_STORAGES,
-  SET_RESTORE_CLUSTER_ID,
   SET_TASK,
 } from './types';
 import { RestoreAndImportTask } from '../../model/tasks/restore-and-import-task';
-import { RESET_TASK } from '../mount-backup-modal/types';
+import {RESET_TASK} from '../mount-backup-modal/types';
 
 export type RestoreModalStore = {
   readonly task: any;
@@ -20,8 +17,6 @@ export type RestoreModalStore = {
   readonly hypervisorStorages: any[];
   readonly filteredHypervisorStorages: any[];
   readonly hypervisorClusters: any[];
-  readonly backupFiles: any[];
-  readonly flavors: any[];
 };
 
 const initial: RestoreModalStore = {
@@ -31,8 +26,6 @@ const initial: RestoreModalStore = {
   hypervisorStorages: [],
   filteredHypervisorStorages: [],
   hypervisorClusters: [],
-  backupFiles: [],
-  flavors: [],
 };
 
 export default (state = initial, action: BackupModalAction) => {
@@ -71,24 +64,6 @@ export default (state = initial, action: BackupModalAction) => {
     return {
       ...state,
       hypervisorClusters: action.payload,
-    };
-  }
-  if (action.type === SET_BACKUP_FILES) {
-    return {
-      ...state,
-      backupFiles: action.payload,
-    };
-  }
-  if (action.type === SET_FLAVORS) {
-    return {
-      ...state,
-      flavors: action.payload,
-    };
-  }
-  if (action.type === SET_RESTORE_CLUSTER_ID) {
-    return {
-      ...state,
-      task: { ...state.task, restoreClusterId: action.payload },
     };
   }
 

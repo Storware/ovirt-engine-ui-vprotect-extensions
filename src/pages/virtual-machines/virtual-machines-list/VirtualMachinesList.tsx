@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  getVirtualMachines,
   getVirtualMachinesPage,
 } from 'store/virtual-machines/actions';
 import { selectVirtualMachines } from 'store/virtual-machines/selectors';
@@ -26,24 +27,21 @@ import { Menu } from 'primereact/menu';
 import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 import HeaderTable from '../../../components/table/HeaderTable';
 import { backupsService } from '../../../services/backups-service';
+import { resetTaskAction as MountBackupModalResetTaskAction } from 'store/mount-backup-modal/actions';
+import { resetTaskAction as RestoreModalResetTaskAction } from 'store/restore-modal/actions';
 import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
-import { selectPagination } from 'store/pagination/selectors';
-import { selectIsSelectedRulesZero } from 'store/backup-modal/selectors';
-import { resetRestoreTaskAction } from 'store/restore-modal/actions';
-import { resetMountTaskAction } from 'store/mount-backup-modal/actions';
 
 const VirtualMachinesList = () => {
   const dispatch = useDispatch();
   const history = createBrowserHistory();
   const [actionsElement, setActionsElement] = useState(null);
   const [globalFilter, setGlobalFilter] = useState('');
-  const tableParams = useSelector(selectPagination);
 
   const rows = useSelector(selectVirtualMachines);
 
   const deleteNonPresent = async () => {
     await virtualMachinesService.deleteAllNonPresentAndWithoutBackup();
-    dispatch(getVirtualMachinesPage(tableParams));
+    dispatch(getVirtualMachines);
     alertService.info('Absent virtual machines have been deleted');
   };
 
@@ -58,20 +56,13 @@ const VirtualMachinesList = () => {
           }
         />
       </div>
-      <div>
-        <Button
-          className="mr-3"
-          onClick={() => dispatch(getVirtualMachinesPage(tableParams))}
-          label="Refresh"
-        />
-        <Button
-          className="p-button-danger"
-          label="Delete Non-Present"
-          onClick={() => {
-            deleteNonPresent();
-          }}
-        />
-      </div>
+      <Button
+        className="p-button-danger"
+        label="Delete Non-Present"
+        onClick={() => {
+          deleteNonPresent();
+        }}
+      />
     </HeaderTable>
   );
 
@@ -100,12 +91,12 @@ const VirtualMachinesList = () => {
         dispatch(
           showModalAction({
             component: BackupModal,
-            FooterContent: () =>
+            footerChildren: () =>
               NoActiveRulesIcon({
                 entities: [
                   {
                     ...actionsElement,
-                    policy: useSelector(selectIsSelectedRulesZero),
+                    policy: policies[0],
                   },
                 ],
               }),
@@ -122,7 +113,8 @@ const VirtualMachinesList = () => {
     {
       label: 'Mount',
       command: async () => {
-        dispatch(resetMountTaskAction());
+        dispatch(MountBackupModalResetTaskAction());
+        dispatch(RestoreModalResetTaskAction());
         const mountableBackups = await backupsService.getMountableBackups(
           actionsElement.guid,
         );
@@ -148,7 +140,6 @@ const VirtualMachinesList = () => {
     {
       label: 'Restore',
       command: () => {
-        dispatch(resetRestoreTaskAction());
         dispatch(
           showModalAction({
             component: RestoreModal,
@@ -167,7 +158,6 @@ const VirtualMachinesList = () => {
       },
     },
   ];
-
   return (
     <div>
       <Menu
@@ -201,11 +191,7 @@ const VirtualMachinesList = () => {
           field="vmBackupPolicy"
           header="Policy"
           sortable
-          body={({ vmBackupPolicy }) =>
-            vmBackupPolicy?.name.startsWith('uuid_')
-              ? vmBackupPolicy.name.split('_').slice(2).join('')
-              : vmBackupPolicy?.name
-          }
+          body={(rowData) => rowData?.vmBackupPolicy?.name}
         />
         <Column
           field="backupUpToDate"
