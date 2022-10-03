@@ -194,9 +194,9 @@ const VirtualMachinesList = () => {
           header="Policy"
           sortable
           body={({ vmBackupPolicy }) =>
-            vmBackupPolicy && vmBackupPolicy.name.startsWith('uuid_')
+            vmBackupPolicy?.name.startsWith('uuid_')
               ? vmBackupPolicy.name.split('_').slice(2).join('')
-              : vmBackupPolicy && vmBackupPolicy.name
+              : vmBackupPolicy?.name
           }
         />
         <Column
