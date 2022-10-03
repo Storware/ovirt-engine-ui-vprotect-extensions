@@ -14,6 +14,7 @@ import { hypervisorsService } from '../../services/hypervisors-service';
 import { alertService } from 'services/alert-service';
 import { hideModalAction, unsaveModalAction } from '../modal/actions';
 import { RestoreAndImportTask } from '../../model/tasks/restore-and-import-task';
+import {MountBackupModalAction, RESET_TASK} from '../mount-backup-modal/types';
 
 export const setTaskAction = (payload: any): BackupModalAction => ({
   type: SET_TASK,
@@ -53,6 +54,10 @@ export const setHypervisorClustersAction = (
 ): BackupModalAction => ({
   type: SET_HYPERVISOR_CLUSTERS,
   payload,
+});
+
+export const resetTaskAction = (): MountBackupModalAction => ({
+  type: RESET_TASK,
 });
 
 export const getBackupLocations =

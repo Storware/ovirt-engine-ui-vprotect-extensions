@@ -1,4 +1,5 @@
 export const SET_TASK = 'SET_TASK';
+export const RESET_TASK = 'RESET_TASK';
 export const SET_BACKUP_LOCATIONS = 'SET_BACKUP_LOCATIONS';
 export const SET_HYPERVISOR_MANAGERS = 'SET_HYPERVISOR_MANAGERS';
 export const SET_HYPERVISOR_STORAGES = 'SET_HYPERVISOR_STORAGES';
@@ -36,10 +37,15 @@ export type SetHypervisorClustersAction = {
   payload?: any;
 };
 
+export type ResetTask = {
+  type: typeof RESET_TASK;
+};
+
 export type BackupModalAction =
   | SetTaskAction
   | SetBackupLocationsAction
   | SetHypervisorManagerAction
   | SetHypervisorStoragesAction
   | SetFilteredHypervisorStoragesAction
-  | SetHypervisorClustersAction;
+  | SetHypervisorClustersAction
+  | ResetTask;
