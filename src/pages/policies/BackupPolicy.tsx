@@ -61,6 +61,22 @@ export const BackupPolicy = ({ type }) => {
     backupDestinationsService.getAllBackupDestinations().then((result) => {
       setBackupDestinations(result);
       setFilteredBackupDestinations(result);
+
+      if (match.params.guid === 'create') {
+        setModel((prev) => ({
+          ...prev,
+          rules: prev.rules.map((rule) => ({
+            ...rule,
+            ruleBackupDestinations: {
+              ...rule.ruleBackupDestinations,
+              primaryBackupDestination: {
+                ...rule.ruleBackupDestinations.primaryBackupDestination,
+                backupDestination: result[0],
+              },
+            },
+          })),
+        }));
+      }
     });
 
     hypervisorsService.getAllHypervisorClusters().then((result) => {
@@ -247,7 +263,6 @@ export const BackupPolicy = ({ type }) => {
                   component={Select}
                   optionLabel="description"
                   dataKey="name"
-                  required
                   label="Auto-assign Mode *"
                   change={({ value }) => {
                     setModel({
