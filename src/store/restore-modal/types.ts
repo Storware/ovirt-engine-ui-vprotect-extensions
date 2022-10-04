@@ -67,6 +67,6 @@ export type BackupModalAction =
   | SetHypervisorStoragesAction
   | SetFilteredHypervisorStoragesAction
   | SetHypervisorClustersAction
-  | SetFlavors
   | ResetTask
+  | SetFlavors
   | SetRestoreClusterId;

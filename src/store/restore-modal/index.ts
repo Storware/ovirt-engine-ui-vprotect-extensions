@@ -11,7 +11,7 @@ import {
   SET_TASK,
 } from './types';
 import { RestoreAndImportTask } from '../../model/tasks/restore-and-import-task';
-import { RESET_TASK } from '../mount-backup-modal/types';
+import {RESET_TASK} from '../mount-backup-modal/types';
 
 export type RestoreModalStore = {
   readonly task: any;
