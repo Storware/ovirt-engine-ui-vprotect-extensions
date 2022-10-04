@@ -8,6 +8,7 @@ import {
   SET_TASK,
 } from './types';
 import { RestoreAndImportTask } from '../../model/tasks/restore-and-import-task';
+import {RESET_TASK} from '../mount-backup-modal/types';
 
 export type RestoreModalStore = {
   readonly task: any;
@@ -65,5 +66,10 @@ export default (state = initial, action: BackupModalAction) => {
       hypervisorClusters: action.payload,
     };
   }
+
+  if (action.type === RESET_TASK) {
+    return initial;
+  }
+
   return state;
 };
