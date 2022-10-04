@@ -31,11 +31,13 @@ import { resetTaskAction as MountBackupModalResetTaskAction } from 'store/mount-
 import { resetTaskAction as RestoreModalResetTaskAction } from 'store/restore-modal/actions';
 import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
 
+import { selectPagination } from 'store/pagination/selectors';
 const VirtualMachinesList = () => {
   const dispatch = useDispatch();
   const history = createBrowserHistory();
   const [actionsElement, setActionsElement] = useState(null);
   const [globalFilter, setGlobalFilter] = useState('');
+  const tableParams = useSelector(selectPagination);
 
   const rows = useSelector(selectVirtualMachines);
 
@@ -56,13 +58,20 @@ const VirtualMachinesList = () => {
           }
         />
       </div>
-      <Button
-        className="p-button-danger"
-        label="Delete Non-Present"
-        onClick={() => {
-          deleteNonPresent();
-        }}
-      />
+      <div>
+        <Button
+          className="mr-3"
+          onClick={() => dispatch(getVirtualMachinesPage(tableParams))}
+          label="Refresh"
+        />
+        <Button
+          className="p-button-danger"
+          label="Delete Non-Present"
+          onClick={() => {
+            deleteNonPresent();
+          }}
+        />
+      </div>
     </HeaderTable>
   );
 
