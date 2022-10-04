@@ -16,7 +16,7 @@ import Table from 'components/table/primereactTable';
 import { dateTemplate } from 'components/table/templates';
 import { Button } from 'primereact/button';
 import { Redirect, useRouteMatch } from 'react-router-dom';
-import { TableParams } from 'model/pagination/TableParams';
+import { selectPagination } from 'store/pagination/selectors';
 import { WorkflowExecutionStates } from 'model/task-panel.model';
 
 export const MountedBackupsList = () => {
@@ -26,6 +26,7 @@ export const MountedBackupsList = () => {
   const [globalFilter, setGlobalFilter] = useState('');
   const [actionsElement, setActionsElement] = useState(null);
   const [detailsRedirect, setDetailsRedirect] = useState(false);
+  const tableParams = useSelector(selectPagination);
   const match = useRouteMatch();
 
   const actions = [
@@ -60,6 +61,12 @@ export const MountedBackupsList = () => {
           placeholder="Global Search"
         />
       </div>
+
+      <Button
+        className="mr-3"
+        onClick={() => dispatch(getMountedBackupPage(tableParams))}
+        label="Refresh"
+      />
     </div>
   );
 
