@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getVirtualMachinesPage,
-} from 'store/virtual-machines/actions';
+import { getVirtualMachinesPage } from 'store/virtual-machines/actions';
 import { selectVirtualMachines } from 'store/virtual-machines/selectors';
 import { showModalAction } from 'store/modal/actions';
 import { MountBackupModal } from 'components/modal/MountBackupModal';
@@ -26,7 +24,7 @@ import { Menu } from 'primereact/menu';
 import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 import HeaderTable from '../../../components/table/HeaderTable';
 import { backupsService } from '../../../services/backups-service';
-import { resetTaskAction as MountBackupModalResetTaskAction } from 'store/mount-backup-modal/actions';
+import { resetMountTaskAction as MountBackupModalResetTaskAction } from 'store/mount-backup-modal/actions';
 import { resetTaskAction as RestoreModalResetTaskAction } from 'store/restore-modal/actions';
 import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
 import { selectPagination } from 'store/pagination/selectors';
