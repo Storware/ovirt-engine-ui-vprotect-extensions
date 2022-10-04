@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getVirtualMachines,
   getVirtualMachinesPage,
 } from 'store/virtual-machines/actions';
 import { selectVirtualMachines } from 'store/virtual-machines/selectors';
@@ -28,6 +27,7 @@ import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 import HeaderTable from '../../../components/table/HeaderTable';
 import { backupsService } from '../../../services/backups-service';
 import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
+import { selectPagination } from 'store/pagination/selectors';
 import { selectIsSelectedRulesZero } from 'store/backup-modal/selectors';
 import { resetRestoreTaskAction } from '../../../store/restore-modal/actions';
 import { resetMountTaskAction } from '../../../store/mount-backup-modal/actions';
@@ -37,12 +37,13 @@ const VirtualMachinesList = () => {
   const history = createBrowserHistory();
   const [actionsElement, setActionsElement] = useState(null);
   const [globalFilter, setGlobalFilter] = useState('');
+  const tableParams = useSelector(selectPagination);
 
   const rows = useSelector(selectVirtualMachines);
 
   const deleteNonPresent = async () => {
     await virtualMachinesService.deleteAllNonPresentAndWithoutBackup();
-    dispatch(getVirtualMachines);
+    dispatch(getVirtualMachinesPage(tableParams));
     alertService.info('Absent virtual machines have been deleted');
   };
 
