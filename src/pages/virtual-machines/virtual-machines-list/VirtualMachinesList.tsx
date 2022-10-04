@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getVirtualMachines,
   getVirtualMachinesPage,
 } from 'store/virtual-machines/actions';
 import { selectVirtualMachines } from 'store/virtual-machines/selectors';
@@ -44,7 +43,7 @@ const VirtualMachinesList = () => {
 
   const deleteNonPresent = async () => {
     await virtualMachinesService.deleteAllNonPresentAndWithoutBackup();
-    dispatch(getVirtualMachines);
+    dispatch(getVirtualMachinesPage(tableParams));
     alertService.info('Absent virtual machines have been deleted');
   };
 
