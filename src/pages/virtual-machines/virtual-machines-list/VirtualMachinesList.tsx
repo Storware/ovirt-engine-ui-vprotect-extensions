@@ -30,19 +30,20 @@ import HeaderTable from '../../../components/table/HeaderTable';
 import { backupsService } from '../../../services/backups-service';
 import { resetTaskAction } from 'store/mount-backup-modal/actions';
 import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
-import { TableParams } from 'model/pagination/TableParams';
+import { selectPagination } from 'store/pagination/selectors';
 
 const VirtualMachinesList = () => {
   const dispatch = useDispatch();
   const history = createBrowserHistory();
   const [actionsElement, setActionsElement] = useState(null);
   const [globalFilter, setGlobalFilter] = useState('');
+  const tableParams = useSelector(selectPagination);
 
   const rows = useSelector(selectVirtualMachines);
 
   const deleteNonPresent = async () => {
     await virtualMachinesService.deleteAllNonPresentAndWithoutBackup();
-    dispatch(getVirtualMachines);
+    dispatch(getVirtualMachinesPage(tableParams));
     alertService.info('Absent virtual machines have been deleted');
   };
 
