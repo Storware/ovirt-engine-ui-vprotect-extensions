@@ -43,7 +43,7 @@ const VirtualMachinesList = () => {
 
   const deleteNonPresent = async () => {
     await virtualMachinesService.deleteAllNonPresentAndWithoutBackup();
-    dispatch(getVirtualMachines);
+    dispatch(getVirtualMachinesPage(tableParams));
     alertService.info('Absent virtual machines have been deleted');
   };
 
