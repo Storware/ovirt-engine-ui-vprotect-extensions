@@ -194,6 +194,7 @@ export const WorkflowExecution = () => {
             <span
               className="current-workflow-step column-cut-text"
               style={{
+                minWidth: '75px',
                 maxWidth: '200px',
               }}
               data-pr-tooltip={currentStep}
