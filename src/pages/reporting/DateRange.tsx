@@ -11,7 +11,7 @@ export default () => {
   const dispatch = useDispatch();
   const model = useSelector(selectRange);
   return (
-    <div>
+    <div className={'p-2 flex-grow-1 bd-highlight'}>
       <Formik
         enableReinitialize
         initialValues={model}
