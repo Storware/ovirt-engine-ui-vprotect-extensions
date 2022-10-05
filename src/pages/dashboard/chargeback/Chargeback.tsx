@@ -24,7 +24,7 @@ export default () => {
   return (
     <Card className="w-100 h-100 mt-3">
       <div className={'card-pf-heading'}>
-        <h5 className={'font-weight-light'}>Last 24h backup size</h5>
+        <h5 className={'font-weight-light'}>Current Backup Size</h5>
       </div>
       <hr />
       <ChargebackChart chartData={chartData} />
