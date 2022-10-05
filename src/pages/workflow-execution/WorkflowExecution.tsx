@@ -155,18 +155,24 @@ export const WorkflowExecution = () => {
       }
       header={Header(refresh, setFilter)}
     >
-      <Column expander style={{ maxWidth: '75px' }} />
+      <Column expander style={{ maxWidth: '4%' }} />
       <Column
         sortable
         field="state.name"
         header="State"
-        style={{ width: '100px', textAlign: 'center' }}
+        style={{ width: '10%', textAlign: 'center' }}
         className="text-capitalize"
         body={({ state: { description } }) => description.toLowerCase()}
       />
-      <Column field="definitionName" header="Type" sortable />
+      <Column
+        field="definitionName"
+        header="Type"
+        sortable
+        style={{ maxWidth: '10%' }}
+      />
 
       <Column
+        style={{ maxWidth: '8%' }}
         field="averageProgress"
         header="Progress"
         body={({ averageProgress }) => (
@@ -181,13 +187,13 @@ export const WorkflowExecution = () => {
         sortable
         field="currentStep"
         header="Step"
+        style={{ width: '15%' }}
         body={({ currentStep }) => (
           <>
             <Tooltip target=".current-workflow-step" />
             <span
               className="current-workflow-step column-cut-text"
               style={{
-                minWidth: '75px',
                 maxWidth: '200px',
               }}
               data-pr-tooltip={currentStep}
@@ -199,6 +205,7 @@ export const WorkflowExecution = () => {
       />
       <Column
         sortable
+        style={{ width: '15%' }}
         field="protectedEntity.name"
         header="Instance"
         body={({ protectedEntity }) => (
@@ -216,6 +223,7 @@ export const WorkflowExecution = () => {
       />
       <Column
         field="backupDestination.name"
+        style={{ width: '10%' }}
         header="Backup destination"
         body={({ backupDestinations }) => (
           <>
@@ -237,15 +245,16 @@ export const WorkflowExecution = () => {
         field="originEntity"
         header="Origin"
         body={originTemplate}
-        style={{ maxWidth: '100px' }}
+        style={{ maxWidth: '5%' }}
       />
       <Column
         field="priority"
         sortable
         header="Priority"
-        style={{ maxWidth: '75px' }}
+        style={{ maxWidth: '5%' }}
       />
       <Column
+        style={{ maxWidth: '10%' }}
         body={(we) =>
           durationTimes && durationTimes.length > 0
             ? durationTimes.find((item) => item.guid === we.guid)?.duration
@@ -256,7 +265,7 @@ export const WorkflowExecution = () => {
       <Column
         field="action"
         header="Action"
-        style={{ maxWidth: '125px' }}
+        style={{ maxWidth: '8%' }}
         body={({ guid }) => (
           <Button
             label="Remove"
