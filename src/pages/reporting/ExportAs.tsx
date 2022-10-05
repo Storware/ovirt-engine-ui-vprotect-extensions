@@ -58,12 +58,14 @@ export const ExportAs = () => {
   };
 
   return (
-    <Dropdown
-      value={selectedExportType}
-      options={exportTypes}
-      optionLabel="description"
-      onChange={onExportTypeChange}
-      placeholder="Export"
-    />
+    <div className={'p-2 bd-highlight'}>
+      <Dropdown
+        value={selectedExportType}
+        options={exportTypes}
+        optionLabel="description"
+        onChange={onExportTypeChange}
+        placeholder="Export"
+      />
+    </div>
   );
 };
