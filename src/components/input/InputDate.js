@@ -14,7 +14,7 @@ export class InputDate extends React.Component {
 
   static getDerivedStateFromProps(props) {
     return {
-      value: (props.value && new Date(props.value - offset)) || new Date(),
+      value: (props.value && new Date(props.value)) || new Date(),
     };
   }
 
@@ -25,7 +25,7 @@ export class InputDate extends React.Component {
         hourFormat="24"
         value={this.state.value}
         onChange={(e) => {
-          this.props.onChange(e.value.getTime() + offset);
+          this.props.onChange(e.value.getTime());
         }}
       />
     );
