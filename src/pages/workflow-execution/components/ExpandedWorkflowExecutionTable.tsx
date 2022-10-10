@@ -38,21 +38,18 @@ export const ExpandedWorkflowExecutionTable = (value) => (
       />
       <Column field="node.name" header="Node" style={{ maxWidth: '13.5%' }} />
       <Column
-        header="Duration"
-        body={(task) => calculateDuration(task)}
-        style={{ maxWidth: '13.5%' }}
-      />
-      <Column
         field="windowStart"
         header="Window start"
-        style={{ maxWidth: '13.5%' }}
+        style={{ minWidth: '19%' }}
         body={({ windowStart }) => getDateLabel(windowStart)}
       />
       <Column
         field="windowEnd"
         header="Window end"
+        style={{ minWidth: '19%' }}
         body={({ windowEnd }) => getDateLabel(windowEnd)}
       />
+      <Column header="Duration" body={(task) => calculateDuration(task)} />
     </DataTable>
   </div>
 );
