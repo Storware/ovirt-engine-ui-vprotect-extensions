@@ -16,7 +16,7 @@ export const ExpandedWorkflowExecutionTable = (value) => (
       <Column
         field="state.description"
         header="State"
-        style={{ maxWidth: '13.5%' }}
+        style={{ maxWidth: '13%' }}
       />
 
       <Column
@@ -40,7 +40,7 @@ export const ExpandedWorkflowExecutionTable = (value) => (
       <Column
         field="windowStart"
         header="Window start"
-        style={{ minWidth: '19%' }}
+        style={{ minWidth: '20%' }}
         body={({ windowStart }) => getDateLabel(windowStart)}
       />
       <Column
