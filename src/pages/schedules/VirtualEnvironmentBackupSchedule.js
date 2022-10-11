@@ -52,15 +52,12 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
     });
   }
 
-  save = async () => {
-    if (this.state.model.guid) {
-      await schedulesService.updateSchedule(
-        this.state.model.guid,
-        this.state.model,
-      );
+  save = async (model) => {
+    if (model.guid) {
+      await schedulesService.updateSchedule(model.guid, model);
       alertService.info('Schedule updated');
     } else {
-      await schedulesService.createSchedule(this.state.model);
+      await schedulesService.createSchedule(model);
       alertService.info('Schedule created');
     }
     history.back();
