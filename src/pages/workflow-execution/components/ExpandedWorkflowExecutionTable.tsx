@@ -11,23 +11,23 @@ export const ExpandedWorkflowExecutionTable = (value) => (
       value={value}
       scrollable
       scrollHeight="300px"
-      style={{ width: '93.5%' }}
+      style={{ width: '89.5%' }}
     >
       <Column
         field="state.description"
         header="State"
-        style={{ maxWidth: '13.5%' }}
+        style={{ minWidth: '13.5%' }}
       />
 
       <Column
         field="type.description"
         header="Type"
-        style={{ maxWidth: '11%' }}
+        style={{ maxWidth: '11.5%' }}
       />
       <Column
         field="progress"
         header="Progress"
-        style={{ maxWidth: '8.5%' }}
+        style={{ maxWidth: '9%' }}
         body={({ progress }) => (
           <ProgressBar
             className="progress-bar-element"
@@ -36,23 +36,20 @@ export const ExpandedWorkflowExecutionTable = (value) => (
           />
         )}
       />
-      <Column field="node.name" header="Node" style={{ maxWidth: '13.5%' }} />
-      <Column
-        header="Duration"
-        body={(task) => calculateDuration(task)}
-        style={{ maxWidth: '13.5%' }}
-      />
+      <Column field="node.name" header="Node" style={{ minWidth: '13%' }} />
       <Column
         field="windowStart"
         header="Window start"
-        style={{ maxWidth: '13.5%' }}
+        style={{ minWidth: '20.5%' }}
         body={({ windowStart }) => getDateLabel(windowStart)}
       />
       <Column
         field="windowEnd"
         header="Window end"
+        style={{ minWidth: '21%' }}
         body={({ windowEnd }) => getDateLabel(windowEnd)}
       />
+      <Column header="Duration" body={(task) => calculateDuration(task)} />
     </DataTable>
   </div>
 );

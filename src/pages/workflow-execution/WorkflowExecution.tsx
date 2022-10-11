@@ -155,7 +155,7 @@ export const WorkflowExecution = () => {
       }
       header={Header(refresh, setFilter)}
     >
-      <Column expander style={{ maxWidth: '4%' }} />
+      <Column expander style={{ maxWidth: '6%' }} />
       <Column
         sortable
         field="state.name"
@@ -266,7 +266,7 @@ export const WorkflowExecution = () => {
       <Column
         field="action"
         header="Action"
-        style={{ maxWidth: '8%' }}
+        style={{ maxWidth: '6%' }}
         body={({ guid }) => (
           <Button
             label="Remove"
