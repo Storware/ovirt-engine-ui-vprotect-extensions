@@ -19,7 +19,6 @@ import Time from 'components/input/reactive/Time';
 import Days from 'components/input/reactive/Days';
 import SchedulePolicies from 'components/input/reactive/SchedulePolicies';
 import InputListBox from 'components/input/reactive/InputListBox';
-import { save } from 'store/schedule/actions';
 import Select from 'components/input/Select';
 
 const history = createBrowserHistory();
@@ -120,7 +119,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
           enableReinitialize
           initialValues={this.state.model}
           onSubmit={async (values) => {
-            await save(values);
+            await this.save(values);
             history.back();
           }}
         >
