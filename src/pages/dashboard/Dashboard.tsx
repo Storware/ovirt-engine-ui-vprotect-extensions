@@ -11,7 +11,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { Button } from 'primereact/button';
 import { TIMEZONES } from 'model/time/timezones';
-import { user } from '../../utils/user';
 import { version } from '../../../package.json';
 import { DashboardProtectionInfoModel } from 'model/dashboard/dashboard-protection-info.model';
 import { DashboardBackupStatsModel } from 'model/dashboard/dashboard-backup-stats.model';
@@ -19,10 +18,13 @@ import { BackupDestinationStatsComponent } from 'pages/dashboard/backup-destinat
 import { StagingSpace } from 'pages/dashboard/staging-space/StagingSpace';
 import { ChartSection } from 'pages/dashboard/ChartSection/ChartSection';
 import { protectionBackgroundColors } from './ChartSection/branding-config';
+import getCookie from 'utils/getCookie';
 
-const fullTimeZoneName =
-  user &&
-  TIMEZONES.find((el) => el.utc.some((utc) => user.uiTimeZone === utc)).text;
+const cookieTimezone = getCookie('django_timezone');
+
+const fullTimeZoneName = TIMEZONES.find(({ utc }) =>
+  utc.some((utc_) => [cookieTimezone, 'UTC'].includes(utc_)),
+).text;
 
 export const Dashboard = () => {
   const [protection, setProtection] = useState<DashboardProtectionInfoModel>();
