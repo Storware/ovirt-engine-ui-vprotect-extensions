@@ -42,17 +42,11 @@ class SchedulesService {
   }
 
   createSchedule(schedule) {
-    return vprotectApiService.post(
-      '/schedules',
-      getElementWithProjectUuidInName(schedule),
-    );
+    return vprotectApiService.post('/schedules', schedule);
   }
 
   updateSchedule(id, schedule) {
-    return vprotectApiService.put(
-      '/schedules/' + id,
-      getElementWithProjectUuidInName(schedule),
-    );
+    return vprotectApiService.put('/schedules/' + id, schedule);
   }
 
   async getProtectedEntitySchedules(id) {

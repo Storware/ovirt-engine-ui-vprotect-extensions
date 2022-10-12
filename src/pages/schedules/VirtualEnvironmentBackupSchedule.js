@@ -19,7 +19,6 @@ import Time from 'components/input/reactive/Time';
 import Days from 'components/input/reactive/Days';
 import SchedulePolicies from 'components/input/reactive/SchedulePolicies';
 import InputListBox from 'components/input/reactive/InputListBox';
-import { save } from 'store/schedule/actions';
 import Select from 'components/input/Select';
 
 const history = createBrowserHistory();
@@ -53,15 +52,12 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
     });
   }
 
-  save = async () => {
-    if (this.state.model.guid) {
-      await schedulesService.updateSchedule(
-        this.state.model.guid,
-        this.state.model,
-      );
+  save = async (model) => {
+    if (model.guid) {
+      await schedulesService.updateSchedule(model.guid, model);
       alertService.info('Schedule updated');
     } else {
-      await schedulesService.createSchedule(this.state.model);
+      await schedulesService.createSchedule(model);
       alertService.info('Schedule created');
     }
     history.back();
@@ -120,7 +116,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
           enableReinitialize
           initialValues={this.state.model}
           onSubmit={async (values) => {
-            await save(values);
+            await this.save(values);
             history.back();
           }}
         >
