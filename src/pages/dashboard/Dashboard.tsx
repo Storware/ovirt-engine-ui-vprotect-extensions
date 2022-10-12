@@ -22,9 +22,9 @@ import getCookie from 'utils/getCookie';
 
 const cookieTimezone = getCookie('django_timezone');
 
-const fullTimeZoneName = cookieTimezone
-  ? TIMEZONES.find((el) => el.utc.some((utc) => cookieTimezone === utc)).text
-  : TIMEZONES.find((el) => el.utc.some((utc) => 'UTC' === utc)).text;
+const fullTimeZoneName = TIMEZONES.find(({ utc }) =>
+  utc.some((utc_) => [cookieTimezone, 'UTC'].includes(utc_)),
+).text;
 
 export const Dashboard = () => {
   const [protection, setProtection] = useState<DashboardProtectionInfoModel>();
