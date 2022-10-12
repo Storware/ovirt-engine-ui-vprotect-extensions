@@ -11,7 +11,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { Button } from 'primereact/button';
 import { TIMEZONES } from 'model/time/timezones';
-import { user } from '../../utils/user';
 import { version } from '../../../package.json';
 import { DashboardProtectionInfoModel } from 'model/dashboard/dashboard-protection-info.model';
 import { DashboardBackupStatsModel } from 'model/dashboard/dashboard-backup-stats.model';
@@ -19,10 +18,13 @@ import { BackupDestinationStatsComponent } from 'pages/dashboard/backup-destinat
 import { StagingSpace } from 'pages/dashboard/staging-space/StagingSpace';
 import { ChartSection } from 'pages/dashboard/ChartSection/ChartSection';
 import { protectionBackgroundColors } from './ChartSection/branding-config';
+import getCookie from 'utils/getCookie';
 
-const fullTimeZoneName =
-  user &&
-  TIMEZONES.find((el) => el.utc.some((utc) => user.uiTimeZone === utc)).text;
+const cookieTimezone = getCookie('django_timezone');
+
+const fullTimeZoneName = cookieTimezone
+  ? TIMEZONES.find((el) => el.utc.some((utc) => cookieTimezone === utc)).text
+  : TIMEZONES.find((el) => el.utc.some((utc) => 'UTC' === utc)).text;
 
 export const Dashboard = () => {
   const [protection, setProtection] = useState<DashboardProtectionInfoModel>();
@@ -138,43 +140,43 @@ export const Dashboard = () => {
         />
       </div>
 
-        {isNotOpenstackBuild && (
-          <div className="d-flex align-items-stretch">
-            <Card className="w-100 mr-3 mt-3">
-              <div>
-                <div className={'card-pf-heading'}>
-                  <h5 className={'font-weight-light'}>Staging Space</h5>
-                </div>
-                <hr />
-                <div>
-                  <StagingSpace stagingSpace={stagingSpace} />
-                </div>
+      {isNotOpenstackBuild && (
+        <div className="d-flex align-items-stretch">
+          <Card className="w-100 mr-3 mt-3">
+            <div>
+              <div className={'card-pf-heading'}>
+                <h5 className={'font-weight-light'}>Staging Space</h5>
               </div>
-            </Card>
-            <Card className="w-100 mt-3">
+              <hr />
               <div>
-                <div className={'card-pf-heading'}>
-                  <h5 className={'font-weight-light'}>Backup Destinations</h5>
-                </div>
-                <hr />
-                <div>
-                  <BackupDestinationStatsComponent
-                    backupDestinationStats={backupDestinationStats}
-                  />
-                </div>
+                <StagingSpace stagingSpace={stagingSpace} />
               </div>
-            </Card>
-          </div>
-        )}
-
-        <div className="d-flex w-100">
-          <div className="w-50 ml-2 flex-grow-1">
-            <Chargeback />
-          </div>
-          <div className="w-50 ml-2 flex-grow-1">
-            <ActivityChart />
-          </div>
+            </div>
+          </Card>
+          <Card className="w-100 mt-3">
+            <div>
+              <div className={'card-pf-heading'}>
+                <h5 className={'font-weight-light'}>Backup Destinations</h5>
+              </div>
+              <hr />
+              <div>
+                <BackupDestinationStatsComponent
+                  backupDestinationStats={backupDestinationStats}
+                />
+              </div>
+            </div>
+          </Card>
         </div>
+      )}
+
+      <div className="d-flex w-100">
+        <div className="w-50 ml-2 flex-grow-1">
+          <Chargeback />
+        </div>
+        <div className="w-50 ml-2 flex-grow-1">
+          <ActivityChart />
+        </div>
+      </div>
     </>
   );
 };
