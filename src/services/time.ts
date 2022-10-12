@@ -1,7 +1,7 @@
 import * as moment from 'moment-timezone';
 import { daysOfWeek } from '../model/Occurrences';
-import { user } from '../utils/user';
 import { MILLISECONDS_IN_MINUTE } from '../utils/milisecondsTimespan';
+import getCookie from 'utils/getCookie';
 
 export const timeFormat = {
   12: 'LT',
@@ -12,7 +12,9 @@ const timeFormatWithSeconds = {
   24: `${timeFormat[24]}:ss`,
 };
 
-export const timezone = user && user.uiTimeZone;
+const cookieTimezone = getCookie('django_timezone');
+
+export const timezone = cookieTimezone ? cookieTimezone : 'UTC';
 
 export const offset =
   timezone && moment.tz(timezone).utcOffset() * MILLISECONDS_IN_MINUTE * -1;
