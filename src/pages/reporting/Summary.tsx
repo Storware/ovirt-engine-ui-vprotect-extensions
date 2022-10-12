@@ -44,7 +44,7 @@ export default () => {
         </div>
         <div className="col">
           {['backups', 'restores'].map((type) => (
-            <table className="mb-4" key={type}>
+            <table className="mb-4 reporting-summary-table-body" key={type}>
               <tbody>
                 {Object.keys(labels['backups']).map((property) => (
                   <tr key={property}>
