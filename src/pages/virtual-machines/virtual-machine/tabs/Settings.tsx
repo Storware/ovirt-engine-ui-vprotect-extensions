@@ -23,7 +23,7 @@ import {
 } from 'pages/virtual-machines/virtual-machine/components/settings';
 
 const isBaseImageConfigAvailable = (model) =>
-    model.hvmType != null && model.hvmType.name === 'AWS';
+  model.hvmType != null && model.hvmType.name === 'AWS';
 
 const inheritableBooleanValues = [
   { name: 'TRUE', description: 'True' },
@@ -169,6 +169,7 @@ export default () => {
             <div className={'mt-2'}>
               <h6>Export/Import mode</h6>
               <Dropdown
+                disabled
                 value={model.vmExportImportMode}
                 optionLabel="description"
                 dataKey="description"
@@ -221,8 +222,7 @@ export default () => {
             second: e.index,
           })
         }
-      >
-      </Accordion>
+      ></Accordion>
     </div>
   );
 };
