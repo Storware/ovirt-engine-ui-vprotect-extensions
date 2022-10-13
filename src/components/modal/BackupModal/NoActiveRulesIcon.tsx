@@ -1,15 +1,17 @@
 import React from 'react';
 import { Button } from 'primereact/button';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectModal } from '../../../store/modal/selectors';
-import { saveModalAction } from '../../../store/modal/actions';
+import { selectModal } from 'store/modal/selectors';
+import { saveModalAction } from 'store/modal/actions';
 import { Tooltip } from 'primereact/tooltip';
+import { setIsSelectedRulesZero } from 'store/backup-modal/actions';
 
 export const NoActiveRulesIcon = ({ entities }) => {
   const dispatch = useDispatch();
   const modal = useSelector(selectModal);
   const { component: Component, buttonLabel } = modal;
-  const isRuleWarning = entities.every(({ policy }) => policy);
+  const { payload } = useSelector(setIsSelectedRulesZero);
+  const isRuleWarning = payload.backupModal.isSelectedRulesZero;
 
   return isRuleWarning ? (
     <>
