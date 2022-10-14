@@ -14,7 +14,9 @@ const timeFormatWithSeconds = {
 
 const cookieTimezone = getCookie('django_timezone');
 
-export const timezone = cookieTimezone ? cookieTimezone : 'UTC';
+export const timezone = cookieTimezone
+  ? cookieTimezone.replace(/['"]+/g, '')
+  : 'UTC';
 
 export const offset =
   timezone && moment.tz(timezone).utcOffset() * MILLISECONDS_IN_MINUTE * -1;
