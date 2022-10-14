@@ -20,7 +20,7 @@ import { ChartSection } from 'pages/dashboard/ChartSection/ChartSection';
 import { protectionBackgroundColors } from './ChartSection/branding-config';
 import getCookie from 'utils/getCookie';
 
-const cookieTimezone = getCookie('django_timezone');
+const cookieTimezone = getCookie('django_timezone').replace(/['"]+/g, '');
 
 const fullTimeZoneName = TIMEZONES.find(({ utc }) =>
   utc.some((utc_) => [cookieTimezone, 'UTC'].includes(utc_)),

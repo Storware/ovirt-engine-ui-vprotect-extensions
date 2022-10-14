@@ -12,7 +12,7 @@ const timeFormatWithSeconds = {
   24: `${timeFormat[24]}:ss`,
 };
 
-const cookieTimezone = getCookie('django_timezone');
+const cookieTimezone = getCookie('django_timezone').replace(/['"]+/g, '');
 
 export const timezone = cookieTimezone ? cookieTimezone : 'UTC';
 
