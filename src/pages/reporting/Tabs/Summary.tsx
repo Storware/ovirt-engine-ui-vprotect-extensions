@@ -48,7 +48,7 @@ export default () => {
               <tbody>
                 {Object.keys(labels['backups']).map((property) => (
                   <tr key={property}>
-                    <td className="text-left py-4 pr-4">
+                    <td className="text-left py-4 pr-4 summary-title-column">
                       {labels[type][property]}
                     </td>
                     <td className="text-left py-4 pl-4">
