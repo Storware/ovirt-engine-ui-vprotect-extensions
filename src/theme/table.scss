@@ -35,7 +35,7 @@ table .p-muted {
   }
 }
 
-%text-ellipsis{
+%text-ellipsis {
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -46,17 +46,25 @@ table .p-muted {
   -webkit-line-clamp: 2;
   @extend %text-ellipsis
 }
+
 .reporting-summary-table-body {
   width: 75%;
+
   tr {
     border-top: 1px solid #0002;
   }
+
   td {
     padding: .8rem 1rem !important;
     font-size: 1rem;
   }
-  &+& {
+
+  & + & {
     margin-top: 140px;
+  }
+
+  .summary-title-column {
+    width: 350px;
   }
 }
 
