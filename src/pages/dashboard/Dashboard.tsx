@@ -10,7 +10,7 @@ import { Card } from 'primereact/card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { Button } from 'primereact/button';
-import { TIMEZONES } from 'model/time/timezones';
+import { TIMEZONE_UTC, TIMEZONES } from 'model/time/timezones';
 import { version } from '../../../package.json';
 import { DashboardProtectionInfoModel } from 'model/dashboard/dashboard-protection-info.model';
 import { DashboardBackupStatsModel } from 'model/dashboard/dashboard-backup-stats.model';
@@ -22,9 +22,10 @@ import getCookie from 'utils/getCookie';
 
 const cookieTimezone = getCookie('django_timezone');
 
-const fullTimeZoneName = TIMEZONES.find(({ utc }) =>
-  utc.some((utc_) => [cookieTimezone, 'UTC'].includes(utc_)),
-).text;
+const fullTimeZoneName =
+  TIMEZONES.find(({ utc }) =>
+    utc.some((utc_) => cookieTimezone?.replace(/['"]+/g, '') === utc_),
+  )?.text || TIMEZONE_UTC.text;
 
 export const Dashboard = () => {
   const [protection, setProtection] = useState<DashboardProtectionInfoModel>();
