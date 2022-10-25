@@ -19,6 +19,8 @@ import { StagingSpace } from 'pages/dashboard/staging-space/StagingSpace';
 import { ChartSection } from 'pages/dashboard/ChartSection/ChartSection';
 import { protectionBackgroundColors } from './ChartSection/branding-config';
 import getCookie from 'utils/getCookie';
+import getPluginApi from 'integrations/plugin-api';
+import { getCsrfTokenHeader } from '../../utils/getCsrfTokenHeader';
 
 const cookieTimezone = getCookie('django_timezone');
 
@@ -61,8 +63,26 @@ export const Dashboard = () => {
       });
   };
 
+  const fakeFetch = async () => {
+    const config = await getPluginApi.configObject();
+    const vprotectURL = config.vProtectURL;
+
+    fetch(vprotectURL + '_test', {
+      method: 'GET',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getCsrfTokenHeader,
+      },
+    }).then(async (response) => {
+      console.log(response);
+    });
+  };
+
   return (
     <>
+      <button onClick={() => fakeFetch()}>AAAAAAAAAAAAAAAAAAAAAAA</button>
       <Toolbar>
         <div className={'d-flex flex-row justify-content-between'}>
           <div>Timezone: {fullTimeZoneName}</div>
