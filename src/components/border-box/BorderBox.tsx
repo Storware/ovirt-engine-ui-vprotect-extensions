@@ -8,7 +8,7 @@ export const BorderBox = ({
   children?: React.ReactNode;
 }) => (
   <div className={'border-box'}>
-    <h4>{heading}</h4>
+    <div className={'progress-bar-title-h4'}>{heading}</div>
     {children}
   </div>
 );
