@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Chips } from 'primereact/chips';
 
 const InputChips = ({ field, form: { setFieldValue }, ...props }) => {
@@ -12,6 +12,10 @@ const InputChips = ({ field, form: { setFieldValue }, ...props }) => {
       props.onChange({ value: val });
     }
   };
+
+  useEffect(() => {
+    setValue(field.value);
+  }, [field.value]);
 
   return (
     <div className="pt-3">
