@@ -31,6 +31,7 @@ import { Chips } from 'primereact/chips';
 import { getBackupLocations } from 'store/restore-modal/actions';
 import { selectBackupLocations } from 'store/restore-modal/selectors';
 import { nodesService } from '../../services/nodes-service';
+import { getUnmountPeriodForMountedBackups } from 'utils/user';
 
 const manuallyMountParameterLabel = (el) => (
   <span>
@@ -178,7 +179,7 @@ export const MountBackupModal = ({ virtualEnvironment, backups }) => {
 
         <Text
           // same default value as in the RestoreAndMountTask
-          inputValue={24}
+          inputValue={getUnmountPeriodForMountedBackups()}
           type="number"
           label="Time to auto-umount [h]"
           change={({ value }) =>
