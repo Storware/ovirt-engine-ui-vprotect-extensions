@@ -18,8 +18,9 @@ export const getMailingTablePage =
   };
 
 export const removeMailingList =
-  (guid: string) => async (dispatch: Dispatch) => {
+  (guid: string, params: Partial<TableParams>) =>
+  async (dispatch: Dispatch) => {
     await mailingService.deleteMailingList(guid);
-    const mailingList = await mailingService.getMailingLists();
+    const mailingList = await mailingService.getMailingListPage(params);
     await dispatch(setMailing(mailingList));
   };
