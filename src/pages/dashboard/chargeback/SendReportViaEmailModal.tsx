@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSaved } from 'store/modal/selectors';
 import globalSettingsService from 'services/global-settings-service';
@@ -13,15 +13,10 @@ import { mapPropertiesObjectListToStringOfGuids } from '../../reporting/componen
 let submitFormikForm;
 
 export const SendReportViaEmailModal = () => {
-  const [model, setModel] = useState(new StringDTO());
+  const [model] = useState(new StringDTO());
   const range = useSelector(selectRange);
   const exportRequest = useSelector(selectExportRequest);
   const dispatch = useDispatch();
-
-  const getEmails = async () => {
-    const globalSettings = await globalSettingsService.getGlobalSettings();
-    setModel({ value: globalSettings.emailAddress });
-  };
 
   const sendEmail = async (email: StringDTO) => {
     dispatch(hideModalAction());
@@ -41,10 +36,6 @@ export const SendReportViaEmailModal = () => {
       );
     }
   };
-
-  useEffect(() => {
-    getEmails();
-  }, []);
 
   if (useSelector(selectSaved)) {
     submitFormikForm();
