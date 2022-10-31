@@ -3,26 +3,24 @@ import { ListBox } from 'primereact/listbox';
 
 const listBoxElement = (option, { optionLabel, underlinetext }) => (
   <div>
-    <p style={{ marginBottom: '0 !important' }}>{option[optionLabel]}</p>
+    <div> {option[optionLabel]} </div>
     {underlinetext && (
-      <p style={{ color: 'grey', marginBottom: '0 !important' }}>
+      <div style={{ color: 'grey', fontSize: '0.8rem' }}>
         {option[underlinetext]}
-      </p>
+      </div>
     )}
   </div>
 );
 
-const InputListBox = ({ field, ...props }) => {
-  return (
-    <div className="pt-3">
-      {!!props.label && <label>{props.label}</label>}
-      <ListBox
-        {...field}
-        {...props}
-        itemTemplate={(e) => listBoxElement(e, props as any)}
-      />
-    </div>
-  );
-};
+const InputListBox = ({ field, ...props }) => (
+  <div className="pt-3">
+    {!!props.label && <label>{props.label}</label>}
+    <ListBox
+      {...field}
+      {...props}
+      itemTemplate={(e) => listBoxElement(e, props as any)}
+    />
+  </div>
+);
 
 export default InputListBox;
