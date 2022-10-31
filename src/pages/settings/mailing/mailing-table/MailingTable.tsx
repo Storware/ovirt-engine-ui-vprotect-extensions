@@ -17,8 +17,13 @@ import { TableParams } from 'model/pagination/TableParams';
 const MailingTable = () => {
   const dispatch = useDispatch();
   const [globalFilter, setGlobalFilter] = useState('');
+  const [tableParams, setTableParams] = useState(new TableParams());
   const history = createBrowserHistory();
   const rows = useSelector(selectMailingTable);
+
+  useEffect(() => {
+    dispatch(getMailingTablePage(tableParams));
+  }, [tableParams]);
 
   const header = () => (
     <div>
@@ -47,9 +52,7 @@ const MailingTable = () => {
         value={rows}
         header={header()}
         globalFilter={globalFilter}
-        apiPagination={(e) => {
-          dispatch(getMailingTablePage(e));
-        }}
+        apiPagination={(e) => setTableParams(e)}
       >
         <Column
           field="name"
@@ -64,7 +67,7 @@ const MailingTable = () => {
             <Button
               label="Remove"
               onClick={() => {
-                dispatch(removeMailingList(rowData.guid));
+                dispatch(removeMailingList(rowData.guid, tableParams));
               }}
             />
           )}
