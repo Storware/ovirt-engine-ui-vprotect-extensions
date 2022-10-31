@@ -155,7 +155,7 @@ export const WorkflowExecution = () => {
       }
       header={Header(refresh, setFilter)}
     >
-      <Column expander style={{ maxWidth: '6%' }} />
+      <Column expander style={{ maxWidth: '5%' }} />
       <Column
         sortable
         field="state.name"
@@ -168,7 +168,7 @@ export const WorkflowExecution = () => {
         field="definitionName"
         header="Type"
         sortable
-        style={{ maxWidth: '10%' }}
+        style={{ maxWidth: '8%' }}
       />
 
       <Column
@@ -187,16 +187,12 @@ export const WorkflowExecution = () => {
         sortable
         field="currentStep"
         header="Step"
-        style={{ width: '15%' }}
+        style={{ width: '13%', maxWidth: '13%' }}
         body={({ currentStep }) => (
           <>
             <Tooltip target=".current-workflow-step" />
             <span
               className="current-workflow-step column-cut-text"
-              style={{
-                minWidth: '75px',
-                maxWidth: '200px',
-              }}
               data-pr-tooltip={currentStep}
             >
               {currentStep}
@@ -214,7 +210,6 @@ export const WorkflowExecution = () => {
             <Tooltip target=".current-workflow-instance" />
             <span
               className="current-workflow-instance column-cut-text"
-              style={{ width: '200px' }}
               data-pr-tooltip={protectedEntity?.name}
             >
               {protectedEntity?.name}
@@ -231,7 +226,6 @@ export const WorkflowExecution = () => {
             <Tooltip target=".current-workflow-backup-destination" />
             <span
               className="current-workflow-backup-destination column-cut-text"
-              style={{ width: '150px' }}
               data-pr-tooltip={
                 backupDestinations && backupDestinationsBody(backupDestinations)
               }
@@ -255,7 +249,7 @@ export const WorkflowExecution = () => {
         style={{ maxWidth: '5%' }}
       />
       <Column
-        style={{ maxWidth: '10%' }}
+        style={{ maxWidth: '7%' }}
         body={(we) =>
           durationTimes && durationTimes.length > 0
             ? durationTimes.find((item) => item.guid === we.guid)?.duration
@@ -266,7 +260,8 @@ export const WorkflowExecution = () => {
       <Column
         field="action"
         header="Action"
-        style={{ maxWidth: '6%' }}
+        style={{ maxWidth: '7%' }}
+        className="d-flex justify-content-center"
         body={({ guid }) => (
           <Button
             label="Remove"
