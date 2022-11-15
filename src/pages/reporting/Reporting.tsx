@@ -34,7 +34,7 @@ export default () => {
   const match = useRouteMatch();
   const location = useLocation();
 
-  const [isDateFilter, setIsDateFilter] = useState(true);
+  const [isDateFilter, setIsDateFilter] = useState(false);
 
   const isBackupSizePage = location.pathname.includes('backup-size');
   return (
