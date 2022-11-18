@@ -3,8 +3,8 @@ import { ToggleButton } from 'primereact/togglebutton';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import { Chips } from 'primereact/chips';
-import { preAndPostSnapStdErrorHandlingOptions } from '../../../../../services/virtual-machines-service';
-import { commandTypes } from '../../../../../model/command/command-type';
+import { preAndPostSnapStdErrorHandlingOptions } from 'services/virtual-machines-service';
+import { commandTypes } from 'model/command/command-type';
 
 export const PostSnapCommandExecution = ({ model, setModel }) => (
   <>
@@ -17,6 +17,7 @@ export const PostSnapCommandExecution = ({ model, setModel }) => (
             ...model,
             postSnapCmdExecEnabled: value,
             postSnapCmdArgs: [],
+            postCommand: [],
           });
         }}
       />
