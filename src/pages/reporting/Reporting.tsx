@@ -51,7 +51,7 @@ export default () => {
               <ToggleButton
                 checked={isDateFilter}
                 onLabel="Hide date filter"
-                offLabel="Show hide filter"
+                offLabel="Show date filter"
                 onChange={(e) => setIsDateFilter(!isDateFilter)}
               />
             </div>
