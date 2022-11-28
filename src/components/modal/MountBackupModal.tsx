@@ -70,19 +70,12 @@ export const MountBackupModal = ({ virtualEnvironment, backups }) => {
 
   useEffect(() => {
     dispatch(getBackupLocations(virtualEnvironment));
-    getNodes().then();
     dispatch(setMountedBackup(virtualEnvironment.guid, backups));
   }, [virtualEnvironment]);
-
-  const getNodes = async () => {
-    const _nodes = await nodesService.getAllNodes();
-    await dispatch(setNodesAction(_nodes));
-  };
 
   const [
     mountableBackups,
     backupsLocations,
-    nodes,
     task,
     manualMountFileSystems,
     backupFiles,
@@ -90,7 +83,6 @@ export const MountBackupModal = ({ virtualEnvironment, backups }) => {
   ] = [
     useSelector(selectMountableBackups),
     useSelector(selectBackupLocations),
-    useSelector(selectNodes),
     useSelector(selectTask),
     useSelector(selectManualMountFilesystems),
     useSelector(selectBackupFiles),
@@ -148,25 +140,7 @@ export const MountBackupModal = ({ virtualEnvironment, backups }) => {
             );
           }}
         />
-
-        <div className="mt-2">
-          <Select
-            label="Choose node"
-            optionLabel="name"
-            value={task.node}
-            options={nodes}
-            dataKey="guid"
-            required
-            onChange={(event) =>
-              dispatch(
-                setTaskAction({
-                  ...task,
-                  node: event.value,
-                }),
-              )
-            }
-          />
-        </div>
+        <div className="mb-3"></div>
 
         <Text
           // same default value as in the RestoreAndMountTask
