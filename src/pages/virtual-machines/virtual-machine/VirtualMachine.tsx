@@ -264,8 +264,11 @@ const VirtualMachine = () => {
         </div>
       </Card>
 
-      <div className="d-flex flex-column flex-md-row mt-4" >
-        <Card className="flex-fill mr-md-2 col-9" title="Backup/Restore Statistics">
+      <div className="d-flex flex-column flex-md-row mt-4">
+        <Card
+          className="flex-fill mr-md-2 col-9"
+          title="Backup/Restore Statistics"
+        >
           <BarChartContainer
             datasets={{
               backupsHistory,
@@ -274,7 +277,10 @@ const VirtualMachine = () => {
             dateRange={dateRangeWithTime}
           />
         </Card>
-        <Card className="mt-4 mt-md-0 ml-md-2 col-3 flex-fill" title="Events Calendar">
+        <Card
+          className="mt-4 mt-md-0 ml-md-2 col-3 flex-fill"
+          title="Events Calendar"
+        >
           <Calendar
             className="h-100 w-100"
             id="range"

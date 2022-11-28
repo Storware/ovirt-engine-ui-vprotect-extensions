@@ -30,8 +30,14 @@ import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 import ToggleSelect from '../../../components/input/reactive/ToggleSelect';
 import { selectNetwork } from 'store/network/selectors';
 import { getNetwork, setNetworkAction } from 'store/network/actions';
-import { hideModalAction, showFooterAction } from 'store/modal/actions';
+import {
+  hideFooterAction,
+  hideModalAction,
+  saveModalAction,
+  showFooterAction,
+} from 'store/modal/actions';
 import SelectStoragesWithDiskName from 'pages/virtual-machines/modal/components/SelectStoragesWithDiskName';
+import { Button } from 'primereact/button';
 
 export const storageDropdownTemplate = (option) => (
   <div>
@@ -77,6 +83,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
 
   useEffect(() => {
     dispatch(setNetworkAction([]));
+    dispatch(hideFooterAction());
   }, []);
 
   const onBackupLocationChange = (value) => {
@@ -156,7 +163,9 @@ export const RestoreModal = ({ virtualEnvironment }) => {
           ),
         }}
         onSubmit={(values, { setSubmitting }) => {
-          if(!values.isFlavorSectionActive) {values.restoreVmFlavor = virtualEnvironment.vmFlavor; }
+          if (!values.isFlavorSectionActive) {
+            values.restoreVmFlavor = virtualEnvironment.vmFlavor;
+          }
           dispatch(submitTask(values));
           setSubmitting(false);
           dispatch(hideModalAction());
@@ -238,10 +247,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
               <Field
                 name="isFlavorSectionActive"
                 component={(props) => (
-                  <Toggle
-                    label="Select flavor"
-                    {...props}
-                  />
+                  <Toggle label="Select flavor" {...props} />
                 )}
               />
 
@@ -283,6 +289,23 @@ export const RestoreModal = ({ virtualEnvironment }) => {
                 options={vprotectService.diskAllocationFormats}
               />
             )}
+
+            <div
+              className="mt-2 d-flex justify-content-end"
+              style={{ gap: '1rem' }}
+            >
+              <Button
+                label="Cancel"
+                icon="pi pi-times"
+                onClick={() => dispatch(hideModalAction())}
+                className="p-button-text"
+              />
+              <Button
+                label="Save"
+                icon="pi pi-check"
+                onClick={() => dispatch(saveModalAction())}
+              />
+            </div>
           </Form>
         )}
       </Formik>
