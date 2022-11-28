@@ -1,14 +1,15 @@
-@import "form";
-@import "table";
-@import "modal";
-@import "loading-overlay";
-@import "filesystem-table";
-@import "protection-doughnut";
+@import 'form';
+@import 'table';
+@import 'modal';
+@import 'loading-overlay';
+@import 'filesystem-table';
+@import 'protection-doughnut';
 
 html {
   font-size: 13px !important;
 }
-label, input {
+label,
+input {
   display: block;
 }
 
@@ -69,7 +70,8 @@ h6 {
   cursor: pointer;
 }
 
-.slider-demo .p-slider-horizontal, .slider-demo .p-inputtext {
+.slider-demo .p-slider-horizontal,
+.slider-demo .p-inputtext {
   width: 14rem;
 }
 
@@ -78,7 +80,7 @@ h6 {
 }
 
 body {
-  font-family: "Open Sans", "myHelvetica Neue", sans-serif;
+  font-family: 'Open Sans', 'myHelvetica Neue', sans-serif;
   color: #333333;
   font-size: 14px;
   padding: 0;
@@ -95,7 +97,6 @@ body {
   }
 }
 
-
 .border-box {
   border: 1px solid rgba(0, 0, 0, 0.125);
   padding: 0.75rem 1.25rem;
@@ -104,33 +105,36 @@ body {
 .pf-c-progress__bar::before {
   background-color: var(--pf-c-progress__bar--before--BackgroundColor);
   opacity: var(--pf-c-progress__bar--before--Opacity);
-
 }
 
 .pf-c-progress__indicator {
   background-color: var(--pf-c-progress__indicator--BackgroundColor);
 }
 
-.p-button{
+.p-button {
   padding: 0.7rem 1rem;
 }
 
-.p-button:focus{
+.p-button:focus {
   outline: 3px solid #9997 !important;
   outline-offset: 2px;
-  transition: .1s all ease-in-out;
+  transition: 0.1s all ease-in-out;
 }
 
 .p-inputtext,
 .p-menuitem-link,
 .p-listbox .p-listbox-list .p-listbox-item,
-.p-dropdown-panel .p-dropdown-items .p-dropdown-item{
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item {
   padding: 0.65rem 1rem;
 }
 
 @keyframes selected-tab {
-  0% { width: 0%; }
-  100% { width: 100%;}
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
 }
 
 .tab-active-ink {
@@ -145,9 +149,9 @@ body {
     bottom: 0;
     position: absolute;
     width: 100%;
-    animation: selected-tab .47s ease-in-out;
+    animation: selected-tab 0.47s ease-in-out;
     height: 2px;
-    background-color: #3F51B5;
+    background-color: #3f51b5;
   }
 }
 
@@ -155,4 +159,13 @@ body {
   font-size: 1rem;
   line-height: 1rem;
   color: #666666;
+}
+
+.p-button:active {
+  background: #5f71d5 !important;
+  transition: 0.15s all ease-in-out;
+}
+
+.p-togglebutton.p-button:focus {
+  background: #9997 !important;
 }
