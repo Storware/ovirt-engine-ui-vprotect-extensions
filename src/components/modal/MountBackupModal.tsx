@@ -160,7 +160,7 @@ export const MountBackupModal = ({ virtualEnvironment, backups }) => {
             dispatch(
               setTaskAction({
                 ...task,
-                unmountTime: moment().add(value, 'hours').valueOf(),
+                unmountTime: moment().add(value, 'hours').valueOf() - 1000 * 10,
               }),
             )
           }
