@@ -180,25 +180,6 @@ export const MountBackupModal = ({ virtualEnvironment, backups }) => {
           }
         />
 
-        {task.mode?.name === 'AUTO' && (
-          <Text
-            label="Mount point for backup"
-            inputValue={task.mountedFileSystems[0].mountPath}
-            onChange={(e) =>
-              dispatch(
-                setTaskAction({
-                  ...task,
-                  mountedFileSystems: [
-                    {
-                      mountPath: e.target.value,
-                    },
-                  ],
-                }),
-              )
-            }
-          />
-        )}
-
         {task.mode?.name === 'MANUAL' && (
           <div>
             <label>PARAMETERS FOR MOUNTING FILESYSTEMS MANUALLY</label>
@@ -218,14 +199,6 @@ export const MountBackupModal = ({ virtualEnvironment, backups }) => {
                     );
                   }}
                   checked={el.selected}
-                />
-                <Text
-                  label="Mount point"
-                  inputValue={el.mountPath}
-                  onChange={(e) => {
-                    el = { ...el, mountPath: e.target.value };
-                    dispatch(setTaskAction({ ...task }));
-                  }}
                 />
               </div>
             ))}
