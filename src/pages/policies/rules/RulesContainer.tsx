@@ -9,6 +9,7 @@ import { NameAndGuid } from 'model/dto/nameAndGuid';
 import { BackupDestinationRetentionFactory } from 'model/backup-destination/backup-destination-retention-factory';
 import { BackupDestinationComponent } from './BackupDestinationComponent';
 import { BackupDestinationRule } from 'model/backup-destination/backup-destination-rule';
+import { Tooltip } from 'primereact/tooltip';
 
 export const RulesContainer = ({
   rule,
@@ -114,12 +115,23 @@ export const RulesContainer = ({
           <label className="ml-2">Active</label>
         </div>
         {rule.position !== 0 && (
-          <Button
-            style={{ height: '50px', margin: '10px 25px 0 0' }}
-            type="button"
-            label="Remove rule"
-            onClick={emitRemoveRule}
-          />
+          <>
+            {rule.backupCount > 0 && (
+              <Tooltip target=".disabled-remove-rule-button" />
+            )}
+            <span
+              className="disabled-remove-rule-button"
+              data-pr-tooltip="Cannot delete rule as it contains backups"
+            >
+              <Button
+                style={{ height: '50px', margin: '10px 25px 0 0' }}
+                type="button"
+                label="Remove rule"
+                disabled={rule.backupCount > 0}
+                onClick={emitRemoveRule}
+              />
+            </span>
+          </>
         )}
       </div>
       <Text
