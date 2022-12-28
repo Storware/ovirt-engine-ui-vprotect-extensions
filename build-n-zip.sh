@@ -10,7 +10,9 @@ case $yn in
 	* ) echo invalid response;
 		exit 1;;
 esac
-	
+
+rm -rf ./dist/5.0.0
+rm -rf ./dist/5.1.0
 mkdir ./dist/5.0.0
 mkdir ./dist/5.1.0
 echo "Directories in ./dist created."
