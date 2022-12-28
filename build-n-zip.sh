@@ -11,8 +11,8 @@ case $yn in
 		exit 1;;
 esac
 
-rm -rf ./dist/5.0.0
-rm -rf ./dist/5.1.0
+rm -rf ./dist
+mkdir dist
 mkdir ./dist/5.0.0
 mkdir ./dist/5.1.0
 echo "Directories in ./dist created."
