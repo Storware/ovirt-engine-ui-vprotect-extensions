@@ -180,18 +180,6 @@ export const BackupPolicy = ({ type }) => {
     });
   };
 
-  const possibleAddRule = () =>
-    model.rules.some(
-      ({
-        ruleBackupDestinations: {
-          primaryBackupDestination: { backupDestination: pbd },
-          secondaryBackupDestination: { backupDestination: sbd } = {
-            backupDestination: null,
-          },
-        },
-      }) => !!pbd === !!pbd?.guid && !!sbd === !!sbd?.guid,
-    );
-
   useEffect(() => {
     handleChangeBackupDestination();
   }, [model.rules]);
@@ -418,7 +406,7 @@ export const BackupPolicy = ({ type }) => {
             <div className="mt-3">
               <Button
                 type="button"
-                disabled={!possibleAddRule()}
+                disabled={backupDestinations.length === 0}
                 label="Add another rule"
                 onClick={addAnotherRule}
               />
