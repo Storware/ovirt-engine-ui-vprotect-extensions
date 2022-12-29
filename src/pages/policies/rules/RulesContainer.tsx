@@ -115,34 +115,38 @@ export const RulesContainer = ({
   // @ts-ignore
   return (
     <>
-      {rule.position !== 0 && (
-        <div className="text-right">
-          {rule.backupCount > 0 && (
-            <Tooltip target=".disabled-remove-rule-button" position="left" />
-          )}
-          <span
-            className="disabled-remove-rule-button"
-            data-pr-tooltip="Cannot delete rule as it contains backups"
-          >
-            <Button
-              style={{ height: '50px', margin: '10px 25px 0 0' }}
-              type="button"
-              label="Remove rule"
-              disabled={rule.backupCount > 0}
-              onClick={emitRemoveRule}
-            />
-          </span>
+      <div className="d-flex justify-content-between">
+        <div>
+          <ToggleButton
+            checked={rule.active}
+            onChange={({ value }) => {
+              rule.active = value;
+              updateBackupDestination();
+            }}
+          />
+          <label className="ml-2">Active</label>
         </div>
-      )}
 
-      <ToggleButton
-        checked={rule.active}
-        onChange={({ value }) => {
-          rule.active = value;
-          updateBackupDestination();
-        }}
-      />
-      <label className="ml-2">Active</label>
+        {rule.position !== 0 && (
+          <>
+            {rule.backupCount > 0 && (
+              <Tooltip target=".disabled-remove-rule-button" position="left" />
+            )}
+            <span
+              className="disabled-remove-rule-button"
+              data-pr-tooltip="Cannot delete rule as it contains backups"
+            >
+              <Button
+                style={{ height: '40px', margin: '0 25px 0 0' }}
+                type="button"
+                label="Remove rule"
+                disabled={rule.backupCount > 0}
+                onClick={emitRemoveRule}
+              />
+            </span>
+          </>
+        )}
+      </div>
 
       <Text
         inputValue={rule.name}
