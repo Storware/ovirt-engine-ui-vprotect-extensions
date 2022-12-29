@@ -104,7 +104,7 @@ export const RulesContainer = ({
   return (
     <>
       <div className="d-flex flex-row justify-content-between">
-        <div className="my-2 w-6">
+        <div className="w-6">
           <ToggleButton
             checked={rule.active}
             onChange={({ value }) => {
@@ -124,7 +124,7 @@ export const RulesContainer = ({
               data-pr-tooltip="Cannot delete rule as it contains backups"
             >
               <Button
-                style={{ height: '50px', margin: '10px 25px 0 0' }}
+                style={{ height: '40px', margin: '0px 25px 0 0' }}
                 type="button"
                 label="Remove rule"
                 disabled={rule.backupCount > 0}
