@@ -117,7 +117,7 @@ export const RulesContainer = ({
         {rule.position !== 0 && (
           <>
             {rule.backupCount > 0 && (
-              <Tooltip target=".disabled-remove-rule-button" />
+              <Tooltip target=".disabled-remove-rule-button" position="left" />
             )}
             <span
               className="disabled-remove-rule-button"
