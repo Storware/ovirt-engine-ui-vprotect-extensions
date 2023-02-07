@@ -99,9 +99,19 @@ export const MountedBackupsList = () => {
               </Link>
             )}
           />
-          <Column field="mode.description" header="Mode" sortable />
+          <Column
+            field="mode"
+            header="Mode"
+            body={(rowData) => <>{rowData.mode?.description}</>}
+            sortable
+          />
           <Column field="state" header="State" />
-          <Column field="node.name" header="Node" sortable />
+          <Column
+            field="node"
+            header="Node"
+            body={(rowData) => <>{rowData.node?.name}</>}
+            sortable
+          />
           <Column
             field="backup.snapshotTime"
             header="Snapshot Date"
