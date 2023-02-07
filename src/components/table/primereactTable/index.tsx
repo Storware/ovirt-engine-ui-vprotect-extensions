@@ -83,7 +83,7 @@ const Table = ({ children, apiPagination, value, ...props }: Props) => {
   useEffect(() => {
     if (!!apiPagination) {
       apiPagination(tableParams);
-    };
+    }
   }, [tableParams]);
 
   const handleOnPage = (e) => {
@@ -98,7 +98,7 @@ const Table = ({ children, apiPagination, value, ...props }: Props) => {
   }, [debouncedFilter]);
 
   const handleOnFilter = (prop) => {
-    if (prop !== '') {
+    if (prop !== undefined) {
       dispatch(setPaginationFilter(prop));
       return;
     }
