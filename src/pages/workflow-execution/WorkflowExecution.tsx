@@ -165,7 +165,7 @@ export const WorkflowExecution = () => {
         body={({ state: { description } }) => description.toLowerCase()}
       />
       <Column
-        field="definitionName"
+        field="definitionName.description"
         header="Type"
         sortable
         style={{ maxWidth: '8%' }}
@@ -185,7 +185,7 @@ export const WorkflowExecution = () => {
       />
       <Column
         sortable
-        field="currentStep"
+        field="currentStep.description"
         header="Step"
         style={{ width: '13%', maxWidth: '13%' }}
         body={({ currentStep }) => (
@@ -193,9 +193,9 @@ export const WorkflowExecution = () => {
             <Tooltip target=".current-workflow-step" />
             <span
               className="current-workflow-step column-cut-text"
-              data-pr-tooltip={currentStep}
+              data-pr-tooltip={currentStep?.description}
             >
-              {currentStep}
+              {currentStep?.description}
             </span>
           </>
         )}
