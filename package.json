@@ -35,7 +35,7 @@
     "history": "^5.0.0",
     "jquery": "3.5.0",
     "moment": "^2.20.1",
-    "moment-timezone": "^0.5.27",
+    "moment-timezone": "^0.5.35",
     "patternfly-react": "^2.40.0",
     "primeicons": "^5.0.0",
     "primereact": "^8.2.0",
