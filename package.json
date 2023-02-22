@@ -1,6 +1,6 @@
 {
   "name": "ovirt-engine-vprotect-extension",
-  "version": "5.2.0-1",
+  "version": "6.0.0-1",
   "license": "Apache-2.0",
   "repository": {
     "type": "git"
