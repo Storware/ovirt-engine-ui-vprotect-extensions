@@ -15,9 +15,10 @@ rm -rf ./dist
 mkdir dist
 mkdir ./dist/5.0.0
 mkdir ./dist/5.1.0
+mkdir ./dist/5.2.0
 echo "Directories in ./dist created."
-git checkout master
-echo "branch master..."
+git checkout release/5.0.0
+echo "branch release/5.0.0..."
 git reset --hard
 git pull
 version=`jq -r '.version' package.json`
@@ -29,8 +30,8 @@ mv ./dist/openstack/openstack.zip ./dist/5.0.0
 mv ./dist/oVirt/oVirt.zip ./dist/5.0.0
 rm -rf ./dist/openstack
 rm -rf ./dist/oVirt
-git checkout develop
-echo "branch develop..."
+git checkout release/5.1.0
+echo "branch release/5.1.0..."
 git reset --hard
 git pull
 version=`jq -r '.version' package.json`
@@ -40,6 +41,19 @@ npm run build-n-zip
 echo "5.1.0 version built, moving .zip to ./dist/5.1.0 directory"
 mv ./dist/openstack/openstack.zip ./dist/5.1.0
 mv ./dist/oVirt/oVirt.zip ./dist/5.1.0
+rm -rf ./dist/openstack
+rm -rf ./dist/oVirt
+git checkout master
+echo "branch master..."
+git reset --hard
+git pull
+version=`jq -r '.version' package.json`
+git tag $version
+echo "building zips for 5.2.0"
+npm run build-n-zip
+echo "5.2.0 version built, moving .zip to ./dist/5.2.0 directory"
+mv ./dist/openstack/openstack.zip ./dist/5.2.0
+mv ./dist/oVirt/oVirt.zip ./dist/5.2.0
 rm -rf ./dist/openstack
 rm -rf ./dist/oVirt
 echo "pushing tags..."
