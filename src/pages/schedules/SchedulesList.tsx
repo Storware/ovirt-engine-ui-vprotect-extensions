@@ -11,6 +11,7 @@ import { Column } from 'primereact/column';
 import { booleanTemplate } from 'components/table/templates';
 import Table from 'components/table/primereactTable';
 import { Button } from 'primereact/button';
+import {userHasPrivilege} from "utils/privileges";
 
 const typeMap = {
   'vm-backup': 'VM_BACKUP',
@@ -45,11 +46,13 @@ const SchedulesList = () => {
             placeholder="Global Search"
           />
         </div>
-        <div>
-          <Link to={`${history.location.pathname}/create`}>
-            <Button label="Create" />
-          </Link>
-        </div>
+        {userHasPrivilege('VE_BACKUP_SLA_WRITE') && (
+          <div>
+            <Link to={`${history.location.pathname}/create`}>
+              <Button label="Create" />
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
