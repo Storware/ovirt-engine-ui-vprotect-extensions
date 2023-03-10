@@ -11,7 +11,7 @@ import { Column } from 'primereact/column';
 import { booleanTemplate } from 'components/table/templates';
 import Table from 'components/table/primereactTable';
 import { Button } from 'primereact/button';
-import { userHasPrivilege } from 'utils/privileges';
+import {userHasPrivilege} from "utils/privileges";
 
 const typeMap = {
   'vm-backup': 'VM_BACKUP',
@@ -88,18 +88,13 @@ const SchedulesList = () => {
         sortable
         body={(rowData) => rowData.startWindowLength / 1000 / 60}
       />
-      {userHasPrivilege('VE_BACKUP_SLA_WRITE') && (
-        <Column
-          field="action"
-          header="Action"
-          body={(rowData) => (
-            <Button
-              label="Remove"
-              onClick={() => removeElement(rowData.guid)}
-            />
-          )}
-        />
-      )}
+      <Column
+        field="action"
+        header="Action"
+        body={(rowData) => (
+          <Button label="Remove" onClick={() => removeElement(rowData.guid)} />
+        )}
+      />
     </Table>
   );
 };
