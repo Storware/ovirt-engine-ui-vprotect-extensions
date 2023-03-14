@@ -60,7 +60,6 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
       await schedulesService.createSchedule(model);
       alertService.info('Schedule created');
     }
-    history.back();
   };
 
   handle = (name) => (e) => {
