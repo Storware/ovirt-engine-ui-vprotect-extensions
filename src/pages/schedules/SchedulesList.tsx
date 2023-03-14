@@ -11,7 +11,7 @@ import { Column } from 'primereact/column';
 import { booleanTemplate } from 'components/table/templates';
 import Table from 'components/table/primereactTable';
 import { Button } from 'primereact/button';
-import {userHasPrivilege} from "utils/privileges";
+import { userHasPrivilege } from 'utils/privileges';
 
 const typeMap = {
   'vm-backup': 'VM_BACKUP',
