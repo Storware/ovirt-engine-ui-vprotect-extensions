@@ -14,7 +14,6 @@ import { tasksService } from '../../services/tasks-service';
 import { alertService } from '../../services/alert-service';
 import { nodesService } from '../../services/nodes-service';
 import {
-  hideFooterAction,
   hideModalAction,
   showFooterAction,
   unsaveModalAction,
