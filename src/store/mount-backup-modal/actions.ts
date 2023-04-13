@@ -13,12 +13,16 @@ import { backupsService } from '../../services/backups-service';
 import { tasksService } from '../../services/tasks-service';
 import { alertService } from '../../services/alert-service';
 import { nodesService } from '../../services/nodes-service';
-import { hideModalAction, unsaveModalAction } from '../modal/actions';
+import {
+  hideFooterAction,
+  hideModalAction,
+  showFooterAction,
+  unsaveModalAction,
+} from '../modal/actions';
 import { MountedFileSystemRequest } from '../../model/tasks/mounted-file-system-request';
 import moment from 'moment-timezone';
 import { BackupFile } from '../../model/backup-file';
 import { RestoreAndMountTask } from 'model/tasks/restore-and-mount-task';
-import { debounce } from 'lodash';
 
 export const setMountableBackupsAction = (
   payload: any[],
@@ -109,17 +113,14 @@ export const getBackupFiles = async (backup: any) => {
   );
 };
 
-const debouncedSubmitTaskRestoreAndMount = debounce(async (task, dispatch) => {
-  try {
-    await tasksService.submitTaskRestoreAndMount(task);
-    alertService.info('Restore and Mount task has been submitted');
-    await dispatch(hideModalAction());
-  } catch (e) {
-    await dispatch(unsaveModalAction());
-  }
-}, 500);
-
 export const submitTask =
   (task: RestoreAndMountTask) => async (dispatch: Dispatch) => {
-    debouncedSubmitTaskRestoreAndMount(task, dispatch);
+    try {
+      await tasksService.submitTaskRestoreAndMount(task);
+      alertService.info('Restore and Mount task has been submitted');
+      await dispatch(hideModalAction());
+      dispatch(showFooterAction());
+    } catch (e) {
+      await dispatch(unsaveModalAction());
+    }
   };
