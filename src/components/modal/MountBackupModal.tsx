@@ -5,7 +5,6 @@ import {
   checkIfIscsiMountable,
   getBackupFilesystems,
   setMountedBackup,
-  setNodesAction,
   setTaskAction,
   submitTask,
 } from 'store/mount-backup-modal/actions';
@@ -14,11 +13,9 @@ import {
   selectIscsiMountable,
   selectManualMountFilesystems,
   selectMountableBackups,
-  selectNodes,
   selectTask,
 } from 'store/mount-backup-modal/selectors';
 import { BackupDropdown } from '../input/BackupDropdown';
-import Select from '../input/Select';
 import Text from '../input/Text';
 import Radio from '../input/Radio';
 import moment from 'moment-timezone';
@@ -30,8 +27,13 @@ import { sizeTemplate } from '../table/templates';
 import { Chips } from 'primereact/chips';
 import { getBackupLocations } from 'store/restore-modal/actions';
 import { selectBackupLocations } from 'store/restore-modal/selectors';
-import { nodesService } from '../../services/nodes-service';
 import { getUnmountPeriodForMountedBackups } from 'utils/user';
+import { Button } from 'primereact/button';
+import {
+  hideModalAction,
+  saveModalAction,
+  showFooterAction,
+} from 'store/modal/actions';
 
 const manuallyMountParameterLabel = (el) => (
   <span>
@@ -113,9 +115,9 @@ export const MountBackupModal = ({ virtualEnvironment, backups }) => {
     ISCSI: [],
   };
 
-  if (useSelector(selectSaved)) {
+  const submit = () => {
     dispatch(submitTask(task));
-  }
+  };
 
   return (
     <div>
@@ -257,6 +259,18 @@ export const MountBackupModal = ({ virtualEnvironment, backups }) => {
             </div>
           </div>
         )}
+      </div>{' '}
+      <div className="d-flex justify-content-between">
+        <Button
+          label="Cancel"
+          icon="pi pi-times"
+          onClick={() => {
+            dispatch(hideModalAction());
+            dispatch(showFooterAction());
+          }}
+          className="p-button-text"
+        />
+        <Button label={'Save'} icon="pi pi-check" onClick={() => submit()} />
       </div>
     </div>
   );

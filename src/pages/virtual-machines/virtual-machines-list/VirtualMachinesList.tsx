@@ -3,7 +3,7 @@ import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVirtualMachinesPage } from 'store/virtual-machines/actions';
 import { selectVirtualMachines } from 'store/virtual-machines/selectors';
-import { showModalAction } from 'store/modal/actions';
+import { hideFooterAction, showModalAction } from 'store/modal/actions';
 import { MountBackupModal } from 'components/modal/MountBackupModal';
 import { nameTemplate } from 'components/table/templates';
 import { createBrowserHistory } from 'history';
@@ -132,7 +132,7 @@ const VirtualMachinesList = () => {
           );
           return;
         }
-
+        dispatch(hideFooterAction());
         dispatch(
           showModalAction({
             component: MountBackupModal,
