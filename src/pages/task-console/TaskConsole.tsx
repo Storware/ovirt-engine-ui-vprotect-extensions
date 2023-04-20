@@ -187,10 +187,10 @@ export default () => {
                       rowData.guid,
                       cancelledStatus,
                     );
-                    alertService.info('alerts.taskHasBeenCancelled');
+                    alertService.info('Task has been cancelled');
                   } else {
                     await vprotectService.deleteOrCancelTask(rowData.guid);
-                    alertService.info('alerts.taskHasBeenDeleted');
+                    alertService.info('Task has been deleted');
                   }
                   getAllTasks();
                 }}
