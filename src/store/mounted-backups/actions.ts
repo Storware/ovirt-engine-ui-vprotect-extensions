@@ -10,6 +10,7 @@ import { Dispatch } from 'redux';
 import { backupsService } from '../../services/backups-service';
 import { startLoading, stopLoading } from '../loading/actions';
 import { TableParams } from 'model/pagination/TableParams';
+import { setPaginationPage } from 'store/pagination/actions';
 
 export const setMountedBackups = (payload: any): MountedBackupsAction => ({
   type: SET_MOUNTED_BACKUPS,
@@ -77,5 +78,6 @@ export const getFilesystemListing =
       await dispatch(setFileSystemListing([]));
     } finally {
       await dispatch(stopLoading());
+      dispatch(setPaginationPage(0));
     }
   };
