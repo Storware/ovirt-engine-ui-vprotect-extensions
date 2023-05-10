@@ -48,7 +48,11 @@ export const PoliciesList = () => {
             showModalAction({
               component: BackupModal,
               props: {
-                virtualEnvironments: policy.vms,
+                fromPolicy: true,
+                virtualEnvironments: policy.vms.map((vm) => ({
+                  ...vm,
+                  vmBackupPolicy: policy,
+                })),
                 showIncremental: true,
                 rules: policy.rules,
               },
