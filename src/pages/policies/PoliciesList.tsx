@@ -18,6 +18,7 @@ import { Menu } from 'primereact/menu';
 import { Button } from 'primereact/button';
 import Table from 'components/table/primereactTable';
 import { booleanTemplate } from 'components/table/templates';
+import { alertService } from 'services/alert-service';
 
 export const PoliciesList = () => {
   const dispatch = useDispatch();
@@ -44,6 +45,12 @@ export const PoliciesList = () => {
             'vm-backup',
             actionsElement.guid,
           );
+          if (policy.vms.length === 0) {
+            alertService.error(
+              'There are no Virtual Environments assigned to this policy',
+            );
+            return;
+          }
           dispatch(
             showModalAction({
               component: BackupModal,
