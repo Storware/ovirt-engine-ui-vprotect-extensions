@@ -13,10 +13,11 @@ const timeFormatWithSeconds = {
 };
 
 const cookieTimezone = getCookie('django_timezone');
+const localStorageTimezone = JSON.parse(
+  localStorage.getItem('user'),
+)?.uiTimeZone;
 
-export const timezone = cookieTimezone
-  ? cookieTimezone.replace(/['"]+/g, '')
-  : 'UTC';
+export const timezone = localStorageTimezone ? localStorageTimezone : 'UTC';
 
 export const offset =
   timezone && moment.tz(timezone).utcOffset() * MILLISECONDS_IN_MINUTE * -1;
