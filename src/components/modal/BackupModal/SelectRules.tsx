@@ -72,7 +72,7 @@ export const SelectRules = ({
               className="d-flex flex-column"
             >
               <CheckboxLabel
-                checked={rules?.every((e) => task.rules.includes(e))}
+                checked={rules?.every((e) => task.rules?.includes(e))}
                 onChange={(checked) => toggleAllRules(checked, rules)}
                 name="Toggle all"
               />

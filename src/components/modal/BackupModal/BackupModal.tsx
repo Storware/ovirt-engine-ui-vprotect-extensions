@@ -35,7 +35,7 @@ export const BackupModal = ({
       protectedEntities: virtualEnvironments,
       // always check first rules
       rules: fromPolicy
-        ? rules
+        ? [virtualEnvironments[0].vmBackupPolicy?.rules?.[0]]
         : virtualEnvironments
             .flatMap(
               ({ vmBackupPolicy = null }) =>
