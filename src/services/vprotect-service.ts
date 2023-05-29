@@ -2,6 +2,7 @@ import { vprotectApiService } from './vprotect-api-service';
 import { DashboardProtectionInfoModel } from '../model/dashboard/dashboard-protection-info.model';
 import { GetWorkflowExecutionObject } from 'pages/workflow-execution/models';
 import { SortDirection } from 'model';
+import { userHasPrivilege } from 'utils/privileges';
 
 class VprotectService {
   _hvWithIncremental = ['KVM', 'CITRIX', 'ESXI', 'HYPERV'];
@@ -35,6 +36,11 @@ class VprotectService {
   }
 
   getDashboardStagingSpaceInfo() {
+    if (!userHasPrivilege('NODE_READ')) {
+      return new Promise((resolve) => {
+        resolve([]);
+      });
+    }
     return vprotectApiService.get('/dashboard/staging-space');
   }
 
