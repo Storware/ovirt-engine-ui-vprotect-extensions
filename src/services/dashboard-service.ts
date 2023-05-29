@@ -1,6 +1,7 @@
 import { vprotectApiService } from './vprotect-api-service';
 import { ChargebackRequest } from 'model/chargeback/vm-chargeback-request';
 import { ExportRequest } from 'model/export-report';
+import { userHasPrivilege } from 'utils/privileges';
 
 const uuidRemover = (name: string) => name.replace(/^uuid_[^_]+_/, '');
 
@@ -45,6 +46,19 @@ class DashboardService {
   }
 
   getDashboardVmBackupSizeStats() {
+    if (
+      !userHasPrivilege([
+        'VE_BACKUP_SLA_READ',
+        'APP_BACKUP_SLA_READ',
+        'STORAGE_BACKUP_SLA_READ',
+        'CLOUD_BACKUP_SLA_READ',
+      ])
+    ) {
+      return new Promise((resolve) => {
+        resolve([]);
+      });
+    }
+
     const to = new Date();
     const from = new Date();
     from.setDate(from.getDate() - 14);

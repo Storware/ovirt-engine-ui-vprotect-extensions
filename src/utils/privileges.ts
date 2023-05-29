@@ -1,5 +1,5 @@
 export const userHasPrivilege = (privileges: string | string[]): boolean => {
-  const userPrivileges = JSON.parse(
+  const userPrivileges: string[] = JSON.parse(
     localStorage.getItem('user'),
   )?.privileges.map((item) => item.name);
 
