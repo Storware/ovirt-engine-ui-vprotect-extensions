@@ -37,15 +37,15 @@ const groupByOptions = [
     label: 'Backup Policy',
   },
   {
-    value: 'hypervisor',
-    label: 'Hypervisor',
-  },
-  {
     value: 'virtual-machine',
     label: 'Virtual Machine',
   },
   ...(isNotOpenstackBuild
     ? [
+        {
+          value: 'hypervisor',
+          label: 'Hypervisor',
+        },
         {
           value: 'hypervisor-cluster',
           label: 'Cluster',
@@ -67,16 +67,16 @@ const filterByFieldOptions = {
     label: 'Backup Policy',
     optionsLabelProperty: 'name',
   },
-  hypervisorGuids: {
-    label: 'Hypervisor',
-    optionsLabelProperty: 'host',
-    options: [],
-  },
   virtualMachineGuids: {
     label: 'Virtual Environment',
     optionsLabelProperty: 'name',
   },
   ...(isNotOpenstackBuild && {
+    hypervisorGuids: {
+      label: 'Hypervisor',
+      optionsLabelProperty: 'host',
+      options: [],
+    },
     hypervisorClusterGuids: {
       label: 'Hypervisor Cluster',
       optionsLabelProperty: 'name',
