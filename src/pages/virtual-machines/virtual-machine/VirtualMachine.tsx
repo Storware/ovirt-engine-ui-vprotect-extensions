@@ -43,6 +43,7 @@ import {
 import { alertService } from 'services/alert-service';
 import { policiesService } from 'services/policies-service';
 import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
+import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 
 const VirtualMachine = () => {
   const date = new Date();
@@ -257,7 +258,9 @@ const VirtualMachine = () => {
             <Details title="HYPERVISOR MANAGER">
               {virtualMachine.hvManager?.url}
             </Details>
-            <Details title="HYPERVISOR">{hypervisor.host}</Details>
+            {isNotOpenstackBuild && (
+              <Details title="HYPERVISOR">{hypervisor.host}</Details>
+            )}
             <Details title="FLAVOR">{virtualMachine.vmFlavor?.name}</Details>
             <Details title="CLUSTER">{virtualMachine.hvCluster?.name}</Details>
           </div>
