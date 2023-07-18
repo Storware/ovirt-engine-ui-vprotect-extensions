@@ -30,6 +30,7 @@ import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIco
 import { selectPagination } from 'store/pagination/selectors';
 import { selectIsSelectedRulesZero } from 'store/backup-modal/selectors';
 import { resetRestoreTaskAction } from 'store/restore-modal/actions';
+import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 
 const VirtualMachinesList = () => {
   const dispatch = useDispatch();
@@ -196,7 +197,9 @@ const VirtualMachinesList = () => {
           body={booleanTemplate}
           sortable
         />
-        <Column field="hypervisor.name" header="Hypervisor" sortable />
+        {isNotOpenstackBuild && (
+          <Column field="hypervisor.name" header="Hypervisor" sortable />
+        )}
         <Column
           field="vmBackupPolicy"
           header="Policy"
