@@ -207,11 +207,21 @@ export const RestoreModal = ({ virtualEnvironment }) => {
             />
 
             {filteredStorages.length > 0 && (
-              <Field
-                name="restoreToOriginalVolumeType"
-                component={Toggle}
-                label="Restore volumes to original volume types"
-              />
+              <>
+                <Field
+                  name="restoreToOriginalVolumeType"
+                  component={Toggle}
+                  label="Restore volumes to original volume types"
+                />
+
+                {!values.restoreToOriginalVolumeType && (
+                  <SelectStoragesWithDiskName
+                    data={values.taskFiles}
+                    setFieldValue={setFieldValue}
+                    hvStorages={filteredStorages}
+                  />
+                )}
+              </>
             )}
             {clusterCopy &&
               task.restoredNetworks.map((networkInterfaceCard, id) => (
@@ -224,24 +234,6 @@ export const RestoreModal = ({ virtualEnvironment }) => {
                   options={networkList}
                 />
               ))}
-
-            {!values.restoreToOriginalVolumeType && (
-              <>
-                <Field
-                  name="isDiskLayoutActive"
-                  label="Customize disk layout"
-                  component={Toggle}
-                />
-
-                {values.isDiskLayoutActive && (
-                  <SelectStoragesWithDiskName
-                    data={values.taskFiles}
-                    setFieldValue={setFieldValue}
-                    hvStorages={filteredStorages}
-                  />
-                )}
-              </>
-            )}
 
             <>
               <Field
