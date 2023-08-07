@@ -22,10 +22,14 @@ const SelectStoragesWithDiskName = ({
     );
 
   const ImportToStorageBody = (row) => {
+    if (!row.storageId) {
+      row.storageId = hvStorages[0].guid;
+    }
     const id = getElId(row);
     return (
       <div className="d-flex flex-column">
         <Select
+          required
           label="Import to storage*"
           value={row.storageId}
           disabled={row.excludedFromRestore}
