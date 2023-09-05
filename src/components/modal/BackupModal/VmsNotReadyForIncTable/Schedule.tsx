@@ -120,6 +120,7 @@ export default ({ policy, onModelChange }) => {
                 hour={model.hour}
                 label="Choose days (required)"
                 change={handle('daysOfWeek')}
+                required={true}
               />
             </div>
             <div className="col">
