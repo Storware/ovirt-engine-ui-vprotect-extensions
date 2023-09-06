@@ -122,6 +122,7 @@ const SnapshotSchedule = () => {
                 component={Days}
                 hour={model.hour}
                 label="Choose days (required)"
+                required={true}
               />
             </div>
             <div className="col">
