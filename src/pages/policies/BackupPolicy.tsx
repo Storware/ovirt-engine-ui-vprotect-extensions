@@ -30,6 +30,7 @@ export const BackupPolicy = ({ type }) => {
   const [hypervisorClusters, setHypervisorClusters] = useState([]);
   const [availableMailingLists, setAvailableMailingLists] = useState([]);
   const [backupDestinations, setBackupDestinations] = useState([]);
+  const [requestInProgress, setRequestInProgress] = useState<boolean>(false);
 
   useEffect(() => {
     if (match.params.guid !== 'create') {
@@ -129,14 +130,27 @@ export const BackupPolicy = ({ type }) => {
   });
 
   const saveBackupPolicy = async () => {
+    setRequestInProgress(true);
     const mappedModel = mapModelToPayload(model);
 
     if (model.guid) {
-      await policiesService.updatePolicy('vm-backup', model.guid, mappedModel);
-      alertService.info('Policy updated');
+      try {
+        await policiesService.updatePolicy(
+          'vm-backup',
+          model.guid,
+          mappedModel,
+        );
+        alertService.info('Policy updated');
+      } finally {
+        setRequestInProgress(false);
+      }
     } else {
-      await policiesService.createPolicy('vm-backup', mappedModel);
-      alertService.info('Policy created');
+      try {
+        await policiesService.createPolicy('vm-backup', mappedModel);
+        alertService.info('Policy created');
+      } finally {
+        setRequestInProgress(false);
+      }
     }
     history.back();
   };
@@ -311,7 +325,7 @@ export const BackupPolicy = ({ type }) => {
                   type="submit"
                   label="Save"
                   className="p-button-success"
-                  disabled={!model.name}
+                  disabled={!model.name || requestInProgress}
                 />
               </div>
             </div>
