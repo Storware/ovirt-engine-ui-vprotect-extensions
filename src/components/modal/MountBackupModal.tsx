@@ -238,7 +238,7 @@ export const MountBackupModal = ({ virtualEnvironment, backups }) => {
             </div>
             <div>
               <div>
-                <h4>Provide list of allowed iSCSI initiators (IQNs)</h4>
+                <label>Provide list of allowed iSCSI initiators (IQNs)</label>
                 <Chips
                   value={task.allowedClients}
                   separator=","
