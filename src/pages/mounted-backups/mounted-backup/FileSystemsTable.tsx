@@ -22,6 +22,7 @@ const actionTemplate = (dispatch: Dispatch) => (rowData) =>
               guid: rowData.guid,
             },
             title: 'File System',
+            width: '1200px',
           }),
         );
       }}
