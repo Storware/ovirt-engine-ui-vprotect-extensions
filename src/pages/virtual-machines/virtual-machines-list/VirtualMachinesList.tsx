@@ -163,8 +163,9 @@ const VirtualMachinesList = () => {
     },
     {
       label: 'Delete',
-      command: () => {
-        dispatch(deleteVirtualMachine(actionsElement));
+      command: async () => {
+        await dispatch(deleteVirtualMachine(actionsElement));
+        dispatch(getVirtualMachinesPage(tableParams));
       },
     },
   ];
