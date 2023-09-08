@@ -59,6 +59,12 @@ export const BackupPolicy = ({ type }) => {
 
     backupDestinationsService.getAllBackupDestinations().then((result) => {
       setBackupDestinations(result);
+      if (match.params.guid === 'create') {
+        const _model = { ...model };
+        _model.rules[0].ruleBackupDestinations.primaryBackupDestination.backupDestination =
+          result.find((r) => r.defaultBackupDestination) || result[0];
+        setModel(_model);
+      }
     });
 
     hypervisorsService.getAllHypervisorClusters().then((result) => {
