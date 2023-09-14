@@ -105,7 +105,7 @@ export const MountedBackupsList = () => {
             body={(rowData) => <>{rowData.mode?.description}</>}
             sortable
           />
-          <Column field="state" header="State" />
+          <Column field="state.description" header="State" />
           <Column
             field="node"
             header="Node"
