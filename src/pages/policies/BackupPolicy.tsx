@@ -31,6 +31,7 @@ export const BackupPolicy = ({ type }) => {
   const [availableMailingLists, setAvailableMailingLists] = useState([]);
   const [backupDestinations, setBackupDestinations] = useState([]);
   const [requestInProgress, setRequestInProgress] = useState<boolean>(false);
+  const [isTabDisabled, setIsTabDisabled] = useState<boolean>(true);
 
   useEffect(() => {
     if (match.params.guid !== 'create') {
@@ -58,6 +59,7 @@ export const BackupPolicy = ({ type }) => {
     }
 
     backupDestinationsService.getAllBackupDestinations().then((result) => {
+      setIsTabDisabled(false);
       setBackupDestinations(result);
       if (match.params.guid === 'create') {
         const _model = { ...model };
@@ -169,173 +171,181 @@ export const BackupPolicy = ({ type }) => {
         onSubmit={saveBackupPolicy}
       >
         {() => (
-          <Form>
-            <Accordion multiple activeIndex={[0]}>
-              <AccordionTab header="General">
-                <Field
-                  name="name"
-                  component={Text}
-                  label="Name *"
-                  onChange={handle('name')}
-                />
-                <Field
-                  name="active"
-                  component={Toggle}
-                  label="Scheduled backups enabled"
-                  onChange={handle('active')}
-                />
-                <Field
-                  name="autoRemoveNonPresent"
-                  component={Toggle}
-                  label="Auto remove non-present Virtual Environments"
-                  onChange={handle('autoRemoveNonPresent')}
-                />
-                <Field
-                  name="dailyReportEnabled"
-                  component={Toggle}
-                  label="Send daily backup/restore report for VMs assigned to this policy "
-                  onChange={handle('dailyReportEnabled')}
-                />
-                {model.dailyReportEnabled && (
-                  <Select
-                    value={model.mailingList}
-                    label="Select Mailing List"
-                    optionLabel="name"
-                    dataKey="name"
-                    isRequired={true}
-                    options={availableMailingLists}
-                    onChange={handle('mailingList')}
+          <div className={isTabDisabled ? 'blocked-content' : 'none'}>
+            <Form>
+              <Accordion multiple activeIndex={[0]}>
+                <AccordionTab header="General" disabled={isTabDisabled}>
+                  <Field
+                    name="name"
+                    component={Text}
+                    label="Name *"
+                    onChange={handle('name')}
                   />
-                )}
-                <Field
-                  name="backupRetryCount"
-                  component={InputSlider}
-                  label="Retry Count *"
-                  onChange={handle('backupRetryCount')}
-                />
-                <Field
-                  name="priority"
-                  component={InputSlider}
-                  label="Priority *"
-                  onChange={handle('priority')}
-                />
-              </AccordionTab>
-
-              <AccordionTab header="Auto-assigment *">
-                <AutoAssigment
-                  model={model}
-                  setModel={setModel}
-                  handle={handle}
-                  hypervisorClusters={hypervisorClusters}
-                  mapModelToPayload={mapModelToPayload}
-                  type={type}
-                />
-              </AccordionTab>
-
-              <AccordionTab header="Virtual Environments">
-                <Field
-                  name="vms"
-                  options={virtualMachines}
-                  component={InputListBox}
-                  optionLabel="name"
-                  underlinetext="uuid"
-                  multiple
-                  dataKey="guid"
-                  label="Choose Virtual Environments"
-                  onChange={handle('vms')}
-                />
-              </AccordionTab>
-
-              {model.rules.map((rule, i) => (
-                <AccordionTab
-                  key={rule.name}
-                  header={'Rule (' + rule.name + ') *'}
-                  headerClassName={
-                    !rule.active && 'p-disabled p-disabled-clickable'
-                  }
-                >
-                  <RulesContainer
-                    rule={rule}
-                    onUpdateRule={(_rule) => {
-                      const _model = { ...model };
-                      _model.rules[i] = { ..._rule };
-                      setModel(_model);
-                    }}
-                    policyType={type}
-                    removeRule={() => deleteRule(i)}
-                    backupDestinations={backupDestinations}
+                  <Field
+                    name="active"
+                    component={Toggle}
+                    label="Scheduled backups enabled"
+                    onChange={handle('active')}
+                  />
+                  <Field
+                    name="autoRemoveNonPresent"
+                    component={Toggle}
+                    label="Auto remove non-present Virtual Environments"
+                    onChange={handle('autoRemoveNonPresent')}
+                  />
+                  <Field
+                    name="dailyReportEnabled"
+                    component={Toggle}
+                    label="Send daily backup/restore report for VMs assigned to this policy "
+                    onChange={handle('dailyReportEnabled')}
+                  />
+                  {model.dailyReportEnabled && (
+                    <Select
+                      value={model.mailingList}
+                      label="Select Mailing List"
+                      optionLabel="name"
+                      dataKey="name"
+                      isRequired={true}
+                      options={availableMailingLists}
+                      onChange={handle('mailingList')}
+                    />
+                  )}
+                  <Field
+                    name="backupRetryCount"
+                    component={InputSlider}
+                    label="Retry Count *"
+                    onChange={handle('backupRetryCount')}
+                  />
+                  <Field
+                    name="priority"
+                    component={InputSlider}
+                    label="Priority *"
+                    onChange={handle('priority')}
                   />
                 </AccordionTab>
-              ))}
 
-              <AccordionTab header="Other">
-                <Field
-                  name="failRemainingBackupTasksExportThreshold"
-                  component={Toggle}
-                  label="Fail rest of the backup tasks if more than X % of EXPORT tasks already failed"
-                  onChange={({ value }) => {
-                    setModel({
-                      ...model,
-                      failRemainingBackupTasksExportThreshold: value
-                        ? 50
-                        : null,
-                    });
-                  }}
-                />
-                {!!model.failRemainingBackupTasksExportThreshold && (
+                <AccordionTab header="Auto-assigment *">
+                  <AutoAssigment
+                    model={model}
+                    setModel={setModel}
+                    handle={handle}
+                    hypervisorClusters={hypervisorClusters}
+                    mapModelToPayload={mapModelToPayload}
+                    type={type}
+                  />
+                </AccordionTab>
+
+                <AccordionTab header="Virtual Environments">
+                  <Field
+                    name="vms"
+                    options={virtualMachines}
+                    component={InputListBox}
+                    optionLabel="name"
+                    underlinetext="uuid"
+                    multiple
+                    dataKey="guid"
+                    label="Choose Virtual Environments"
+                    onChange={handle('vms')}
+                  />
+                </AccordionTab>
+
+                {model.rules.map((rule, i) => (
+                  <AccordionTab
+                    key={rule.name}
+                    header={'Rule (' + rule.name + ') *'}
+                    headerClassName={
+                      !rule.active && 'p-disabled p-disabled-clickable'
+                    }
+                  >
+                    <RulesContainer
+                      rule={rule}
+                      onUpdateRule={(_rule) => {
+                        const _model = { ...model };
+                        _model.rules[i] = { ..._rule };
+                        setModel(_model);
+                      }}
+                      policyType={type}
+                      removeRule={() => deleteRule(i)}
+                      backupDestinations={backupDestinations}
+                    />
+                  </AccordionTab>
+                ))}
+
+                <AccordionTab header="Other">
                   <Field
                     name="failRemainingBackupTasksExportThreshold"
-                    component={InputSlider}
-                    label="Percent of already failed EXPORT tasks"
-                    onChange={handle('failRemainingBackupTasksExportThreshold')}
+                    component={Toggle}
+                    label="Fail rest of the backup tasks if more than X % of EXPORT tasks already failed"
+                    onChange={({ value }) => {
+                      setModel({
+                        ...model,
+                        failRemainingBackupTasksExportThreshold: value
+                          ? 50
+                          : null,
+                      });
+                    }}
                   />
-                )}
+                  {!!model.failRemainingBackupTasksExportThreshold && (
+                    <Field
+                      name="failRemainingBackupTasksExportThreshold"
+                      component={InputSlider}
+                      label="Percent of already failed EXPORT tasks"
+                      onChange={handle(
+                        'failRemainingBackupTasksExportThreshold',
+                      )}
+                    />
+                  )}
 
-                <Field
-                  name="failRemainingBackupTasksStoreThreshold"
-                  component={Toggle}
-                  label="Fail rest of the backup tasks if more than X % of STORE tasks already failed"
-                  onChange={({ value }) => {
-                    setModel({
-                      ...model,
-                      failRemainingBackupTasksStoreThreshold: value ? 50 : null,
-                    });
-                  }}
-                />
-                {!!model.failRemainingBackupTasksStoreThreshold && (
                   <Field
                     name="failRemainingBackupTasksStoreThreshold"
-                    component={InputSlider}
-                    label="Percent of already failed STORE tasks"
-                    onChange={handle('failRemainingBackupTasksStoreThreshold')}
+                    component={Toggle}
+                    label="Fail rest of the backup tasks if more than X % of STORE tasks already failed"
+                    onChange={({ value }) => {
+                      setModel({
+                        ...model,
+                        failRemainingBackupTasksStoreThreshold: value
+                          ? 50
+                          : null,
+                      });
+                    }}
                   />
-                )}
-              </AccordionTab>
-            </Accordion>
+                  {!!model.failRemainingBackupTasksStoreThreshold && (
+                    <Field
+                      name="failRemainingBackupTasksStoreThreshold"
+                      component={InputSlider}
+                      label="Percent of already failed STORE tasks"
+                      onChange={handle(
+                        'failRemainingBackupTasksStoreThreshold',
+                      )}
+                    />
+                  )}
+                </AccordionTab>
+              </Accordion>
 
-            <div className="mt-3">
-              <Button
-                type="button"
-                disabled={backupDestinations.length === 0}
-                label="Add another rule"
-                onClick={addAnotherRule}
-              />
-            </div>
-
-            <div className="d-flex justify-content-between mt-3">
-              <div>
-                <BackButton />
-              </div>
-              <div>
+              <div className="mt-3">
                 <Button
-                  type="submit"
-                  label="Save"
-                  className="p-button-success"
-                  disabled={!model.name || requestInProgress}
+                  type="button"
+                  disabled={backupDestinations.length === 0}
+                  label="Add another rule"
+                  onClick={addAnotherRule}
                 />
               </div>
-            </div>
-          </Form>
+
+              <div className="d-flex justify-content-between mt-3">
+                <div>
+                  <BackButton />
+                </div>
+                <div>
+                  <Button
+                    type="submit"
+                    label="Save"
+                    className="p-button-success"
+                    disabled={!model.name || requestInProgress}
+                  />
+                </div>
+              </div>
+            </Form>
+          </div>
         )}
       </Formik>
     </div>

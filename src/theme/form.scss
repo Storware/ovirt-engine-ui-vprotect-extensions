@@ -18,3 +18,8 @@
     user-select: unset;
   }
 }
+
+.blocked-content {
+  pointer-events: none;
+  opacity: 0.5;
+}
