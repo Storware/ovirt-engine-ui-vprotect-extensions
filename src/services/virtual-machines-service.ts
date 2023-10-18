@@ -107,29 +107,6 @@ class VirtualMachinesService {
     return modes;
   }
 
-  arePrePostSnapActionsAvailable(vm) {
-    const hvWithPrePostSnapActions = [
-      'CITRIX',
-      'KVM',
-      'XEN',
-      'PROXMOX',
-      'HYPERV',
-    ];
-    const hvmWithPrePostSnapActions = [
-      'NUTANIX',
-      'RHEV',
-      'RHV',
-      'VCENTER',
-      'ORACLE',
-    ];
-    return (
-      (vm.hvType != null &&
-        hvWithPrePostSnapActions.includes(vm.hvType.name)) ||
-      (vm.hvmType != null &&
-        hvmWithPrePostSnapActions.includes(vm.hvmType.name))
-    );
-  }
-
   getVirtualMachinesNotReadyForIncremental(entities) {
     return vprotectApiService.post(
       '/virtual-machines/incremental-not-possible',
