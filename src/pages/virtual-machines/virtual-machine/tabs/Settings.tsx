@@ -11,10 +11,8 @@ import { policiesService } from 'services/policies-service';
 import { alertService } from 'services/alert-service';
 import { virtualMachinesService } from 'services/virtual-machines-service';
 import { ToggleButton } from 'primereact/togglebutton';
-import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { createBrowserHistory } from 'history';
-import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 import {
   OsCredentials,
   PostSnapCommandExecution,
@@ -60,10 +58,6 @@ export default () => {
     );
     alertService.info('Password updated');
   };
-
-  const arePreProSnapTabAvailable = (vmModel) =>
-    virtualMachinesService.arePrePostSnapActionsAvailable(vmModel) &&
-    !isNotOpenstackBuild;
 
   return (
     <div className="form">
@@ -184,21 +178,6 @@ export default () => {
             </div>
           )}
         </AccordionTab>
-        {arePreProSnapTabAvailable(model) && (
-          <AccordionTab header="Pre snapshot command execution">
-            <PreSnapCommandExecution model={model} setModel={setModel} />
-          </AccordionTab>
-        )}
-        {arePreProSnapTabAvailable(model) && (
-          <AccordionTab header="Post snapshot command execution">
-            <PostSnapCommandExecution model={model} setModel={setModel} />
-          </AccordionTab>
-        )}
-        {arePreProSnapTabAvailable(model) && (
-          <AccordionTab header="Remote access">
-            <SshAccess model={model} setModel={setModel} />
-          </AccordionTab>
-        )}
         <AccordionTab header="Os Credentials">
           <OsCredentials model={model} setModel={setModel} />
         </AccordionTab>

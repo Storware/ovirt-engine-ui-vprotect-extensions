@@ -60,7 +60,6 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
       await schedulesService.createSchedule(model);
       alertService.info('Schedule created');
     }
-    history.back();
   };
 
   handle = (name) => (e) => {
@@ -207,6 +206,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
                   hour={this.state.model.hour}
                   label="Choose days (required)"
                   change={this.handle('daysOfWeek')}
+                  required={true}
                 />
               </div>
               <div className="col">
@@ -252,7 +252,10 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
                   type="submit"
                   label="Save"
                   className="p-button-success"
-                  disabled={!this.state.model.name}
+                  disabled={
+                    !this.state.model.name ||
+                    !this.state.model.daysOfWeek?.length > 0
+                  }
                 />
               </div>
             </div>

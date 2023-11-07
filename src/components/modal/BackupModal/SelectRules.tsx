@@ -10,15 +10,20 @@ interface Props {
   updateSelectedRule?;
   toggleAllRules?;
   onBack?: () => void;
+  fromPolicy: boolean;
 }
 export const SelectRules = ({
   task,
   updateSelectedRule,
   onBack,
   toggleAllRules,
+  fromPolicy,
 }: Props) => {
   const [vmBackupPolicyArr] = useState(
-    task?.protectedEntities?.map(({ vmBackupPolicy }) => vmBackupPolicy) || [],
+    fromPolicy
+      ? [task?.protectedEntities[0].vmBackupPolicy]
+      : task?.protectedEntities?.map(({ vmBackupPolicy }) => vmBackupPolicy) ||
+          [],
   );
   const [activeTabGuid, setActiveTabGuid] = useState(
     vmBackupPolicyArr?.[0]?.guid,
@@ -67,11 +72,11 @@ export const SelectRules = ({
               className="d-flex flex-column"
             >
               <CheckboxLabel
-                checked={rules?.every((e) => task.rules.includes(e))}
+                checked={rules?.every((e) => task.rules?.includes(e))}
                 onChange={(checked) => toggleAllRules(checked, rules)}
                 name="Toggle all"
               />
-              {rules.map((rule) => (
+              {rules?.map((rule) => (
                 <CheckboxLabel
                   key={rule.guid}
                   name={rule.name}

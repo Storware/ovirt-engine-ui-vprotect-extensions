@@ -11,7 +11,7 @@ const ModalContainer = () => {
   const modal = useSelector(selectModal);
   const show = useSelector(selectShow);
   const hideButtonActions = useSelector(hideFooter);
-  const { component: Component, buttonLabel } = modal;
+  const { component: Component, buttonLabel, width } = modal;
   const {
     FooterContent: FooterContent = () => (
       <Button
@@ -41,7 +41,7 @@ const ModalContainer = () => {
         <Dialog
           header={modal.title}
           visible={show}
-          style={{ width: '50vw', ...modal.style }}
+          style={{ width: width ? width : '50vw', ...modal.style }}
           footer={!hideButtonActions && renderFooter()}
           onHide={() => dispatch(hideModalAction())}
         >

@@ -11,7 +11,5 @@ export class RestoreAndMountTask {
   mountedFileSystems: MountedFileSystemRequest[] = [];
   mountedDisks: any[];
   allowedClients: string[] = [];
-  unmountTime = moment()
-    .add(getUnmountPeriodForMountedBackups(), 'hours')
-    .valueOf();
+  unmountTime = getUnmountPeriodForMountedBackups() * 1000 * 60 * 60;
 }

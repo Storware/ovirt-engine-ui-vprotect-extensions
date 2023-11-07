@@ -32,7 +32,10 @@ class PoliciesService {
 
   async getPolicy(type, guid) {
     const res = await vprotectApiService.get(`/policies/${type}/${guid}`);
-    return getElementWithoutProjectUuidInName(res);
+    return getElementWithoutProjectUuidInName({
+      ...res,
+      rules: res.rules?.filter((rule) => !rule.markedForDeletion),
+    });
   }
 
   async getVmBackupPoliciesPage(params: TableParams) {
@@ -95,9 +98,16 @@ class PoliciesService {
   }
 
   getPoliciesByEntities(guids) {
-    return vprotectApiService.post(`/policies/vm-backup/list-by-entities`, {
-      protectedEntities: [guids],
-    });
+    return vprotectApiService
+      .post(`/policies/vm-backup/list-by-entities`, {
+        protectedEntities: [guids],
+      })
+      .then((res) =>
+        res.map((policy) => ({
+          ...policy,
+          rules: policy.rules?.filter((rule) => !rule.markedForDeletion),
+        })),
+      );
   }
 
   autoAssignmentPreview(type = '', model) {

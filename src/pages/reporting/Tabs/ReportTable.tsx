@@ -14,11 +14,11 @@ import { dateTemplate } from 'components/table/templates';
 
 const virtualEnvironmentStatus = (rowData) => {
   const statusClassName = classNames({
-    'text-danger': rowData.status === 'Failed',
-    'text-info': rowData.status === 'Success (removed)',
+    'text-danger': rowData.status.description === 'Failed',
+    'text-info': rowData.status.description === 'Success (removed)',
   });
 
-  return <div className={statusClassName}>{rowData.status}</div>;
+  return <div className={statusClassName}>{rowData.status.description}</div>;
 };
 
 const nameLink = (rowData) => (

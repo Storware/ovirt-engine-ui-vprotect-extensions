@@ -18,7 +18,12 @@ const enum View {
   'Rules',
 }
 
-export const BackupModal = ({ virtualEnvironments, rules = [], ...props }) => {
+export const BackupModal = ({
+  virtualEnvironments,
+  rules = [],
+  fromPolicy = true,
+  ...props
+}) => {
   const dispatch = useDispatch();
 
   const [task, setTask] = useState(new BackupTask());
@@ -29,11 +34,14 @@ export const BackupModal = ({ virtualEnvironments, rules = [], ...props }) => {
       ...task,
       protectedEntities: virtualEnvironments,
       // always check first rules
-      rules: virtualEnvironments
-        .flatMap(
-          ({ vmBackupPolicy = null }) => vmBackupPolicy?.rules?.[0] || rules,
-        )
-        .filter((e) => !!e),
+      rules: fromPolicy
+        ? [virtualEnvironments[0].vmBackupPolicy?.rules?.[0]]
+        : virtualEnvironments
+            .flatMap(
+              ({ vmBackupPolicy = null }) =>
+                vmBackupPolicy?.rules?.[0] || rules,
+            )
+            .filter((e) => !!e),
     });
     dispatch(
       getBackupDestinationsAndBackupTypes(
@@ -90,6 +98,7 @@ export const BackupModal = ({ virtualEnvironments, rules = [], ...props }) => {
             task={task}
             updateSelectedRule={updateSelectedRule}
             toggleAllRules={toggleAllRules}
+            fromPolicy={fromPolicy}
             onBack={() => setView(View.Backup)}
           />
         );

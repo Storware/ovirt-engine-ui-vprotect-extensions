@@ -13,7 +13,11 @@ import { backupsService } from '../../services/backups-service';
 import { tasksService } from '../../services/tasks-service';
 import { alertService } from '../../services/alert-service';
 import { nodesService } from '../../services/nodes-service';
-import { hideModalAction, unsaveModalAction } from '../modal/actions';
+import {
+  hideModalAction,
+  showFooterAction,
+  unsaveModalAction,
+} from '../modal/actions';
 import { MountedFileSystemRequest } from '../../model/tasks/mounted-file-system-request';
 import moment from 'moment-timezone';
 import { BackupFile } from '../../model/backup-file';
@@ -114,6 +118,7 @@ export const submitTask =
       await tasksService.submitTaskRestoreAndMount(task);
       alertService.info('Restore and Mount task has been submitted');
       await dispatch(hideModalAction());
+      dispatch(showFooterAction());
     } catch (e) {
       await dispatch(unsaveModalAction());
     }

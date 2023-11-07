@@ -14,6 +14,7 @@ export interface Modal {
   props;
   title: string;
   buttonLabel: string;
+  width: string;
   style?: { [key: string]: string | number };
 }
 

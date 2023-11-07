@@ -3,7 +3,7 @@ import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVirtualMachinesPage } from 'store/virtual-machines/actions';
 import { selectVirtualMachines } from 'store/virtual-machines/selectors';
-import { showModalAction } from 'store/modal/actions';
+import { hideFooterAction, showModalAction } from 'store/modal/actions';
 import { MountBackupModal } from 'components/modal/MountBackupModal';
 import { nameTemplate } from 'components/table/templates';
 import { createBrowserHistory } from 'history';
@@ -30,6 +30,7 @@ import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIco
 import { selectPagination } from 'store/pagination/selectors';
 import { selectIsSelectedRulesZero } from 'store/backup-modal/selectors';
 import { resetRestoreTaskAction } from 'store/restore-modal/actions';
+import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 
 const VirtualMachinesList = () => {
   const dispatch = useDispatch();
@@ -132,7 +133,7 @@ const VirtualMachinesList = () => {
           );
           return;
         }
-
+        dispatch(hideFooterAction());
         dispatch(
           showModalAction({
             component: MountBackupModal,
@@ -162,8 +163,9 @@ const VirtualMachinesList = () => {
     },
     {
       label: 'Delete',
-      command: () => {
-        dispatch(deleteVirtualMachine(actionsElement));
+      command: async () => {
+        await dispatch(deleteVirtualMachine(actionsElement));
+        dispatch(getVirtualMachinesPage(tableParams));
       },
     },
   ];
@@ -196,7 +198,9 @@ const VirtualMachinesList = () => {
           body={booleanTemplate}
           sortable
         />
-        <Column field="hypervisor.name" header="Hypervisor" sortable />
+        {isNotOpenstackBuild && (
+          <Column field="hypervisor.name" header="Hypervisor" sortable />
+        )}
         <Column
           field="vmBackupPolicy"
           header="Policy"
