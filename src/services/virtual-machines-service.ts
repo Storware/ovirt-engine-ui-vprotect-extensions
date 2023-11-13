@@ -92,7 +92,7 @@ class VirtualMachinesService {
       if (modes.every((el) => el.name !== 'INHERIT')) {
         modes.push({
           name: 'INHERIT',
-          description: `Inherited from Hypervisor Manager: ${vm.hvManager.vmExportImportMode.description}`,
+          description: `Inherited from Hypervisor Manager: ${vm.hvManager?.vmExportImportMode?.description}`,
         });
       }
     } else {
@@ -100,7 +100,7 @@ class VirtualMachinesService {
       if (modes.every((el) => el.name !== 'INHERIT')) {
         modes.push({
           name: 'INHERIT',
-          description: `Inherited from Hypervisor: ${vm.hypervisor.vmExportImportMode.description}`,
+          description: `Inherited from Hypervisor: ${vm.hypervisor?.vmExportImportMode?.description}`,
         });
       }
     }
