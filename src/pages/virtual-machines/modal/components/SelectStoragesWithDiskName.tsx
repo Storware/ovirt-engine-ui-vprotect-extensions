@@ -23,11 +23,7 @@ const SelectStoragesWithDiskName = ({
 
   const ImportToStorageBody = (row) => {
     if (!row.storageId) {
-      row.storageId =
-        hvStorages.find(
-          (hvStorage) =>
-            hvStorage.guid === row.backupFile?.vmDisk?.originalStorage?.guid,
-        )?.uuid ?? hvStorages[0].uuid;
+      row.storageId = hvStorages[0].uuid;
     }
     const id = getElId(row);
     return (

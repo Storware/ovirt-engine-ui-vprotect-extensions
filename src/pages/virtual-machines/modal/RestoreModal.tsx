@@ -129,11 +129,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
         excludedFromRestore: backupFile.vmDisk.excludedFromBackup,
         storageId:
           filteredStorages.find(({ uuid }) => uuid === backupFile.storageId)
-            ?.uuid ||
-          filteredStorages.find(
-            ({ guid }) => guid === backupFile?.vmDisk?.originalStorage?.guid,
-          )?.uuid ||
-          filteredStorages[0]?.uuid,
+            ?.uuid || filteredStorages[0]?.uuid,
       }));
 
   useEffect(() => {
