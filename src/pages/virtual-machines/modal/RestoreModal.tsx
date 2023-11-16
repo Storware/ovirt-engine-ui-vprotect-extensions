@@ -117,7 +117,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
   };
 
   const filterTaskFiles = (arr) =>
-    [...arr]
+    arr
       .filter(({ backupFileType }) =>
         ['DISK', 'DISK_INC', 'VM_IMAGE'].includes(backupFileType?.name),
       )
@@ -128,13 +128,17 @@ export const RestoreModal = ({ virtualEnvironment }) => {
         path: backupFile.path,
         excludedFromRestore: backupFile.vmDisk.excludedFromBackup,
         storageId:
-          filteredStorages.find(({ guid }) => guid === backupFile.storageId)
-            ?.guid || filteredStorages[0]?.guid,
+          filteredStorages.find(({ uuid }) => uuid === backupFile.storageId)
+            ?.uuid || filteredStorages[0]?.uuid,
       }));
 
   useEffect(() => {
     setBackupFilesFiltered(filterTaskFiles(backupFiles));
   }, [backupFiles]);
+
+  useEffect(() => {
+    setBackupFilesFiltered(filterTaskFiles(backupFiles));
+  }, [filteredStorages]);
 
   if (useSelector(selectSaved)) {
     // @ts-ignore
