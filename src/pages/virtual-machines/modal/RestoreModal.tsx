@@ -197,6 +197,7 @@ export const RestoreModal = ({ virtualEnvironment }) => {
               optionLabel="url"
               label="Hypervisor Manager"
               required
+              disabled
               options={hypervisorManagers}
             />
             <Field
