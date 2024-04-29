@@ -172,7 +172,7 @@ export const getHypervisorClustersForHypervisorManager =
 
 export const submitTask = (task) => async (dispatch: Dispatch) => {
   try {
-    await tasksService.submitTaskRestoreAndImportWithProjectAssign(task);
+    await tasksService.submitTaskRestoreAndImport(task);
     alertService.info('Restore task has been submitted');
     await dispatch(hideModalAction());
   } catch (e) {

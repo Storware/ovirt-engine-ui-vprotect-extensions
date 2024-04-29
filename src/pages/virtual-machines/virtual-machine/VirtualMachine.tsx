@@ -330,7 +330,14 @@ const VirtualMachine = () => {
           <TabPanel header={`Schedules (${schedules.length})`}>
             <SchedulesTable />
           </TabPanel>
-          <TabPanel header="Settings">
+          <TabPanel
+            header={
+              virtualMachine.guid
+                ? 'Settings'
+                : 'Settings (waiting for server data)'
+            }
+            disabled={!virtualMachine.guid}
+          >
             <Settings />
           </TabPanel>
         </TabView>
