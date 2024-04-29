@@ -23,7 +23,11 @@ const SelectStoragesWithDiskName = ({
 
   const ImportToStorageBody = (row) => {
     if (!row.storageId) {
-      row.storageId = hvStorages[0].guid;
+      row.storageId =
+        hvStorages.find(
+          (hvStorage) =>
+            hvStorage.guid === row.backupFile?.vmDisk?.originalStorage?.guid,
+        )?.uuid ?? hvStorages[0].uuid;
     }
     const id = getElId(row);
     return (
@@ -35,7 +39,7 @@ const SelectStoragesWithDiskName = ({
           disabled={row.excludedFromRestore}
           options={hvStorages}
           optionLabel="name"
-          optionValue="guid"
+          optionValue="uuid"
           onChange={({ value }) =>
             setFieldValue(`taskFiles[${id}].storageId`, value)
           }
