@@ -5,4 +5,6 @@ export class BackupTask {
   windowStart = new Date().getTime();
   retryCount = 0;
   rules = [];
+  protectedEntityType = 'VM';
+  async = true;
 }
