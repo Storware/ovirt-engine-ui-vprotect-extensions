@@ -1,5 +1,6 @@
 import { vprotectApiService } from './vprotect-api-service';
 import { getDateLabel } from './time';
+import { WarningAcknowledgementRequest } from '../model/warning-acknowledgement';
 
 class BackupsService {
   getBackup(id) {
@@ -42,8 +43,8 @@ class BackupsService {
     return vprotectApiService.get('/mounted-backups', {
       params,
       headers: {},
-      paginate:true,
-    } );
+      paginate: true,
+    });
   }
 
   getMountedBackupFilesystemsDetailed(id) {
@@ -120,9 +121,14 @@ class BackupsService {
   }
 
   markBackupWarningsAsKnowledged(id) {
-    return vprotectApiService.put(`/backups/${id}/warnings-acknowledged`, {
-      value: true,
-    });
+    const body: WarningAcknowledgementRequest = {
+      protectedEntities: [],
+      backups: [id],
+      snapshots: [],
+      restoreJobs: [],
+      backupDestinations: [],
+    };
+    return vprotectApiService.put(`/backups/warnings-acknowledged`, body);
   }
 
   updateBackupDescription(guid = '', description = '') {
