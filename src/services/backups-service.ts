@@ -42,8 +42,8 @@ class BackupsService {
     return vprotectApiService.get('/mounted-backups', {
       params,
       headers: {},
-      paginate:true,
-    } );
+      paginate: true,
+    });
   }
 
   getMountedBackupFilesystemsDetailed(id) {
@@ -86,7 +86,7 @@ class BackupsService {
   }
 
   getBackupFilesDetailed(id) {
-    return vprotectApiService.get('/backup-files/detailed', {
+    return vprotectApiService.get('/backup-files/detailed/for-restore', {
       params: {
         backup: id,
         'with-modified-configs': true,
