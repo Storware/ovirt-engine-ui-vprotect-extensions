@@ -319,6 +319,12 @@ export const BackupPolicy = ({ type }) => {
                       )}
                     />
                   )}
+                  <Field
+                    name="scanFileSystem"
+                    component={Toggle}
+                    label="Enable filesystem scanning during backup"
+                    onChange={handle('scanFileSystem')}
+                  />
                 </AccordionTab>
               </Accordion>
 
