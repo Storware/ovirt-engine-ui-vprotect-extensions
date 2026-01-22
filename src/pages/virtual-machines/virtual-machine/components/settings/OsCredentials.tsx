@@ -1,12 +1,9 @@
-import React, {useEffect} from 'react';
-import {Button} from 'primereact/button';
-import {useDispatch, useSelector} from 'react-redux';
-import {hideFooterAction, hideModalAction, showModalAction,} from 'store/modal/actions';
-import CredentialForm, {initialValues,} from 'components/credentials/CredentialForm';
-import {Form, Formik} from 'formik';
-import {getCredentials, saveCredential,} from 'store/credentials/actions';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { hideFooterAction } from 'store/modal/actions';
+import { getCredentials } from 'store/credentials/actions';
 import Select from 'components/input/Select';
-import {selectCredentials} from 'store/credentials/selectors';
+import { selectCredentials } from 'store/credentials/selectors';
 
 export const OsCredentials = ({ model, setModel }) => {
   const dispatch = useDispatch();
@@ -19,19 +16,6 @@ export const OsCredentials = ({ model, setModel }) => {
   }, []);
   return (
     <div>
-      <div className="text-right">
-        <Button
-          label="Create Credential"
-          onClick={() => {
-            dispatch(
-              showModalAction({
-                component: Credential,
-                title: 'Create Credential',
-              }),
-            );
-          }}
-        />
-      </div>
       <Select
         value={model.credential}
         options={[{ name: '' }, ...data]}
@@ -44,59 +28,5 @@ export const OsCredentials = ({ model, setModel }) => {
         placeholder=""
       />
     </div>
-  );
-};
-
-const Credential = () => {
-  const dispatch = useDispatch();
-  const validate = ({ name, password, retypePassword, user }) => {
-    const requiredFieldsHaveNoValue = [
-      name,
-      password,
-      retypePassword,
-      user,
-    ].some((value) => !value);
-    const passwordIsNotSame = password !== retypePassword;
-    return requiredFieldsHaveNoValue || passwordIsNotSame;
-  };
-
-  return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={async ({
-        showSecretKey,
-        showAdditionalSettings,
-        retypePassword,
-        filename,
-        ...credential
-      }) => {
-        await saveCredential(credential);
-        dispatch(hideModalAction());
-        dispatch(getCredentials);
-      }}
-      enableReinitialize
-      isInitialValid={false}
-    >
-      {(props) => (
-        <Form className="form">
-          <CredentialForm {...props} hideSecretKey={true} />
-          <div className="d-flex justify-content-between mt-3">
-            <Button
-              type="button"
-              label="Cancel"
-              onClick={() => {
-                dispatch(hideModalAction());
-              }}
-            />
-            <Button
-              type="submit"
-              label="Save"
-              className="p-button-success ml-4"
-              disabled={validate(props.values)}
-            />
-          </div>
-        </Form>
-      )}
-    </Formik>
   );
 };
