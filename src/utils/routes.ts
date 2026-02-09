@@ -1,5 +1,4 @@
 import {
-  Credentials,
   Dashboard,
   MountedBackups,
   PoliciesAndSchedules,
@@ -19,5 +18,4 @@ export default [
   { path: '/mounted_backups', component: MountedBackups },
   { path: '/reporting', component: Reporting },
   { path: '/settings', component: Settings },
-  { path: '/os-credentials', component: Credentials },
 ];
