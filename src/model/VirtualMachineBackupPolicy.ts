@@ -5,7 +5,7 @@ import { NameAndGuid } from './dto/nameAndGuid';
 export class VirtualMachineBackupPolicy {
   vms = [];
   autoAssignSettings = new AutoAssignSettings();
-  autoRemoveNonPresent = true;
+  autoRemoveNonPresent = false;
   dailyReportEnabled: boolean;
   mailingList: NameAndGuid;
   failRemainingBackupTasksExportThreshold: number;
