@@ -30,7 +30,6 @@ export const getNetwork =
             return network;
           }) ?? []),
         ];
-        console.log(combined);
         dispatch(setNetworkAction(combined));
       },
     );
