@@ -1,6 +1,5 @@
 import { PATHS } from '@/const/paths';
 import {
-  Credentials,
   Dashboard,
   MountedBackups,
   PoliciesAndSchedules,
@@ -20,5 +19,4 @@ export default [
   { path: PATHS.MOUNTED_BACKUPS, component: MountedBackups },
   { path: PATHS.REPORTING, component: Reporting },
   { path: PATHS.SETTINGS, component: Settings },
-  { path: PATHS.OS_CREDENTIALS, component: Credentials },
 ];

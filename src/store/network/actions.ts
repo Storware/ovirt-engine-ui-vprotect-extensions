@@ -10,11 +10,27 @@ export const setNetworkAction = (payload: any): NetworkAction => ({
 export const getNetwork =
   ({ hypervisorManagerGuid }) =>
   (dispatch: Dispatch) => {
-    void networkService
-      .getNetworkList({
-        ...(hypervisorManagerGuid && {
-          'hypervisor-manager': hypervisorManagerGuid,
-        }),
-      })
-      .then((network) => dispatch(setNetworkAction(network)));
+    const privateNetworksRequest = networkService.getNetworkList({
+      ...(hypervisorManagerGuid && {
+        'hypervisor-manager': hypervisorManagerGuid,
+      }),
+    });
+    const sharedNetworksRequest = networkService.getNetworkSharedList({
+      ...(hypervisorManagerGuid && {
+        'hypervisor-manager': hypervisorManagerGuid,
+      }),
+    });
+
+    Promise.all([privateNetworksRequest, sharedNetworksRequest]).then(
+      ([privateNetworks, sharedNetworks]) => {
+        const combined = [
+          ...(privateNetworks ?? []),
+          ...(sharedNetworks?.map((network) => {
+            network.name = network.name + ' (shared)';
+            return network;
+          }) ?? []),
+        ];
+        dispatch(setNetworkAction(combined));
+      },
+    );
   };
