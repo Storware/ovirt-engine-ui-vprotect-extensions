@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useRef, useState } from 'react';
 import { policiesService } from 'services/policies-service';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,6 +21,7 @@ import { booleanTemplate } from 'components/table/templates';
 import { alertService } from 'services/alert-service';
 
 export const PoliciesList = () => {
+  const menuRef = useRef<Menu>();
   const dispatch = useDispatch();
   const { type } = useParams();
   const history = createBrowserHistory();
@@ -104,12 +105,7 @@ export const PoliciesList = () => {
 
   return (
     <>
-      <Menu
-        model={actions[type]}
-        popup
-        ref={(el) => (this.menu = el)}
-        id="popup_menu"
-      />
+      <Menu model={actions[type]} popup ref={menuRef} id="popup_menu" />
       {type === 'vm-backup' ? (
         <Table
           value={rows}
@@ -146,7 +142,9 @@ export const PoliciesList = () => {
               <Button
                 icon="pi pi-bars"
                 onClick={(event) => {
-                  this.menu.toggle(event);
+                  if (menuRef.current) {
+                    menuRef.current.toggle(event);
+                  }
                   setActionsElement(rowData);
                 }}
                 aria-controls="popup_menu"
@@ -173,7 +171,9 @@ export const PoliciesList = () => {
               <Button
                 icon="pi pi-bars"
                 onClick={(event) => {
-                  this.menu.toggle(event);
+                  if (menuRef.current) {
+                    menuRef.current.toggle(event);
+                  }
                   setActionsElement(rowData);
                 }}
                 aria-controls="popup_menu"

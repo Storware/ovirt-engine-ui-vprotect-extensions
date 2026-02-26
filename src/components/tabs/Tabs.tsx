@@ -1,9 +1,12 @@
-import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { Tab } from 'components/tabs/Tab';
-import getLastElementOfPath from 'components/tabs/getLastElementOfPath';
 
-export default ({ items }: { items: Tab[] }) => {
+const getLastElementOfPath = () => {
+  const pathParts = location.pathname.split('/');
+  return pathParts[pathParts.length - 1];
+};
+
+const Tabs = ({ items }: { items: Tab[] }) => {
   const location = useLocation();
   const path = getLastElementOfPath();
   const pathWithoutTab = location.pathname.split('/').slice(0, -1).join('/');
@@ -29,3 +32,5 @@ export default ({ items }: { items: Tab[] }) => {
     </div>
   );
 };
+
+export default Tabs;

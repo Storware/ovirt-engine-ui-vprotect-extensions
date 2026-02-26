@@ -196,14 +196,14 @@ module.exports = {
   bail: true,
 
   entry: {
-    plugin: [...commonModules, './src/integrations/ovirt/plugin.js'],
+    plugin: [...commonModules, './src/integrations/ovirt/plugin.ts'],
     index: [...commonModules, './src/index.tsx'],
   },
 
   resolve: {
     alias: {
       react: path.join(__dirname, 'node_modules', 'react'), // TODO: Still needed?
-      _: path.join(__dirname, 'src'),
+      "@": path.join(__dirname, 'src/'),
       components: path.resolve(__dirname, 'src/components/'),
       model: path.resolve(__dirname, 'src/model/'),
       pages: path.resolve(__dirname, 'src/pages/'),
@@ -224,6 +224,6 @@ module.exports = {
         'src/integrations/ovirt/config.ts',
       ),
     },
-    extensions: ['.ts', '.tsx', '.js', '.jsx', '*'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.*'],
   },
 };

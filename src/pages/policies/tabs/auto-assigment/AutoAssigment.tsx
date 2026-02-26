@@ -1,12 +1,12 @@
 import React from 'react';
 import { Field } from 'formik';
+import { Button } from 'primereact/button';
+import { useDispatch } from 'react-redux';
 import Select from 'components/input/reactive/Select';
 import InputChips from 'components/input/reactive/InputChips';
 import InputListBox from 'components/input/reactive/InputListBox';
 import { policiesService } from 'services/policies-service';
-import { Button } from 'primereact/button';
 import { hideFooterAction, showModalAction } from 'store/modal/actions';
-import { useDispatch } from 'react-redux';
 import { AutoAssigmentPreviewModal } from 'components/modal/AutoAssigmentPreviewModal';
 
 export const AutoAssigment = ({
@@ -16,7 +16,7 @@ export const AutoAssigment = ({
   hypervisorClusters,
   type,
   mapModelToPayload,
-}) => {
+}: any) => {
   const dispatch = useDispatch();
 
   return (

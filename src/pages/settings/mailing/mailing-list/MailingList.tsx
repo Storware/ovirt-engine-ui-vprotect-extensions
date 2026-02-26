@@ -1,28 +1,29 @@
-import React, { DOMElement, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Field, Form, Formik } from 'formik';
-import { getMailingList, save } from 'store/mailing/actions';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectMailing } from 'store/mailing/selectors';
-import Text from 'components/input/reactive/Text';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { BackButton } from 'utils/backButton';
 import { Button } from 'primereact/button';
 import { Panel } from 'primereact/panel';
+import { getMailingList, save } from 'store/mailing/actions';
+import { selectMailing } from 'store/mailing/selectors';
+import Text from 'components/input/reactive/Text';
+import { BackButton } from '@/components/BackButton';
 import { MailingListModel } from 'model/mailing/mailing';
 import { InputList } from 'components/input/reactive/InputList';
+import { useTypedSelector } from '@/store/useTypedSelector';
 
 const MailingList = () => {
   const dispatch = useDispatch();
   const { guid } = useParams();
 
-  const model =
-    guid === 'create' ? new MailingListModel() : useSelector(selectMailing);
+  const model = useTypedSelector((store) =>
+    guid === 'create' ? new MailingListModel() : selectMailing(store),
+  );
 
   const focusLastRecipientInput = () => {
     setTimeout(() => {
       const inputs = document.querySelectorAll('form .recipient-input');
-      // @ts-ignore
-      inputs[inputs.length - 1].focus();
+      (inputs[inputs.length - 1] as any).focus();
     });
   };
 

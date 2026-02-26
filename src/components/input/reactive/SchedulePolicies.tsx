@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ListBox } from 'primereact/listbox';
-import { Filesize } from '../../convert/Filesize';
+import { AdvancedFile } from '@/model/AdvancedFile';
 
 const selectedPolicies = (value, policies) => {
   if (!policies || !value) {
@@ -59,7 +59,8 @@ const SchedulePolicies = ({ field, form: { setFieldValue }, ...props }) => {
           ...el,
           label: (
             <span>
-              {el?.name} (<Filesize bytes={el?.averageBackupSize} />,{' '}
+              {el?.name} (
+              <span>{AdvancedFile.formatFileSize(el?.averageBackupSize)}</span>,{' '}
               {el?.vmCount} Virtual Environments)
             </span>
           ),

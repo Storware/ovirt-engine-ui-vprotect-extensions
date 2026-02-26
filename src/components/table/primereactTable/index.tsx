@@ -4,11 +4,11 @@ import {
   DataTableSelectionModeType,
   DataTableSortOrderType,
 } from 'primereact/datatable';
+import { useDispatch } from 'react-redux';
 import { Dropdown } from 'primereact/dropdown';
 import { PaginatorTemplate } from 'primereact/paginator';
-import useDebounce from 'utils/debounce';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectPagination } from '../../../store/pagination/selectors';
+import { selectPagination } from '@/store/pagination/selectors';
+import useDebounce from '@/utils/debounce';
 import {
   resetPagination,
   setPaginationDirection,
@@ -16,7 +16,8 @@ import {
   setPaginationOrderBy,
   setPaginationPage,
   setPaginationSize,
-} from '../../../store/pagination/actions';
+} from '@/store/pagination/actions';
+import { useTypedSelector } from '@/store/useTypedSelector';
 
 type Props = {
   children: any[];
@@ -70,7 +71,7 @@ const Paginator = {
 } as PaginatorTemplate;
 
 const Table = ({ children, apiPagination, value, ...props }: Props) => {
-  const tableParams = useSelector(selectPagination);
+  const tableParams = useTypedSelector(selectPagination);
   const dispatch = useDispatch();
 
   const [unmappedDirection, setUnmappedDirection] =
@@ -81,7 +82,7 @@ const Table = ({ children, apiPagination, value, ...props }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (!!apiPagination) {
+    if (apiPagination) {
       apiPagination(tableParams);
     }
   }, [tableParams]);
@@ -94,9 +95,6 @@ const Table = ({ children, apiPagination, value, ...props }: Props) => {
   const debouncedFilter = useDebounce(props.globalFilter, 400);
 
   useEffect(() => {
-    handleOnFilter(props.globalFilter);
-  }, [debouncedFilter]);
-
   const handleOnFilter = (prop) => {
     if (prop !== undefined) {
       dispatch(setPaginationFilter(prop));
@@ -104,6 +102,10 @@ const Table = ({ children, apiPagination, value, ...props }: Props) => {
     }
     dispatch(setPaginationFilter(''));
   };
+
+    handleOnFilter(props.globalFilter);
+  }, [debouncedFilter]);
+
 
   const mappedDirection: { [key: string]: string | null } = {
     '1': 'asc',
@@ -122,7 +124,7 @@ const Table = ({ children, apiPagination, value, ...props }: Props) => {
     dispatch(setPaginationDirection(''));
   };
 
-  const { body, totalCount } = !!apiPagination
+  const { body, totalCount } = apiPagination
     ? value
     : { body: value, totalCount: null };
 

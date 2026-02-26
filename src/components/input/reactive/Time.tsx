@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Calendar } from 'primereact/calendar';
 import {
   getHoursAndMinutesFromSource,
   getSourceValueFromHoursAndMinutes,
-} from 'components/input/InputTime';
+} from '@/components/input/InputTime';
 
 const Time = ({ factor, field, form: { setFieldValue }, ...props }) => {
   const [value, setValue] = useState(new Date());

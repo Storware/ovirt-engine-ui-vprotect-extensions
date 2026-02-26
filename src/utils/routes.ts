@@ -1,3 +1,4 @@
+import { PATHS } from '@/const/paths';
 import {
   Dashboard,
   MountedBackups,
@@ -7,15 +8,15 @@ import {
   TaskConsole,
   VirtualMachines,
   WorkflowExecution,
-} from 'pages';
+} from '@/pages';
 
 export default [
-  { path: '/dashboard', component: Dashboard },
-  { path: '/virtual_environments', component: VirtualMachines },
-  { path: '/task_console', component: TaskConsole },
-  { path: '/workflow_execution', component: WorkflowExecution },
-  { path: '/policies_and_schedules', component: PoliciesAndSchedules },
-  { path: '/mounted_backups', component: MountedBackups },
-  { path: '/reporting', component: Reporting },
-  { path: '/settings', component: Settings },
+  { path: PATHS.DASHBOARD, component: Dashboard },
+  { path: PATHS.VIRTUAL_ENVIRONMENTS, component: VirtualMachines },
+  { path: PATHS.TASK_CONSOLE, component: TaskConsole },
+  { path: PATHS.WORKFLOW_EXECUTION, component: WorkflowExecution },
+  { path: PATHS.POLICIES_AND_SHEDULES, component: PoliciesAndSchedules },
+  { path: PATHS.MOUNTED_BACKUPS, component: MountedBackups },
+  { path: PATHS.REPORTING, component: Reporting },
+  { path: PATHS.SETTINGS, component: Settings },
 ];

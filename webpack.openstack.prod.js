@@ -181,8 +181,8 @@ module.exports = {
 
   resolve: {
     alias: {
-      react: path.join(__dirname, 'node_modules', 'react'), // TODO: Still needed?
-      _: path.join(__dirname, 'src'),
+      react: path.join(__dirname, 'node_modules', 'react'), // TODO: Still needed? 
+      "@": path.join(__dirname, 'src'),
       components: path.resolve(__dirname, 'src/components/'),
       model: path.resolve(__dirname, 'src/model/'),
       pages: path.resolve(__dirname, 'src/pages/'),

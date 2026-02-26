@@ -1,4 +1,4 @@
-import { CredentialModel } from '../../model';
+import { CredentialModel } from '@/model/CredentialModel';
 
 export const SET_CREDENTIALS = 'SET_CREDENTIALS';
 export const SET_SELECTED_CREDENTIAL = 'SET_SELECTED_CREDENTIAL';

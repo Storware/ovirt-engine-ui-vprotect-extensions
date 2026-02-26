@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dialog, DialogProps } from 'primereact/dialog';
-import { Footer, FooterProps } from './components';
+import { Footer, FooterProps } from './Footer';
 
 interface Props extends DialogProps, FooterProps {}
 

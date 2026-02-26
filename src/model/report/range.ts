@@ -1,6 +1,6 @@
-import { MILLISECONDS_IN_DAY } from 'utils/milisecondsTimespan';
+import { AdvancedDateAndTime } from '../AdvancedDateAndTime';
 
 export class Range {
-  from = new Date().getTime() - MILLISECONDS_IN_DAY;
+  from = new Date().getTime() - AdvancedDateAndTime.MILLISECONDS_IN_DAY;
   to = new Date().getTime();
 }

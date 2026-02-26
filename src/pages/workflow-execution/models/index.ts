@@ -1,4 +1,4 @@
-import { SortDirection } from 'model';
+import { SortDirection } from '@/model/sortDirection';
 
 export interface SortTypes {
   orderBy: string;

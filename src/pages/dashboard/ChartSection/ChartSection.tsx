@@ -1,6 +1,5 @@
 import { ChartDonut } from '@patternfly/react-charts';
 import { Card } from 'primereact/card';
-import React from 'react';
 
 interface Data {
   x: string;

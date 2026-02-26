@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Dropdown } from 'primereact/dropdown';
-import { compareWithValueProperty } from 'utils/compare';
+import { compareWithValueProperty } from '@/utils/compare';
 
 const getValue = (value, valueProperty?) =>
   valueProperty ? value[valueProperty] : value;

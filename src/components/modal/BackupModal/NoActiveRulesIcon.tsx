@@ -1,16 +1,16 @@
-import React from 'react';
 import { Button } from 'primereact/button';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { Tooltip } from 'primereact/tooltip';
 import { selectModal } from 'store/modal/selectors';
 import { saveModalAction } from 'store/modal/actions';
-import { Tooltip } from 'primereact/tooltip';
 import { setIsSelectedRulesZero } from 'store/backup-modal/actions';
+import { useTypedSelector } from '@/store/useTypedSelector';
 
-export const NoActiveRulesIcon = ({ entities }) => {
+export const NoActiveRulesIcon = ({ entities }: any) => {
   const dispatch = useDispatch();
-  const modal = useSelector(selectModal);
+  const modal = useTypedSelector(selectModal);
   const { component: Component, buttonLabel } = modal;
-  const { payload } = useSelector(setIsSelectedRulesZero);
+  const { payload } = useTypedSelector(setIsSelectedRulesZero);
   const isRuleWarning = payload.backupModal.isSelectedRulesZero;
 
   return isRuleWarning ? (

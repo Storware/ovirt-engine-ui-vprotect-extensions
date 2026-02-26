@@ -1,5 +1,5 @@
 import { vprotectApiService } from './vprotect-api-service';
-import { CredentialModel } from '../model';
+import { CredentialModel } from '@/model/CredentialModel';
 
 class CredentialsService {
   getCredential(guid: string): Promise<CredentialModel> {

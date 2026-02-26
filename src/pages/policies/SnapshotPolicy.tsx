@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Accordion, AccordionTab } from 'primereact/accordion';
-import { policiesService } from 'services/policies-service';
 import { Button } from 'primereact/button';
 import { Field, Form, Formik } from 'formik';
+import { useParams } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+import { policiesService } from 'services/policies-service';
 import Text from 'components/input/reactive/Text';
 import { PolicySnapshot } from 'model/policies/policy-snapshot';
 import Toggle from 'components/input/reactive/Toggle';
@@ -18,11 +20,9 @@ import {
   selectVirtualMachines,
 } from 'store/policy/selectors';
 import { getPolicyPage } from 'store/policy/actions';
-import { useParams } from 'react-router-dom';
 import InputListBox from 'components/input/reactive/InputListBox';
 import { save } from 'store/policy/actions';
-import { createBrowserHistory } from 'history';
-import { BackButton } from 'utils/backButton';
+import { BackButton } from '@/components/BackButton';
 
 const SnapshotPolicy = () => {
   const dispatch = useDispatch();

@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react';
-import { showModalAction } from 'store/modal/actions';
-import SendReportViaEmailModal from '../dashboard/chargeback/SendReportViaEmailModal';
 import { Dropdown } from 'primereact/dropdown';
+import SendReportViaEmailModal from '../dashboard/Chargeback/SendReportViaEmailModal';
+import { mapPropertiesObjectListToStringOfGuids } from './components/ReportSizeContainer';
+import { showModalAction } from 'store/modal/actions';
 import { NameAndDescription } from 'model/dto/nameAndDescription';
 import { fileSaverService } from 'services/file-saver-service';
 import dashboardService from 'services/dashboard-service';
 import { selectRange } from 'store/reporting/selectors';
 import { selectExportRequest } from 'store/export-report/selectors';
-import { mapPropertiesObjectListToStringOfGuids } from './components/ReportSizeContainer';
 
 export const ExportAs = () => {
   const dispatch = useDispatch();

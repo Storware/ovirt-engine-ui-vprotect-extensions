@@ -1,45 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectSaved } from 'store/modal/selectors';
-import {
-  checkIfIscsiMountable,
-  getBackupFilesystems,
-  setMountedBackup,
-  setTaskAction,
-  submitTask,
-} from 'store/mount-backup-modal/actions';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import moment from 'moment-timezone';
+import { Column } from 'primereact/column';
+import { Chips } from 'primereact/chips';
+import { Button } from 'primereact/button';
+import { BackupDropdown } from '../input/BackupDropdown';
+import Text from '../input/Text';
+import Radio from '../input/Radio';
+import Check from '../input/Check';
+import Table from '../table/primereactTable';
+import { sizeTemplate } from '../table/templates';
 import {
   selectBackupFiles,
   selectIscsiMountable,
   selectManualMountFilesystems,
   selectMountableBackups,
   selectTask,
-} from 'store/mount-backup-modal/selectors';
-import { BackupDropdown } from '../input/BackupDropdown';
-import Text from '../input/Text';
-import Radio from '../input/Radio';
-import moment from 'moment-timezone';
-import Check from '../input/Check';
-import { Filesize } from '../convert/Filesize';
-import { Column } from 'primereact/column';
-import Table from '../table/primereactTable';
-import { sizeTemplate } from '../table/templates';
-import { Chips } from 'primereact/chips';
-import { getBackupLocations } from 'store/restore-modal/actions';
-import { selectBackupLocations } from 'store/restore-modal/selectors';
-import { getUnmountPeriodForMountedBackups } from 'utils/user';
-import { Button } from 'primereact/button';
+} from '@/store/mount-backup-modal/selectors';
 import {
-  hideModalAction,
-  saveModalAction,
-  showFooterAction,
-} from 'store/modal/actions';
+  checkIfIscsiMountable,
+  getBackupFilesystems,
+  setMountedBackup,
+  setTaskAction,
+  submitTask,
+} from '@/store/mount-backup-modal/actions';
+import { getBackupLocations } from '@/store/restore-modal/actions';
+import { selectBackupLocations } from '@/store/restore-modal/selectors';
+import { getUnmountPeriodForMountedBackups } from '@/utils/user';
+import { hideModalAction, showFooterAction } from '@/store/modal/actions';
+import { AdvancedFile } from '@/model/AdvancedFile';
+import { useTypedSelector } from '@/store/useTypedSelector';
 
 const manuallyMountParameterLabel = (el) => (
   <span>
     {el.fileSystem?.volume}{' '}
     {el.fileSystem?.label ? '[' + el.fileSystem?.label + ']' : ''} (
-    {el.fileSystem?.type}, <Filesize bytes={el.fileSystem?.size} />)
+    {el.fileSystem?.type},{' '}
+    <span>{AdvancedFile.formatFileSize(el.fileSystem?.size)}</span>)
   </span>
 );
 
@@ -83,12 +80,12 @@ export const MountBackupModal = ({ virtualEnvironment, backups }) => {
     backupFiles,
     iscsiMountable,
   ] = [
-    useSelector(selectMountableBackups),
-    useSelector(selectBackupLocations),
-    useSelector(selectTask),
-    useSelector(selectManualMountFilesystems),
-    useSelector(selectBackupFiles),
-    useSelector(selectIscsiMountable),
+    useTypedSelector(selectMountableBackups),
+    useTypedSelector(selectBackupLocations),
+    useTypedSelector(selectTask),
+    useTypedSelector(selectManualMountFilesystems),
+    useTypedSelector(selectBackupFiles),
+    useTypedSelector(selectIscsiMountable),
   ];
 
   useEffect(() => {

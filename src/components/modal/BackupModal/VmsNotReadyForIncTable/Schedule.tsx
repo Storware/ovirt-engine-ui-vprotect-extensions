@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Field, Form, Formik } from 'formik';
 import { schedulesService } from 'services/schedules-service';
 import { VirtualMachineSchedule } from 'model/VirtualMachineSchedule';
-import { Field, Form, Formik } from 'formik';
 import Text from 'components/input/reactive/Text';
 import Toggle from 'components/input/reactive/Toggle';
 import Select from 'components/input/reactive/Select';
@@ -10,7 +10,8 @@ import Time from 'components/input/reactive/Time';
 import Days from 'components/input/reactive/Days';
 import SchedulePolicies from 'components/input/reactive/SchedulePolicies';
 import InputListBox from 'components/input/reactive/InputListBox';
-import { dayOfWeekOccurrences, months } from 'model/Occurrences';
+import { dayOfWeekOccurrences } from 'model/Occurrences';
+import { AdvancedDateAndTime } from '@/model/AdvancedDateAndTime';
 
 export default ({ policy, onModelChange }) => {
   const [model, setModel] = useState(new VirtualMachineSchedule());
@@ -142,7 +143,7 @@ export default ({ policy, onModelChange }) => {
                 label="Selected months (optional)"
                 multiple
                 optionLabel="name"
-                options={months}
+                options={AdvancedDateAndTime.months}
                 dataKey="name"
                 onChange={handle('months')}
               />

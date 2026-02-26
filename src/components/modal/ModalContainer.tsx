@@ -1,16 +1,16 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { hideFooter, selectModal, selectShow } from 'store/modal/selectors';
-import { hideModalAction, saveModalAction } from 'store/modal/actions';
+import { useDispatch } from 'react-redux';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
+import { hideFooter, selectModal, selectShow } from 'store/modal/selectors';
+import { hideModalAction, saveModalAction } from 'store/modal/actions';
+import { useTypedSelector } from '@/store/useTypedSelector';
 
 // Deprecated
 const ModalContainer = () => {
   const dispatch = useDispatch();
-  const modal = useSelector(selectModal);
-  const show = useSelector(selectShow);
-  const hideButtonActions = useSelector(hideFooter);
+  const modal = useTypedSelector(selectModal);
+  const show = useTypedSelector(selectShow);
+  const hideButtonActions = useTypedSelector(hideFooter);
   const { component: Component, buttonLabel, width } = modal;
   const {
     FooterContent: FooterContent = () => (

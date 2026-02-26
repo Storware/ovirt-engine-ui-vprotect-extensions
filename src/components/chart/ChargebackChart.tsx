@@ -1,20 +1,20 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectPage, selectSortBy } from 'store/chargeback-chart/selectors';
-import { setPage, setSortBy } from 'store/chargeback-chart/actions';
-import getPaginatedAndSortedData from 'pages/dashboard/chargeback/getPaginatedAndSortedData';
+import { useDispatch } from 'react-redux';
 import { Chart } from 'primereact/chart';
+import { selectPage, selectSortBy } from '@/store/chargeback-chart/selectors';
+import { setPage, setSortBy } from '@/store/chargeback-chart/actions';
+import getPaginatedAndSortedData from '@/pages/dashboard/Chargeback/getPaginatedAndSortedData';
 import {
   commonSizeOptions,
   tickSizeOptions,
-} from 'pages/dashboard/chargeback/commonSizeOptions';
+} from '@/pages/dashboard/Chargeback/commonSizeOptions';
+import { useTypedSelector } from '@/store/useTypedSelector';
 
 type SortType = 'name' | 'size';
 
-export default ({ chartData }) => {
+export function ChargebackChart({ chartData }: any) {
   const dispatch = useDispatch();
-  const sortBy = useSelector(selectSortBy);
-  const page = useSelector(selectPage);
+  const sortBy = useTypedSelector(selectSortBy);
+  const page = useTypedSelector(selectPage);
 
   const onSortClick = (property: SortType) => () => {
     Object.keys(sortBy).forEach((key) => {
@@ -144,4 +144,6 @@ export default ({ chartData }) => {
       </div>
     </div>
   );
-};
+}
+
+export default ChargebackChart;

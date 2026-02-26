@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Panel } from 'primereact/panel';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
-import { DateShow } from '../../../components/convert/Date';
-import { Filesize } from '../../../components/convert/Filesize';
-import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { TabView, TabPanel } from 'primereact/tabview';
 import { useDispatch, useSelector } from 'react-redux';
+import { createBrowserHistory } from 'history';
+import { Calendar } from 'primereact/calendar';
+import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import {
   selectBackups,
   selectBackupsHistory,
@@ -24,12 +24,10 @@ import {
   getVirtualMachineTabs,
 } from 'store/virtual-machine/actions';
 import { showModalAction } from 'store/modal/actions';
-import { createBrowserHistory } from 'history';
 import BarChartContainer from 'components/chart/BarChartContainer';
 import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
 import { DateType } from 'model/time/calendarPropsModel';
 import { DateRangeModel } from 'model/time/dateRange.model';
-import { Calendar } from 'primereact/calendar';
 import {
   BackupsHistoryTable,
   BackupsTable,
@@ -44,6 +42,8 @@ import { alertService } from 'services/alert-service';
 import { policiesService } from 'services/policies-service';
 import { NoActiveRulesIcon } from 'components/modal/BackupModal/NoActiveRulesIcon';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
+import { AdvancedFile } from '@/model/AdvancedFile';
+import { AdvancedDateAndTime } from '@/model/AdvancedDateAndTime';
 
 const VirtualMachine = () => {
   const date = new Date();
@@ -59,7 +59,7 @@ const VirtualMachine = () => {
   ]);
   const notInitialRender = useRef(false);
   const dispatch = useDispatch();
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
   const { guid } = useParams();
   const history = createBrowserHistory();
 
@@ -214,21 +214,27 @@ const VirtualMachine = () => {
               <p>
                 Last backup:{' '}
                 <b>
-                  <DateShow date={virtualMachine.lastBackup} />
+                  {AdvancedDateAndTime.legacyFormat(virtualMachine.lastBackup)}
                 </b>
               </p>
               <p>
                 Last backup size:{' '}
                 <b>
-                  <Filesize bytes={virtualMachine.lastSuccessfulBackupSize} />
+                  <span>
+                    {AdvancedFile.formatFileSize(
+                      virtualMachine.lastSuccessfulBackupSize,
+                    )}
+                  </span>
                 </b>
               </p>
               <p>
                 Last full backup size:{' '}
                 <b>
-                  <Filesize
-                    bytes={virtualMachine.lastSuccessfulFullBackupSize}
-                  />
+                  <span>
+                    {AdvancedFile.formatFileSize(
+                      virtualMachine.lastSuccessfulFullBackupSize,
+                    )}
+                  </span>
                 </b>
               </p>
             </Details>

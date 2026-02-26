@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Column } from 'primereact/column';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import Table from '../../../components/table/primereactTable';
 import { selectFiles } from '../../../store/mounted-backups/selectors';
 import { getFiles } from '../../../store/mounted-backups/actions';
-import { useParams } from 'react-router-dom';
 import { booleanTemplate } from '../../../components/table/templates';
 
 const FilesTable = () => {

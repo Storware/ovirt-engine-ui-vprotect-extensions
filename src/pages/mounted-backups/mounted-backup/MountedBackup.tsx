@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {Link, useParams} from 'react-router-dom';
-import { getMountedBackup } from '../../../store/mounted-backups/actions';
-import { selectMountedBackup } from '../../../store/mounted-backups/selectors';
+import { Link, useParams } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
 import { Panel } from 'primereact/panel';
-import { DateShow } from '../../../components/convert/Date';
-import { Filesize } from '../../../components/convert/Filesize';
 import { TabPanel, TabView } from 'primereact/tabview';
+import { createBrowserHistory } from 'history';
+import { getMountedBackup } from '../../../store/mounted-backups/actions';
+import { selectMountedBackup } from '../../../store/mounted-backups/selectors';
 import FileSystemsTable from './FileSystemsTable';
 import FilesTable from './FilesTable';
-import { createBrowserHistory } from 'history';
+import { AdvancedFile } from '@/model/AdvancedFile';
+import { AdvancedDateAndTime } from '@/model/AdvancedDateAndTime';
 
 const MountedBackup = () => {
   const dispatch = useDispatch();
@@ -39,14 +39,19 @@ const MountedBackup = () => {
             <div className={'col'}>
               <div>
                 <p>
-                  Size - <Filesize bytes={mountedBackup.backup.size} />
+                  Size -{' '}
+                  <span>
+                    {AdvancedFile.formatFileSize(mountedBackup.backup.size)}
+                  </span>
                 </p>
                 <p>
                   Sharable over iSCSI - {mountedBackup.backup.iscsiMountable}
                 </p>
                 <p>
                   Snapshot Date -{' '}
-                  <DateShow date={mountedBackup.backup.snapshotTime} />
+                  {AdvancedDateAndTime.legacyFormat(
+                    mountedBackup.backup.snapshotTime,
+                  )}
                 </p>
               </div>
             </div>

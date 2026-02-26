@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import InputText from 'components/input/Text';
+import { useState } from 'react';
 import { Button } from 'primereact/button';
+import { Column } from 'primereact/column';
+import { useDispatch } from 'react-redux';
+import InputText from 'components/input/Text';
 import { backupsService } from 'services/backups-service';
 import Table from 'components/table/primereactTable';
-import { Column } from 'primereact/column';
 import { sizeTemplate } from 'components/table/templates';
-import { DateShow } from 'components/convert/Date';
 import { hideModalAction } from 'store/modal/actions';
-import { useDispatch } from 'react-redux';
 import { alertService } from 'services/alert-service';
+import { AdvancedDateAndTime } from '@/model/AdvancedDateAndTime';
 
 interface Props {
   fileSystems: any[];
@@ -61,7 +61,9 @@ export const DetailsModal = ({
         <Column
           header="Time"
           field="time"
-          body={({ backupTime }) => <DateShow date={backupTime} />}
+          body={({ backupTime }) =>
+            AdvancedDateAndTime.legacyFormat(backupTime)
+          }
         />
         <Column header="Path" field="path" />
         <Column header="Size" field="size" body={sizeTemplate} />
