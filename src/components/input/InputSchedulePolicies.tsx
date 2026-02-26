@@ -1,9 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { ListBox } from 'primereact/listbox';
+import React from 'react';
 import { AdvancedFile } from '@/model/AdvancedFile';
 
-const selectedPolicies = (value, policies) => {
+const selectedPolicies = (value: any, policies: any) => {
   const data = [];
   if (!policies) {
     return [];
@@ -30,7 +29,7 @@ const selectedRules = (value) => {
   return data;
 };
 
-export class InputSchedulePolicies extends React.Component {
+export class InputSchedulePolicies extends React.Component<any, any> {
   constructor(props) {
     super(props);
 
@@ -70,9 +69,3 @@ export class InputSchedulePolicies extends React.Component {
     );
   }
 }
-
-InputSchedulePolicies.propTypes = {
-  value: PropTypes.any,
-  onChange: PropTypes.func.isRequired,
-  options: PropTypes.array.isRequired,
-};

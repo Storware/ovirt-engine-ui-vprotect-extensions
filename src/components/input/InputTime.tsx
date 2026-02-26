@@ -26,8 +26,8 @@ export const getSourceValueFromHoursAndMinutes = (e) =>
     AdvancedDateAndTime.MILLISECONDS_IN_DAY) %
   AdvancedDateAndTime.MILLISECONDS_IN_DAY;
 
-export const InputTime = ({ value, onChange }) => {
-  const [inputValue, setInputValue] = useState(new Date());
+export const InputTime = ({ value, onChange }: any) => {
+  const [inputValue, setInputValue] = useState<any>(new Date());
 
   useEffect(() => {
     setInputValue(getHoursAndMinutesFromSource(value));

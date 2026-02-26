@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Dropdown } from 'primereact/dropdown';
 import React from 'react';
 
-export class BackupDropdown extends React.Component {
+export class BackupDropdown extends React.Component<any, any> {
   static defaultProps = {
     options: [],
     value: null,
@@ -57,9 +57,4 @@ export class BackupDropdown extends React.Component {
     );
   }
 }
-
-BackupDropdown.propTypes = {
-  value: PropTypes.any,
-  onChange: PropTypes.func.isRequired,
-  options: PropTypes.array.isRequired,
-};
+ 

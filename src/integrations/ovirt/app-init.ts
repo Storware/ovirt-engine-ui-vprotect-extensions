@@ -3,7 +3,13 @@ import { updateConfig } from 'integrations/ovirt/plugin-config';
 
 // update the app configuration based on the plugin config
 const updateFromPluginConfig = (resolve, reject) => {
-  if (__DEV__) {
+  let isDevMode = false;
+
+  try {
+    isDevMode = (window as any).__DEV__ || getPluginApi.isDevMode();
+  } catch {}
+
+  if (isDevMode) {
     console.log('pluginApi.configObject:', getPluginApi.configObject());
   }
   let { useFakeData, clusterUpgradePlaybook } =
@@ -40,7 +46,7 @@ export default {
     return new Promise((resolve, reject) => {
       Promise.all([new Promise(updateFromPluginConfig)])
         .then(() => {
-          resolve();
+          resolve(undefined);
         })
         .catch((error) => {
           console.error(`Application init failed: ${error}`);

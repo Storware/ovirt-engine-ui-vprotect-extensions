@@ -1,7 +1,7 @@
-import Select from '../../input/Select';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import React from 'react';
+import Select from '../../input/Select';
 import { InputDate } from '../../input/InputDate';
 import VmsNotReadyForIncTable from './VmsNotReadyForIncTable/VmsNotReadyForIncTable';
 
@@ -11,7 +11,7 @@ export const Backup = ({
   backupTypes,
   setPriority,
   selectView,
-}) => (
+}: any) => (
   <div className="form">
     <Select
       label="Backup type"

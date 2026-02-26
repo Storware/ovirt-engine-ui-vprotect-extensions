@@ -51,6 +51,13 @@
     "sass": "1.93.3",
     "webpack-dev-server": "^4.9.0"
   },
+  "browserslist": [
+    "last 2 versions",
+    "not dead",
+    "not < 0.2%",
+    "not ie 11",
+    "not op_mini all"
+  ],
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",

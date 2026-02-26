@@ -24,7 +24,7 @@ import { AdvancedDateAndTime } from '@/model/AdvancedDateAndTime';
 
 const history = createBrowserHistory();
 
-class VirtualEnvironmentBackupSchedule extends React.Component {
+class VirtualEnvironmentBackupSchedule extends React.Component<any, any> {
   constructor(props) {
     super(props);
 
@@ -255,7 +255,7 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
                   className="p-button-success"
                   disabled={
                     !this.state.model.name ||
-                    !this.state.model.daysOfWeek?.length > 0
+                    !this.state.model.daysOfWeek?.length as any > 0
                   }
                 />
               </div>
@@ -267,8 +267,5 @@ class VirtualEnvironmentBackupSchedule extends React.Component {
   }
 }
 
-VirtualEnvironmentBackupSchedule.propTypes = {
-  match: PropTypes.object.isRequired,
-};
 
 export default withRouter(VirtualEnvironmentBackupSchedule);

@@ -4,11 +4,11 @@ import { Button } from 'primereact/button';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import Table from '../../components/table/primereactTable';
-import { selectCredentials } from '../../store/credentials/selectors';
-import { CredentialModel } from '../../model';
+import { selectCredentials } from '../../store/credentials/selectors'; 
 import { getCredentials } from '../../store/credentials/actions';
 import { credentialsService } from '../../services/credensial-service';
 import { Header } from './components/Header';
+import { CredentialModel } from '@/model/CredentialModel';
 
 const CredentialsList = () => {
   const dispatch = useDispatch();

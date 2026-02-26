@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types';
+import React from 'react'; 
 import { Calendar } from 'primereact/calendar';
 import { offset } from '../../services/time';
-import React from 'react';
 
-export class InputDate extends React.Component {
+export class InputDate extends React.Component<any, any> {
   constructor(props) {
     super(props);
 
@@ -31,15 +30,10 @@ export class InputDate extends React.Component {
         value={this.state.value}
         onChange={(e) => {
           this.props.onChange(
-            e.value.getTime() + offset - new Date().getTimezoneOffset() * 60000,
+            (e.value as any).getTime() + offset - new Date().getTimezoneOffset() * 60000,
           );
         }}
       />
     );
   }
-}
-
-InputDate.propTypes = {
-  value: PropTypes.any.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
+} 

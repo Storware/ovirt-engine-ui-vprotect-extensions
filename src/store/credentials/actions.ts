@@ -1,11 +1,11 @@
 import { Dispatch } from 'redux';
 import { credentialsService } from '../../services/credensial-service';
-import { CredentialModel } from '../../model';
 import {
   CredentialsAction,
   SET_CREDENTIALS,
   SET_SELECTED_CREDENTIAL,
 } from './types';
+import { CredentialModel } from '@/model/CredentialModel';
 
 export const setCredentials = (
   payload: CredentialModel[],

@@ -1,5 +1,8 @@
 //
 // Module scoped variables with config default values. Change values with `updateConfig`.
+
+import getPluginApi from './plugin-api';
+
 //
 let useFakeData = false;
 let clusterUpgradePlaybook = 'ovirt-cluster-upgrade';
@@ -59,7 +62,13 @@ function testDefined(obj, key) {
  * cannot be edited directly.
  */
 export function updateConfig(updates) {
-  if (__DEV__) {
+  let isDevMode = false;
+
+  try {
+    isDevMode = (window as any).__DEV__;
+  } catch {}
+
+  if (isDevMode) {
     console.log('updateConfig:', updates);
   }
 

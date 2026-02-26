@@ -7,7 +7,7 @@ import {
 } from '../../services/time';
 import { AdvancedDateAndTime } from '@/model/AdvancedDateAndTime';
 
-export class InputDays extends React.Component {
+export class InputDays extends React.Component<any, any> {
   constructor(props) {
     super(props);
 
@@ -31,7 +31,7 @@ export class InputDays extends React.Component {
     return (
       <ListBox
         value={this.state.value}
-        options={AdvancedDateAndTime.weekDays}
+        options={AdvancedDateAndTime.weekDays as any}
         multiple
         optionLabel="name"
         dataKey="name"
@@ -49,9 +49,4 @@ export class InputDays extends React.Component {
     );
   }
 }
-
-InputDays.propTypes = {
-  value: PropTypes.any,
-  onChange: PropTypes.func.isRequired,
-  hour: PropTypes.number.isRequired,
-};
+ 

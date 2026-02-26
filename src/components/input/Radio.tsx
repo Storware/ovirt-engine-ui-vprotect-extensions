@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { RadioButton } from 'primereact/radiobutton';
 
 const Radio = ({ value, ...props }: any) => {
-  const [sourceValue, setSourceValue] = useState();
+  const [sourceValue, setSourceValue] = useState<any>();
 
   useEffect(() => {
     const shouldSelectFirstOption = !value && props.required;

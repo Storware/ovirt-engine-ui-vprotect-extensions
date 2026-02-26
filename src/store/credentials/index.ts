@@ -3,7 +3,7 @@ import {
   SET_CREDENTIALS,
   SET_SELECTED_CREDENTIAL,
 } from './types';
-import { CredentialModel } from '../../model';
+import { CredentialModel } from '@/model/CredentialModel';
 
 export type CredentialsStore = {
   readonly credentials: CredentialModel[];

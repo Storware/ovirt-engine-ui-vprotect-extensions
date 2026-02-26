@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types';
 import { InputText } from 'primereact/inputtext';
 import React from 'react';
 
-export class InputConvert extends React.Component {
+export class InputConvert extends React.Component<any, any> {
   constructor(props) {
     super(props);
 
@@ -21,16 +20,11 @@ export class InputConvert extends React.Component {
     return (
       <InputText
         value={this.state.value}
-        onChange={(event) => {
+        onChange={(event: any) => {
           this.props.onChange(event.target.value * this.props.factor);
         }}
       />
     );
   }
 }
-
-InputConvert.propTypes = {
-  value: PropTypes.any.isRequired,
-  onChange: PropTypes.func.isRequired,
-  factor: PropTypes.number.isRequired,
-};
+ 

@@ -35,8 +35,8 @@ export class AdvancedDateAndTime {
 
   static legacyFormat(date) {
     try {
-      return moment(date).tz(timezone).format('YYYY-MM-DD HH:mm:ss');
-    } catch (error) {
+      return (moment as any)(date).tz(timezone).format('YYYY-MM-DD HH:mm:ss');
+    } catch {
       return '';
     }
   }

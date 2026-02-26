@@ -1,6 +1,6 @@
+import { alertService } from './alert-service';
 import { API } from '@/const/api';
 import { getCsrfTokenHeader } from '@/utils/getCsrfTokenHeader';
-import { alertService } from './alert-service';
 
 const errorMessage = (error) => {
   if (error && error.error && error.error.message) {
@@ -12,7 +12,7 @@ const errorMessage = (error) => {
   }
 };
 const addParameters = (url = '', parameters = {}) => {
-  const params = new URLSearchParams(new URL(url));
+  const params = new URLSearchParams(url);
 
   Object.keys(parameters).forEach((paramName) => {
     if (Array.isArray(parameters[paramName])) {
@@ -77,11 +77,11 @@ class VprotectApiService {
     return this.request('GET', path, {}, options);
   }
 
-  post(path, body, options) {
+  post(path, body, options = {}) {
     return this.request('POST', path, body, options);
   }
 
-  put(path, body, options) {
+  put(path, body, options = {}) {
     return this.request('PUT', path, body, options);
   }
 
