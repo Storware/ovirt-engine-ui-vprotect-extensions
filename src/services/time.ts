@@ -1,7 +1,6 @@
 import * as moment from 'moment-timezone';
-import { daysOfWeek } from '../model/Occurrences';
-import { MILLISECONDS_IN_MINUTE } from '../utils/milisecondsTimespan';
-import getCookie from 'utils/getCookie';
+import getCookie from '@/utils/getCookie';
+import { AdvancedDateAndTime } from '@/model/AdvancedDateAndTime';
 
 export const timeFormat = {
   12: 'LT',
@@ -24,15 +23,18 @@ export const timezone = cookieTimezone
   : 'UTC';
 
 export const offset =
-  timezone && moment.tz(timezone).utcOffset() * MILLISECONDS_IN_MINUTE * -1;
+  timezone &&
+  moment.tz(timezone).utcOffset() *
+    AdvancedDateAndTime.MILLISECONDS_IN_MINUTE *
+    -1;
 
 export const shiftedDays = (value, shiftValue) =>
   value.map((option) => {
-    const daysOfWeekIndex = daysOfWeek.findIndex(
+    const daysOfWeekIndex = AdvancedDateAndTime.weekDays.findIndex(
       (el) => el.name === option.name,
     );
     const index = (daysOfWeekIndex + shiftValue) % 7;
-    return daysOfWeek[index === -1 ? 6 : index];
+    return AdvancedDateAndTime.weekDays[index === -1 ? 6 : index];
   });
 
 const oneDayDuration = 1000 * 60 * 60 * 24;

@@ -1,12 +1,11 @@
 import { Dispatch } from 'redux';
+import { credentialsService } from '../../services/credensial-service';
+import { CredentialModel } from '../../model';
 import {
   CredentialsAction,
   SET_CREDENTIALS,
   SET_SELECTED_CREDENTIAL,
 } from './types';
-import { credentialsService } from '../../services/credensial-service';
-import { CredentialModel } from '../../model';
-import { Optional } from '../../model/utils';
 
 export const setCredentials = (
   payload: CredentialModel[],
@@ -36,10 +35,12 @@ export const getCredential = (guid: string) => async (dispatch: Dispatch) => {
   await dispatch(setSelectedCredential(credential));
 };
 
+type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
+
 export const saveCredential = async (
   credential: Optional<CredentialModel, 'guid'>,
 ) => {
-  !!credential.guid
+  credential.guid
     ? await credentialsService.updateCredential(credential as CredentialModel)
     : await credentialsService.createCredential(credential);
 };

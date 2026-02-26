@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Column } from 'primereact/column';
-import Table from 'components/table/primereactTable';
-import getLastElementOfPath from 'components/tabs/getLastElementOfPath';
+import classNames from 'classnames';
+import Table from '@/components/table/primereactTable';
 import { selectRange, selectReport } from 'store/reporting/selectors';
 import { getReport } from 'store/reporting/actions';
 import { sizeTemplate } from 'components/table/templates';
-import classNames from 'classnames';
 import 'pages/reporting/Tabs/ReportTable.scss';
-import { Link } from 'react-router-dom';
 import { getElementWithoutProjectUuidInName } from 'utils/byProjectFilter';
 import { dateTemplate } from 'components/table/templates';
 
@@ -19,6 +18,11 @@ const virtualEnvironmentStatus = (rowData) => {
   });
 
   return <div className={statusClassName}>{rowData.status.description}</div>;
+};
+
+const getLastElementOfPath = () => {
+  const pathParts = location.pathname.split('/');
+  return pathParts[pathParts.length - 1];
 };
 
 const nameLink = (rowData) => (
@@ -35,7 +39,7 @@ const nameLink = (rowData) => (
 
 const rowClassName = () => ({ StyleRow: true });
 
-export default () => {
+const ReportTable = () => {
   const type = getLastElementOfPath();
   const range = useSelector(selectRange);
   const report = useSelector(selectReport);
@@ -103,3 +107,5 @@ export default () => {
     </div>
   );
 };
+
+export default ReportTable;

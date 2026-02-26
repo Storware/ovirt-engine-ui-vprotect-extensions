@@ -4,9 +4,8 @@ import { sourceToViewShiftedDays, timezone } from './time';
 import {
   getElementsWithoutProjectUuidInName,
   getElementWithoutProjectUuidInName,
-  getElementWithProjectUuidInName,
 } from 'utils/byProjectFilter';
-import { getCurrentDayMidnight } from 'components/input/InputTime';
+import { getCurrentDayMidnight } from '@/components/input/InputTime';
 
 class SchedulesService {
   backupTypes = [

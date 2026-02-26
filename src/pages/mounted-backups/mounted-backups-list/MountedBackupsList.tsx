@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getMountedBackupPage,
-  getMountedBackupsListPage,
-} from '../../../store/mounted-backups/actions';
+import { getMountedBackupPage } from '../../../store/mounted-backups/actions';
 import { selectMountedBackups } from '../../../store/mounted-backups/selectors';
 import { tasksService } from '../../../services/tasks-service';
 import { alertService } from '../../../services/alert-service';
@@ -21,7 +18,7 @@ import { WorkflowExecutionStates } from 'model/task-panel.model';
 
 export const MountedBackupsList = () => {
   const dispatch = useDispatch();
-
+  const menuRef = useRef<Menu>();
   const rows = useSelector(selectMountedBackups);
   const [globalFilter, setGlobalFilter] = useState('');
   const [actionsElement, setActionsElement] = useState(null);
@@ -73,12 +70,7 @@ export const MountedBackupsList = () => {
   return (
     <div>
       <div>
-        <Menu
-          model={actions}
-          popup
-          ref={(el) => (this.menu = el)}
-          id="popup_menu"
-        />
+        <Menu model={actions} popup ref={menuRef} id="popup_menu" />
         <Table
           value={rows}
           header={header()}
@@ -143,7 +135,9 @@ export const MountedBackupsList = () => {
                 <Button
                   icon="pi pi-bars"
                   onClick={(event) => {
-                    this.menu.toggle(event);
+                    if (menuRef.current) {
+                      menuRef.current.toggle(event);
+                    }
                     setActionsElement(rowData);
                   }}
                   aria-controls="popup_menu"

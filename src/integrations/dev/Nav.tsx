@@ -1,4 +1,3 @@
-import React from 'react';
 import routes from 'utils/routes';
 import './Nav.scss';
 

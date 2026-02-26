@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import Select from '../../../components/input/Select';
-import Text from '../../../components/input/Text';
+import { useEffect, useState } from 'react';
+import Select from '@/components/input/Select';
+import Text from '@/components/input/Text';
 import { ToggleButton } from 'primereact/togglebutton';
 
 const enum RetentionStateEnum {

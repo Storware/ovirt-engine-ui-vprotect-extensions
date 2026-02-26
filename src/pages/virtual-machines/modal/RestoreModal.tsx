@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { vprotectService } from 'services/vprotect-service';
-import { Filesize } from 'components/convert/Filesize';
+import { useEffect, useRef, useState } from 'react';
 import { Field, Form, Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from 'primereact/button';
+import ToggleSelect from '../../../components/input/reactive/ToggleSelect';
+import { vprotectService } from 'services/vprotect-service';
 import {
   getHypervisorManagersAvailableForBackupBackupLocation,
   getHypervisorStoragesForHypervisorManager,
@@ -27,7 +28,6 @@ import { selectSaved } from 'store/modal/selectors';
 import Toggle from 'components/input/reactive/Toggle';
 import ToggleText from 'components/input/reactive/ToggleText';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
-import ToggleSelect from '../../../components/input/reactive/ToggleSelect';
 import { selectNetwork } from 'store/network/selectors';
 import { getNetwork, setNetworkAction } from 'store/network/actions';
 import {
@@ -37,21 +37,26 @@ import {
   showFooterAction,
 } from 'store/modal/actions';
 import SelectStoragesWithDiskName from 'pages/virtual-machines/modal/components/SelectStoragesWithDiskName';
-import { Button } from 'primereact/button';
+import { AdvancedFile } from '@/model/AdvancedFile';
 
 export const storageDropdownTemplate = (option) => (
   <div>
     <span>{option.name}</span>
     {option.totalAvailableSpace && (
       <span>
-        <Filesize bytes={option.totalAvailableSpace} />, free:{' '}
-        <Filesize bytes={option.totalAvailableSpace - option.totalUsedSpace} />
+        <span>{AdvancedFile.formatFileSize(option.totalAvailableSpace)}</span>,
+        free:{' '}
+        <span>
+          {AdvancedFile.formatFileSize(
+            option.totalAvailableSpace - option.totalUsedSpace,
+          )}
+        </span>
       </span>
     )}
   </div>
 );
 
-export const RestoreModal = ({ virtualEnvironment }) => {
+export const RestoreModal = ({ virtualEnvironment }: any) => {
   const dispatch = useDispatch();
   const formRef = useRef();
   const [clusterCopy, setClusterCopy] = useState(null);

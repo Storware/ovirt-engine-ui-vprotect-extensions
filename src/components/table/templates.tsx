@@ -1,12 +1,11 @@
-import React from 'react';
-import { DateShow } from '../convert/Date';
-import { Filesize } from '../convert/Filesize';
 import { schedulesService } from '../../services/schedules-service';
 import { Button } from 'primereact/button';
 import { OriginEntityType } from 'model/task-panel.model';
 import { RetentionHintsDescription } from 'model/retention-hints';
 import { Tooltip } from 'primereact/tooltip';
 import { Link } from 'react-router-dom';
+import { AdvancedFile } from '@/model/AdvancedFile';
+import { AdvancedDateAndTime } from '@/model/AdvancedDateAndTime';
 
 enum StatusColorHex {
   IN_PROGRESS = '#1f75b1',
@@ -17,25 +16,19 @@ enum StatusColorHex {
 
 export const dateTemplate = (rowData, column) => {
   const path = column.field.split('.');
-  return (
-    <DateShow
-      date={
-        path.length > 1
-          ? path.reduce(
-              (prev, curr) => (prev ? prev[curr] : null),
-              rowData || self,
-            )
-          : rowData[column.field]
-      }
-    />
-  );
+  const date =
+    path.length > 1
+      ? path.reduce((prev, curr) => (prev ? prev[curr] : null), rowData || self)
+      : rowData[column.field];
+
+  return AdvancedDateAndTime.legacyFormat(date);
 };
 
 export const sizeTemplate = (rowData, column) => {
   if (rowData[column.field] == null) {
     return;
   }
-  return <Filesize bytes={rowData[column.field]} />;
+  return <span>{AdvancedFile.formatFileSize(rowData[column.field])}</span>;
 };
 
 export const booleanTemplate = (rowData, column) => {

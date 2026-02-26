@@ -4,7 +4,7 @@ import {
   viewToSourceShiftedDays,
   sourceToViewShiftedDays,
 } from '../../../services/time';
-import { daysOfWeek } from '../../../model/Occurrences';
+import { AdvancedDateAndTime } from '@/model/AdvancedDateAndTime';
 
 const Days = ({ field, form: { setFieldValue }, ...props }) => {
   let value;
@@ -36,7 +36,7 @@ const Days = ({ field, form: { setFieldValue }, ...props }) => {
         {...field}
         {...props}
         value={value}
-        options={daysOfWeek}
+        options={AdvancedDateAndTime.weekDays}
         multiple
         optionLabel="name"
         dataKey="name"

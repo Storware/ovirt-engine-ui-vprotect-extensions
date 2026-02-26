@@ -1,9 +1,8 @@
-import HeaderTable from '../../../components/table/HeaderTable';
-import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import React from 'react';
+import { InputText } from 'primereact/inputtext';
+import HeaderTable from '@/components/table/HeaderTable';
 
-const Header = ({ onSearch, onCreate }) => (
+export const Header = ({ onSearch, onCreate }) => (
   <HeaderTable>
     <div className="p-datatable-globalfilter-container">
       <InputText
@@ -15,4 +14,3 @@ const Header = ({ onSearch, onCreate }) => (
     <Button className="p-button-outlined" label="Create" onClick={onCreate} />
   </HeaderTable>
 );
-export default Header;

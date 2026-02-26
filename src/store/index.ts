@@ -1,8 +1,4 @@
-import {
-  combineReducers,
-  createStore,
-  applyMiddleware,
-} from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import user from './user';
 import virtualMachine from './virtual-machine';
 import virtualMachines from './virtual-machines';
@@ -19,7 +15,6 @@ import schedule from './schedule';
 import chargebackChart from './chargeback-chart';
 import reporting from './reporting';
 import chargebackChartForm from './chargeback-chart-form';
-import thunk from 'redux-thunk';
 import mailingTable from './mailingTable';
 import mailing from './mailing';
 import credentials from './credentials';
@@ -52,6 +47,10 @@ export const rootReducer = combineReducers({
   tableParams,
 });
 
-export const store = createStore(rootReducer, applyMiddleware(thunk));
+export const store = configureStore({
+  reducer: rootReducer,
+  devTools: process.env.NODE_ENV === 'development',
+});
 
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   getBackupDestinationsAndBackupTypes,
   setIsSelectedRulesZero,
@@ -12,6 +12,7 @@ import { BackupTask } from 'model/tasks/backup-task';
 import { SelectRules } from './SelectRules';
 import { Backup } from './Backup';
 import { hideFooterAction, showFooterAction } from 'store/modal/actions';
+import { useTypedSelector } from '@/store/useTypedSelector';
 
 const enum View {
   'Backup',
@@ -55,7 +56,7 @@ export const BackupModal = ({
     dispatch(setIsSelectedRulesZero(!(task.rules.length > 0)));
   }, [task]);
 
-  const backupTypes = useSelector(selectBackupTypes);
+  const backupTypes = useTypedSelector(selectBackupTypes);
 
   const setPriority = (value) => {
     setTask({
@@ -85,7 +86,7 @@ export const BackupModal = ({
     });
   };
 
-  if (useSelector(selectSaved)) {
+  if (useTypedSelector(selectSaved)) {
     dispatch(submitTask(task));
   }
 

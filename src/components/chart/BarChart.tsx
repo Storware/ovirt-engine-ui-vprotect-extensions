@@ -5,7 +5,7 @@ import {
   commonTimeOptions,
   tickSizeOptions,
   tickTimeOptions,
-} from 'pages/dashboard/chargeback/commonSizeOptions';
+} from 'pages/dashboard/Chargeback/commonSizeOptions';
 
 const prepareChart = {
   size: (data, state) => ({

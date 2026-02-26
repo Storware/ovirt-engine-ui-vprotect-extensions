@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { vprotectService } from 'services/vprotect-service';
-import { alertService } from 'services/alert-service';
+import { useEffect, useState } from 'react';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
-import { dateTemplate, originTemplate } from 'components/table/templates';
 import { Button } from 'primereact/button';
-import Table from 'components/table/primereactTable';
-import { convertMilisecondsToHours } from 'utils/convertMilisecondsToHours';
-import { WorkflowExecutionStates } from 'model/task-panel.model';
 import { ProgressBar } from 'primereact/progressbar';
+import { vprotectService } from 'services/vprotect-service';
+import { alertService } from 'services/alert-service';
+import { dateTemplate, originTemplate } from 'components/table/templates';
+import Table from 'components/table/primereactTable';
+import { WorkflowExecutionStates } from 'model/task-panel.model';
+import { AdvancedDateAndTime } from '@/model/AdvancedDateAndTime';
 
-export default () => {
+const TaskConsole = () => {
   const [rows, setRows] = useState([]);
   const [globalFilter, setGlobalFilter] = useState('');
   const [busy, setBusy] = useState<ReturnType<typeof setTimeout>[]>([]);
@@ -52,7 +52,9 @@ export default () => {
       ) {
         return {
           ...task,
-          duration: convertMilisecondsToHours(task.finishTime - task.startTime),
+          duration: AdvancedDateAndTime.convertMillisecondsToFormattedHours(
+            task.finishTime - task.startTime,
+          ),
         };
       }
       if (task.state.name !== WorkflowExecutionStates.RUNNING) {
@@ -61,9 +63,10 @@ export default () => {
 
       setTimeout(() => {
         const interval = setInterval(() => {
-          task.duration = convertMilisecondsToHours(
-            +new Date() - task.startTime,
-          );
+          task.duration =
+            AdvancedDateAndTime.convertMillisecondsToFormattedHours(
+              +new Date() - task.startTime,
+            );
           setRows((t) => [...t]);
         }, 1000);
         setBusy((b) => [...b, interval]);
@@ -202,3 +205,5 @@ export default () => {
     </div>
   );
 };
+
+export default TaskConsole;

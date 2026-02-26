@@ -1,9 +1,8 @@
-import React from 'react';
-import { CredentialModel } from '../../model';
 import { Field } from 'formik';
-import Text from '../input/reactive/Text';
 import { InputSwitch } from 'primereact/inputswitch';
-import { toBase64 } from '../../utils/toBase64';
+import Text from '../input/reactive/Text';
+import { CredentialModel } from '@/model/CredentialModel';
+import { AdvancedFile } from '@/model/AdvancedFile';
 
 export const initialValues = {
   ...new CredentialModel(),
@@ -70,7 +69,7 @@ const CredentialForm = ({ values, setFieldValue, hideSecretKey = false }) => (
           name="sshKey"
           type="file"
           onChange={async ({ currentTarget: { files } }) => {
-            setFieldValue('sshKey', await toBase64(files[0]));
+            setFieldValue('sshKey', await AdvancedFile.toBase64(files[0]));
             setFieldValue('filename', files[0].name);
           }}
           style={{ display: 'none' }}

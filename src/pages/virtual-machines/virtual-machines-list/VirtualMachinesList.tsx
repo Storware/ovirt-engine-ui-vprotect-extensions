@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVirtualMachinesPage } from 'store/virtual-machines/actions';
@@ -22,7 +22,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Menu } from 'primereact/menu';
 import { RestoreModal } from 'pages/virtual-machines/modal/RestoreModal';
-import HeaderTable from '../../../components/table/HeaderTable';
+import HeaderTable from '@/components/table/HeaderTable';
 import { backupsService } from '../../../services/backups-service';
 import { resetMountTaskAction as MountBackupModalResetTaskAction } from 'store/mount-backup-modal/actions';
 import { resetTaskAction as RestoreModalResetTaskAction } from 'store/restore-modal/actions';
@@ -33,6 +33,7 @@ import { resetRestoreTaskAction } from 'store/restore-modal/actions';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 
 const VirtualMachinesList = () => {
+  const menuRef = useRef<Menu>();
   const dispatch = useDispatch();
   const history = createBrowserHistory();
   const [actionsElement, setActionsElement] = useState(null);
@@ -172,12 +173,7 @@ const VirtualMachinesList = () => {
 
   return (
     <div>
-      <Menu
-        model={actions}
-        popup
-        ref={(el) => (this.menu = el)}
-        id="popup_menu"
-      />
+      <Menu model={actions} popup ref={menuRef} id="popup_menu" />
       <Table
         value={rows}
         header={header()}
@@ -245,7 +241,9 @@ const VirtualMachinesList = () => {
             <Button
               icon="pi pi-bars"
               onClick={(event) => {
-                this.menu.toggle(event);
+                if (menuRef.current) {
+                  menuRef.current.toggle(event);
+                }
                 setActionsElement(rowData);
               }}
               aria-controls="popup_menu"

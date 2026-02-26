@@ -1,7 +1,6 @@
 import { vprotectApiService } from './vprotect-api-service';
-import { DashboardProtectionInfoModel } from '../model/dashboard/dashboard-protection-info.model';
 import { GetWorkflowExecutionObject } from 'pages/workflow-execution/models';
-import { SortDirection } from 'model';
+import { SortDirection } from '@/model/sortDirection';
 import { userHasPrivilege } from 'utils/privileges';
 
 class VprotectService {

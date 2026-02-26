@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { vprotectService } from 'services/vprotect-service';
 import { Column } from 'primereact/column';
-import { VirtualScrollTable } from 'components/table/VirtualScrollTable';
-import { convertMilisecondsToHours } from 'utils/convertMilisecondsToHours';
-import { originTemplate } from 'components/table/templates';
-import { Header } from './components/Header';
 import { Button } from 'primereact/button';
+import { Tooltip } from 'primereact/tooltip';
+import { ProgressBar } from 'primereact/progressbar';
+import { Header } from './components/Header';
+import { DataNameSets, SortTypes } from './models';
+import { SortDirection } from '@/model/sortDirection';
+import { vprotectService } from 'services/vprotect-service';
+import { VirtualScrollTable } from 'components/table/VirtualScrollTable';
+import { originTemplate } from 'components/table/templates';
 import { ExpandedWorkflowExecutionTable } from 'pages/workflow-execution/components/ExpandedWorkflowExecutionTable';
 import { WorkflowExecutionStates } from 'model/task-panel.model';
-import { Tooltip } from 'primereact/tooltip';
-import { DataNameSets, SortTypes } from './models';
-import { SortDirection } from 'model';
-import { ProgressBar } from 'primereact/progressbar';
+import { AdvancedDateAndTime } from '@/model/AdvancedDateAndTime';
 
 export const calculateDuration = (task) => {
   if (
@@ -19,10 +19,14 @@ export const calculateDuration = (task) => {
     !task.finishTime &&
     task.state.name === WorkflowExecutionStates.RUNNING
   ) {
-    return convertMilisecondsToHours(+new Date() - task.startTime);
+    return AdvancedDateAndTime.convertMillisecondsToFormattedHours(
+      +new Date() - task.startTime,
+    );
   }
   if (task.finishTime && task.startTime) {
-    return convertMilisecondsToHours(task.finishTime - task.startTime);
+    return AdvancedDateAndTime.convertMillisecondsToFormattedHours(
+      task.finishTime - task.startTime,
+    );
   }
   return '';
 };
@@ -92,7 +96,7 @@ export const WorkflowExecution = () => {
   };
 
   const onExpandRow = ({ data: { guid } }) => {
-    if (!!expandedRowsData[guid]) {
+    if (expandedRowsData[guid]) {
       return;
     }
     getTaskWorkflowExecutionData(guid);

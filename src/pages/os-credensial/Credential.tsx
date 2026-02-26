@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+import { Panel } from 'primereact/panel';
+import { Form, Formik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { Button } from 'primereact/button';
+import { selectSelectedCredential } from '../../store/credentials/selectors';
+import { getCredential, saveCredential } from '../../store/credentials/actions';
 import CredentialForm, {
   initialValues,
 } from '../../components/credentials/CredentialForm';
-import { Panel } from 'primereact/panel';
-import { Form, Formik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectSelectedCredential } from '../../store/credentials/selectors';
-import { CredentialModel } from '../../model';
-import { useParams } from 'react-router-dom';
-import { getCredential, saveCredential } from '../../store/credentials/actions';
-import { Button } from 'primereact/button';
+import { CredentialModel } from '@/model/CredentialModel';
+import { useTypedSelector } from '@/store/useTypedSelector';
 
 interface Props {
   type: 'Edit' | 'Create';
@@ -18,10 +19,9 @@ interface Props {
 const Credential = ({ type }: Props) => {
   const { guid } = useParams();
   const dispatch = useDispatch();
-
-  const model = !!guid
-    ? useSelector(selectSelectedCredential)
-    : new CredentialModel();
+  const model = useTypedSelector((s) =>
+    guid ? selectSelectedCredential(s) : new CredentialModel(),
+  );
 
   const iv = {
     ...initialValues,

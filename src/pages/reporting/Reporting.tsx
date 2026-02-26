@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Switch, useRouteMatch, useLocation } from 'react-router-dom';
+import { ToggleButton } from 'primereact/togglebutton';
+import { ExportAs } from './ExportAs';
 import { Tab } from 'components/tabs/Tab';
 import { RouteList } from 'components/routes/Route';
 import Routes from 'components/routes/Routes';
 import DateRange from 'pages/reporting/DateRange';
 import Tabs from 'components/tabs/Tabs';
-import { ExportAs } from './ExportAs';
 import {
   ChargebackForm,
   ReportTable,
   Summary,
   TransferSize,
 } from 'pages/reporting/Tabs';
-import { ToggleButton } from 'primereact/togglebutton';
 
 const tabs: Tab[] = [
   { label: 'Summary', path: 'summary' },

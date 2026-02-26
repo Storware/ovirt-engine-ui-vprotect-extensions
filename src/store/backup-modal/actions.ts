@@ -1,15 +1,15 @@
-import {
-  BackupModalAction,
-  SET_BACKUP_DESTINATIONS,
-  SET_BACKUP_TYPES,
-  SET_IS_SELECTED_RULES_ZERO,
-} from './types';
 import { Dispatch } from 'redux';
 import { backupDestinationsService } from '../../services/backup-destinations-service';
 import { vprotectService } from '../../services/vprotect-service';
 import { alertService } from '../../services/alert-service';
 import { BackupTask } from '../../model/tasks/backup-task';
 import { hideModalAction, unsaveModalAction } from '../modal/actions';
+import {
+  BackupModalAction,
+  SET_BACKUP_DESTINATIONS,
+  SET_BACKUP_TYPES,
+  SET_IS_SELECTED_RULES_ZERO,
+} from './types';
 
 export const setBackupDestinationsAction = (
   payload: any[],
@@ -23,9 +23,7 @@ export const setBackupTypesAction = (payload: any[]): BackupModalAction => ({
   payload,
 });
 
-export const setIsSelectedRulesZero = (
-  payload: boolean,
-): BackupModalAction => ({
+export const setIsSelectedRulesZero = (payload: any): BackupModalAction => ({
   type: SET_IS_SELECTED_RULES_ZERO,
   payload,
 });

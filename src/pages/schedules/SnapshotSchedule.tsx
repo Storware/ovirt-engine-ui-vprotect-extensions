@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectPolicies } from 'store/virtual-machine/selectors';
 import { Button } from 'primereact/button';
 import { Field, Form, Formik } from 'formik';
+import { useParams } from 'react-router-dom';
+import { Panel } from 'primereact/panel';
+import { createBrowserHistory } from 'history';
+import { selectPolicies } from 'store/virtual-machine/selectors';
 import Text from 'components/input/reactive/Text';
 import Toggle from 'components/input/reactive/Toggle';
 import Select from 'components/input/reactive/Select';
-import { useParams } from 'react-router-dom';
 import { selectSchedule } from 'store/schedule/selectors';
 import {
   getSchedulePage,
@@ -19,11 +21,10 @@ import Time from 'components/input/reactive/Time';
 import { Interval } from 'model/Interval';
 import Days from 'components/input/reactive/Days';
 import InputListBox from 'components/input/reactive/InputListBox';
-import { dayOfWeekOccurrences, months } from 'model/Occurrences';
+import { dayOfWeekOccurrences } from 'model/Occurrences';
 import SchedulePolicies from 'components/input/reactive/SchedulePolicies';
-import { Panel } from 'primereact/panel';
-import { createBrowserHistory } from 'history';
-import { BackButton } from 'utils/backButton';
+import { BackButton } from '@/components/BackButton';
+import { AdvancedDateAndTime } from '@/model/AdvancedDateAndTime';
 
 const SnapshotSchedule = () => {
   const dispatch = useDispatch();
@@ -143,7 +144,7 @@ const SnapshotSchedule = () => {
                 label="Selected months (optional)"
                 multiple
                 optionLabel="name"
-                options={months}
+                options={AdvancedDateAndTime.months}
                 dataKey="name"
               />
             </div>
