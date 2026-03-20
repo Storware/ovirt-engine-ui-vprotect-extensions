@@ -12,7 +12,7 @@ const errorMessage = (error) => {
   }
 };
 const addParameters = (url = '', parameters = {}) => {
-  const params = new URLSearchParams(new URL(url));
+  const params = new URLSearchParams(new URL(url).search);
 
   Object.keys(parameters).forEach((paramName) => {
     if (Array.isArray(parameters[paramName])) {
@@ -81,11 +81,11 @@ class VprotectApiService {
     return this.request('GET', path, {}, options);
   }
 
-  post(path, body, options) {
+  post(path, body, options?) {
     return this.request('POST', path, body, options);
   }
 
-  put(path, body, options) {
+  put(path, body, options?) {
     return this.request('PUT', path, body, options);
   }
 
