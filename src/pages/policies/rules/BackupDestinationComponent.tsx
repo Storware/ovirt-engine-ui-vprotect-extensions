@@ -23,6 +23,8 @@ export const BackupDestinationComponent = ({
   updateRetentionKeepLastNIncremental,
   policyType,
   selectedBackupDestinationLabel = 'Select Backup Destination *',
+  immutableBackupForXDays,
+  changeImmutableBackupForXDays,
 }) => {
   const [retentionState, setRetentionState] = useState<RetentionStateEnum>(
     RetentionStateEnum.normal,
@@ -116,6 +118,13 @@ export const BackupDestinationComponent = ({
             </div>
           )}
         </div>
+      </div>
+      <div className="my-2">
+        <Text
+          inputValue={immutableBackupForXDays}
+          label="Immutable backup - protect backups for X days"
+          change={changeImmutableBackupForXDays}
+        />
       </div>
       <div className="my-2">
         <ToggleButton
