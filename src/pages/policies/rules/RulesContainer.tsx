@@ -180,6 +180,14 @@ export const RulesContainer = ({
           rule.ruleBackupDestinations.primaryBackupDestination.backupRetentionSettings.retentionKeepLastNIncremental =
             value;
         }}
+        immutableBackupForXDays={
+          rule.ruleBackupDestinations.primaryBackupDestination
+            .daysToKeepRetentionLock
+        }
+        changeImmutableBackupForXDays={({ value }) => {
+          rule.ruleBackupDestinations.primaryBackupDestination.daysToKeepRetentionLock =
+            value;
+        }}
       />
 
       <div className="my-2">
@@ -247,6 +255,14 @@ export const RulesContainer = ({
           }
           updateRetentionKeepLastNIncremental={({ value }) => {
             rule.ruleBackupDestinations.secondaryBackupDestination.backupRetentionSettings.retentionKeepLastNIncremental =
+              value;
+          }}
+          immutableBackupForXDays={
+            rule.ruleBackupDestinations.secondaryBackupDestination
+              .daysToKeepRetentionLock
+          }
+          changeImmutableBackupForXDays={({ value }) => {
+            rule.ruleBackupDestinations.secondaryBackupDestination.daysToKeepRetentionLock =
               value;
           }}
         />

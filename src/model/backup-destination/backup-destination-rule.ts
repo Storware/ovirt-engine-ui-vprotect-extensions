@@ -10,6 +10,7 @@ export class BackupDestinationRule {
   backupDestination: NameAndGuid = new BackupDestination();
   backupRetentionSettings: BackupRetentionSettings =
     new BackupRetentionSettings();
+  daysToKeepRetentionLock: number = 0;
 
   constructor(roleType: BackupDestinationRuleType) {
     this.roleType = { name: roleType, description: roleType };
