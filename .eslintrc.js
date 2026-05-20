@@ -29,7 +29,6 @@ module.exports = {
   },
   plugins: [
     // '@angular-eslint/eslint-plugin',
-    'eslint-plugin-jsdoc',
     'eslint-plugin-prefer-arrow',
     '@typescript-eslint',
     '@typescript-eslint/tslint',
