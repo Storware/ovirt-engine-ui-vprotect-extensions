@@ -27,16 +27,15 @@
     "@types/react-redux": "^7.1.7",
     "@typescript-eslint/eslint-plugin": "^5.26.0",
     "@typescript-eslint/parser": "^5.26.0",
-    "bootstrap": "^4.4.1",
+    "bootstrap": "5.0.0-alpha1",
     "chart.js": "3.3.2",
     "classnames": "^2.2.3",
     "file-saver": "2.0.0",
     "formik": "^2.1.4",
     "history": "^5.0.0",
     "jquery": "3.5.0",
-    "moment": "^2.20.1",
-    "moment-timezone": "^0.5.27",
-    "patternfly-react": "^2.40.0",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.35",
     "primeicons": "^5.0.0",
     "primereact": "^8.2.0",
     "prop-types": "^15.6.0",
@@ -47,8 +46,7 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "redux-thunk": "^2.3.0",
-    "sass": "^1.52.1",
-    "webpack-dev-server": "^4.9.0"
+    "sass": "^1.52.1"
   },
   "devDependencies": {
     "@angular-eslint/eslint-plugin": "^13.2.1",
@@ -97,6 +95,7 @@
     "url-loader": "^2.1.0",
     "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.8.0",
+    "webpack-dev-server": "^4.9.0"
   }
 }
