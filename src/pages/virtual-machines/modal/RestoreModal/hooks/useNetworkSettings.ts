@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { NetworkSettings, RestoreModalForm } from '../types';
 import { FormikProps } from 'formik';
+import { useEffect, useState } from 'react';
 import { restoreSettingsService } from 'services/restore-settings-service';
 import { VirtualEnvironment } from 'types/virtual-environment';
+import { NetworkSettings, RestoreModalForm } from '../types';
 
 export const useNetworkSettings = ({
   form,
@@ -26,7 +26,9 @@ export const useNetworkSettings = ({
 
     void restoreSettingsService
       .fetchRestoreSettings({
-        hvmGuid: virtualEnvironment.hypervisor.hvManager.guid,
+        hvmGuid:
+          virtualEnvironment.hvManager.guid ||
+          virtualEnvironment.hypervisor.hvManager?.guid,
         backupGuid: backupLocation.backup.guid,
         projectGuid: isDevelopment
           ? virtualEnvironment.project.guid
