@@ -30,9 +30,6 @@ export const useNetworkSettings = ({
           virtualEnvironment.hvManager.guid ||
           virtualEnvironment.hypervisor.hvManager?.guid,
         backupGuid: backupLocation.backup.guid,
-        projectGuid: isDevelopment
-          ? virtualEnvironment.project.guid
-          : undefined,
         clusterGuid: virtualEnvironment.hvCluster.guid,
       })
       .then(async (res) => {

@@ -4,19 +4,16 @@ export const restoreSettingsService = {
   fetchRestoreSettings: ({
     hvmGuid,
     backupGuid,
-    projectGuid,
     clusterGuid,
   }: {
     hvmGuid: string;
     backupGuid: string;
-    projectGuid?: string; // For development purposes - to be removed when project guid will be added to the URL in the backend
     clusterGuid: string;
   }): Promise<RestoreSettingsDTO> =>
-    vprotectApiService.get('/openstack/restore-settings', {
+    vprotectApiService.get('/openstack/restore-settings/project-restriction', {
       params: {
         'hvm-guid': hvmGuid,
         'backup-guid': backupGuid,
-        'project-guid': projectGuid,
         'cluster-guid': clusterGuid,
       },
     }) as Promise<RestoreSettingsDTO>,
