@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Accordion, AccordionTab } from 'primereact/accordion';
+import {
+  Accordion,
+  AccordionActiveIndexType,
+  AccordionTab,
+} from 'primereact/accordion';
 import { policiesService } from 'services/policies-service';
 import { Button } from 'primereact/button';
 import { Field, Form, Formik } from 'formik';
@@ -11,7 +15,6 @@ import Select from 'components/input/reactive/Select';
 import InputSlider from 'components/input/reactive/InputSlider';
 import InputChips from 'components/input/reactive/InputChips';
 import {
-  selectBackupDestinations,
   selectHypervisorClusters,
   selectPolicy,
   selectSchedules,
@@ -33,17 +36,13 @@ const SnapshotPolicy = () => {
     guid === 'create' ? new PolicySnapshot() : useSelector(selectPolicy);
   const hypervisorClusters = useSelector(selectHypervisorClusters);
   const virtualMachines = useSelector(selectVirtualMachines);
-  const backupDestinations = useSelector(selectBackupDestinations);
   const schedules = useSelector(selectSchedules);
 
   useEffect(() => {
     dispatch(getPolicyPage('vm-snapshot', guid));
   }, [guid]);
 
-  const [activeIndex, setActiveIndex] = useState({
-    first: [0],
-    second: [],
-  });
+  const [visibleTabs, setVisibleTabs] = useState<AccordionActiveIndexType>([0]);
 
   return (
     <div className="form">
@@ -59,14 +58,8 @@ const SnapshotPolicy = () => {
           <Form>
             <Accordion
               multiple
-              activeIndex={activeIndex.first}
-              onTabChange={(e) =>
-                setActiveIndex({
-                  ...activeIndex,
-                  // @ts-ignore
-                  first: e.index,
-                })
-              }
+              activeIndex={visibleTabs}
+              onTabChange={(e) => setVisibleTabs(e.index)}
             >
               <AccordionTab header="GeneralTable">
                 <Field name="name" component={Text} label="Name" />
