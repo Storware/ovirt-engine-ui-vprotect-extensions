@@ -31,6 +31,9 @@ export const useSubmitForm = ({
       restoredPeName: values.restoredPeName || null,
       taskFiles: values.taskFiles,
       overwrite: values.overwrite,
+      restoreInstanceMetadata: values.restoreInstanceMetadata,
+      restoreDisksMetadata: values.restoreDisksMetadata,
+      restorePortMetadata: values.restorePortMetadata,
       restoreVmFlavor,
       restoredNetworks: values.restoredNetworks.map((restoredNetworkForm) => ({
         network: {

@@ -100,6 +100,9 @@ export const RestoreModalProvider: React.FC<RestoreModalProviderProps> = ({
     isFlavorSectionActive: task.isFlavorSectionActive || false,
     restoredPeName: '',
     overwrite: task.overwrite || false,
+    restoreInstanceMetadata: task.restoreInstanceMetadata || false,
+    restoreDisksMetadata: task.restoreDisksMetadata || false,
+    restorePortMetadata: task.restorePortMetadata || false,
     restoredNetworks: [],
   };
   const contextValue: RestoreModalContextType = {

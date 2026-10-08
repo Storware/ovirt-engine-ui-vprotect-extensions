@@ -38,6 +38,22 @@ export const AdvancedTab = () => {
             : ' (all existing VMs with this name in target project)')
         }
       />
+      <Field
+        name="restoreInstanceMetadata"
+        component={Toggle}
+        label={'Restore with instance metadata'}
+      />
+
+      <Field
+        name="restoreDisksMetadata"
+        component={Toggle}
+        label={'Restore with disk(s) metadata'}
+      />
+      <Field
+        name="restorePortMetadata"
+        component={Toggle}
+        label={'Restore with port metadata'}
+      />
     </>
   );
 };

@@ -50,6 +50,9 @@ export type RestoreModalForm = {
   }[];
   restoredPeName: string;
   overwrite: boolean;
+  restoreInstanceMetadata: boolean;
+  restoreDisksMetadata: boolean;
+  restorePortMetadata: boolean;
   restoreToOriginalVolumeType: any;
   isFlavorSectionActive: boolean;
   restoreVmFlavor: any;
@@ -86,6 +89,9 @@ export interface RestoreAndImportTaskRequestDTO {
   baseImage?: any;
   hypervisorManager?: { guid?: string } | null;
   overwrite?: boolean;
+  restoreInstanceMetadata?: boolean;
+  restoreDisksMetadata?: boolean;
+  restorePortMetadata?: boolean;
   restoreClusterId?: string;
   restoreStorageId?: string;
   restoreToOriginalVolumeType?: boolean;
