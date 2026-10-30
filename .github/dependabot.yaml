@@ -1,0 +1,22 @@
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '09:00'
+      timezone: Europe/Warsaw
+    open-pull-requests-limit: 10
+    allow:
+      - dependency-type: all
+        # Security updates remain eligible for major upgrades.
+        update-types:
+          - version-update:semver-minor
+          - version-update:semver-patch
+    groups:
+      production:
+        dependency-type: production
+      development:
+        dependency-type: development
