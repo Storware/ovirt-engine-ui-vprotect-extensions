@@ -1,0 +1,6 @@
+/* Native scrollbars change table column widths between headed and headless. */
+html,
+.p-virtualscroller,
+.p-datatable-wrapper {
+  scrollbar-width: none;
+}

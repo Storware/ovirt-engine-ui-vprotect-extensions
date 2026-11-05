@@ -27,3 +27,15 @@ yarn-error.log
 exported-artifacts/
 rpmbuild/
 mocker-*.cfg
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+/.playwright-mcp/*
+
+# Graphify: share the graph, keep generated state local
+/graphify-out/*
+!/graphify-out/graph.json

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -20,6 +20,7 @@ import { selectPagination } from 'store/pagination/selectors';
 import { WorkflowExecutionStates } from 'model/task-panel.model';
 
 export const MountedBackupsList = () => {
+  const menu = useRef<Menu>(null);
   const dispatch = useDispatch();
 
   const rows = useSelector(selectMountedBackups);
@@ -76,7 +77,7 @@ export const MountedBackupsList = () => {
         <Menu
           model={actions}
           popup
-          ref={(el) => (this.menu = el)}
+          ref={menu}
           id="popup_menu"
         />
         <Table
@@ -143,7 +144,7 @@ export const MountedBackupsList = () => {
                 <Button
                   icon="pi pi-bars"
                   onClick={(event) => {
-                    this.menu.toggle(event);
+                    menu.current.toggle(event);
                     setActionsElement(rowData);
                   }}
                   aria-controls="popup_menu"

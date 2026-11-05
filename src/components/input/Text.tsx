@@ -7,6 +7,7 @@ const Text = ({
   ...props
 }: {
   change?: (event: { value: string }) => void;
+  label?: React.ReactNode;
   [key: string]: unknown;
 }) => {
   let value;

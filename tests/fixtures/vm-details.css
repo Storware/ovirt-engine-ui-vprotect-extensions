@@ -1,0 +1,4 @@
+/* Native calendar scrollbars differ between headed and headless Chromium. */
+.p-datepicker {
+  scrollbar-width: none;
+}
