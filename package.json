@@ -30,7 +30,7 @@
     "@types/react-redux": "^7.1.7",
     "@typescript-eslint/eslint-plugin": "^8.72.1",
     "@typescript-eslint/parser": "^8.72.1",
-    "bootstrap": "5.0.0-alpha1",
+    "bootstrap": "5.3.8",
     "chart.js": "^3.9.1",
     "classnames": "^2.5.1",
     "file-saver": "^2.0.5",
