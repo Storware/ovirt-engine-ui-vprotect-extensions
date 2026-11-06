@@ -288,7 +288,7 @@ const VirtualMachine = () => {
             className="h-100 w-100"
             id="range"
             value={dateRange}
-            onChange={({ value }) => setDateRange(value)}
+            onChange={({ value }) => setDateRange(value as Date[])}
             selectionMode="range"
             maxDate={new Date()}
             inline

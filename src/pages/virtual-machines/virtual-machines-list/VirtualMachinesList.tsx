@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BackupModal } from 'components/modal/BackupModal/BackupModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVirtualMachinesPage } from 'store/virtual-machines/actions';
@@ -33,6 +33,7 @@ import { resetRestoreTaskAction } from 'store/restore-modal/actions';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 
 const VirtualMachinesList = () => {
+  const menu = useRef<Menu>(null);
   const dispatch = useDispatch();
   const history = createBrowserHistory();
   const [actionsElement, setActionsElement] = useState(null);
@@ -175,7 +176,7 @@ const VirtualMachinesList = () => {
       <Menu
         model={actions}
         popup
-        ref={(el) => (this.menu = el)}
+        ref={menu}
         id="popup_menu"
       />
       <Table
@@ -245,7 +246,7 @@ const VirtualMachinesList = () => {
             <Button
               icon="pi pi-bars"
               onClick={(event) => {
-                this.menu.toggle(event);
+                menu.current.toggle(event);
                 setActionsElement(rowData);
               }}
               aria-controls="popup_menu"

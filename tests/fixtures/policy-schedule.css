@@ -1,0 +1,5 @@
+/* Native scrollbars differ between headed and headless Chromium. */
+html,
+.p-listbox-list-wrapper {
+  scrollbar-width: none;
+}

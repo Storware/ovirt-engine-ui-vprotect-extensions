@@ -30,11 +30,9 @@ module.exports = {
           node: 'current',
         },
         debug: !process.env.Q && env === 'development',
-        useBuiltIns: 'usage',
-        corejs: 3,
       },
     ],
     '@babel/preset-react',
   ],
-  plugins: [['@babel/plugin-proposal-class-properties']],
+  plugins: [['babel-plugin-polyfill-corejs3', { method: 'usage-global' }]],
 };

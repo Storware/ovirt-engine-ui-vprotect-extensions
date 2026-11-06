@@ -8,6 +8,7 @@ import {
   SET_SCHEDULES,
   SET_SNAPSHOT_POLICIES,
   SET_SNAPSHOTS,
+  SET_SNAPSHOTS_HISTORY,
   SET_VIRTUAL_MACHINE,
   VirtualMachineAction,
 } from './types';
@@ -75,6 +76,12 @@ export default (state = initial, action: VirtualMachineAction) => {
     return {
       ...state,
       snapshots: action.payload,
+    };
+  }
+  if (action.type === SET_SNAPSHOTS_HISTORY) {
+    return {
+      ...state,
+      snapshotsHistory: action.payload,
     };
   }
   if (action.type === SET_DISKS) {

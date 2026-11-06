@@ -1,0 +1,12 @@
+/* Native scrollbars differ between headed and headless Chromium. */
+html,
+.p-dialog-content,
+.p-listbox-list-wrapper,
+.p-datepicker {
+  scrollbar-width: none;
+}
+
+/* Cropped dialogs need an integer top edge, rather than fractional centering. */
+.p-dialog {
+  align-self: flex-start;
+}

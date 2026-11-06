@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
-import { policiesService } from 'services/policies-service';
-import { Link, useParams } from 'react-router-dom';
+import { BackupModal } from 'components/modal/BackupModal/BackupModal';
+import Table from 'components/table/primereactTable';
+import { booleanTemplate, nameTemplate, sizeTemplate } from 'components/table/templates';
+import { createBrowserHistory } from 'history';
+import { Button } from 'primereact/button';
+import { Column } from 'primereact/column';
+import { InputText } from 'primereact/inputtext';
+import { Menu } from 'primereact/menu';
+import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
+import { alertService } from 'services/alert-service';
+import { policiesService } from 'services/policies-service';
+import { showModalAction } from 'store/modal/actions';
 import {
   getPoliciesPage,
   removePolicy,
-  snapshotPolicy,
+  snapshotPolicy
 } from 'store/policies/actions';
 import { selectPolicies } from 'store/policies/selectors';
-import { showModalAction } from 'store/modal/actions';
-import { BackupModal } from 'components/modal/BackupModal/BackupModal';
-import { createBrowserHistory } from 'history';
-import { Column } from 'primereact/column';
-import { InputText } from 'primereact/inputtext';
-import { nameTemplate, sizeTemplate } from 'components/table/templates';
-import { Menu } from 'primereact/menu';
-import { Button } from 'primereact/button';
-import Table from 'components/table/primereactTable';
-import { booleanTemplate } from 'components/table/templates';
-import { alertService } from 'services/alert-service';
 
 export const PoliciesList = () => {
+  const menu = useRef<Menu>(null);
   const dispatch = useDispatch();
   const { type } = useParams();
   const history = createBrowserHistory();
@@ -104,12 +104,7 @@ export const PoliciesList = () => {
 
   return (
     <>
-      <Menu
-        model={actions[type]}
-        popup
-        ref={(el) => (this.menu = el)}
-        id="popup_menu"
-      />
+      <Menu model={actions[type]} popup ref={menu} id="popup_menu" />
       {type === 'vm-backup' ? (
         <Table
           value={rows}
@@ -146,7 +141,7 @@ export const PoliciesList = () => {
               <Button
                 icon="pi pi-bars"
                 onClick={(event) => {
-                  this.menu.toggle(event);
+                  menu.current.toggle(event);
                   setActionsElement(rowData);
                 }}
                 aria-controls="popup_menu"
@@ -173,7 +168,7 @@ export const PoliciesList = () => {
               <Button
                 icon="pi pi-bars"
                 onClick={(event) => {
-                  this.menu.toggle(event);
+                  menu.current.toggle(event);
                   setActionsElement(rowData);
                 }}
                 aria-controls="popup_menu"

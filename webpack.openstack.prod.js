@@ -44,10 +44,12 @@ module.exports = {
 
       // inline base64 URLs for <= 8k images, direct URLs for the rest
       {
+        type: 'javascript/auto',
         test: /\.(png|jpg|jpeg|gif)$/,
         use: {
           loader: 'url-loader',
           options: {
+            esModule: false,
             limit: 8192,
             name: 'media/[name].[hash:8].[ext]',
           },
@@ -58,26 +60,32 @@ module.exports = {
       // directly in the CSS (to avoid lag applying fonts), export the rest
       // to be loaded seperately as needed
       {
+        type: 'javascript/auto',
         test: (fontsToEmbed = [
           /\.woff2(\?v=[0-9].[0-9].[0-9])?$/,
           /PatternFlyIcons-webfont\.ttf/,
         ]),
         use: {
           loader: 'url-loader',
-          options: {},
+          options: {
+            esModule: false,
+          },
         },
       },
       {
+        type: 'javascript/auto',
         test: /\.(ttf|eot|svg|woff(?!2))(\?v=[0-9].[0-9].[0-9])?$/,
         exclude: fontsToEmbed,
         use: {
           loader: 'file-loader',
           options: {
+            esModule: false,
             name: 'fonts/[name].[hash:8].[ext]',
           },
         },
       },
       {
+        type: 'javascript/auto',
         test: /\.(svg|ttf|eot|woff|woff2)$/,
         // only process modules with this loader
         // if they live under a 'fonts' or 'pficon' directory
@@ -103,6 +111,7 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
+            esModule: false,
             // Limit at 50k. larger files emited into separate files
             limit: 5000,
             outputPath: 'fonts',

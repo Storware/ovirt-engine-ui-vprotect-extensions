@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { vprotectService } from '../../services/vprotect-service';
 import { hypervisorsService } from '../../services/hypervisors-service';
-import { ChartDonut } from '@patternfly/react-charts';
 import { Toolbar } from '@patternfly/react-core';
 import isNotOpenstackBuild from 'utils/isNotOpenstackBuild';
 import Chargeback from './chargeback/Chargeback';

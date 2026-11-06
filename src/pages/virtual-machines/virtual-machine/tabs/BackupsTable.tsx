@@ -38,7 +38,7 @@ export default ({
       <Calendar
         id="range"
         value={date}
-        onChange={({ value }) => setDate(value)}
+        onChange={({ value }) => setDate(value as Date[])}
         selectionMode="range"
         maxDate={new Date()}
         readOnlyInput
