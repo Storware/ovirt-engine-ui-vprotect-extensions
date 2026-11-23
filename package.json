@@ -28,15 +28,15 @@
     "@patternfly/react-core": "^4.214.1",
     "@reduxjs/toolkit": "^1.2.5",
     "@types/react-redux": "^7.1.7",
-    "@typescript-eslint/eslint-plugin": "^8.72.1",
-    "@typescript-eslint/parser": "^8.72.1",
-    "bootstrap": "5.0.0-alpha1",
+    "@typescript-eslint/eslint-plugin": "^8.73.0",
+    "@typescript-eslint/parser": "^8.73.0",
+    "bootstrap": "5.3.9",
     "chart.js": "^3.9.1",
     "classnames": "^2.5.1",
     "file-saver": "^2.0.5",
     "formik": "^2.4.9",
     "history": "^5.0.0",
-    "jquery": "^4.0.0",
+    "jquery": "^4.1.0",
     "moment": "^2.31.0",
     "moment-timezone": "^0.6.6",
     "primeicons": "^5.0.0",
@@ -50,7 +50,7 @@
     "react-router-dom": "^5.3.4",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
-    "sass": "^1.107.0"
+    "sass": "^1.108.2"
   },
   "resolutions": {
     "@types/react": "18.3.31"
