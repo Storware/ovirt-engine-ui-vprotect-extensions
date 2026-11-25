@@ -53,7 +53,8 @@
     "sass": "^1.107.0"
   },
   "resolutions": {
-    "@types/react": "18.3.31"
+    "@types/react": "18.3.31",
+    "@typescript-eslint/eslint-plugin-tslint/@typescript-eslint/utils/@typescript-eslint/typescript-estree/minimatch": "9.0.9"
   },
   "devDependencies": {
     "@angular-eslint/eslint-plugin": "^17.5.3",
